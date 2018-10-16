@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Root CoveredStatements="204" TotalStatements="226" CoveragePercent="90" ReportType="NDependXML" DotCoverVersion="2017.3.5">
+  <Assembly Name="ArgParser.Core" CoveredStatements="121" TotalStatements="137" CoveragePercent="88">
+    <Namespace Name="ArgParser.Core" CoveredStatements="121" TotalStatements="137" CoveragePercent="88">
+      <Type Name="BooleanSwitch&lt;TOptions&gt;" CoveredStatements="2" TotalStatements="2" CoveragePercent="100">
+        <Method Name="get_Transformer()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="16" />
+        <Method Name="set_Transformer(Action&lt;TOptions&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="16" />
+      </Type>
+      <Type Name="MissingValueException" CoveredStatements="3" TotalStatements="3" CoveragePercent="100">
+        <Method Name=".ctor(String)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="15" />
+      </Type>
+      <Type Name="MultipleSwitch&lt;TOptions&gt;" CoveredStatements="5" TotalStatements="5" CoveragePercent="100">
+        <Method Name=".ctor()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="16" />
+        <Method Name="get_Count()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="16" />
+        <Method Name="get_Transformer()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="21" />
+        <Method Name="set_Count(Int32)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="16" />
+        <Method Name="set_Transformer(Action&lt;TOptions,String[]&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="21" />
+      </Type>
+      <Type Name="OptionsBuilder&lt;TOptions&gt;" CoveredStatements="104" TotalStatements="105" CoveragePercent="99">
+        <Type Name="&lt;&gt;c__DisplayClass7_0" CoveredStatements="4" TotalStatements="4" CoveragePercent="100">
+          <Method Name="&lt;Parse&gt;b__0(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="98" />
+          <Method Name="&lt;Parse&gt;b__1(PositionalValues&lt;TOptions&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="123" />
+          <Method Name="&lt;Parse&gt;b__2(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="129" />
+          <Method Name="&lt;Parse&gt;b__3(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="133" />
+        </Type>
+        <Method Name=".ctor()" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="30" />
+        <Method Name="get_Order()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="30" />
+        <Method Name="Parse(TOptions,String[])" CoveredStatements="72" TotalStatements="72" CoveragePercent="100" FirstStatementLine="65" />
+        <Method Name="set_Order(IList&lt;Object&gt;)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="30" />
+        <Method Name="WithBoolean(Char,Action&lt;TOptions&gt;)" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" FirstStatementLine="46" />
+        <Method Name="WithMultipleSwitch(Char,Action&lt;TOptions,String[]&gt;,Int32)" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" FirstStatementLine="170" />
+        <Method Name="WithPositional(Int32,Action&lt;TOptions,String[]&gt;)" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" FirstStatementLine="189" />
+        <Method Name="WithSingleSwitch(Char,Action&lt;TOptions,String&gt;)" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" FirstStatementLine="151" />
+      </Type>
+      <Type Name="PositionalValues&lt;TOptions&gt;" CoveredStatements="4" TotalStatements="10" CoveragePercent="40">
+        <Method Name="get_Count()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="17" />
+        <Method Name="get_HelpText()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="41" />
+        <Method Name="get_Regex()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="22" />
+        <Method Name="get_Required()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="34" />
+        <Method Name="get_Transformer()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="27" />
+        <Method Name="set_Count(Int32)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="17" />
+        <Method Name="set_HelpText(String)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="41" />
+        <Method Name="set_Regex(Regex)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="22" />
+        <Method Name="set_Required(Boolean)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="34" />
+        <Method Name="set_Transformer(Action&lt;TOptions,String[]&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="27" />
+      </Type>
+      <Type Name="SingleSwitch&lt;TOptions&gt;" CoveredStatements="2" TotalStatements="2" CoveragePercent="100">
+        <Method Name="get_Transformer()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="16" />
+        <Method Name="set_Transformer(Action&lt;TOptions,String&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="16" />
+      </Type>
+      <Type Name="Switch&lt;TOptions&gt;" CoveredStatements="1" TotalStatements="8" CoveragePercent="13">
+        <Method Name="get_HelpText()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="24" />
+        <Method Name="get_Letter()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="14" />
+        <Method Name="get_Required()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="29" />
+        <Method Name="get_Word()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="19" />
+        <Method Name="set_HelpText(String)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="24" />
+        <Method Name="set_Letter(Char)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="14" />
+        <Method Name="set_Required(Boolean)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="29" />
+        <Method Name="set_Word(String)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="19" />
+      </Type>
+      <Type Name="ValueSwitch&lt;TOptions&gt;" CoveredStatements="0" TotalStatements="2" CoveragePercent="0">
+        <Method Name="get_Regex()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="16" />
+        <Method Name="set_Regex(Regex)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="16" />
+      </Type>
+    </Namespace>
+  </Assembly>
+  <Assembly Name="ArgParser.Core.Test" CoveredStatements="83" TotalStatements="89" CoveragePercent="93">
+    <Namespace Name="ArgParser.Core.Test" CoveredStatements="83" TotalStatements="89" CoveragePercent="93">
+      <Type Name="OptionBuilder_Should" CoveredStatements="83" TotalStatements="89" CoveragePercent="93">
+        <Type Name="&lt;&gt;c" CoveredStatements="13" TotalStatements="17" CoveragePercent="76">
+          <Method Name="&lt;Pass_Basic_Test_Cases&gt;b__1_0(WhateverOptions)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="28" />
+          <Method Name="&lt;Pass_Basic_Test_Cases&gt;b__1_1(WhateverOptions,String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="29" />
+          <Method Name="&lt;Pass_Basic_Test_Cases&gt;b__1_2(WhateverOptions,String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="32" />
+          <Method Name="&lt;Pass_Basic_Test_Cases&gt;b__1_3(WhateverOptions,String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="33" />
+          <Method Name="&lt;Pass_Basic_Test_Cases&gt;b__1_4(WhateverOptions,String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="34" />
+          <Method Name="&lt;Pass_Basic_Test_Cases&gt;b__1_5(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="32" />
+          <Method Name="&lt;Return_Only_As_Many_As_Asked_For&gt;b__2_0(WhateverOptions,String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="61" />
+          <Method Name="&lt;Return_Only_As_Many_As_Asked_For&gt;b__2_1(WhateverOptions,String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="62" />
+          <Method Name="&lt;Return_Only_As_Many_As_Asked_For&gt;b__2_2(WhateverOptions,String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="65" />
+          <Method Name="&lt;Return_Only_As_Many_As_Asked_For&gt;b__2_3(WhateverOptions,String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="66" />
+          <Method Name="&lt;Return_Only_As_Many_As_Asked_For&gt;b__2_4(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="65" />
+          <Method Name="&lt;Throw_If_Missing_Values&gt;b__3_0(WhateverOptions,String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="84" />
+          <Method Name="&lt;Throw_If_Missing_Values&gt;b__3_1(WhateverOptions,String)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="85" />
+          <Method Name="&lt;Throw_If_Missing_Values&gt;b__3_2(WhateverOptions,String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="86" />
+          <Method Name="&lt;Throw_If_Missing_Values2&gt;b__4_0(WhateverOptions,String[])" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="109" />
+          <Method Name="&lt;Throw_If_Missing_Values2&gt;b__4_1(WhateverOptions,String)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="110" />
+          <Method Name="&lt;Throw_If_Missing_Values2&gt;b__4_2(WhateverOptions,String)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="111" />
+        </Type>
+        <Type Name="&lt;&gt;c__DisplayClass3_0" CoveredStatements="6" TotalStatements="6" CoveragePercent="100">
+          <Method Name="&lt;Throw_If_Missing_Values&gt;b__3()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="87" />
+          <Method Name="&lt;Throw_If_Missing_Values&gt;b__4()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="88" />
+          <Method Name="&lt;Throw_If_Missing_Values&gt;b__5()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="89" />
+          <Method Name="&lt;Throw_If_Missing_Values&gt;b__6()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="90" />
+          <Method Name="&lt;Throw_If_Missing_Values&gt;b__7()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="91" />
+          <Method Name="&lt;Throw_If_Missing_Values&gt;b__8()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="92" />
+        </Type>
+        <Type Name="&lt;&gt;c__DisplayClass4_0" CoveredStatements="2" TotalStatements="2" CoveragePercent="100">
+          <Method Name="&lt;Throw_If_Missing_Values2&gt;b__3()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="112" />
+          <Method Name="&lt;Throw_If_Missing_Values2&gt;b__4()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="113" />
+        </Type>
+        <Type Name="WhateverOptions" CoveredStatements="12" TotalStatements="14" CoveragePercent="86">
+          <Method Name="get_OtherGuys()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="12" />
+          <Method Name="get_OtherThings()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="13" />
+          <Method Name="get_Quiet()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="14" />
+          <Method Name="get_Source()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="15" />
+          <Method Name="get_Target()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="16" />
+          <Method Name="get_Things()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="17" />
+          <Method Name="get_Verbose()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="18" />
+          <Method Name="set_OtherGuys(String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="12" />
+          <Method Name="set_OtherThings(Int32[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="13" />
+          <Method Name="set_Quiet(Boolean)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="14" />
+          <Method Name="set_Source(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="15" />
+          <Method Name="set_Target(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="16" />
+          <Method Name="set_Things(String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="17" />
+          <Method Name="set_Verbose(Boolean)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="18" />
+        </Type>
+        <Method Name="Pass_Basic_Test_Cases()" CoveredStatements="17" TotalStatements="17" CoveragePercent="100" FirstStatementLine="23" />
+        <Method Name="Return_Only_As_Many_As_Asked_For()" CoveredStatements="9" TotalStatements="9" CoveragePercent="100" FirstStatementLine="56" />
+        <Method Name="Throw_If_Missing_Values()" CoveredStatements="16" TotalStatements="16" CoveragePercent="100" FirstStatementLine="80" />
+        <Method Name="Throw_If_Missing_Values2()" CoveredStatements="8" TotalStatements="8" CoveragePercent="100" FirstStatementLine="105" />
+      </Type>
+    </Namespace>
+  </Assembly>
+</Root>
