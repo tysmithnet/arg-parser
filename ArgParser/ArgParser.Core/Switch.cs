@@ -11,7 +11,7 @@
         /// Gets or sets the letter.
         /// </summary>
         /// <value>The letter.</value>
-        public char Letter { get; set; }
+        public char? Letter { get; set; }
         /// <summary>
         /// Gets or sets the word.
         /// </summary>

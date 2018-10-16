@@ -154,6 +154,23 @@ namespace ArgParser.Core
             return this;
         }
 
+        public OptionsBuilder<TOptions> WithSingleSwitch(string word, Action<TOptions, string> transformer)
+        {
+            var newGuy = new SingleSwitch<TOptions>
+            {
+                Word = word,
+                Transformer = transformer
+            };
+            Switches.Add($"--{word}", newGuy);
+            Order.Add(newGuy);
+            return this;
+        }
+
+        public OptionsBuilder<TOptions> WithSingleSwitch(char letter, string word, Action<TOptions, string> transformer)
+        {
+            return WithSingleSwitch(letter, transformer).WithSingleSwitch(word, transformer);
+        }
+
         /// <summary>
         ///     Extracts the multiple switch.
         /// </summary>

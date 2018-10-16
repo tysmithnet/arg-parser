@@ -39,10 +39,10 @@ namespace ArgParser.Core.Test
 
             // assert
             options.Verbose.Should().BeTrue();
-            options.Source.Should().Be("source");
-            options.OtherGuys.Should().BeEquivalentTo("otherguy1", "otherguy2");
-            options.Things.Should().BeEquivalentTo("thing1", "thing2");
-            options.OtherThings.Should().BeEquivalentTo(new[] {1, 2, 3});
+            options.Source.Should().Be("source", "source is the first positional argument and the source positional was registered first");
+            options.OtherGuys.Should().BeEquivalentTo("otherguy1", "otherguy2", "the other guy positional arguments are the second and third but the fourth is a registered switch so we stop after 2");
+            options.Things.Should().BeEquivalentTo(new [] { "thing1", "thing2" }, "things is a multiple value switch and the args leading up to the next switch are thing1 and thing2");
+            options.OtherThings.Should().BeEquivalentTo(new[] {1, 2, 3}, "There are three ints that follow -o");
 
             options2.Verbose.Should().BeTrue();
             options2.Source.Should().Be("source");
@@ -98,6 +98,19 @@ namespace ArgParser.Core.Test
             throws3.Should().Throw<ArgumentNullException>();
             throws4.Should().Throw<ArgumentNullException>();
             throws5.Should().Throw<MissingValueException>();
+        }
+
+        [Fact]
+        public void Allow_Single_Letter_And_Word_Arguments()
+        {
+            // arrange
+            var options = new WhateverOptions();
+            var builder = new OptionsBuilder<WhateverOptions>()
+                .WithSingleSwitch();
+
+            // act
+
+            // assert
         }
 
         [Fact]
