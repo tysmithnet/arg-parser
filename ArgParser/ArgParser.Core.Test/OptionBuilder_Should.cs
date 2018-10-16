@@ -31,9 +31,20 @@ namespace ArgParser.Core.Test
             // arrange
             var options = new ManyBoolOptions();
             var parser = new ArgParser<ManyBoolOptions>()
-                .WithBoolean('s', boolOptions => boolOptions.Something = true)
-                .WithBoolean('e', boolOptions => boolOptions.SomethingElse = true)
-                .WithBoolean('a', boolOptions => boolOptions.AnotherThing = true)
+                .WithBoolean(new BooleanSwitch<ManyBoolOptions>
+                {
+                    Letter = 's',
+                    Transformer = opts => opts.Something = true
+                })
+                .WithBoolean(new BooleanSwitch<ManyBoolOptions>
+                {
+                    Letter = 'e',
+                    Transformer = opts => opts.SomethingElse = true
+                }).WithBoolean(new BooleanSwitch<ManyBoolOptions>
+                {
+                    Letter = 'a',
+                    Transformer = opts => opts.AnotherThing = true
+                })
                 .WithValidation((boolOptions, errors) =>
                 {
                     if (boolOptions.AnotherThing && boolOptions.Something)
@@ -59,9 +70,20 @@ namespace ArgParser.Core.Test
             var options1 = new ManyBoolOptions();
             var options2 = new ManyBoolOptions();
             var parser = new ArgParser<ManyBoolOptions>()
-                .WithBoolean('s', boolOptions => boolOptions.Something = true)
-                .WithBoolean('e', boolOptions => boolOptions.SomethingElse = true)
-                .WithBoolean('a', boolOptions => boolOptions.AnotherThing = true);
+                .WithBoolean(new BooleanSwitch<ManyBoolOptions>
+                {
+                    Letter = 's',
+                    Transformer = options => options.Something = true
+                })
+                .WithBoolean(new BooleanSwitch<ManyBoolOptions>
+                {
+                    Letter = 'e',
+                    Transformer = options => options.SomethingElse = true
+                }).WithBoolean(new BooleanSwitch<ManyBoolOptions>
+                {
+                    Letter = 'a',
+                    Transformer = options => options.AnotherThing = true
+                });
 
             // act
             parser.Parse(options0, "-sea".Split(' '));
@@ -90,9 +112,18 @@ namespace ArgParser.Core.Test
             var options1 = new WhateverOptions();
 
             var parser = new ArgParser<WhateverOptions>()
-                .WithBoolean("aye", options => options.Target = "a");
+                .WithBoolean(new BooleanSwitch<WhateverOptions>
+                {
+                    Word = "aye",
+                    Transformer = opts => opts.Target = "a"
+                });
             var optionsParser = new ArgParser<WhateverOptions>()
-                .WithBoolean('a', "aye", options => options.Target = "a");
+                .WithBoolean(new BooleanSwitch<WhateverOptions>
+                {
+                    Letter = 'a',
+                    Word = "aye",
+                    Transformer = opts => opts.Target = "a"
+                });
 
             // act
             parser.Parse(options0, "--aye".Split(' '));
@@ -111,8 +142,17 @@ namespace ArgParser.Core.Test
             var options1 = new WhateverOptions();
 
             var parser = new ArgParser<WhateverOptions>()
-                .WithMultipleSwitch("source", (o, s) => o.Source = s[0], 1)
-                .WithMultipleSwitch('t', "target", (whateverOptions, s) => whateverOptions.Target = s[0], 1);
+                .WithMultipleSwitch(new MultipleSwitch<WhateverOptions>
+                {
+                    Word = "source",
+                    Transformer = (o, s) => o.Source = s[0]
+                })
+                .WithMultipleSwitch(new MultipleSwitch<WhateverOptions>
+                {
+                    Letter = 't',
+                    Word = "target",
+                    Transformer = (o, s) => o.Target = s[0]
+                });
 
             // act
             parser.Parse(options0, "--source hi -t world".Split(' '));
@@ -133,8 +173,17 @@ namespace ArgParser.Core.Test
             var options1 = new WhateverOptions();
 
             var parser = new ArgParser<WhateverOptions>()
-                .WithSingleSwitch("source", (o, s) => o.Source = s)
-                .WithSingleSwitch('t', "target", (whateverOptions, s) => whateverOptions.Target = s);
+                .WithSingleSwitch(new SingleSwitch<WhateverOptions>
+                {
+                    Word = "source",
+                    Transformer = (options, s) => options.Source = s
+                })
+                .WithSingleSwitch(new SingleSwitch<WhateverOptions>
+                {
+                    Word = "target",
+                    Letter = 't',
+                    Transformer = (options, s) => options.Target = s
+                });
 
             // act
             parser.Parse(options0, "--source hi -t world".Split(' '));
@@ -154,13 +203,32 @@ namespace ArgParser.Core.Test
             var options = new WhateverOptions();
             var options2 = new WhateverOptions();
             var parser = new ArgParser<WhateverOptions>()
-                .WithBoolean('v', whateverOptions => whateverOptions.Verbose = true)
-                .WithMultipleSwitch('t', (whateverOptions, strings) => whateverOptions.Things = strings)
-                .WithMultipleSwitch('o',
-                    (whateverOptions, strings) =>
-                        whateverOptions.OtherThings = strings.Select(x => Convert.ToInt32(x)).ToArray())
-                .WithPositional(1, (whateverOptions, strings) => whateverOptions.Source = strings[0])
-                .WithPositional(-1, (whateverOptions, strings) => whateverOptions.OtherGuys = strings);
+                .WithBoolean(new BooleanSwitch<WhateverOptions>
+                {
+                    Letter = 'v',
+                    Transformer = opts => opts.Verbose = true
+                })
+                .WithMultipleSwitch(new MultipleSwitch<WhateverOptions>
+                {
+                    Letter = 't',
+                    Transformer = (opts, strings) => opts.Things = strings
+                })
+                .WithMultipleSwitch(new MultipleSwitch<WhateverOptions>
+                {
+                    Letter = 'o',
+                    Transformer = (opts, strings) =>
+                        opts.OtherThings = strings.Select(x => Convert.ToInt32(x)).ToArray()
+                })
+                .WithPositional(new PositionalValues<WhateverOptions>
+                {
+                    Min = 1,
+                    Max = 1,
+                    Transformer = (opts, strings) => opts.Source = strings[0]
+                })
+                .WithPositional(new PositionalValues<WhateverOptions>
+                {
+                    Transformer = (opts, strings) => opts.OtherGuys = strings
+                });
 
             // act
             parser.Parse(options, "-v source otherguy1 otherguy2 -t thing1 thing2 -o 1 2 3".Split(' '));
@@ -189,9 +257,20 @@ namespace ArgParser.Core.Test
             // arrange
             var options = new WhateverOptions();
             var parser = new ArgParser<WhateverOptions>()
-                .WithBoolean('v', whateverOptions => whateverOptions.Verbose = true)
-                .WithBoolean('q', whateverOptions => whateverOptions.Quiet = true)
-                .WithPositional(-1, (whateverOptions, strings) => whateverOptions.Things = strings);
+                .WithBoolean(new BooleanSwitch<WhateverOptions>
+                {
+                    Letter = 'v',
+                    Transformer = opts => opts.Verbose = true
+                })
+                .WithBoolean(new BooleanSwitch<WhateverOptions>
+                {
+                    Letter = 'q',
+                    Transformer = opts => opts.Quiet = true
+                })
+                .WithPositional(new PositionalValues<WhateverOptions>
+                {
+                    Transformer = (opts, strings) => opts.Things = strings
+                });
 
             // act
             parser.Parse(options, "hello world -vq hi again".Split(' '));
@@ -209,12 +288,30 @@ namespace ArgParser.Core.Test
             var options = new WhateverOptions();
 
             var parser = new ArgParser<WhateverOptions>()
-                .WithSingleSwitch('s', (whateverOptions, s) => whateverOptions.Source = s)
-                .WithMultipleSwitch('t', (whateverOptions, strings) => whateverOptions.Things = strings, 3)
-                .WithMultipleSwitch('o',
-                    (whateverOptions, strings) =>
-                        whateverOptions.OtherThings = strings.Select(x => Convert.ToInt32(x)).ToArray())
-                .WithPositional(-1, (whateverOptions, strings) => whateverOptions.Target = string.Join(", ", strings));
+                .WithSingleSwitch(new SingleSwitch<WhateverOptions>
+                {
+                    Letter = 's',
+                    Transformer = (opts, s) => opts.Source = s
+                })
+                .WithMultipleSwitch(new MultipleSwitch<WhateverOptions>
+                {
+                    Letter = 't',
+                    Transformer = (whateverOptions, strings) => whateverOptions.Things = strings,
+                    Max = 3,
+                    Min = 3
+                })
+                .WithMultipleSwitch(new MultipleSwitch<WhateverOptions>
+                {
+                    Letter = 't',
+                    Transformer = (whateverOptions, strings) =>
+                        whateverOptions.OtherThings = strings.Select(x => Convert.ToInt32(x)).ToArray(),
+                    Max = 3,
+                    Min = 3
+                })
+                .WithPositional(new PositionalValues<WhateverOptions>
+                {
+                    Transformer = (whateverOptions, strings) => whateverOptions.Target = string.Join(", ", strings)
+                });
 
             // act
             parser.Parse(options, "-t a b c d e f -s g h -o 1 2 3".Split(' '));
@@ -227,14 +324,48 @@ namespace ArgParser.Core.Test
         }
 
         [Fact]
+        public void Throw_If_A_Required_Parameter_Is_Not_Present()
+        {
+            // arrange
+            var options = new WhateverOptions();
+            var parser = new ArgParser<WhateverOptions>()
+                .WithSingleSwitch(new SingleSwitch<WhateverOptions>
+                {
+                    Word = "verbose",
+                    Required = true
+                });
+            Action throws0 = () => parser.Parse(options, "".Split(' '));
+
+            // act
+            // assert
+            throws0.Should().Throw<ValidationFailureException>()
+                .Where(exception => exception.ValidationMessages.Count == 1);
+        }
+
+        [Fact]
         public void Throw_If_Missing_Values()
         {
             // arrange
             var options = new WhateverOptions();
             var parser = new ArgParser<WhateverOptions>()
-                .WithMultipleSwitch('t', (whateverOptions, strings) => whateverOptions.Things = strings, 5)
-                .WithSingleSwitch('s', (whateverOptions, s) => whateverOptions.Source = s)
-                .WithPositional(10, (whateverOptions, strings) => whateverOptions.OtherGuys = strings);
+                .WithMultipleSwitch(new MultipleSwitch<WhateverOptions>()
+                {
+                    Letter = 't',
+                    Transformer = (opts, strings) => opts.Things = strings,
+                    Min = 5,
+                    Max = 5
+                })
+                .WithSingleSwitch(new SingleSwitch<WhateverOptions>
+                {
+                    Letter = 's',
+                    Transformer = (opts, s) => opts.Source = s
+                })
+                .WithPositional(new PositionalValues<WhateverOptions>
+                {
+                    Min = 10,
+                    Transformer = (opts, strings) => opts.OtherGuys = strings
+                });
+
             Action throws0 = () => parser.Parse(options, "-t a b c -s source a b c d e f g h i j k l m n".Split(' '));
             Action throws1 = () => parser.Parse(options, "-t a b c d e f f g h i j k l m n -s".Split(' '));
             Action throws2 = () => parser.Parse(options, "-t a b c d e f -s g h i j -t".Split(' '));
@@ -257,9 +388,24 @@ namespace ArgParser.Core.Test
             // arrange
             var options = new WhateverOptions();
             var parser = new ArgParser<WhateverOptions>()
-                .WithMultipleSwitch('o', (whateverOptions, strings) => whateverOptions.OtherGuys = strings, 4)
-                .WithSingleSwitch('s', (whateverOptions, s) => whateverOptions.Source = s)
-                .WithSingleSwitch('t', (whateverOptions, s) => whateverOptions.Target = s);
+                .WithMultipleSwitch(new MultipleSwitch<WhateverOptions>()
+                {
+                    Letter = 'o',
+                    Transformer =  (opts, strings) => opts.OtherGuys = strings,
+                    Min = 4,
+                    Max = 4
+                })  
+                .WithSingleSwitch(new SingleSwitch<WhateverOptions>
+                {
+                    Letter = 's',
+                    Transformer = (opts, s) => opts.Source = s
+                })
+                .WithSingleSwitch(new SingleSwitch<WhateverOptions>
+                {
+                    Letter = 't',
+                    Transformer = (opts, s) => opts.Target = s
+                });
+
             Action throws0 = () => parser.Parse(options, "-s -t".Split(' '));
             Action throws1 = () => parser.Parse(options, "-o hi world".Split(' '));
 

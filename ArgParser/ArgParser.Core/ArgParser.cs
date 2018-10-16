@@ -77,9 +77,9 @@ namespace ArgParser.Core
                             ExtractSingleSwitch(instance, args, i, arg, singleSwitch);
                             break;
                         case MultipleSwitch<TOptions> multipleSwitch:
-                            i = multipleSwitch.Count < 0
-                                ? ExtractGreedyMultipleSwitch(instance, args, i, multipleSwitch)
-                                : ExtractMultipleSwitch(instance, args, i, multipleSwitch, arg);
+                            i = multipleSwitch.Max.HasValue
+                                ? ExtractMultipleSwitch(instance, args, i, multipleSwitch, arg)
+                                : ExtractGreedyMultipleSwitch(instance, args, i, multipleSwitch);
                             break;
                     }
                 }
@@ -98,182 +98,62 @@ namespace ArgParser.Core
             }
 
             var errors = new List<string>();
-            foreach (var validator in ValidationMethods)
+            foreach (var validator in ValidationMethods) validator(instance, errors);
+
+            if (errors.Any()) throw new ValidationFailureException(errors);
+        }
+
+        public ArgParser<TOptions> WithBoolean(BooleanSwitch<TOptions> newGuy)
+        {
+            if (newGuy.Letter.HasValue)
             {
-                validator(instance, errors);
+                Switches.Add($"-{newGuy.Letter.Value}", newGuy);
             }
 
-            if (errors.Any())
+            if (newGuy.Word != null)
             {
-                throw new ValidationFailureException(errors);
+                Switches.Add($"--{newGuy.Word}", newGuy);
             }
-        }
-
-        /// <summary>
-        ///     Withes the boolean.
-        /// </summary>
-        /// <param name="letter">The letter.</param>
-        /// <param name="transformer">The transformer.</param>
-        /// <returns>OptionsBuilder&lt;TOptions&gt;.</returns>
-        public ArgParser<TOptions> WithBoolean(char letter, Action<TOptions> transformer)
-        {
-            var newGuy = new BooleanSwitch<TOptions>
-            {
-                Letter = letter,
-                Transformer = transformer
-            };
-            Switches.Add($"-{letter}", newGuy);
             Order.Add(newGuy);
             return this;
         }
 
-        /// <summary>
-        ///     Withes the boolean.
-        /// </summary>
-        /// <param name="word">The word.</param>
-        /// <param name="transformer">The transformer.</param>
-        /// <returns>OptionsBuilder&lt;TOptions&gt;.</returns>
-        public ArgParser<TOptions> WithBoolean(string word, Action<TOptions> transformer)
+        public ArgParser<TOptions> WithMultipleSwitch(MultipleSwitch<TOptions> multipleSwitch)
         {
-            var newGuy = new BooleanSwitch<TOptions>
+            if (multipleSwitch.Letter.HasValue)
             {
-                Word = word,
-                Transformer = transformer
-            };
-            Switches.Add($"--{word}", newGuy);
-            Order.Add(newGuy);
+                Switches.Add($"-{multipleSwitch.Letter.Value}", multipleSwitch);
+            }
+
+            if (multipleSwitch.Word != null)
+            {
+                Switches.Add($"--{multipleSwitch.Word}", multipleSwitch);
+            }
+            Order.Add(multipleSwitch);
             return this;
         }
 
-        /// <summary>
-        ///     Withes the boolean.
-        /// </summary>
-        /// <param name="letter">The letter.</param>
-        /// <param name="word">The word.</param>
-        /// <param name="transformer">The transformer.</param>
-        /// <returns>OptionsBuilder&lt;TOptions&gt;.</returns>
-        public ArgParser<TOptions> WithBoolean(char letter, string word, Action<TOptions> transformer) =>
-            WithBoolean(letter, transformer).WithBoolean(word, transformer);
-
-        /// <summary>
-        ///     Withes the multiple switch.
-        /// </summary>
-        /// <param name="letter">The letter.</param>
-        /// <param name="transformer">The transformer.</param>
-        /// <param name="count">The count.</param>
-        /// <returns>OptionsBuilder&lt;TOptions&gt;.</returns>
-        public ArgParser<TOptions> WithMultipleSwitch(char letter, Action<TOptions, string[]> transformer,
-            int count = -1)
+        public ArgParser<TOptions> WithPositional(PositionalValues<TOptions> newGuy)
         {
-            var newGuy = new MultipleSwitch<TOptions>
-            {
-                Letter = letter,
-                Transformer = transformer,
-                Count = count
-            };
-            Switches.Add($"-{letter}", newGuy);
-            Order.Add(newGuy);
-            return this;
-        }
-
-        /// <summary>
-        ///     Withes the multiple switch.
-        /// </summary>
-        /// <param name="word">The word.</param>
-        /// <param name="transformer">The transformer.</param>
-        /// <param name="count">The count.</param>
-        /// <returns>OptionsBuilder&lt;TOptions&gt;.</returns>
-        public ArgParser<TOptions> WithMultipleSwitch(string word, Action<TOptions, string[]> transformer,
-            int count = -1)
-        {
-            var newGuy = new MultipleSwitch<TOptions>
-            {
-                Word = word,
-                Transformer = transformer,
-                Count = count
-            };
-            Switches.Add($"--{word}", newGuy);
-            Order.Add(newGuy);
-            return this;
-        }
-
-        /// <summary>
-        ///     Withes the multiple switch.
-        /// </summary>
-        /// <param name="letter">The letter.</param>
-        /// <param name="word">The word.</param>
-        /// <param name="transformer">The transformer.</param>
-        /// <param name="count">The count.</param>
-        /// <returns>OptionsBuilder&lt;TOptions&gt;.</returns>
-        public ArgParser<TOptions> WithMultipleSwitch(char letter, string word,
-            Action<TOptions, string[]> transformer,
-            int count = -1) => WithMultipleSwitch(letter, transformer, count)
-            .WithMultipleSwitch(word, transformer, count);
-
-        /// <summary>
-        ///     Withes the positional.
-        /// </summary>
-        /// <param name="count">The count.</param>
-        /// <param name="transformer">The transformer.</param>
-        /// <returns>OptionsBuilder&lt;TOptions&gt;.</returns>
-        public ArgParser<TOptions> WithPositional(int count, Action<TOptions, string[]> transformer)
-        {
-            var newGuy = new PositionalValues<TOptions>
-            {
-                Count = count,
-                Transformer = transformer
-            };
             Positionals.Add(newGuy);
             Order.Add(newGuy);
             return this;
         }
 
-        /// <summary>
-        ///     Withes the single switch.
-        /// </summary>
-        /// <param name="letter">The letter.</param>
-        /// <param name="transformer">The transformer.</param>
-        /// <returns>OptionsBuilder&lt;TOptions&gt;.</returns>
-        public ArgParser<TOptions> WithSingleSwitch(char letter, Action<TOptions, string> transformer)
+        public ArgParser<TOptions> WithSingleSwitch(SingleSwitch<TOptions> newGuy)
         {
-            var newGuy = new SingleSwitch<TOptions>
-            {
-                Letter = letter,
-                Transformer = transformer
-            };
-            Switches.Add($"-{letter}", newGuy);
+            if (newGuy.Letter.HasValue) Switches.Add($"-{newGuy.Letter.Value}", newGuy);
+
+            if (newGuy.Word != null) Switches.Add($"--{newGuy.Word}", newGuy);
             Order.Add(newGuy);
             return this;
         }
 
-        /// <summary>
-        ///     Withes the single switch.
-        /// </summary>
-        /// <param name="word">The word.</param>
-        /// <param name="transformer">The transformer.</param>
-        /// <returns>OptionsBuilder&lt;TOptions&gt;.</returns>
-        public ArgParser<TOptions> WithSingleSwitch(string word, Action<TOptions, string> transformer)
+        public ArgParser<TOptions> WithValidation(Action<TOptions, IList<string>> validationMethod)
         {
-            var newGuy = new SingleSwitch<TOptions>
-            {
-                Word = word,
-                Transformer = transformer
-            };
-            Switches.Add($"--{word}", newGuy);
-            Order.Add(newGuy);
+            ValidationMethods.Add(validationMethod);
             return this;
         }
-
-        /// <summary>
-        ///     Withes the single switch.
-        /// </summary>
-        /// <param name="letter">The letter.</param>
-        /// <param name="word">The word.</param>
-        /// <param name="transformer">The transformer.</param>
-        /// <returns>OptionsBuilder&lt;TOptions&gt;.</returns>
-        public ArgParser<TOptions>
-            WithSingleSwitch(char letter, string word, Action<TOptions, string> transformer) =>
-            WithSingleSwitch(letter, transformer).WithSingleSwitch(word, transformer);
 
         /// <summary>
         ///     Extracts the multiple switch.
@@ -290,29 +170,30 @@ namespace ArgParser.Core
             MultipleSwitch<TOptions> multipleSwitch, string arg)
         {
             var multipleStrings = new List<string>();
-            for (var j = 0; i + j + 1 < args.Length && j < multipleSwitch.Count; j++)
+            for (var j = 0; i + j + 1 < args.Length; j++)
             {
                 var cur = args[i + j + 1];
                 if (Switches.ContainsKey(cur) || IsGroupOfBoolean(cur))
                     throw new MissingValueException($"Switch {arg} requires a value, but found another switch: {cur}");
                 multipleStrings.Add(cur);
+                if (multipleSwitch.Max.HasValue && multipleSwitch.Max.Value >= multipleStrings.Count)
+                {
+                    break;
+                }
             }
 
-            if (multipleStrings.Count != multipleSwitch.Count)
+            if(multipleSwitch.Min.HasValue)
                 throw new MissingValueException(
-                    $"Switch {arg} requires {multipleSwitch.Count} values, but only found {multipleStrings.Count}");
+                    $"Switch {arg} requires at least {multipleSwitch.Min.Value} values, but only found {multipleStrings.Count}");
+
+            if (multipleSwitch.Max.HasValue)
+                throw new MissingValueException(
+                    $"Switch {arg} requires at most {multipleSwitch.Max.Value} values, but found {multipleStrings.Count}");
             multipleSwitch.Transformer(instance, multipleStrings.ToArray());
             i += multipleStrings.Count;
             return i;
         }
 
-        internal IList<Action<TOptions, IList<string>>> ValidationMethods { get; set; } = new List<Action<TOptions, IList<string>>>();
-
-        public ArgParser<TOptions> WithValidation(Action<TOptions, IList<string>> validationMethod)
-        {
-            ValidationMethods.Add(validationMethod);
-            return this;
-        }
         /// <summary>
         ///     Extracts the positional.
         /// </summary>
@@ -329,19 +210,16 @@ namespace ArgParser.Core
                 .FirstOrDefault(x => !positionalCounts.ContainsKey(x));
             if (positional == null)
                 return i;
-            string[] newValues;
-            if (positional.Count < 0)
+            var newValues = positional.Max == null
+                ? args.Skip(i).TakeWhile(x => !Switches.ContainsKey(x) && !IsGroupOfBoolean(x)).ToArray()
+                : args.Skip(i).TakeWhile(x => !Switches.ContainsKey(x) && !IsGroupOfBoolean(x))
+                    .Take(positional.Max.Value).ToArray();
+
+            if (positional.Min.HasValue && newValues.Length < positional.Min.Value)
             {
-                newValues = args.Skip(i).TakeWhile(x => !Switches.ContainsKey(x) && !IsGroupOfBoolean(x)).ToArray();
+                throw new MissingValueException($"Positional expected at least {positional.Min.Value} values, but found only {newValues.Length} values");
             }
-            else
-            {
-                newValues = args.Skip(i).TakeWhile(x => !Switches.ContainsKey(x) && !IsGroupOfBoolean(x))
-                    .Take(positional.Count).ToArray();
-                if (newValues.Length != positional.Count)
-                    throw new MissingValueException(
-                        $"Positional argument requires {positional.Count} values, but found {newValues.Length}");
-            }
+
 
             positional.Transformer(instance, newValues);
             positionalCounts.Add(positional, newValues.Length);
@@ -403,5 +281,8 @@ namespace ArgParser.Core
         /// </summary>
         /// <value>The order.</value>
         internal IList<object> Order { get; set; } = new List<object>();
+
+        internal IList<Action<TOptions, IList<string>>> ValidationMethods { get; set; } =
+            new List<Action<TOptions, IList<string>>>();
     }
 }

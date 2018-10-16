@@ -14,6 +14,6 @@
         /// Gets the help text.
         /// </summary>
         /// <value>The help text.</value>
-        string HelpText { get; }
+        Help Help { get; }
     }
 }
