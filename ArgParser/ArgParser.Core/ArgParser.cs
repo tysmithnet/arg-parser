@@ -4,7 +4,7 @@
 // Created          : 10-15-2018
 //
 // Last Modified By : @tysmithnet
-// Last Modified On : 10-15-2018
+// Last Modified On : 10-16-2018
 // ***********************************************************************
 // <copyright file="OptionsBuilder.cs" company="ArgParser.Core">
 //     Copyright (c) . All rights reserved.
@@ -15,7 +15,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace ArgParser.Core
 {
@@ -23,7 +22,7 @@ namespace ArgParser.Core
     ///     Class OptionsBuilder.
     /// </summary>
     /// <typeparam name="TOptions">The type of the t options.</typeparam>
-    public class OptionsBuilder<TOptions> where TOptions : IOptions
+    public class ArgParser<TOptions> where TOptions : IOptions
     {
         /// <summary>
         ///     The positionals
@@ -35,23 +34,26 @@ namespace ArgParser.Core
         /// </summary>
         internal Dictionary<string, Switch<TOptions>> Switches = new Dictionary<string, Switch<TOptions>>();
 
-        private bool IsGroupOfBoolean(string arg)
-        {
-            return arg.StartsWith("-") && arg.ToCharArray().Skip(1).Distinct().All(l =>
-                       Switches.ContainsKey($"-{l}") && Switches[$"-{l}"] is BooleanSwitch<TOptions>);
-        }
-
         /// <summary>
         ///     Parses the specified instance.
         /// </summary>
         /// <param name="instance">The instance.</param>
         /// <param name="args">The arguments.</param>
+        /// <exception cref="ArgumentNullException">
+        ///     instance
+        ///     or
+        ///     args
+        /// </exception>
         /// <exception cref="System.ArgumentNullException">
         ///     instance
         ///     or
         ///     args
         /// </exception>
-        /// <exception cref="ArgParser.Core.MissingValueException"></exception>
+        /// <exception cref="ArgParser.Core.MissingValueException">
+        ///     instance
+        ///     or
+        ///     args
+        /// </exception>
         public void Parse(TOptions instance, string[] args)
         {
             if (instance == null)
@@ -85,7 +87,7 @@ namespace ArgParser.Core
                 {
                     foreach (var letter in arg.ToCharArray().Skip(1).Distinct())
                     {
-                        var boolean = (BooleanSwitch<TOptions>)Switches[$"-{letter}"];
+                        var boolean = (BooleanSwitch<TOptions>) Switches[$"-{letter}"];
                         boolean.Transformer(instance);
                     }
                 }
@@ -102,7 +104,7 @@ namespace ArgParser.Core
         /// <param name="letter">The letter.</param>
         /// <param name="transformer">The transformer.</param>
         /// <returns>OptionsBuilder&lt;TOptions&gt;.</returns>
-        public OptionsBuilder<TOptions> WithBoolean(char letter, Action<TOptions> transformer)
+        public ArgParser<TOptions> WithBoolean(char letter, Action<TOptions> transformer)
         {
             var newGuy = new BooleanSwitch<TOptions>
             {
@@ -114,7 +116,13 @@ namespace ArgParser.Core
             return this;
         }
 
-        public OptionsBuilder<TOptions> WithBoolean(string word, Action<TOptions> transformer)
+        /// <summary>
+        ///     Withes the boolean.
+        /// </summary>
+        /// <param name="word">The word.</param>
+        /// <param name="transformer">The transformer.</param>
+        /// <returns>OptionsBuilder&lt;TOptions&gt;.</returns>
+        public ArgParser<TOptions> WithBoolean(string word, Action<TOptions> transformer)
         {
             var newGuy = new BooleanSwitch<TOptions>
             {
@@ -126,7 +134,14 @@ namespace ArgParser.Core
             return this;
         }
 
-        public OptionsBuilder<TOptions> WithBoolean(char letter, string word, Action<TOptions> transformer) =>
+        /// <summary>
+        ///     Withes the boolean.
+        /// </summary>
+        /// <param name="letter">The letter.</param>
+        /// <param name="word">The word.</param>
+        /// <param name="transformer">The transformer.</param>
+        /// <returns>OptionsBuilder&lt;TOptions&gt;.</returns>
+        public ArgParser<TOptions> WithBoolean(char letter, string word, Action<TOptions> transformer) =>
             WithBoolean(letter, transformer).WithBoolean(word, transformer);
 
         /// <summary>
@@ -136,7 +151,7 @@ namespace ArgParser.Core
         /// <param name="transformer">The transformer.</param>
         /// <param name="count">The count.</param>
         /// <returns>OptionsBuilder&lt;TOptions&gt;.</returns>
-        public OptionsBuilder<TOptions> WithMultipleSwitch(char letter, Action<TOptions, string[]> transformer,
+        public ArgParser<TOptions> WithMultipleSwitch(char letter, Action<TOptions, string[]> transformer,
             int count = -1)
         {
             var newGuy = new MultipleSwitch<TOptions>
@@ -150,7 +165,14 @@ namespace ArgParser.Core
             return this;
         }
 
-        public OptionsBuilder<TOptions> WithMultipleSwitch(string word, Action<TOptions, string[]> transformer,
+        /// <summary>
+        ///     Withes the multiple switch.
+        /// </summary>
+        /// <param name="word">The word.</param>
+        /// <param name="transformer">The transformer.</param>
+        /// <param name="count">The count.</param>
+        /// <returns>OptionsBuilder&lt;TOptions&gt;.</returns>
+        public ArgParser<TOptions> WithMultipleSwitch(string word, Action<TOptions, string[]> transformer,
             int count = -1)
         {
             var newGuy = new MultipleSwitch<TOptions>
@@ -164,7 +186,15 @@ namespace ArgParser.Core
             return this;
         }
 
-        public OptionsBuilder<TOptions> WithMultipleSwitch(char letter, string word,
+        /// <summary>
+        ///     Withes the multiple switch.
+        /// </summary>
+        /// <param name="letter">The letter.</param>
+        /// <param name="word">The word.</param>
+        /// <param name="transformer">The transformer.</param>
+        /// <param name="count">The count.</param>
+        /// <returns>OptionsBuilder&lt;TOptions&gt;.</returns>
+        public ArgParser<TOptions> WithMultipleSwitch(char letter, string word,
             Action<TOptions, string[]> transformer,
             int count = -1) => WithMultipleSwitch(letter, transformer, count)
             .WithMultipleSwitch(word, transformer, count);
@@ -175,7 +205,7 @@ namespace ArgParser.Core
         /// <param name="count">The count.</param>
         /// <param name="transformer">The transformer.</param>
         /// <returns>OptionsBuilder&lt;TOptions&gt;.</returns>
-        public OptionsBuilder<TOptions> WithPositional(int count, Action<TOptions, string[]> transformer)
+        public ArgParser<TOptions> WithPositional(int count, Action<TOptions, string[]> transformer)
         {
             var newGuy = new PositionalValues<TOptions>
             {
@@ -193,7 +223,7 @@ namespace ArgParser.Core
         /// <param name="letter">The letter.</param>
         /// <param name="transformer">The transformer.</param>
         /// <returns>OptionsBuilder&lt;TOptions&gt;.</returns>
-        public OptionsBuilder<TOptions> WithSingleSwitch(char letter, Action<TOptions, string> transformer)
+        public ArgParser<TOptions> WithSingleSwitch(char letter, Action<TOptions, string> transformer)
         {
             var newGuy = new SingleSwitch<TOptions>
             {
@@ -205,7 +235,13 @@ namespace ArgParser.Core
             return this;
         }
 
-        public OptionsBuilder<TOptions> WithSingleSwitch(string word, Action<TOptions, string> transformer)
+        /// <summary>
+        ///     Withes the single switch.
+        /// </summary>
+        /// <param name="word">The word.</param>
+        /// <param name="transformer">The transformer.</param>
+        /// <returns>OptionsBuilder&lt;TOptions&gt;.</returns>
+        public ArgParser<TOptions> WithSingleSwitch(string word, Action<TOptions, string> transformer)
         {
             var newGuy = new SingleSwitch<TOptions>
             {
@@ -217,7 +253,14 @@ namespace ArgParser.Core
             return this;
         }
 
-        public OptionsBuilder<TOptions>
+        /// <summary>
+        ///     Withes the single switch.
+        /// </summary>
+        /// <param name="letter">The letter.</param>
+        /// <param name="word">The word.</param>
+        /// <param name="transformer">The transformer.</param>
+        /// <returns>OptionsBuilder&lt;TOptions&gt;.</returns>
+        public ArgParser<TOptions>
             WithSingleSwitch(char letter, string word, Action<TOptions, string> transformer) =>
             WithSingleSwitch(letter, transformer).WithSingleSwitch(word, transformer);
 
@@ -275,7 +318,8 @@ namespace ArgParser.Core
             }
             else
             {
-                newValues = args.Skip(i).TakeWhile(x => !Switches.ContainsKey(x) && !IsGroupOfBoolean(x)).Take(positional.Count).ToArray();
+                newValues = args.Skip(i).TakeWhile(x => !Switches.ContainsKey(x) && !IsGroupOfBoolean(x))
+                    .Take(positional.Count).ToArray();
                 if (newValues.Length != positional.Count)
                     throw new MissingValueException(
                         $"Positional argument requires {positional.Count} values, but found {newValues.Length}");
@@ -323,6 +367,17 @@ namespace ArgParser.Core
             if (Switches.ContainsKey(nextArg) || IsGroupOfBoolean(nextArg))
                 throw new MissingValueException($"Switch {arg} requires a value, but found another switch: {nextArg}");
             singleSwitch.Transformer(instance, nextArg);
+        }
+
+        /// <summary>
+        ///     Determines whether [is group of boolean] [the specified argument].
+        /// </summary>
+        /// <param name="arg">The argument.</param>
+        /// <returns><c>true</c> if [is group of boolean] [the specified argument]; otherwise, <c>false</c>.</returns>
+        private bool IsGroupOfBoolean(string arg)
+        {
+            return arg.StartsWith("-") && arg.ToCharArray().Skip(1).Distinct().All(l =>
+                       Switches.ContainsKey($"-{l}") && Switches[$"-{l}"] is BooleanSwitch<TOptions>);
         }
 
         /// <summary>
