@@ -1,90 +1,47 @@
-﻿using System;
+﻿// ***********************************************************************
+// Assembly         : ArgParser.Core
+// Author           : @tysmithnet
+// Created          : 10-15-2018
+//
+// Last Modified By : @tysmithnet
+// Last Modified On : 10-15-2018
+// ***********************************************************************
+// <copyright file="OptionsBuilder.cs" company="ArgParser.Core">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace ArgParser.Core
 {
-    public interface IParser<TOptions> where TOptions : IOptions
-    {
-        TOptions Parse(string[] args);
-        string GetHelp(string question);
-    }
-
-    public interface IOptions
-    {
-
-    }
-
-    public interface ICommandLineElement
-    {
-        bool Required { get; }
-        string HelpText { get; }
-    }
-
-    internal abstract class Switch<TOptions> : ICommandLineElement where TOptions : IOptions
-    {
-        public char Letter { get; set; }
-        public string Word { get; set; }
-        public string HelpText { get; set; }
-        public bool Required { get; set; }
-    }
-
-    internal abstract class ValueSwitch<TOptions> : Switch<TOptions> where TOptions : IOptions
-    {
-        public Regex Regex { get; set; }
-
-    }
-
-    internal class BooleanSwitch<TOptions> : Switch<TOptions> where TOptions : IOptions
-    {
-        public Action<TOptions> Transformer { get; set; }
-    }
-
-    internal class SingleSwitch<TOptions> : ValueSwitch<TOptions> where TOptions : IOptions
-    {
-        public Action<TOptions, string> Transformer { get; set; }
-    }
-
-    internal class MultipleSwitch<TOptions> : ValueSwitch<TOptions> where TOptions : IOptions
-    {
-        public int Count { get; set; } = -1;
-        public Action<TOptions, string[]> Transformer { get; set; }
-    }
-
-    internal class PositionalValues<TOptions> : ICommandLineElement where TOptions : IOptions
-    {
-        public int Count { get; set; }
-        public Regex Regex { get; set; }
-        public Action<TOptions, string[]> Transformer { get; set; }
-
-        /// <inheritdoc />
-        public bool Required { get; set; }
-
-        /// <inheritdoc />
-        public string HelpText { get; set; }
-    }
-
-    public class MissingValueException : ArgumentException
-    {
-        public MissingValueException(string message) : base(message)
-        {
-        }
-    }
-
-    public class UnexpectedArgumentException : ArgumentException
-    {
-        /// <inheritdoc />
-        public UnexpectedArgumentException(string message) : base(message)
-        {
-        }
-    }
-
+    /// <summary>
+    /// Class OptionsBuilder.
+    /// </summary>
+    /// <typeparam name="TOptions">The type of the t options.</typeparam>
     public class OptionsBuilder<TOptions> where TOptions : IOptions
     {
+        /// <summary>
+        /// Gets or sets the order.
+        /// </summary>
+        /// <value>The order.</value>
         internal IList<object> Order { get; set; } = new List<object>();
+        /// <summary>
+        /// The switches
+        /// </summary>
         internal Dictionary<string, Switch<TOptions>> Switches = new Dictionary<string, Switch<TOptions>>();
+        /// <summary>
+        /// The positionals
+        /// </summary>
         internal IList<PositionalValues<TOptions>> Positionals = new List<PositionalValues<TOptions>>();
+        /// <summary>
+        /// Withes the boolean.
+        /// </summary>
+        /// <param name="letter">The letter.</param>
+        /// <param name="transformer">The transformer.</param>
+        /// <returns>OptionsBuilder&lt;TOptions&gt;.</returns>
         public OptionsBuilder<TOptions> WithBoolean(char letter, Action<TOptions> transformer)
         {
             var newGuy = new BooleanSwitch<TOptions>()
@@ -97,6 +54,13 @@ namespace ArgParser.Core
             return this;
         }
 
+        /// <summary>
+        /// Parses the specified instance.
+        /// </summary>
+        /// <param name="instance">The instance.</param>
+        /// <param name="args">The arguments.</param>
+        /// <exception cref="ArgParser.Core.MissingValueException">
+        /// </exception>
         public void Parse(TOptions instance, string[] args)
         {
             if (args == null || args.Length == 0)
@@ -175,6 +139,12 @@ namespace ArgParser.Core
             }
         }
 
+        /// <summary>
+        /// Withes the single switch.
+        /// </summary>
+        /// <param name="letter">The letter.</param>
+        /// <param name="transformer">The transformer.</param>
+        /// <returns>OptionsBuilder&lt;TOptions&gt;.</returns>
         public OptionsBuilder<TOptions> WithSingleSwitch(char letter, Action<TOptions, string> transformer)
         {
             var newGuy = new SingleSwitch<TOptions>()
@@ -187,6 +157,13 @@ namespace ArgParser.Core
             return this;
         }
 
+        /// <summary>
+        /// Withes the multiple switch.
+        /// </summary>
+        /// <param name="letter">The letter.</param>
+        /// <param name="transformer">The transformer.</param>
+        /// <param name="count">The count.</param>
+        /// <returns>OptionsBuilder&lt;TOptions&gt;.</returns>
         public OptionsBuilder<TOptions> WithMultipleSwitch(char letter, Action<TOptions, string[]> transformer, int count = -1)
         {
             var newGuy = new MultipleSwitch<TOptions>()
@@ -200,6 +177,12 @@ namespace ArgParser.Core
             return this;
         }
 
+        /// <summary>
+        /// Withes the positional.
+        /// </summary>
+        /// <param name="count">The count.</param>
+        /// <param name="transformer">The transformer.</param>
+        /// <returns>OptionsBuilder&lt;TOptions&gt;.</returns>
         public OptionsBuilder<TOptions> WithPositional(int count, Action<TOptions, string[]> transformer)
         {
             var newGuy = new PositionalValues<TOptions>()
