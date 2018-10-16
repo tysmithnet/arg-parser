@@ -1,0 +1,8 @@
+.vs
+*.ndproj
+bin
+obj
+Debug
+Release
+packages
+NDependOut
