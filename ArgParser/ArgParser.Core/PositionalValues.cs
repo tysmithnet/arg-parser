@@ -24,6 +24,9 @@ namespace ArgParser.Core
         /// <value>The transformer.</value>
         public Action<TOptions, string[]> Transformer { get; set; }
 
+        /// <inheritdoc />
+        public string Name { get; }
+
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="PositionalValues{TOptions}"/> is required.
         /// </summary>

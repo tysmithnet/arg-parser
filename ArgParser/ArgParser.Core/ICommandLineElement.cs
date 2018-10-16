@@ -5,6 +5,7 @@
     /// </summary>
     public interface ICommandLineElement
     {
+        string Name { get; }
         /// <summary>
         /// Gets a value indicating whether this <see cref="ICommandLineElement"/> is required.
         /// </summary>

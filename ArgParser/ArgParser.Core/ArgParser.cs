@@ -24,6 +24,20 @@ namespace ArgParser.Core
     /// <typeparam name="TOptions">The type of the t options.</typeparam>
     public class ArgParser<TOptions> where TOptions : IOptions
     {
+        /// <inheritdoc />
+        public ArgParser()
+        {
+            ValidationMethods.Add((options, errors) =>
+            {
+                var required = Switches.Values.Where(x => x.Required).Cast<ICommandLineElement>().Concat(Positionals.Where(x => x.Required));
+                var missing = required.Except(Seen);
+                foreach (var miss in missing)
+                {
+                    errors.Add($"Require parameter missing: {miss.Name}");
+                }
+            });
+        }
+
         /// <summary>
         ///     The positionals
         /// </summary>
@@ -56,11 +70,12 @@ namespace ArgParser.Core
         /// </exception>
         public void Parse(TOptions instance, string[] args)
         {
+            Seen = new HashSet<ICommandLineElement>();
             if (instance == null)
                 throw new ArgumentNullException(nameof(instance));
             if (args == null)
                 throw new ArgumentNullException(nameof(args));
-            var positionalCounts = new Dictionary<PositionalValues<TOptions>, int>();
+            
             for (var i = 0; i < args.Length; i++)
             {
                 var arg = args[i];
@@ -72,14 +87,17 @@ namespace ArgParser.Core
                     {
                         case BooleanSwitch<TOptions> boolSwitch:
                             boolSwitch.Transformer(instance);
+                            Seen.Add(boolSwitch);
                             continue;
                         case SingleSwitch<TOptions> singleSwitch:
                             ExtractSingleSwitch(instance, args, i, arg, singleSwitch);
+                            Seen.Add(singleSwitch);
                             break;
                         case MultipleSwitch<TOptions> multipleSwitch:
                             i = multipleSwitch.Max.HasValue
                                 ? ExtractMultipleSwitch(instance, args, i, multipleSwitch, arg)
                                 : ExtractGreedyMultipleSwitch(instance, args, i, multipleSwitch);
+                            Seen.Add(multipleSwitch);
                             break;
                     }
                 }
@@ -93,7 +111,7 @@ namespace ArgParser.Core
                 }
                 else
                 {
-                    i = ExtractPositional(instance, args, positionalCounts, i);
+                    i = ExtractPositional(instance, args, i);
                 }
             }
 
@@ -102,7 +120,7 @@ namespace ArgParser.Core
 
             if (errors.Any()) throw new ValidationFailureException(errors);
         }
-
+        internal ISet<ICommandLineElement> Seen = new HashSet<ICommandLineElement>();
         public ArgParser<TOptions> WithBoolean(BooleanSwitch<TOptions> newGuy)
         {
             if (newGuy.Letter.HasValue)
@@ -176,19 +194,16 @@ namespace ArgParser.Core
                 if (Switches.ContainsKey(cur) || IsGroupOfBoolean(cur))
                     throw new MissingValueException($"Switch {arg} requires a value, but found another switch: {cur}");
                 multipleStrings.Add(cur);
-                if (multipleSwitch.Max.HasValue && multipleSwitch.Max.Value >= multipleStrings.Count)
+                if (multipleSwitch.Max.HasValue && multipleSwitch.Max.Value == multipleStrings.Count)
                 {
                     break;
                 }
             }
 
-            if(multipleSwitch.Min.HasValue)
+            if(multipleSwitch.Min.HasValue && multipleStrings.Count < multipleSwitch.Min.Value)
                 throw new MissingValueException(
                     $"Switch {arg} requires at least {multipleSwitch.Min.Value} values, but only found {multipleStrings.Count}");
-
-            if (multipleSwitch.Max.HasValue)
-                throw new MissingValueException(
-                    $"Switch {arg} requires at most {multipleSwitch.Max.Value} values, but found {multipleStrings.Count}");
+            
             multipleSwitch.Transformer(instance, multipleStrings.ToArray());
             i += multipleStrings.Count;
             return i;
@@ -203,11 +218,10 @@ namespace ArgParser.Core
         /// <param name="i">The i.</param>
         /// <returns>System.Int32.</returns>
         /// <exception cref="MissingValueException"></exception>
-        internal int ExtractPositional(TOptions instance, string[] args,
-            Dictionary<PositionalValues<TOptions>, int> positionalCounts, int i)
+        internal int ExtractPositional(TOptions instance, string[] args, int i)
         {
             var positional = Order.OfType<PositionalValues<TOptions>>()
-                .FirstOrDefault(x => !positionalCounts.ContainsKey(x));
+                .FirstOrDefault(x => !Seen.Contains(x));
             if (positional == null)
                 return i;
             var newValues = positional.Max == null
@@ -222,7 +236,7 @@ namespace ArgParser.Core
 
 
             positional.Transformer(instance, newValues);
-            positionalCounts.Add(positional, newValues.Length);
+            Seen.Add(positional);
             i += newValues.Length - 1;
             return i;
         }

@@ -22,6 +22,10 @@
         /// </summary>
         /// <value>The help text.</value>
         public Help Help { get; set; }
+
+        /// <inheritdoc />
+        public string Name { get; set; }
+
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="Switch{TOptions}"/> is required.
         /// </summary>

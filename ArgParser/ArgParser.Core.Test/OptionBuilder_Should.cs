@@ -302,7 +302,7 @@ namespace ArgParser.Core.Test
                 })
                 .WithMultipleSwitch(new MultipleSwitch<WhateverOptions>
                 {
-                    Letter = 't',
+                    Letter = 'o',
                     Transformer = (whateverOptions, strings) =>
                         whateverOptions.OtherThings = strings.Select(x => Convert.ToInt32(x)).ToArray(),
                     Max = 3,
