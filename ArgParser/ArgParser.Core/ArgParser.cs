@@ -24,24 +24,24 @@ namespace ArgParser.Core
     /// <typeparam name="TOptions">The type of the t options.</typeparam>
     public class ArgParser<TOptions> where TOptions : IOptions
     {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="ArgParser{TOptions}" /> class.
+        /// </summary>
         /// <inheritdoc />
         public ArgParser()
         {
-            ValidationMethods.Add((options, errors) =>
-            {
-                var required = Switches.Values.Where(x => x.Required).Cast<ICommandLineElement>().Concat(Positionals.Where(x => x.Required));
-                var missing = required.Except(Seen);
-                foreach (var miss in missing)
-                {
-                    errors.Add($"Require parameter missing: {miss.Name}");
-                }
-            });
+            AddBuiltInValidators();
         }
 
         /// <summary>
         ///     The positionals
         /// </summary>
         internal IList<PositionalValues<TOptions>> Positionals = new List<PositionalValues<TOptions>>();
+
+        /// <summary>
+        ///     The seen
+        /// </summary>
+        internal ISet<ICommandLineElement> Seen = new HashSet<ICommandLineElement>();
 
         /// <summary>
         ///     The switches
@@ -58,16 +58,7 @@ namespace ArgParser.Core
         ///     or
         ///     args
         /// </exception>
-        /// <exception cref="System.ArgumentNullException">
-        ///     instance
-        ///     or
-        ///     args
-        /// </exception>
-        /// <exception cref="ArgParser.Core.MissingValueException">
-        ///     instance
-        ///     or
-        ///     args
-        /// </exception>
+        /// <exception cref="ArgParser.Core.ValidationFailureException"></exception>
         public void Parse(TOptions instance, string[] args)
         {
             Seen = new HashSet<ICommandLineElement>();
@@ -75,7 +66,7 @@ namespace ArgParser.Core
                 throw new ArgumentNullException(nameof(instance));
             if (args == null)
                 throw new ArgumentNullException(nameof(args));
-            
+
             for (var i = 0; i < args.Length; i++)
             {
                 var arg = args[i];
@@ -120,37 +111,40 @@ namespace ArgParser.Core
 
             if (errors.Any()) throw new ValidationFailureException(errors);
         }
-        internal ISet<ICommandLineElement> Seen = new HashSet<ICommandLineElement>();
+
+        /// <summary>
+        ///     Withes the boolean.
+        /// </summary>
+        /// <param name="newGuy">The new guy.</param>
+        /// <returns>ArgParser&lt;TOptions&gt;.</returns>
         public ArgParser<TOptions> WithBoolean(BooleanSwitch<TOptions> newGuy)
         {
-            if (newGuy.Letter.HasValue)
-            {
-                Switches.Add($"-{newGuy.Letter.Value}", newGuy);
-            }
+            if (newGuy.Letter.HasValue) Switches.Add($"-{newGuy.Letter.Value}", newGuy);
 
-            if (newGuy.Word != null)
-            {
-                Switches.Add($"--{newGuy.Word}", newGuy);
-            }
+            if (newGuy.Word != null) Switches.Add($"--{newGuy.Word}", newGuy);
             Order.Add(newGuy);
             return this;
         }
 
+        /// <summary>
+        ///     Withes the multiple switch.
+        /// </summary>
+        /// <param name="multipleSwitch">The multiple switch.</param>
+        /// <returns>ArgParser&lt;TOptions&gt;.</returns>
         public ArgParser<TOptions> WithMultipleSwitch(MultipleSwitch<TOptions> multipleSwitch)
         {
-            if (multipleSwitch.Letter.HasValue)
-            {
-                Switches.Add($"-{multipleSwitch.Letter.Value}", multipleSwitch);
-            }
+            if (multipleSwitch.Letter.HasValue) Switches.Add($"-{multipleSwitch.Letter.Value}", multipleSwitch);
 
-            if (multipleSwitch.Word != null)
-            {
-                Switches.Add($"--{multipleSwitch.Word}", multipleSwitch);
-            }
+            if (multipleSwitch.Word != null) Switches.Add($"--{multipleSwitch.Word}", multipleSwitch);
             Order.Add(multipleSwitch);
             return this;
         }
 
+        /// <summary>
+        ///     Withes the positional.
+        /// </summary>
+        /// <param name="newGuy">The new guy.</param>
+        /// <returns>ArgParser&lt;TOptions&gt;.</returns>
         public ArgParser<TOptions> WithPositional(PositionalValues<TOptions> newGuy)
         {
             Positionals.Add(newGuy);
@@ -158,6 +152,11 @@ namespace ArgParser.Core
             return this;
         }
 
+        /// <summary>
+        ///     Withes the single switch.
+        /// </summary>
+        /// <param name="newGuy">The new guy.</param>
+        /// <returns>ArgParser&lt;TOptions&gt;.</returns>
         public ArgParser<TOptions> WithSingleSwitch(SingleSwitch<TOptions> newGuy)
         {
             if (newGuy.Letter.HasValue) Switches.Add($"-{newGuy.Letter.Value}", newGuy);
@@ -167,6 +166,11 @@ namespace ArgParser.Core
             return this;
         }
 
+        /// <summary>
+        ///     Withes the validation.
+        /// </summary>
+        /// <param name="validationMethod">The validation method.</param>
+        /// <returns>ArgParser&lt;TOptions&gt;.</returns>
         public ArgParser<TOptions> WithValidation(Action<TOptions, IList<string>> validationMethod)
         {
             ValidationMethods.Add(validationMethod);
@@ -194,16 +198,13 @@ namespace ArgParser.Core
                 if (Switches.ContainsKey(cur) || IsGroupOfBoolean(cur))
                     throw new MissingValueException($"Switch {arg} requires a value, but found another switch: {cur}");
                 multipleStrings.Add(cur);
-                if (multipleSwitch.Max.HasValue && multipleSwitch.Max.Value == multipleStrings.Count)
-                {
-                    break;
-                }
+                if (multipleSwitch.Max.HasValue && multipleSwitch.Max.Value == multipleStrings.Count) break;
             }
 
-            if(multipleSwitch.Min.HasValue && multipleStrings.Count < multipleSwitch.Min.Value)
+            if (multipleSwitch.Min.HasValue && multipleStrings.Count < multipleSwitch.Min.Value)
                 throw new MissingValueException(
                     $"Switch {arg} requires at least {multipleSwitch.Min.Value} values, but only found {multipleStrings.Count}");
-            
+
             multipleSwitch.Transformer(instance, multipleStrings.ToArray());
             i += multipleStrings.Count;
             return i;
@@ -214,7 +215,6 @@ namespace ArgParser.Core
         /// </summary>
         /// <param name="instance">The instance.</param>
         /// <param name="args">The arguments.</param>
-        /// <param name="positionalCounts">The positional counts.</param>
         /// <param name="i">The i.</param>
         /// <returns>System.Int32.</returns>
         /// <exception cref="MissingValueException"></exception>
@@ -230,15 +230,27 @@ namespace ArgParser.Core
                     .Take(positional.Max.Value).ToArray();
 
             if (positional.Min.HasValue && newValues.Length < positional.Min.Value)
-            {
-                throw new MissingValueException($"Positional expected at least {positional.Min.Value} values, but found only {newValues.Length} values");
-            }
-
+                throw new MissingValueException(
+                    $"Positional expected at least {positional.Min.Value} values, but found only {newValues.Length} values");
 
             positional.Transformer(instance, newValues);
             Seen.Add(positional);
             i += newValues.Length - 1;
             return i;
+        }
+
+        /// <summary>
+        ///     Adds the built in validators.
+        /// </summary>
+        private void AddBuiltInValidators()
+        {
+            ValidationMethods.Add((options, errors) =>
+            {
+                var required = Switches.Values.Where(x => x.Required).Cast<ICommandLineElement>()
+                    .Concat(Positionals.Where(x => x.Required));
+                var missing = required.Except(Seen);
+                foreach (var miss in missing) errors.Add($"Require parameter missing: {miss.Name}");
+            });
         }
 
         /// <summary>
@@ -296,6 +308,10 @@ namespace ArgParser.Core
         /// <value>The order.</value>
         internal IList<object> Order { get; set; } = new List<object>();
 
+        /// <summary>
+        ///     Gets or sets the validation methods.
+        /// </summary>
+        /// <value>The validation methods.</value>
         internal IList<Action<TOptions, IList<string>>> ValidationMethods { get; set; } =
             new List<Action<TOptions, IList<string>>>();
     }
