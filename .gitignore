@@ -1,5 +1,6 @@
 .vs
 *.ndproj
+*.DotSettings
 bin
 obj
 Debug

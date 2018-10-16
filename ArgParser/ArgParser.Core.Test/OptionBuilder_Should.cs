@@ -74,5 +74,48 @@ namespace ArgParser.Core.Test
             options.OtherThings.Should().BeEquivalentTo(new[] {1, 2, 3});
             options.Target.Should().Be("d, e, f");
         }
+
+        [Fact]
+        public void Throw_If_Missing_Values()
+        {
+            // arrange
+            var options = new WhateverOptions();
+            var builder = new OptionsBuilder<WhateverOptions>()
+                .WithMultipleSwitch('t', (whateverOptions, strings) => whateverOptions.Things = strings, count: 5)
+                .WithSingleSwitch('s', (whateverOptions, s) => whateverOptions.Source = s)
+                .WithPositional(10, (whateverOptions, strings) => whateverOptions.OtherGuys = strings);
+            Action throws0 = () => builder.Parse(options, "-t a b c -s source a b c d e f g h i j k l m n".Split(' '));
+            Action throws1 = () => builder.Parse(options, "-t a b c d e f f g h i j k l m n -s".Split(' '));
+            Action throws2 = () => builder.Parse(options, "-t a b c d e f -s g h i j -t".Split(' '));
+            Action throws3 = () => builder.Parse(null, new[] {""});
+            Action throws4 = () => builder.Parse(new WhateverOptions(), null);
+            Action throws5 = () => builder.Parse(options, "-t a b -s source".Split(' '));
+            // act
+            // assert
+            throws0.Should().Throw<MissingValueException>();
+            throws1.Should().Throw<MissingValueException>();
+            throws2.Should().Throw<MissingValueException>();
+            throws3.Should().Throw<ArgumentNullException>();
+            throws4.Should().Throw<ArgumentNullException>();
+            throws5.Should().Throw<MissingValueException>();
+        }
+
+        [Fact]
+        public void Throw_If_Missing_Values2()
+        {
+            // arrange
+            var options = new WhateverOptions();
+            var builder = new OptionsBuilder<WhateverOptions>()
+                .WithMultipleSwitch('o', (whateverOptions, strings) => whateverOptions.OtherGuys = strings, count: 4)
+                .WithSingleSwitch('s', (whateverOptions, s) => whateverOptions.Source = s)
+                .WithSingleSwitch('t', (whateverOptions, s) => whateverOptions.Target = s);
+            Action throws0 = () => builder.Parse(options, "-s -t".Split(' '));
+            Action throws1 = () => builder.Parse(options, "-o hi world".Split(' '));
+
+            // act
+            // assert
+            throws0.Should().Throw<MissingValueException>();
+            throws1.Should().Throw<MissingValueException>();
+        }
     }
 }
