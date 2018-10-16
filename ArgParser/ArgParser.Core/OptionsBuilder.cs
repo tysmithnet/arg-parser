@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace ArgParser.Core
 {
@@ -33,6 +34,12 @@ namespace ArgParser.Core
         ///     The switches
         /// </summary>
         internal Dictionary<string, Switch<TOptions>> Switches = new Dictionary<string, Switch<TOptions>>();
+
+        private bool IsGroupOfBoolean(string arg)
+        {
+            return arg.StartsWith("-") && arg.ToCharArray().Skip(1).Distinct().All(l =>
+                       Switches.ContainsKey($"-{l}") && Switches[$"-{l}"] is BooleanSwitch<TOptions>);
+        }
 
         /// <summary>
         ///     Parses the specified instance.
@@ -68,8 +75,18 @@ namespace ArgParser.Core
                             ExtractSingleSwitch(instance, args, i, arg, singleSwitch);
                             break;
                         case MultipleSwitch<TOptions> multipleSwitch:
-                            i = multipleSwitch.Count < 0 ? ExtractGreedyMultipleSwitch(instance, args, i, multipleSwitch) : ExtractMultipleSwitch(instance, args, i, multipleSwitch, arg);
+                            i = multipleSwitch.Count < 0
+                                ? ExtractGreedyMultipleSwitch(instance, args, i, multipleSwitch)
+                                : ExtractMultipleSwitch(instance, args, i, multipleSwitch, arg);
                             break;
+                    }
+                }
+                else if (IsGroupOfBoolean(arg))
+                {
+                    foreach (var letter in arg.ToCharArray().Skip(1).Distinct())
+                    {
+                        var boolean = (BooleanSwitch<TOptions>)Switches[$"-{letter}"];
+                        boolean.Transformer(instance);
                     }
                 }
                 else
@@ -109,10 +126,8 @@ namespace ArgParser.Core
             return this;
         }
 
-        public OptionsBuilder<TOptions> WithBoolean(char letter, string word, Action<TOptions> transformer)
-        {
-            return WithBoolean(letter, transformer).WithBoolean(word, transformer);
-        }
+        public OptionsBuilder<TOptions> WithBoolean(char letter, string word, Action<TOptions> transformer) =>
+            WithBoolean(letter, transformer).WithBoolean(word, transformer);
 
         /// <summary>
         ///     Withes the multiple switch.
@@ -149,11 +164,10 @@ namespace ArgParser.Core
             return this;
         }
 
-        public OptionsBuilder<TOptions> WithMultipleSwitch(char letter, string word, Action<TOptions, string[]> transformer,
-            int count = -1)
-        {
-            return WithMultipleSwitch(letter, transformer, count).WithMultipleSwitch(word, transformer, count);
-        }
+        public OptionsBuilder<TOptions> WithMultipleSwitch(char letter, string word,
+            Action<TOptions, string[]> transformer,
+            int count = -1) => WithMultipleSwitch(letter, transformer, count)
+            .WithMultipleSwitch(word, transformer, count);
 
         /// <summary>
         ///     Withes the positional.
@@ -203,10 +217,9 @@ namespace ArgParser.Core
             return this;
         }
 
-        public OptionsBuilder<TOptions> WithSingleSwitch(char letter, string word, Action<TOptions, string> transformer)
-        {
-            return WithSingleSwitch(letter, transformer).WithSingleSwitch(word, transformer);
-        }
+        public OptionsBuilder<TOptions>
+            WithSingleSwitch(char letter, string word, Action<TOptions, string> transformer) =>
+            WithSingleSwitch(letter, transformer).WithSingleSwitch(word, transformer);
 
         /// <summary>
         ///     Extracts the multiple switch.
@@ -226,7 +239,7 @@ namespace ArgParser.Core
             for (var j = 0; i + j + 1 < args.Length && j < multipleSwitch.Count; j++)
             {
                 var cur = args[i + j + 1];
-                if (Switches.ContainsKey(cur))
+                if (Switches.ContainsKey(cur) || IsGroupOfBoolean(cur))
                     throw new MissingValueException($"Switch {arg} requires a value, but found another switch: {cur}");
                 multipleStrings.Add(cur);
             }
@@ -258,11 +271,11 @@ namespace ArgParser.Core
             string[] newValues;
             if (positional.Count < 0)
             {
-                newValues = args.Skip(i).TakeWhile(x => !Switches.ContainsKey(x)).ToArray();
+                newValues = args.Skip(i).TakeWhile(x => !Switches.ContainsKey(x) && !IsGroupOfBoolean(x)).ToArray();
             }
             else
             {
-                newValues = args.Skip(i).TakeWhile(x => !Switches.ContainsKey(x)).Take(positional.Count).ToArray();
+                newValues = args.Skip(i).TakeWhile(x => !Switches.ContainsKey(x) && !IsGroupOfBoolean(x)).Take(positional.Count).ToArray();
                 if (newValues.Length != positional.Count)
                     throw new MissingValueException(
                         $"Positional argument requires {positional.Count} values, but found {newValues.Length}");
@@ -285,7 +298,7 @@ namespace ArgParser.Core
         private int ExtractGreedyMultipleSwitch(TOptions instance, string[] args, int i,
             MultipleSwitch<TOptions> multipleSwitch)
         {
-            var rest = args.Skip(i + 1).TakeWhile(a => !Switches.ContainsKey(a)).ToArray();
+            var rest = args.Skip(i + 1).TakeWhile(a => !Switches.ContainsKey(a) && !IsGroupOfBoolean(a)).ToArray();
             multipleSwitch.Transformer(instance, rest);
             i += rest.Length;
             return i;
@@ -307,7 +320,7 @@ namespace ArgParser.Core
             if (i + 1 >= args.Length)
                 throw new MissingValueException($"Switch {arg} requires a value, but none was found.");
             var nextArg = args[i + 1];
-            if (Switches.ContainsKey(nextArg))
+            if (Switches.ContainsKey(nextArg) || IsGroupOfBoolean(nextArg))
                 throw new MissingValueException($"Switch {arg} requires a value, but found another switch: {nextArg}");
             singleSwitch.Transformer(instance, nextArg);
         }

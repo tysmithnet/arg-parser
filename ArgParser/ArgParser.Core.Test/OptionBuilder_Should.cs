@@ -18,6 +18,63 @@ namespace ArgParser.Core.Test
             public bool Verbose { get; set; }
         }
 
+        private class ManyBoolOptions : IOptions
+        {
+            public bool Something { get; set; }
+            public bool SomethingElse { get; set; }
+            public bool AnotherThing { get; set; }
+        }
+
+        [Fact]
+        public void Recognize_Compound_Bool_Switches_When_Taking_Multiple_Values()
+        {
+            // arrange
+            var options = new WhateverOptions();
+            var builder = new OptionsBuilder<WhateverOptions>()
+                .WithBoolean('v', whateverOptions => whateverOptions.Verbose = true)
+                .WithBoolean('q', whateverOptions => whateverOptions.Quiet = true)
+                .WithPositional(-1, (whateverOptions, strings) => whateverOptions.Things = strings);
+
+            // act
+            builder.Parse(options, "hello world -vq hi again".Split(' '));
+
+            // assert
+            options.Things.Should().BeEquivalentTo(new[] {"hello", "world"});
+            options.Verbose.Should().BeTrue();
+            options.Quiet.Should().BeTrue();
+        }
+
+        [Fact]
+        public void Allow_Multiple_Booleans_To_Share_The_Same_Dash()
+        {
+            // arrange
+            var options0 = new ManyBoolOptions();
+            var options1 = new ManyBoolOptions();
+            var options2 = new ManyBoolOptions();
+            var builder = new OptionsBuilder<ManyBoolOptions>()
+                .WithBoolean('s', boolOptions => boolOptions.Something = true)
+                .WithBoolean('e', boolOptions => boolOptions.SomethingElse = true)
+                .WithBoolean('a', boolOptions => boolOptions.AnotherThing = true);
+
+            // act
+            builder.Parse(options0, "-sea".Split(' '));
+            builder.Parse(options1, "-eas".Split(' '));
+            builder.Parse(options2, "-ase".Split(' '));
+
+            // assert
+            options0.AnotherThing.Should().BeTrue();
+            options0.SomethingElse.Should().BeTrue();
+            options0.Something.Should().BeTrue();
+
+            options1.AnotherThing.Should().BeTrue();
+            options1.SomethingElse.Should().BeTrue();
+            options1.Something.Should().BeTrue();
+
+            options2.AnotherThing.Should().BeTrue();
+            options2.SomethingElse.Should().BeTrue();
+            options2.Something.Should().BeTrue();
+        }
+
         [Fact]
         public void Allow_Single_Letter_And_Word_Arguments_Single()
         {
