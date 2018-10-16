@@ -96,6 +96,17 @@ namespace ArgParser.Core
                     i = ExtractPositional(instance, args, positionalCounts, i);
                 }
             }
+
+            var errors = new List<string>();
+            foreach (var validator in ValidationMethods)
+            {
+                validator(instance, errors);
+            }
+
+            if (errors.Any())
+            {
+                throw new ValidationFailureException(errors);
+            }
         }
 
         /// <summary>
@@ -295,6 +306,13 @@ namespace ArgParser.Core
             return i;
         }
 
+        internal IList<Action<TOptions, IList<string>>> ValidationMethods { get; set; } = new List<Action<TOptions, IList<string>>>();
+
+        public ArgParser<TOptions> WithValidation(Action<TOptions, IList<string>> validationMethod)
+        {
+            ValidationMethods.Add(validationMethod);
+            return this;
+        }
         /// <summary>
         ///     Extracts the positional.
         /// </summary>

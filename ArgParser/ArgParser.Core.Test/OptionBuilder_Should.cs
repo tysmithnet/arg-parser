@@ -26,6 +26,32 @@ namespace ArgParser.Core.Test
         }
 
         [Fact]
+        public void Allow_For_Validation_Routines()
+        {
+            // arrange
+            var options = new ManyBoolOptions();
+            var parser = new ArgParser<ManyBoolOptions>()
+                .WithBoolean('s', boolOptions => boolOptions.Something = true)
+                .WithBoolean('e', boolOptions => boolOptions.SomethingElse = true)
+                .WithBoolean('a', boolOptions => boolOptions.AnotherThing = true)
+                .WithValidation((boolOptions, errors) =>
+                {
+                    if (boolOptions.AnotherThing && boolOptions.Something)
+                        errors.Add("Cannot have another thing and something for some reason");
+                })
+                .WithValidation((boolOptions, errors) =>
+                {
+                    if (boolOptions.SomethingElse) errors.Add("Cannot have something else either");
+                });
+            Action throws = () => parser.Parse(options, "-sea".Split(' '));
+
+            // act
+            // assert
+            throws.Should().Throw<ValidationFailureException>()
+                .Where(exception => exception.ValidationMessages.Count == 2);
+        }
+
+        [Fact]
         public void Allow_Multiple_Booleans_To_Share_The_Same_Dash()
         {
             // arrange
