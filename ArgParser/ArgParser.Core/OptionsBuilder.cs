@@ -97,6 +97,23 @@ namespace ArgParser.Core
             return this;
         }
 
+        public OptionsBuilder<TOptions> WithBoolean(string word, Action<TOptions> transformer)
+        {
+            var newGuy = new BooleanSwitch<TOptions>
+            {
+                Word = word,
+                Transformer = transformer
+            };
+            Switches.Add($"--{word}", newGuy);
+            Order.Add(newGuy);
+            return this;
+        }
+
+        public OptionsBuilder<TOptions> WithBoolean(char letter, string word, Action<TOptions> transformer)
+        {
+            return WithBoolean(letter, transformer).WithBoolean(word, transformer);
+        }
+
         /// <summary>
         ///     Withes the multiple switch.
         /// </summary>
@@ -116,6 +133,26 @@ namespace ArgParser.Core
             Switches.Add($"-{letter}", newGuy);
             Order.Add(newGuy);
             return this;
+        }
+
+        public OptionsBuilder<TOptions> WithMultipleSwitch(string word, Action<TOptions, string[]> transformer,
+            int count = -1)
+        {
+            var newGuy = new MultipleSwitch<TOptions>
+            {
+                Word = word,
+                Transformer = transformer,
+                Count = count
+            };
+            Switches.Add($"--{word}", newGuy);
+            Order.Add(newGuy);
+            return this;
+        }
+
+        public OptionsBuilder<TOptions> WithMultipleSwitch(char letter, string word, Action<TOptions, string[]> transformer,
+            int count = -1)
+        {
+            return WithMultipleSwitch(letter, transformer, count).WithMultipleSwitch(word, transformer, count);
         }
 
         /// <summary>

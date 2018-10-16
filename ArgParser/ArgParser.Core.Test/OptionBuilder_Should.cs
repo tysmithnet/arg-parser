@@ -19,6 +19,71 @@ namespace ArgParser.Core.Test
         }
 
         [Fact]
+        public void Allow_Single_Letter_And_Word_Arguments_Single()
+        {
+            // arrange
+            var options0 = new WhateverOptions();
+            var options1 = new WhateverOptions();
+
+            var builder = new OptionsBuilder<WhateverOptions>()
+                .WithSingleSwitch("source", (o, s) => o.Source = s)
+                .WithSingleSwitch('t', "target", (whateverOptions, s) => whateverOptions.Target = s);
+
+            // act
+            builder.Parse(options0, "--source hi -t world".Split(' '));
+            builder.Parse(options1, "--source hi --target world".Split(' '));
+
+            // assert
+            options0.Source.Should().Be("hi");
+            options0.Target.Should().Be("world");
+            options1.Source.Should().Be("hi");
+            options1.Target.Should().Be("world");
+        }
+
+        [Fact]
+        public void Allow_Single_Letter_And_Word_Arguments_Multiple()
+        {
+            // arrange
+            var options0 = new WhateverOptions();
+            var options1 = new WhateverOptions();
+
+            var builder = new OptionsBuilder<WhateverOptions>()
+                .WithMultipleSwitch("source", (o, s) => o.Source = s[0], count: 1)
+                .WithMultipleSwitch('t', "target", (whateverOptions, s) => whateverOptions.Target = s[0], count:1);
+
+            // act
+            builder.Parse(options0, "--source hi -t world".Split(' '));
+            builder.Parse(options1, "--source hi --target world".Split(' '));
+
+            // assert
+            options0.Source.Should().Be("hi");
+            options0.Target.Should().Be("world");
+            options1.Source.Should().Be("hi");
+            options1.Target.Should().Be("world");
+        }
+
+        [Fact]
+        public void Allow_Single_Letter_And_Word_Arguments_Boolean()
+        {
+            // arrange
+            var options0 = new WhateverOptions();
+            var options1 = new WhateverOptions();
+
+            var builder0 = new OptionsBuilder<WhateverOptions>()
+                .WithBoolean("aye", options => options.Target = "a");
+            var builder1 = new OptionsBuilder<WhateverOptions>()
+                .WithBoolean('a', "aye", options => options.Target = "a");
+
+            // act
+            builder0.Parse(options0, "--aye".Split(' '));
+            builder1.Parse(options1, "--aye".Split(' '));
+
+            // assert
+            options0.Target.Should().Be("a");
+            options1.Target.Should().Be("a");
+        }
+
+        [Fact]
         public void Pass_Basic_Test_Cases()
         {
             // arrange
@@ -39,16 +104,19 @@ namespace ArgParser.Core.Test
 
             // assert
             options.Verbose.Should().BeTrue();
-            options.Source.Should().Be("source", "source is the first positional argument and the source positional was registered first");
-            options.OtherGuys.Should().BeEquivalentTo("otherguy1", "otherguy2", "the other guy positional arguments are the second and third but the fourth is a registered switch so we stop after 2");
-            options.Things.Should().BeEquivalentTo(new [] { "thing1", "thing2" }, "things is a multiple value switch and the args leading up to the next switch are thing1 and thing2");
+            options.Source.Should().Be("source",
+                "source is the first positional argument and the source positional was registered first");
+            options.OtherGuys.Should().BeEquivalentTo(new[] {"otherguy1", "otherguy2"},
+                "the other guy positional arguments are the second and third but the fourth is a registered switch so we stop after 2");
+            options.Things.Should().BeEquivalentTo(new[] {"thing1", "thing2"},
+                "things is a multiple value switch and the args leading up to the next switch are thing1 and thing2");
             options.OtherThings.Should().BeEquivalentTo(new[] {1, 2, 3}, "There are three ints that follow -o");
 
             options2.Verbose.Should().BeTrue();
             options2.Source.Should().Be("source");
             options2.OtherGuys.Should().BeEquivalentTo("otherguy1", "otherguy2");
             options2.Things.Should().BeEquivalentTo("thing1", "thing2");
-            options2.OtherThings.Should().BeEquivalentTo(new[] { 1, 2, 3 });
+            options2.OtherThings.Should().BeEquivalentTo(new[] {1, 2, 3});
         }
 
         [Fact]
@@ -59,7 +127,7 @@ namespace ArgParser.Core.Test
 
             var builder = new OptionsBuilder<WhateverOptions>()
                 .WithSingleSwitch('s', (whateverOptions, s) => whateverOptions.Source = s)
-                .WithMultipleSwitch('t', (whateverOptions, strings) => whateverOptions.Things = strings, count: 3)
+                .WithMultipleSwitch('t', (whateverOptions, strings) => whateverOptions.Things = strings, 3)
                 .WithMultipleSwitch('o',
                     (whateverOptions, strings) =>
                         whateverOptions.OtherThings = strings.Select(x => Convert.ToInt32(x)).ToArray())
@@ -67,7 +135,7 @@ namespace ArgParser.Core.Test
 
             // act
             builder.Parse(options, "-t a b c d e f -s g h -o 1 2 3".Split(' '));
-            
+
             // assert
             options.Things.Should().BeEquivalentTo("a b c".Split(' '));
             options.Source.Should().Be("g");
@@ -81,7 +149,7 @@ namespace ArgParser.Core.Test
             // arrange
             var options = new WhateverOptions();
             var builder = new OptionsBuilder<WhateverOptions>()
-                .WithMultipleSwitch('t', (whateverOptions, strings) => whateverOptions.Things = strings, count: 5)
+                .WithMultipleSwitch('t', (whateverOptions, strings) => whateverOptions.Things = strings, 5)
                 .WithSingleSwitch('s', (whateverOptions, s) => whateverOptions.Source = s)
                 .WithPositional(10, (whateverOptions, strings) => whateverOptions.OtherGuys = strings);
             Action throws0 = () => builder.Parse(options, "-t a b c -s source a b c d e f g h i j k l m n".Split(' '));
@@ -101,25 +169,12 @@ namespace ArgParser.Core.Test
         }
 
         [Fact]
-        public void Allow_Single_Letter_And_Word_Arguments()
-        {
-            // arrange
-            var options = new WhateverOptions();
-            var builder = new OptionsBuilder<WhateverOptions>()
-                .WithSingleSwitch();
-
-            // act
-
-            // assert
-        }
-
-        [Fact]
         public void Throw_If_Missing_Values2()
         {
             // arrange
             var options = new WhateverOptions();
             var builder = new OptionsBuilder<WhateverOptions>()
-                .WithMultipleSwitch('o', (whateverOptions, strings) => whateverOptions.OtherGuys = strings, count: 4)
+                .WithMultipleSwitch('o', (whateverOptions, strings) => whateverOptions.OtherGuys = strings, 4)
                 .WithSingleSwitch('s', (whateverOptions, s) => whateverOptions.Source = s)
                 .WithSingleSwitch('t', (whateverOptions, s) => whateverOptions.Target = s);
             Action throws0 = () => builder.Parse(options, "-s -t".Split(' '));
