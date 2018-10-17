@@ -2,9 +2,15 @@
 
 namespace ArgParser.Core
 {
-    public class SubCommand<T>
+    public class SubCommand<T> : ISubCommand
     {
-        public Func<string, bool> IsCommand { get; set; }
-        public ArgParser<T> ArgParser { get; set; }
+        internal ArgParser<T> ArgParser { get; set; }
+        public ParseResult Parse(string[] args)
+        {
+            return ArgParser.Parse(args);
+        }
+
+        /// <inheritdoc />
+        public Func<IterationInfo, bool> IsCommand { get; set; }
     }
 }

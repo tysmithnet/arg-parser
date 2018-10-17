@@ -71,7 +71,7 @@ namespace ArgParser.Core.Test
                 })
                 .WithSubCommand<CommitOptions>(new SubCommand<CommitOptions>()
                 {
-                    IsCommand = s => s == "commit",
+                    IsCommand = info => info.Cur == "commit",
                     ArgParser = commitParser
                 });
 
