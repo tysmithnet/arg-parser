@@ -8,13 +8,11 @@ namespace ArgParser.Core
     /// </summary>
     /// <typeparam name="TOptions">The type of the t options.</typeparam>
     /// <seealso cref="ArgParser.Core.ICommandLineElement" />
-    internal class PositionalValues<TOptions> : ICommandLineElement where TOptions : IOptions
+    public class PositionalValues<TOptions> : ICommandLineElement where TOptions : IOptions
     {
-        /// <summary>
-        /// Gets or sets the count.
-        /// </summary>
-        /// <value>The count.</value>
-        public int Count { get; set; }
+        public int? Min { get; set; }
+        public int? Max { get; set; }
+
         /// <summary>
         /// Gets or sets the regex.
         /// </summary>
@@ -26,6 +24,9 @@ namespace ArgParser.Core
         /// <value>The transformer.</value>
         public Action<TOptions, string[]> Transformer { get; set; }
 
+        /// <inheritdoc />
+        public string Name { get; }
+
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="PositionalValues{TOptions}"/> is required.
         /// </summary>
@@ -33,11 +34,8 @@ namespace ArgParser.Core
         /// <inheritdoc />
         public bool Required { get; set; }
 
-        /// <summary>
-        /// Gets or sets the help text.
-        /// </summary>
-        /// <value>The help text.</value>
         /// <inheritdoc />
-        public string HelpText { get; set; }
+        public Help Help { get; set; }
+
     }
 }

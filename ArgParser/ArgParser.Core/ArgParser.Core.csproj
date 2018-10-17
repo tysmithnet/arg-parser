@@ -5,7 +5,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>0.0.1</Version>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Description>Lightweight argument parsing library.</Description>
+    <Description>Lightweight expressive argument parsing and help text generation library.</Description>
   </PropertyGroup>
 
 </Project>

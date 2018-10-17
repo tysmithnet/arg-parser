@@ -7,7 +7,7 @@ namespace ArgParser.Core
     /// </summary>
     /// <typeparam name="TOptions">The type of the t options.</typeparam>
     /// <seealso cref="ArgParser.Core.Switch{TOptions}" />
-    internal class BooleanSwitch<TOptions> : Switch<TOptions> where TOptions : IOptions
+    public class BooleanSwitch<TOptions> : Switch<TOptions> where TOptions : IOptions
     {
         /// <summary>
         /// Gets or sets the transformer.
