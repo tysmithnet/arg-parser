@@ -7,22 +7,17 @@ namespace ArgParser.Core
     public class DefaultSubCommandStrategy<T> : ISubCommandStrategy<T>
     {
         /// <inheritdoc />
-        public DefaultSubCommandStrategy()
+        public bool IsSubCommand(IList<ISubCommand> subCommands, IterationInfo info, ISubCommandStrategy<T> parent = null)
         {
-        }
-
-
-        /// <inheritdoc />
-        public bool IsSubCommand(IList<ISubCommand> subCommands, IterationInfo info)
-        {
-            return subCommands.Any(s => s.IsCommand(info));
+            return subCommands.Any(s => s.IsCommand(info)) || (parent?.IsSubCommand(subCommands, info) ?? false);
         }
 
         /// <inheritdoc />
-        public ParseResult Parse(IList<ISubCommand> subCommands, IterationInfo info)
+        public ParseResult Parse(IList<ISubCommand> subCommands, IterationInfo info, ISubCommandStrategy<T> parent = null)
         {
-            var first = subCommands.First(s => s.IsCommand(info));
-            return first.Parse(info.AllArgs);
+            
+            var first = subCommands.FirstOrDefault(s => s.IsCommand(info));
+            return first != null ? first.Parse(info.AllArgs) : parent?.Parse(subCommands, info) ?? throw new InvalidOperationException("Check to find subcommand indicated there was one, but then could not find it when called upon to parse. Make sure your command logic is sound.");
         }
 
         /// <inheritdoc />

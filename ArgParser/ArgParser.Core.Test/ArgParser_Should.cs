@@ -20,24 +20,31 @@ namespace ArgParser.Core.Test
             public string Message { get; set; }
         }
 
+        private class AddOptions : BaseOptions
+        {
+            public bool All { get; set; }
+            public IList<string> Files { get; set; } = new List<string>();
+        }
+
         [Fact]
         public void Pass_The_ReadMe_Example()
         {
             // arrange
             var commitParser = new ArgParser<CommitOptions>(() => new CommitOptions())
+                .WithName("commit")
                 .WithPositional(new Positional<CommitOptions>()
                 {
                     TakeWhile = (info, s, i) => i == 0,
                     Transformer = (info, options, arg3) => { }
                 })
-                .WithTokenSwitch(new TokenSwitch<CommitOptions>()
+                .WithTokenSwitch(new Switch<CommitOptions>()
                 {
                     GroupLetter = 'a',
                     IsToken = info => info.Cur == "-a" || info.Cur == "--all",
                     TakeWhile = (info, e, i) => false,
                     Transformer = (info, opts, strings) => opts.All = true,
                 })
-                .WithTokenSwitch(new TokenSwitch<CommitOptions>()
+                .WithTokenSwitch(new Switch<CommitOptions>()
                 {
                     GroupLetter = 'm',
                     IsToken = info => info.Cur == "-m" || info.Cur == "--message",
@@ -47,7 +54,8 @@ namespace ArgParser.Core.Test
                 });
                 
             var parser = new ArgParser<BaseOptions>(() => new BaseOptions())
-                .WithTokenSwitch(new TokenSwitch<BaseOptions>()
+                .WithName("base")
+                .WithTokenSwitch(new Switch<BaseOptions>()
                 {
                     GroupLetter = 'n',
                     IsToken = info => new[] {"-n", "--numbers"}.Contains(info.Cur),
@@ -61,7 +69,7 @@ namespace ArgParser.Core.Test
                     TakeWhile = (info, e, i) => i < 1,
                     Transformer = (info, opts, strings) => opts.Things = strings.ToList(),
                 })
-                .WithSubCommand<CommitOptions>(new SubCommand<CommitOptions>()
+                .WithSubCommand(new SubCommand<CommitOptions>()
                 {
                     IsCommand = info => info.Cur == "commit",
                     ArgParser = commitParser
@@ -71,17 +79,23 @@ namespace ArgParser.Core.Test
             // act
             bool isAll = false;
             string message = null;
+            IList<int> numbers = null;
+            IList<string> things = null;
             parser
-                .Parse("commit -am something".Split(' '))
+                .Parse("commit -am something -n 1 2 3 thing1 thing2".Split(' '))
                 .When<CommitOptions>(opts =>
                 {
                     isAll = opts.All;
                     message = opts.Message;
+                    numbers = opts.Numbers;
+                    things = opts.Things;
                 });
 
             // assert
             isAll.Should().BeTrue();
             message.Should().Be("something");
+            numbers.Should().BeEquivalentTo(new[]{1,2,3});
+            things.Should().BeEquivalentTo(new[] {"thing1", "thing2"});
         }
     }
 }
