@@ -18,7 +18,7 @@ namespace ArgParser.Core
             return this;
         }
 
-        public new SubCommandArgParser<T, TParent> WithTokenSwitch(Switch<T> @switch)
+        public new SubCommandArgParser<T, TParent> WithSwitch(Switch<T> @switch)
         {
             base.WithTokenSwitch(@switch);
             return this;

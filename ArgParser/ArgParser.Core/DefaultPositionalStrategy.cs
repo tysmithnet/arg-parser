@@ -23,7 +23,7 @@ namespace ArgParser.Core
             
                 Seen.Add(first);
                 var consumed = info.CurOn.TakeWhile((e, i) => first.TakeWhile(info, e, i)).ToArray();
-                first.Transformer(info, instance, consumed);
+                first.Transformer?.Invoke(info, instance, consumed);
                 info.Index += consumed.Length;
                 return info;
         

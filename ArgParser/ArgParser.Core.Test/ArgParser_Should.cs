@@ -30,6 +30,25 @@ namespace ArgParser.Core.Test
         public void Pass_The_ReadMe_Example()
         {
             // arrange
+            var addParser = new SubCommandArgParser<AddOptions, BaseOptions>(() => new AddOptions())
+                .WithName("add")
+                .WithPositional(new Positional<AddOptions>()
+                {
+                    TakeWhile = (info, s, arg3) => arg3 == 0
+                })
+                .WithSwitch(new Switch<AddOptions>()
+                {
+                    GroupLetter = 'a',
+                    IsToken = info => info.Cur == "-a" || info.Cur == "--all",
+                    TakeWhile = (info, s, arg3) => false,
+                    Transformer = (info, options, arg3) => options.All = true
+                })
+                .WithPositional(new Positional<AddOptions>()
+                {
+                    TakeWhile = (info, s, arg3) => true,
+                    Transformer = (info, options, arg3) => options.Files = arg3.ToList()
+                });
+
             var commitParser = new SubCommandArgParser<CommitOptions, BaseOptions>(() => new CommitOptions())
                 .WithName("commit")
                 .WithPositional(new Positional<CommitOptions>()
@@ -37,14 +56,14 @@ namespace ArgParser.Core.Test
                     TakeWhile = (info, s, i) => i == 0,
                     Transformer = (info, options, arg3) => { }
                 })
-                .WithTokenSwitch(new Switch<CommitOptions>()
+                .WithSwitch(new Switch<CommitOptions>()
                 {
                     GroupLetter = 'a',
                     IsToken = info => info.Cur == "-a" || info.Cur == "--all",
                     TakeWhile = (info, e, i) => false,
                     Transformer = (info, opts, strings) => opts.All = true,
                 })
-                .WithTokenSwitch(new Switch<CommitOptions>()
+                .WithSwitch(new Switch<CommitOptions>()
                 {
                     GroupLetter = 'm',
                     IsToken = info => info.Cur == "-m" || info.Cur == "--message",
@@ -73,29 +92,40 @@ namespace ArgParser.Core.Test
                 {
                     IsCommand = info => info.Cur == "commit",
                     ArgParser = commitParser
+                })
+                .WithSubCommand(new SubCommand<AddOptions,BaseOptions>()
+                {
+                    IsCommand = info => info.Cur == "add",
+                    ArgParser = addParser
                 });
 
 
             // act
-            bool isAll = false;
-            string message = null;
-            IList<int> numbers = null;
-            IList<string> things = null;
+            // assert
+            bool isAddParsed = false;
+            bool isCommitParsed = false;
+            parser
+                .Parse("add -a file1 file2".Split(' '))
+                .When<AddOptions>(opts =>
+                {
+                    isAddParsed = true;
+                    opts.All.Should().BeTrue();
+                    opts.Files.Should().BeEquivalentTo(new[] {"file1", "file2"});
+                });
+
             parser
                 .Parse("commit -am something -n 1 2 3 thing1 thing2".Split(' '))
                 .When<CommitOptions>(opts =>
                 {
-                    isAll = opts.All;
-                    message = opts.Message;
-                    numbers = opts.Numbers;
-                    things = opts.Things;
+                    isCommitParsed = true;
+                    opts.All.Should().BeTrue();
+                    opts.Numbers.Should().BeEquivalentTo(new[] {1, 2, 3});
+                    opts.Message.Should().Be("something");
+                    opts.Things.Should().BeEquivalentTo(new[] {"thing1", "thing2"});
                 });
 
-            // assert
-            isAll.Should().BeTrue();
-            message.Should().Be("something");
-            numbers.Should().BeEquivalentTo(new[]{1,2,3});
-            things.Should().BeEquivalentTo(new[] {"thing1", "thing2"});
+            isAddParsed.Should().BeTrue();
+            isCommitParsed.Should().BeTrue();
         }
     }
 }
