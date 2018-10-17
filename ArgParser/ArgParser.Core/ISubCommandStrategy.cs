@@ -1,8 +1,10 @@
-﻿namespace ArgParser.Core
+﻿using System.Collections.Generic;
+
+namespace ArgParser.Core
 {
     public interface ISubCommandStrategy<T> : IParsingStrategy<T>
     {
-        bool IsSubCommand(IterationInfo info);
-        ParseResult Parse(IterationInfo info);
+        bool IsSubCommand(IList<ISubCommand> subCommands, IterationInfo info);
+        ParseResult Parse(IList<ISubCommand> subCommands, IterationInfo info);
     }
 }

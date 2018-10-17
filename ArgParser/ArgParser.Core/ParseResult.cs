@@ -5,7 +5,6 @@ namespace ArgParser.Core
 {
     public class ParseResult
     {
-        protected internal Dictionary<Type, Action> Handlers = new Dictionary<Type, Action>();
 
         protected internal object Instance { get; set; }
         protected internal IList<ParsingError> Errors { get; set; }
@@ -25,8 +24,8 @@ namespace ArgParser.Core
 
         public ParseResult When<T>(Action<T> handler)
         {
-            // todo: check
-            Handlers.Add(typeof(T), );
+            if (Instance is T casted)
+                handler(casted);
             return this;
         }
     }

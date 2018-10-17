@@ -1,22 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ArgParser.Core
 {
     public class DefaultSubCommandStrategy<T> : ISubCommandStrategy<T>
     {
-        protected internal IList<ISubCommand> SubCommands { get; set; }
+        /// <inheritdoc />
+        public DefaultSubCommandStrategy()
+        {
+        }
+
 
         /// <inheritdoc />
-        public bool IsSubCommand(IterationInfo info)
+        public bool IsSubCommand(IList<ISubCommand> subCommands, IterationInfo info)
         {
-            return SubCommands.Any(s => s.IsCommand(info));
+            return subCommands.Any(s => s.IsCommand(info));
         }
 
         /// <inheritdoc />
-        public ParseResult Parse(IterationInfo info)
+        public ParseResult Parse(IList<ISubCommand> subCommands, IterationInfo info)
         {
-            var first = SubCommands.First(s => s.IsCommand(info));
+            var first = subCommands.First(s => s.IsCommand(info));
             return first.Parse(info.AllArgs);
         }
 

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace ArgParser.Core
 {
@@ -20,36 +19,28 @@ namespace ArgParser.Core
             var info = new IterationInfo(args, 0);
             while (!info.IsEnd)
             {
-                if (SubCommandStrategy.IsSubCommand(info))
-                    return SubCommandStrategy.Parse(info);
-                if (SwitchStrategy.IsSwitch(info))
+                if (SubCommandStrategy.IsSubCommand(SubCommands, info))
+                    return SubCommandStrategy.Parse(SubCommands, info);
+                if (SwitchStrategy.IsSwitch(Switches, info))
                 {
-                    info = SwitchStrategy.ConsumeSwitch(instance, info);
+                    info = SwitchStrategy.ConsumeSwitch(Switches, instance, info);
                     continue;
                 }
 
-                if (SwitchStrategy.IsGroup(info))
+                if (SwitchStrategy.IsGroup(Switches, info))
                 {
-                    info = SwitchStrategy.ConsumeGroup(instance, info);
+                    info = SwitchStrategy.ConsumeGroup(Switches, instance, info);
                     continue;
                 }
-                if (PositionalStrategy.IsPositional(info)) info = PositionalStrategy.Consume(instance, info);
+
+                if (PositionalStrategy.IsPositional(Positionals, info))
+                    info = PositionalStrategy.Consume(Positionals, instance, info);
             }
 
             var validations = OrderOfAddition.Where(x => x.Validate != null).Select(x => x.Validate);
-            foreach (var validation in validations)
-            {
-                validation(args, instance, info.Errors);
-            }
+            foreach (var validation in validations) validation(args, instance, info.Errors);
 
             return info.Errors.Any() ? new ParseResult(instance, info.Errors) : new ParseResult(instance);
-        }
-
-        private void Reset()
-        {
-            SubCommandStrategy.Reset();
-            PositionalStrategy.Reset();
-            SwitchStrategy.Reset();
         }
 
         public virtual ArgParser<T> WithPositional(Positional<T> positional)
@@ -70,14 +61,23 @@ namespace ArgParser.Core
             return this;
         }
 
+        private void Reset()
+        {
+            SubCommandStrategy.Reset();
+            PositionalStrategy.Reset();
+            SwitchStrategy.Reset();
+        }
+
         protected internal Func<T> FactoryFunction { get; set; }
 
         protected internal virtual IList<CommandLineElement<T>> OrderOfAddition { get; set; } =
             new List<CommandLineElement<T>>();
 
+        protected internal IList<Positional<T>> Positionals => OrderOfAddition.OfType<Positional<T>>().ToList();
         protected internal IPositionalStrategy<T> PositionalStrategy { get; set; } = new DefaultPositionalStrategy<T>();
         protected internal virtual IList<ISubCommand> SubCommands { get; set; } = new List<ISubCommand>();
         protected internal ISubCommandStrategy<T> SubCommandStrategy { get; set; } = new DefaultSubCommandStrategy<T>();
+        protected internal IList<TokenSwitch<T>> Switches => OrderOfAddition.OfType<TokenSwitch<T>>().ToList();
         protected internal ISwitchStrategy<T> SwitchStrategy { get; set; } = new DefaultSwitchStrategy<T>();
     }
 }
