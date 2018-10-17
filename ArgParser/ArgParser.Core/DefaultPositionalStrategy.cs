@@ -19,7 +19,7 @@ namespace ArgParser.Core
         public IterationInfo Consume(IList<Positional<T>> positionals, T instance, IterationInfo info)
         {
             var first = positionals.First(p => !Seen.Contains(p));
-            var consumed = info.Rest.TakeWhile((e, i) => first.TakeWhile(info, e, i)).ToArray();
+            var consumed = info.CurOn.TakeWhile((e, i) => first.TakeWhile(info, e, i)).ToArray();
             first.Transformer(info, instance, consumed);
             info.Index += consumed.Length;
             return info;

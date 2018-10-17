@@ -19,6 +19,7 @@ namespace ArgParser.Core
         public int Index { get; internal set; }
         public string Cur => AllArgs[Index];
         public string[] Rest => AllArgs.Skip(Index + 1).ToArray();
+        public string[] CurOn => AllArgs.Skip(Index).ToArray();
         public bool IsEnd => Index >= AllArgs.Length;
     }
 }

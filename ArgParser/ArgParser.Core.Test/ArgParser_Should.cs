@@ -25,6 +25,11 @@ namespace ArgParser.Core.Test
         {
             // arrange
             var commitParser = new ArgParser<CommitOptions>(() => new CommitOptions())
+                .WithPositional(new Positional<CommitOptions>()
+                {
+                    TakeWhile = (info, s, i) => i == 0,
+                    Transformer = (info, options, arg3) => { }
+                })
                 .WithTokenSwitch(new TokenSwitch<CommitOptions>()
                 {
                     GroupLetter = 'a',
@@ -38,8 +43,9 @@ namespace ArgParser.Core.Test
                     IsToken = info => info.Cur == "-m" || info.Cur == "--message",
                     TakeWhile = (info, e, i) => i < 1,
                     Transformer = (info, opts, strings) => opts.Message = strings[0],
-                    
+
                 });
+                
             var parser = new ArgParser<BaseOptions>(() => new BaseOptions())
                 .WithTokenSwitch(new TokenSwitch<BaseOptions>()
                 {
