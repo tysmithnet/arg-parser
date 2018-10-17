@@ -1,318 +1,83 @@
-﻿// ***********************************************************************
-// Assembly         : ArgParser.Core
-// Author           : @tysmithnet
-// Created          : 10-15-2018
-//
-// Last Modified By : @tysmithnet
-// Last Modified On : 10-16-2018
-// ***********************************************************************
-// <copyright file="OptionsBuilder.cs" company="ArgParser.Core">
-//     Copyright (c) . All rights reserved.
-// </copyright>
-// <summary></summary>
-// ***********************************************************************
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ArgParser.Core
 {
-    /// <summary>
-    ///     Class OptionsBuilder.
-    /// </summary>
-    /// <typeparam name="TOptions">The type of the t options.</typeparam>
-    public class ArgParser<TOptions> where TOptions : IOptions
+    public class ArgParser<T>
     {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="ArgParser{TOptions}" /> class.
-        /// </summary>
         /// <inheritdoc />
-        public ArgParser()
+        public ArgParser(Func<T> factoryFunction)
         {
-            AddBuiltInValidators();
+            FactoryFunction = factoryFunction ?? throw new ArgumentNullException(nameof(factoryFunction));
         }
 
-        /// <summary>
-        ///     The positionals
-        /// </summary>
-        internal IList<PositionalValues<TOptions>> Positionals = new List<PositionalValues<TOptions>>();
-
-        /// <summary>
-        ///     The seen
-        /// </summary>
-        internal ISet<ICommandLineElement> Seen = new HashSet<ICommandLineElement>();
-
-        /// <summary>
-        ///     The switches
-        /// </summary>
-        internal Dictionary<string, Switch<TOptions>> Switches = new Dictionary<string, Switch<TOptions>>();
-
-        /// <summary>
-        ///     Parses the specified instance.
-        /// </summary>
-        /// <param name="instance">The instance.</param>
-        /// <param name="args">The arguments.</param>
-        /// <exception cref="ArgumentNullException">
-        ///     instance
-        ///     or
-        ///     args
-        /// </exception>
-        /// <exception cref="ArgParser.Core.ValidationFailureException"></exception>
-        public void Parse(TOptions instance, string[] args)
+        public ParseResult Parse(string[] args)
         {
-            Seen = new HashSet<ICommandLineElement>();
-            if (instance == null)
-                throw new ArgumentNullException(nameof(instance));
-            if (args == null)
-                throw new ArgumentNullException(nameof(args));
-
-            for (var i = 0; i < args.Length; i++)
+            Reset();
+            var instance = FactoryFunction();
+            var info = new IterationInfo(args, 0);
+            while (!info.IsEnd)
             {
-                var arg = args[i];
+                if (SubCommandStrategy.IsSubCommand(SubCommands, info))
+                    return SubCommandStrategy.Parse(SubCommands, info);
+                if (SwitchStrategy.IsSwitch(Switches, info))
+                {
+                    info = SwitchStrategy.ConsumeSwitch(Switches, instance, info);
+                    continue;
+                }
 
-                if (Switches.ContainsKey(arg))
+                if (SwitchStrategy.IsGroup(Switches, info))
                 {
-                    var s = Switches[arg];
-                    switch (s)
-                    {
-                        case BooleanSwitch<TOptions> boolSwitch:
-                            boolSwitch.Transformer(instance);
-                            Seen.Add(boolSwitch);
-                            continue;
-                        case SingleSwitch<TOptions> singleSwitch:
-                            ExtractSingleSwitch(instance, args, i, arg, singleSwitch);
-                            Seen.Add(singleSwitch);
-                            break;
-                        case MultipleSwitch<TOptions> multipleSwitch:
-                            i = multipleSwitch.Max.HasValue
-                                ? ExtractMultipleSwitch(instance, args, i, multipleSwitch, arg)
-                                : ExtractGreedyMultipleSwitch(instance, args, i, multipleSwitch);
-                            Seen.Add(multipleSwitch);
-                            break;
-                    }
+                    info = SwitchStrategy.ConsumeGroup(Switches, instance, info);
+                    continue;
                 }
-                else if (IsGroupOfBoolean(arg))
-                {
-                    foreach (var letter in arg.ToCharArray().Skip(1).Distinct())
-                    {
-                        var boolean = (BooleanSwitch<TOptions>) Switches[$"-{letter}"];
-                        boolean.Transformer(instance);
-                    }
-                }
-                else
-                {
-                    i = ExtractPositional(instance, args, i);
-                }
+
+                if (PositionalStrategy.IsPositional(Positionals, info))
+                    info = PositionalStrategy.Consume(Positionals, instance, info);
             }
 
-            var errors = new List<string>();
-            foreach (var validator in ValidationMethods) validator(instance, errors);
+            var validations = OrderOfAddition.Where(x => x.Validate != null).Select(x => x.Validate);
+            foreach (var validation in validations) validation(args, instance, info.Errors);
 
-            if (errors.Any()) throw new ValidationFailureException(errors);
+            return info.Errors.Any() ? new ParseResult(instance, info.Errors) : new ParseResult(instance);
         }
 
-        /// <summary>
-        ///     Withes the boolean.
-        /// </summary>
-        /// <param name="newGuy">The new guy.</param>
-        /// <returns>ArgParser&lt;TOptions&gt;.</returns>
-        public ArgParser<TOptions> WithBoolean(BooleanSwitch<TOptions> newGuy)
+        public virtual ArgParser<T> WithPositional(Positional<T> positional)
         {
-            if (newGuy.Letter.HasValue) Switches.Add($"-{newGuy.Letter.Value}", newGuy);
-
-            if (newGuy.Word != null) Switches.Add($"--{newGuy.Word}", newGuy);
-            Order.Add(newGuy);
+            OrderOfAddition.Add(positional);
             return this;
         }
 
-        /// <summary>
-        ///     Withes the multiple switch.
-        /// </summary>
-        /// <param name="multipleSwitch">The multiple switch.</param>
-        /// <returns>ArgParser&lt;TOptions&gt;.</returns>
-        public ArgParser<TOptions> WithMultipleSwitch(MultipleSwitch<TOptions> multipleSwitch)
+        public virtual ArgParser<T> WithSubCommand<TSub>(SubCommand<TSub> subCommand) where TSub : T
         {
-            if (multipleSwitch.Letter.HasValue) Switches.Add($"-{multipleSwitch.Letter.Value}", multipleSwitch);
-
-            if (multipleSwitch.Word != null) Switches.Add($"--{multipleSwitch.Word}", multipleSwitch);
-            Order.Add(multipleSwitch);
+            SubCommands.Add(subCommand);
             return this;
         }
 
-        /// <summary>
-        ///     Withes the positional.
-        /// </summary>
-        /// <param name="newGuy">The new guy.</param>
-        /// <returns>ArgParser&lt;TOptions&gt;.</returns>
-        public ArgParser<TOptions> WithPositional(PositionalValues<TOptions> newGuy)
+        public virtual ArgParser<T> WithTokenSwitch(TokenSwitch<T> tokenSwitch)
         {
-            Positionals.Add(newGuy);
-            Order.Add(newGuy);
+            OrderOfAddition.Add(tokenSwitch);
             return this;
         }
 
-        /// <summary>
-        ///     Withes the single switch.
-        /// </summary>
-        /// <param name="newGuy">The new guy.</param>
-        /// <returns>ArgParser&lt;TOptions&gt;.</returns>
-        public ArgParser<TOptions> WithSingleSwitch(SingleSwitch<TOptions> newGuy)
+        private void Reset()
         {
-            if (newGuy.Letter.HasValue) Switches.Add($"-{newGuy.Letter.Value}", newGuy);
-
-            if (newGuy.Word != null) Switches.Add($"--{newGuy.Word}", newGuy);
-            Order.Add(newGuy);
-            return this;
+            SubCommandStrategy.Reset();
+            PositionalStrategy.Reset();
+            SwitchStrategy.Reset();
         }
 
-        /// <summary>
-        ///     Withes the validation.
-        /// </summary>
-        /// <param name="validationMethod">The validation method.</param>
-        /// <returns>ArgParser&lt;TOptions&gt;.</returns>
-        public ArgParser<TOptions> WithValidation(Action<TOptions, IList<string>> validationMethod)
-        {
-            ValidationMethods.Add(validationMethod);
-            return this;
-        }
+        protected internal Func<T> FactoryFunction { get; set; }
 
-        /// <summary>
-        ///     Extracts the multiple switch.
-        /// </summary>
-        /// <param name="instance">The instance.</param>
-        /// <param name="args">The arguments.</param>
-        /// <param name="i">The i.</param>
-        /// <param name="multipleSwitch">The multiple switch.</param>
-        /// <param name="arg">The argument.</param>
-        /// <returns>System.Int32.</returns>
-        /// <exception cref="MissingValueException">
-        /// </exception>
-        internal int ExtractMultipleSwitch(TOptions instance, string[] args, int i,
-            MultipleSwitch<TOptions> multipleSwitch, string arg)
-        {
-            var multipleStrings = new List<string>();
-            for (var j = 0; i + j + 1 < args.Length; j++)
-            {
-                var cur = args[i + j + 1];
-                if (Switches.ContainsKey(cur) || IsGroupOfBoolean(cur))
-                    throw new MissingValueException($"Switch {arg} requires a value, but found another switch: {cur}");
-                multipleStrings.Add(cur);
-                if (multipleSwitch.Max.HasValue && multipleSwitch.Max.Value == multipleStrings.Count) break;
-            }
+        protected internal virtual IList<CommandLineElement<T>> OrderOfAddition { get; set; } =
+            new List<CommandLineElement<T>>();
 
-            if (multipleSwitch.Min.HasValue && multipleStrings.Count < multipleSwitch.Min.Value)
-                throw new MissingValueException(
-                    $"Switch {arg} requires at least {multipleSwitch.Min.Value} values, but only found {multipleStrings.Count}");
-
-            multipleSwitch.Transformer(instance, multipleStrings.ToArray());
-            i += multipleStrings.Count;
-            return i;
-        }
-
-        /// <summary>
-        ///     Extracts the positional.
-        /// </summary>
-        /// <param name="instance">The instance.</param>
-        /// <param name="args">The arguments.</param>
-        /// <param name="i">The i.</param>
-        /// <returns>System.Int32.</returns>
-        /// <exception cref="MissingValueException"></exception>
-        internal int ExtractPositional(TOptions instance, string[] args, int i)
-        {
-            var positional = Order.OfType<PositionalValues<TOptions>>()
-                .FirstOrDefault(x => !Seen.Contains(x));
-            if (positional == null)
-                return i;
-            var newValues = positional.Max == null
-                ? args.Skip(i).TakeWhile(x => !Switches.ContainsKey(x) && !IsGroupOfBoolean(x)).ToArray()
-                : args.Skip(i).TakeWhile(x => !Switches.ContainsKey(x) && !IsGroupOfBoolean(x))
-                    .Take(positional.Max.Value).ToArray();
-
-            if (positional.Min.HasValue && newValues.Length < positional.Min.Value)
-                throw new MissingValueException(
-                    $"Positional expected at least {positional.Min.Value} values, but found only {newValues.Length} values");
-
-            positional.Transformer(instance, newValues);
-            Seen.Add(positional);
-            i += newValues.Length - 1;
-            return i;
-        }
-
-        /// <summary>
-        ///     Adds the built in validators.
-        /// </summary>
-        private void AddBuiltInValidators()
-        {
-            ValidationMethods.Add((options, errors) =>
-            {
-                var required = Switches.Values.Where(x => x.Required).Cast<ICommandLineElement>()
-                    .Concat(Positionals.Where(x => x.Required));
-                var missing = required.Except(Seen);
-                foreach (var miss in missing) errors.Add($"Require parameter missing: {miss.Name}");
-            });
-        }
-
-        /// <summary>
-        ///     Extracts the greedy multiple switch.
-        /// </summary>
-        /// <param name="instance">The instance.</param>
-        /// <param name="args">The arguments.</param>
-        /// <param name="i">The i.</param>
-        /// <param name="multipleSwitch">The multiple switch.</param>
-        /// <returns>System.Int32.</returns>
-        private int ExtractGreedyMultipleSwitch(TOptions instance, string[] args, int i,
-            MultipleSwitch<TOptions> multipleSwitch)
-        {
-            var rest = args.Skip(i + 1).TakeWhile(a => !Switches.ContainsKey(a) && !IsGroupOfBoolean(a)).ToArray();
-            multipleSwitch.Transformer(instance, rest);
-            i += rest.Length;
-            return i;
-        }
-
-        /// <summary>
-        ///     Extracts the single switch.
-        /// </summary>
-        /// <param name="instance">The instance.</param>
-        /// <param name="args">The arguments.</param>
-        /// <param name="i">The i.</param>
-        /// <param name="arg">The argument.</param>
-        /// <param name="singleSwitch">The single switch.</param>
-        /// <exception cref="MissingValueException">
-        /// </exception>
-        private void ExtractSingleSwitch(TOptions instance, string[] args, int i, string arg,
-            SingleSwitch<TOptions> singleSwitch)
-        {
-            if (i + 1 >= args.Length)
-                throw new MissingValueException($"Switch {arg} requires a value, but none was found.");
-            var nextArg = args[i + 1];
-            if (Switches.ContainsKey(nextArg) || IsGroupOfBoolean(nextArg))
-                throw new MissingValueException($"Switch {arg} requires a value, but found another switch: {nextArg}");
-            singleSwitch.Transformer(instance, nextArg);
-        }
-
-        /// <summary>
-        ///     Determines whether [is group of boolean] [the specified argument].
-        /// </summary>
-        /// <param name="arg">The argument.</param>
-        /// <returns><c>true</c> if [is group of boolean] [the specified argument]; otherwise, <c>false</c>.</returns>
-        private bool IsGroupOfBoolean(string arg)
-        {
-            return arg.StartsWith("-") && arg.ToCharArray().Skip(1).Distinct().All(l =>
-                       Switches.ContainsKey($"-{l}") && Switches[$"-{l}"] is BooleanSwitch<TOptions>);
-        }
-
-        /// <summary>
-        ///     Gets or sets the order.
-        /// </summary>
-        /// <value>The order.</value>
-        internal IList<object> Order { get; set; } = new List<object>();
-
-        /// <summary>
-        ///     Gets or sets the validation methods.
-        /// </summary>
-        /// <value>The validation methods.</value>
-        internal IList<Action<TOptions, IList<string>>> ValidationMethods { get; set; } =
-            new List<Action<TOptions, IList<string>>>();
+        protected internal IList<Positional<T>> Positionals => OrderOfAddition.OfType<Positional<T>>().ToList();
+        protected internal IPositionalStrategy<T> PositionalStrategy { get; set; } = new DefaultPositionalStrategy<T>();
+        protected internal virtual IList<ISubCommand> SubCommands { get; set; } = new List<ISubCommand>();
+        protected internal ISubCommandStrategy<T> SubCommandStrategy { get; set; } = new DefaultSubCommandStrategy<T>();
+        protected internal IList<TokenSwitch<T>> Switches => OrderOfAddition.OfType<TokenSwitch<T>>().ToList();
+        protected internal ISwitchStrategy<T> SwitchStrategy { get; set; } = new DefaultSwitchStrategy<T>();
     }
 }

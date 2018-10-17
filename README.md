@@ -1,26 +1,56 @@
 # ArgParser
-ArgParser is a lightweight command line argument parsing library that provides and expressive and flexible parsing of arguments. I don't much care for the common approach of decorating POCOs with attributes. Because of this, this library uses a fluent syntax for describing how arguments should be processed. My goal is to be able to easily recreate the argument parsing and help text generation of most common command line applications.
+ArgParser is a lightweight command line argument parsing library that provides expressive and flexible argument parsing. I don't much care for the common approach to this problem of decorating POCOs with attributes. I find it difficult to get these frameworks to do things they weren't designed to do. Because of this, this library uses a fluent syntax for describing how arguments should be processed. My goal is to be able to easily recreate the argument parsing and help text generation of most common command line applications.
 
 ### Examples
-    # myprog --file c:\temp\a.txt -t target0 target1 -d duke charlie
-    new ArgParser<MyOptions>()
-        .WithTokenStrategy(TokenStrategy.SingleAndDoubleDashses)
-        .WithBoolean('d', opts => opts.Debug = true)
-        .WithSingleSwitch('f', "file", (opts, f) => opts.File = new FileInfo(f))
-        .WithMultipleSwitch('t', (opts, s) => opts.Targets = s, min:1)
-        .WithPositional((opts, strings) => opts.Dogs = strings)
-        .Parse<MyOptions>(myOptions, args);
+    var commitParser = new ArgParser<CommitOptions>(() => new CommitOptions())
+        .WithTokenSwitch(s =>
+        {
+            s.GroupLetter = 'a';
+            s.IsToken = info => info.Cur == "-a" || info.Cur == "--all";
+            s.TakeWhile = (info, e, i) => false;
+            s.Transformer = (info, opts, strings) => opts.All = true;
+        })
+        .WithTokenSwitch(s =>
+        {
+            s.GroupLetter = 'm';
+            s.IsToken = info => info.Cur == "-m" || info.Cur == "--message";
+            s.TakeWhile = (info, e, i) => i < 1;
+            s.Transformer = (info, opts, strings) => opts.Message = strings[0];
+            s.Validate = (info, opts, strings, errors) =>
+            {
+                if (strings.Length != 1)
+                    errors.Add(new CardinalityError("Message needs a single string"));
+            };
+        });
 
-    # git commit -am "New stuff"
-    var commitParser = new ArgParser<CommitOptions>()
-        .WithTokenStrategy(Strategy.SingleAndDoubleDashses)
-        .WithGroupingStrategy(GroupingStrategy.Letters.WithLastSwitchTakesArgs())
-        .WithBooleanSwitch('-a', "--all", opts => opts.All = true)
-        .WithSingleSwitch('-m', "--message", (opts, s) => opts.Message = s)
-    new ArgParser<GitOptions>()
-        .WithSingleSwitch("--git-dir", (opts, s) => opts.GitDirectory = s, separator:"=")
-        .WithSubCommand<CommitOptions>(commitParser)
-        .Parse
+    var parser = new ArgParser<BaseOptions>(() => new BaseOptions())
+        .WithTokenSwitch(s =>
+        {
+            s.GroupLetter = 'n';
+            s.IsToken = info => new[] {"-n", "--numbers"}.Contains(info.Cur);
+            s.TakeWhile = (info, e, i) => int.TryParse(e, out var throwAway) && i < 5;
+            s.Validate = (info, opts, strings, errors) =>
+            {
+                var nonInts = strings.Where(x => !int.TryParse(x, out var throwAway));
+                foreach (var bad in nonInts) errors.Add(new FormatError($"Expected int32 but found {bad}"));
+            };
+            s.Transformer = (info, opts, strings) =>
+                opts.Numbers = strings.Skip(1).Select(x => Convert.ToInt32(x));
+        })
+        .WithPositional(p =>
+        {
+            p.TakeWhile = (info, e, i) => i < 1;
+            p.Validate = (info, opts, strings, errors) =>
+            {
+                if (strings.Count() != 1)
+                    errors.Add(new CardinalityError($"Expected to find 1 word but found 0"))
+            };
+            p.Transformer = (info, opts, strings) => opts.Things = strings;
+        })
+        .WithSubCommand<CommitOptions>("commit", commitParser)
+        .When<CommitOptions>(opts => Commit(opts))
+        .ParseSubCommands(args);
+
         
         
 
