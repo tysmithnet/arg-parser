@@ -19,8 +19,14 @@ namespace ArgParser.Core
             Reset();
             var instance = FactoryFunction();
             var info = new IterationInfo(args, 0);
+            var history = new List<int>();
             while (!info.IsEnd)
             {
+                if (history.Count > 1 && history.First() <= info.Index)
+                {
+                    throw new InvalidOperationException("No forward progress detected.");
+                }
+                history.Insert(0, info.Index);
                 if (SubCommandStrategy.IsSubCommand(SubCommands, info))
                     return SubCommandStrategy.Parse(SubCommands, info);
                 if (SwitchStrategy.IsSwitch(Switches, info))

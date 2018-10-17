@@ -66,7 +66,7 @@ namespace ArgParser.Core.Test
                 })
                 .WithPositional(new Positional<BaseOptions>()
                 {
-                    TakeWhile = (info, e, i) => i < 1,
+                    TakeWhile = (info, e, i) => true,
                     Transformer = (info, opts, strings) => opts.Things = strings.ToList(),
                 })
                 .WithSubCommand(new SubCommand<CommitOptions, BaseOptions>()

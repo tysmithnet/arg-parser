@@ -35,38 +35,39 @@ namespace ArgParser.Core
             Reset();
             var instance = FactoryFunction();
             var info = new IterationInfo(args, 0);
+            var history = new List<int>();
             while (!info.IsEnd)
             {
+                if (history.Count > 1 && history.First() >= info.Index)
+                {
+                    throw new InvalidOperationException("No forward progress detected. This likely means that there is an input that can't be accounted for. Check your switches and positional rules.");
+                }
+                history.Insert(0, info.Index);
                 if (SwitchStrategy.IsSwitch(Switches, info))
                 {
                     info = SwitchStrategy.ConsumeSwitch(Switches, instance, info);
                     continue;
                 }
-
-                if (ParentParser?.SwitchStrategy.IsSwitch(ParentParser.Switches, info) ?? false)
-                {
-                    info = ParentParser.SwitchStrategy.ConsumeSwitch(ParentParser.Switches, instance, info);
-                    continue;
-                }
-
                 if (SwitchStrategy.IsGroup(Switches, info))
                 {
                     info = SwitchStrategy.ConsumeGroup(Switches, instance, info);
                     continue;
                 }
-
-                if (ParentParser?.SwitchStrategy.IsGroup(ParentParser.Switches, info) ?? false)
-                {
-                    info = ParentParser.SwitchStrategy.ConsumeGroup(ParentParser.Switches, instance, info);
-                    continue;
-                }
-
                 if (PositionalStrategy.IsPositional(Positionals, info))
                 {
                     info = PositionalStrategy.Consume(Positionals, instance, info);
                     continue;
                 }
-
+                if (ParentParser?.SwitchStrategy.IsSwitch(ParentParser.Switches, info) ?? false)
+                {
+                    info = ParentParser.SwitchStrategy.ConsumeSwitch(ParentParser.Switches, instance, info);
+                    continue;
+                }
+                if (ParentParser?.SwitchStrategy.IsGroup(ParentParser.Switches, info) ?? false)
+                {
+                    info = ParentParser.SwitchStrategy.ConsumeGroup(ParentParser.Switches, instance, info);
+                    continue;
+                }
                 if (ParentParser?.PositionalStrategy.IsPositional(ParentParser.Positionals, info) ?? false)
                     info = ParentParser.PositionalStrategy.Consume(ParentParser.Positionals, instance, info);
             }
