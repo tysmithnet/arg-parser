@@ -69,7 +69,11 @@ namespace ArgParser.Core.Test
                     },
                     Transformer = (info, opts, strings) => opts.Things = strings.ToList(),
                 })
-                .WithSubCommand<CommitOptions>("commit", commitParser);
+                .WithSubCommand<CommitOptions>(new SubCommand<CommitOptions>()
+                {
+                    IsCommand = s => s == "commit",
+                    ArgParser = commitParser
+                });
 
 
             // act
