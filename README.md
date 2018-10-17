@@ -3,49 +3,53 @@ ArgParser is a lightweight command line argument parsing library that provides e
 
 ### Examples
     var commitParser = new ArgParser<CommitOptions>(() => new CommitOptions())
-        .WithTokenSwitch(s => {
-            s.GroupLetter = 'a',
-            s.IsToken = info => info.Cur == "-a" || info.Cur == "--all",
-            s.TakeWhile = (info, e, i) => false,
-            s.Transformer = (info, opts, strings) => opts.All = true
+        .WithTokenSwitch(s =>
+        {
+            s.GroupLetter = 'a';
+            s.IsToken = info => info.Cur == "-a" || info.Cur == "--all";
+            s.TakeWhile = (info, e, i) => false;
+            s.Transformer = (info, opts, strings) => opts.All = true;
         })
-        .WithTokenSwitch(s => {
-            s.GroupLetter = 'm',
-            s.IsToken = info => info.Cur == "-m" || info.Cur == "--message",
-            s.TakeWhile = (info, e, i) => i < 1,
-            s.Transformer = (info, opts, strings) => opts.Message = strings[0],
-            s.Validate = (info, opts, strings, errors) => {
-                if(strings.Length != 1)
-                    errors.Add(new CardinalityError("Message needs a single string"))
-            }
-        })
+        .WithTokenSwitch(s =>
+        {
+            s.GroupLetter = 'm';
+            s.IsToken = info => info.Cur == "-m" || info.Cur == "--message";
+            s.TakeWhile = (info, e, i) => i < 1;
+            s.Transformer = (info, opts, strings) => opts.Message = strings[0];
+            s.Validate = (info, opts, strings, errors) =>
+            {
+                if (strings.Length != 1)
+                    errors.Add(new CardinalityError("Message needs a single string"));
+            };
+        });
 
     var parser = new ArgParser<BaseOptions>(() => new BaseOptions())
-        .WithTokenSwitch(s => {
-            s.GroupLetter = 'n',
+        .WithTokenSwitch(s =>
+        {
+            s.GroupLetter = 'n';
             s.IsToken = info => new[] {"-n", "--numbers"}.Contains(info.Cur);
-            s.TakeWhile = (info, e, i) => Int32.TryParse(e, out var throwAway) && i < 5;
-            s.Validate = (info, opts, strings, errors) => {
-                var nonInts = strings.Where(x => !Int32.TryParse(x, out var throwAway));
-                foreach(var bad in nonInts)
-                {
-                    errors.Add(new FormatError($"Expected int32 but found {bad}"))
-                }
-            }
-            s.Transformer = (info, opts, strings) => opts.Numbers = strings.Skip(1).Select(x => Convert.ToInt32(x))
+            s.TakeWhile = (info, e, i) => int.TryParse(e, out var throwAway) && i < 5;
+            s.Validate = (info, opts, strings, errors) =>
+            {
+                var nonInts = strings.Where(x => !int.TryParse(x, out var throwAway));
+                foreach (var bad in nonInts) errors.Add(new FormatError($"Expected int32 but found {bad}"));
+            };
+            s.Transformer = (info, opts, strings) =>
+                opts.Numbers = strings.Skip(1).Select(x => Convert.ToInt32(x));
         })
-        .WithPositional(p => {
+        .WithPositional(p =>
+        {
             p.TakeWhile = (info, e, i) => i < 1;
-            p.Validate = (info, opts, strings, errors) => {
-                if(strings.Count() != 1)
+            p.Validate = (info, opts, strings, errors) =>
+            {
+                if (strings.Count() != 1)
                     errors.Add(new CardinalityError($"Expected to find 1 word but found 0"))
             };
-            p.Transformer = (info, opts, strings) => opts.Things = strings
+            p.Transformer = (info, opts, strings) => opts.Things = strings;
         })
-        .WithSubCommand<CommitOptions>(commitParser)
+        .WithSubCommand<CommitOptions>("commit", commitParser)
         .When<CommitOptions>(opts => Commit(opts))
-        .When<OtherOptions>(opts => OtherStuff(ops))
-        .ParseSubCommands(args)
+        .ParseSubCommands(args);
 
         
         
