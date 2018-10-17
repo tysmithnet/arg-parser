@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FluentAssertions;
 using Xunit;
 
 namespace ArgParser.Core.Test
@@ -72,11 +73,19 @@ namespace ArgParser.Core.Test
 
 
             // act
+            bool isAll = false;
+            string message = null;
             parser
                 .Parse("commit -am something".Split(' '))
-                .When<CommitOptions>(opts => Console.WriteLine("COMMIT!"));
+                .When<CommitOptions>(opts =>
+                {
+                    isAll = opts.All;
+                    message = opts.Message;
+                });
 
             // assert
+            isAll.Should().BeTrue();
+            message.Should().Be("something");
         }
     }
 }
