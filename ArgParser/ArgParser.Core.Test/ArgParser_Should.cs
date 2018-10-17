@@ -47,6 +47,13 @@ namespace ArgParser.Core.Test
                 {
                     TakeWhile = (info, s, arg3) => true,
                     Transformer = (info, options, arg3) => options.Files = arg3.ToList()
+                })
+                .WithValidation((info, instance) =>
+                {
+                    if (!instance.All && instance.Files == null || instance.Files.Count == 0)
+                    {
+                        info.Errors.Add(new CardinalityError($"You must either specify all or identify files"));
+                    }
                 });
 
             var commitParser = new SubCommandArgParser<CommitOptions, BaseOptions>(() => new CommitOptions())
@@ -70,11 +77,18 @@ namespace ArgParser.Core.Test
                     TakeWhile = (info, e, i) => i < 1,
                     Transformer = (info, opts, strings) => opts.Message = strings[0],
 
+                })
+                .WithValidation((info, instance) =>
+                {
+                    if (instance.Message.Length > 10)
+                    {
+                        info.Errors.Add(new FormatError("Expected message to be 10 or less characters for some reason"));
+                    }
                 });
                 
             var parser = new ArgParser<BaseOptions>(() => new BaseOptions())
                 .WithName("base")
-                .WithTokenSwitch(new Switch<BaseOptions>()
+                .WithSwitch(new Switch<BaseOptions>()
                 {
                     GroupLetter = 'n',
                     IsToken = info => new[] {"-n", "--numbers"}.Contains(info.Cur),
@@ -104,6 +118,9 @@ namespace ArgParser.Core.Test
             // assert
             bool isAddParsed = false;
             bool isCommitParsed = false;
+            bool isAddValidated = false;
+            bool isCommitValidated = false;
+
             parser
                 .Parse("add -a file1 file2".Split(' '))
                 .When<AddOptions>(opts =>
@@ -111,6 +128,18 @@ namespace ArgParser.Core.Test
                     isAddParsed = true;
                     opts.All.Should().BeTrue();
                     opts.Files.Should().BeEquivalentTo(new[] {"file1", "file2"});
+                });
+
+            parser
+                .Parse("add".Split(' '))
+                .When<AddOptions>(opts =>
+                {
+                    
+                })
+                .WhenErrored(info =>
+                {
+                    isAddValidated = true;
+                    info.Errors.Should().HaveCount(1);
                 });
 
             parser
@@ -124,7 +153,16 @@ namespace ArgParser.Core.Test
                     opts.Things.Should().BeEquivalentTo(new[] {"thing1", "thing2"});
                 });
 
+            parser
+                .Parse("commit -m somethingreallynotthatlong -n 1 2 3 thing1 thing2".Split(' '))
+                .WhenErrored(info =>
+                {
+                    isCommitValidated = true;
+                    info.Errors.Should().HaveCount(1);
+                });
+
             isAddParsed.Should().BeTrue();
+            isAddValidated.Should().BeTrue();
             isCommitParsed.Should().BeTrue();
         }
     }

@@ -14,6 +14,10 @@ namespace ArgParser.Core
             FactoryFunction = factoryFunction ?? throw new ArgumentNullException(nameof(factoryFunction));
         }
 
+        public delegate void Validation(IterationInfo info, T instance);
+
+        protected internal IList<Validation> Validations { get; set; } = new List<Validation>();
+
         public virtual ParseResult Parse(string[] args)
         {
             Reset();
@@ -45,10 +49,9 @@ namespace ArgParser.Core
                     info = PositionalStrategy.Consume(Positionals, instance, info);
             }
 
-            var validations = OrderOfAddition.Where(x => x.Validate != null).Select(x => x.Validate);
-            foreach (var validation in validations) validation(args, instance, info.Errors);
+            foreach (var validation in Validations) validation(info, instance);
 
-            return info.Errors.Any() ? new ParseResult(instance, info.Errors) : new ParseResult(instance);
+            return new ParseResult(instance, info);
         }
 
         public virtual void Reset()
@@ -56,6 +59,12 @@ namespace ArgParser.Core
             SubCommandStrategy.Reset();
             PositionalStrategy.Reset();
             SwitchStrategy.Reset();
+        }
+
+        public virtual ArgParser<T> WithValidation(Validation validation)
+        {
+            Validations.Add(validation);
+            return this;
         }
 
         public ArgParser<T> WithName(string name)
@@ -77,7 +86,7 @@ namespace ArgParser.Core
             return this;
         }
 
-        public virtual ArgParser<T> WithTokenSwitch(Switch<T> @switch)
+        public virtual ArgParser<T> WithSwitch(Switch<T> @switch)
         {
             OrderOfAddition.Add(@switch);
             return this;

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace ArgParser.Core
@@ -7,26 +6,17 @@ namespace ArgParser.Core
     public class DefaultPositionalStrategy<T> : IPositionalStrategy<T>
     {
         protected internal ISet<object> Seen = new HashSet<object>();
-        
-        public IList<CommandLineElement<T>> OrderOfAdditions { get; set; }
-        
-        /// <inheritdoc />
-        public void Reset()
-        {
-            Seen.Clear();
-        }
 
         /// <inheritdoc />
         public IterationInfo Consume(IList<Positional<T>> positionals, T instance, IterationInfo info)
         {
             var first = positionals.First(p => !Seen.Contains(p));
-            
-                Seen.Add(first);
-                var consumed = info.CurOn.TakeWhile((e, i) => first.TakeWhile(info, e, i)).ToArray();
-                first.Transformer?.Invoke(info, instance, consumed);
-                info.Index += consumed.Length;
-                return info;
-        
+
+            Seen.Add(first);
+            var consumed = info.CurOn.TakeWhile((e, i) => first.TakeWhile(info, e, i)).ToArray();
+            first.Transformer?.Invoke(info, instance, consumed);
+            info.Index += consumed.Length;
+            return info;
         }
 
         /// <inheritdoc />
@@ -34,5 +24,13 @@ namespace ArgParser.Core
         {
             return positionals.Any(p => !Seen.Contains(p));
         }
+
+        /// <inheritdoc />
+        public void Reset()
+        {
+            Seen.Clear();
+        }
+
+        public IList<CommandLineElement<T>> OrderOfAdditions { get; set; }
     }
 }
