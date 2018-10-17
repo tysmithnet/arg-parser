@@ -30,7 +30,7 @@ namespace ArgParser.Core.Test
         public void Pass_The_ReadMe_Example()
         {
             // arrange
-            var commitParser = new ArgParser<CommitOptions>(() => new CommitOptions())
+            var commitParser = new SubCommandArgParser<CommitOptions, BaseOptions>(() => new CommitOptions())
                 .WithName("commit")
                 .WithPositional(new Positional<CommitOptions>()
                 {
@@ -62,14 +62,14 @@ namespace ArgParser.Core.Test
                     TakeWhile = (info, e, i) => int.TryParse(e, out var throwAway) && i < 5,
 
                     Transformer = (info, opts, strings) =>
-                        opts.Numbers = strings.Skip(1).Select(x => Convert.ToInt32(x)).ToList(),
+                        opts.Numbers = strings.Select(x => Convert.ToInt32(x)).ToList(),
                 })
                 .WithPositional(new Positional<BaseOptions>()
                 {
                     TakeWhile = (info, e, i) => i < 1,
                     Transformer = (info, opts, strings) => opts.Things = strings.ToList(),
                 })
-                .WithSubCommand(new SubCommand<CommitOptions>()
+                .WithSubCommand(new SubCommand<CommitOptions, BaseOptions>()
                 {
                     IsCommand = info => info.Cur == "commit",
                     ArgParser = commitParser
