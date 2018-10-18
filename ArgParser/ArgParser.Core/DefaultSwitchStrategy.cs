@@ -1,76 +1,77 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace ArgParser.Core
 {
     public class DefaultSwitchStrategy<T> : ISwitchStrategy<T>
     {
+        protected internal IPositionalStrategy<T> PositionalStrategy { get; set; }
+        protected internal IList<Positional<T>> Positionals { get; set; }
+        protected internal IList<Switch<T>> Switches { get; set; }
+
         /// <inheritdoc />
-        public DefaultSwitchStrategy()
+        public IterationInfo ConsumeGroup(IList<Switch<T>> switches, T instance, IterationInfo info)
         {
-        }
-        
-        /// <inheritdoc />
-        public IterationInfo ConsumeSwitch(IList<TokenSwitch<T>> switches, T instance, IterationInfo info)
-        {
-            var first = switches.First(s => s.IsToken(info));
-            var consumed = info.Rest.TakeWhile((e, i) => first.TakeWhile(info, e, i)).ToArray();
-            first.Transformer(info, instance, consumed);
-            info.Index += consumed.Length;
+            var switchList = info.Cur.Substring(1).ToCharArray();
+            var notLast = switchList.Reverse().Skip(1).Reverse().ToArray();
+            foreach (var n in notLast)
+            {
+                var currentSwitch = switches.Where(x => x.GroupLetter.HasValue).First(x => x.GroupLetter.Value == n);
+                currentSwitch.Transformer?.Invoke(info, instance, new string[0]);
+            }
+
+            var lastLetter = switchList.Last();
+            var lastSwitch = switches.Where(x => x.GroupLetter.HasValue).First(x => x.GroupLetter.Value == lastLetter);
+            var consumed = info.Rest.TakeWhile((e, i) =>
+            {
+                var clone = info.Clone();
+                clone.Index += i + 1;
+                var takeWhile = lastSwitch.TakeWhile(info, e, i);
+                var isSwitch = clone.Index < info.AllArgs.Length && IsSwitch(switches, clone);
+                var isGroup = clone.Index < info.AllArgs.Length && IsGroup(switches, clone);
+                return takeWhile && !isSwitch && !isGroup;
+            }).ToArray();
+            lastSwitch.Transformer?.Invoke(info, instance, consumed);
+            info.Index += consumed.Length + 1;
             return info;
         }
 
         /// <inheritdoc />
-        public bool IsSwitch(IList<TokenSwitch<T>> switches, IterationInfo info)
+        public IterationInfo ConsumeSwitch(IList<Switch<T>> switches, T instance, IterationInfo info)
         {
-            return switches.Any(s => s.IsToken(info));
+            var first = switches.First(s => s.IsToken(info));
+            var consumed = info.Rest.TakeWhile((e, i) =>
+            {
+                var clone = info.Clone();
+                clone.Index += i + 1;
+                var takeWhile = first.TakeWhile(info, e, i);
+                var isSwitch = clone.Index < info.AllArgs.Length && IsSwitch(switches, clone);
+                var isGroup = clone.Index < info.AllArgs.Length && IsGroup(switches, clone);
+                return takeWhile && !isSwitch && !isGroup;
+            }).ToArray();
+            first.Transformer(info, instance, consumed);
+            info.Index += consumed.Length + 1;
+            return info;
         }
 
-        public bool IsGroup(IList<TokenSwitch<T>> switches, IterationInfo info)
+        public bool IsGroup(IList<Switch<T>> switches, IterationInfo info)
         {
             if (!info.Cur.StartsWith("-"))
                 return false;
-            var sansHash = info.Cur.Substring(1);
+            var sansHash = info.Cur.Substring(1).ToCharArray();
             var letters = switches
                 .Where(x => x.GroupLetter.HasValue)
                 .Select(x => x.GroupLetter.Value)
                 .Select(x => x.ToString())
-                .Aggregate((l, r) =>
-                {
-                    if (l.Contains(r))
-                        return r;
-                    return l + r;
-                })
-                .ToCharArray();
-            return sansHash.ToCharArray().All(c => letters.Contains(c));
+                .ToArray();
+                
+            return sansHash.All(x => letters.Contains($"{x}"));
         }
 
         /// <inheritdoc />
-        public IterationInfo ConsumeGroup(IList<TokenSwitch<T>> switches, T instance, IterationInfo info)
+        public bool IsSwitch(IList<Switch<T>> switches, IterationInfo info)
         {
-            var letters = switches
-                .Where(x => x.GroupLetter.HasValue)
-                .Select(x => x.GroupLetter.Value)
-                .Select(x => x.ToString())
-                .Aggregate((l, r) =>
-                {
-                    if (l.Contains(r))
-                        return r;
-                    return l + r;
-                })
-                .ToCharArray();
-            foreach (var letter in letters.Reverse().Skip(1))
-            {
-                var s = switches.Where(x => x.GroupLetter.HasValue).First(x => x.GroupLetter.Value == letter);
-                s.Transformer(info, instance, new string[0]);
-            }
-
-            var last = switches.Where(x => x.GroupLetter.HasValue).First(x => x.GroupLetter.Value == letters.Last());
-            var consumed = info.Rest.TakeWhile((e, i) => last.TakeWhile(info, e, i)).ToArray();
-            last.Transformer(info, instance, consumed);
-            info.Index += consumed.Length;
-            return info;
+            return switches.Any(s => s.IsToken?.Invoke(info) ?? false);
         }
 
         /// <inheritdoc />

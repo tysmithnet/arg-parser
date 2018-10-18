@@ -7,12 +7,6 @@ namespace ArgParser.Core
     public class DefaultSubCommandStrategy<T> : ISubCommandStrategy<T>
     {
         /// <inheritdoc />
-        public DefaultSubCommandStrategy()
-        {
-        }
-
-
-        /// <inheritdoc />
         public bool IsSubCommand(IList<ISubCommand> subCommands, IterationInfo info)
         {
             return subCommands.Any(s => s.IsCommand(info));
