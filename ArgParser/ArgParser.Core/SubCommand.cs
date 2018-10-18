@@ -13,6 +13,7 @@
 // ***********************************************************************
 
 using System;
+using ArgParser.Core.Help;
 
 namespace ArgParser.Core
 {
@@ -24,6 +25,9 @@ namespace ArgParser.Core
     /// <seealso cref="ArgParser.Core.ISubCommand" />
     public class SubCommand<T, TParent> : ISubCommand where T : TParent
     {
+        /// <inheritdoc />
+        public IdentityInformation Identity { get; set; }
+
         /// <summary>
         ///     Parses the specified arguments.
         /// </summary>
@@ -43,5 +47,8 @@ namespace ArgParser.Core
         /// </summary>
         /// <value>The argument parser.</value>
         internal SubCommandArgParser<T, TParent> ArgParser { get; set; }
+
+        /// <inheritdoc />
+        public IHelpHints HelpHints { get; protected internal set; }
     }
 }

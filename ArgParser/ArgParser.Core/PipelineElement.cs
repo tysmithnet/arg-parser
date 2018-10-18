@@ -12,6 +12,8 @@
 // <summary></summary>
 // ***********************************************************************
 
+using ArgParser.Core.Help;
+
 namespace ArgParser.Core
 {
     /// <summary>
@@ -27,7 +29,7 @@ namespace ArgParser.Core
     ///     Represents an object that is part of the argument parsing pipeline
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class PipelineElement<T>
+    public abstract class PipelineElement<T> : IHelpful
     {
         /// <summary>
         ///     Gets or sets the functionality capable of identifying tokens to be consumed
@@ -49,5 +51,8 @@ namespace ArgParser.Core
         /// <param name="instance">The options instance currently being constructed.</param>
         /// <param name="consumedStrings">The consumed strings.</param>
         public delegate void TransformerCallback(IIterationInfo info, T instance, string[] consumedStrings);
+
+        /// <inheritdoc />
+        public IHelpHints HelpHints { get; protected internal set; }
     }
 }

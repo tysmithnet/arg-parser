@@ -4,7 +4,7 @@
 // Created          : 10-17-2018
 //
 // Last Modified By : @tysmithnet
-// Last Modified On : 10-17-2018
+// Last Modified On : 10-18-2018
 // ***********************************************************************
 // <copyright file="ArgParser.cs" company="ArgParser.Core">
 //     Copyright (c) . All rights reserved.
@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using ArgParser.Core.Help;
 
 namespace ArgParser.Core
 {
@@ -31,6 +32,7 @@ namespace ArgParser.Core
         ///     Initializes a new instance of the <see cref="ArgParser{T}" /> class.
         /// </summary>
         /// <param name="factoryFunction">The factory function.</param>
+        /// <exception cref="ArgumentNullException">factoryFunction</exception>
         /// <exception cref="System.ArgumentNullException">factoryFunction</exception>
         /// <inheritdoc />
         public ArgParser(Func<TOptions> factoryFunction)
@@ -44,6 +46,7 @@ namespace ArgParser.Core
         /// </summary>
         /// <param name="args">The arguments.</param>
         /// <returns>ParseResult.</returns>
+        /// <exception cref="InvalidOperationException">No forward progress detected.</exception>
         /// <exception cref="System.InvalidOperationException">No forward progress detected.</exception>
         public virtual ParseResult Parse(string[] args)
         {
@@ -162,6 +165,18 @@ namespace ArgParser.Core
             SwitchStrategy = s;
             PositionalStrategy = p;
         }
+
+        /// <summary>
+        ///     Gets or sets the help builder.
+        /// </summary>
+        /// <value>The help builder.</value>
+        public IHelpBuilder<TOptions> HelpBuilder { get; set; } = null;
+
+        /// <summary>
+        ///     Gets or sets the identity information.
+        /// </summary>
+        /// <value>The identity information.</value>
+        public IdentityInformation IdentityInformation { get; protected internal set; }
 
         /// <summary>
         ///     Gets or sets the name of the parser. Typically this is the name of the application or sub command.

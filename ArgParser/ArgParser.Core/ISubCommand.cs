@@ -13,6 +13,7 @@
 // ***********************************************************************
 
 using System;
+using ArgParser.Core.Help;
 
 namespace ArgParser.Core
 {
@@ -20,8 +21,10 @@ namespace ArgParser.Core
     ///     Represents a subcommand of the application.
     ///     <example>git commit</example>
     /// </summary>
-    public interface ISubCommand
+    public interface ISubCommand : IHelpful
     {
+        IdentityInformation Identity { get; }
+
         /// <summary>
         ///     Parses the specified arguments.
         /// </summary>
