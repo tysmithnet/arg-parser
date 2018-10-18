@@ -62,15 +62,6 @@ namespace ArgParser.Core
                 .Select(x => x.GroupLetter.Value)
                 .Select(x => x.ToString())
                 .ToArray();
-            if (letters.Any())
-            {
-                letters = letters.Aggregate((l, r) =>
-                {
-                    if (l.Contains(r))
-                        return r;
-                    return l + r;
-                }).ToCharArray().Select(x => $"{x}").ToArray();
-            }
                 
             return sansHash.All(x => letters.Contains($"{x}"));
         }

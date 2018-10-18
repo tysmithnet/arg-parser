@@ -75,6 +75,54 @@ namespace ArgParser.Core.Test
         }
 
         [Fact]
+        public void Work_When_Only_A_Single_Group_Letter_Exists()
+        {
+            // arrange
+            var isParsed = false;
+            var isParsed2 = false;
+            var parser = new ArgParser<CommitOptions>(() => new CommitOptions())
+                .WithSwitch(new Switch<CommitOptions>()
+                {
+                    GroupLetter = 'a',
+                    TakeWhile = (info, element, number) => false,
+                    Transformer =(info, instance, strings) => instance.All = true
+                });
+
+
+            // act
+            // assert
+            parser.Parse("-a".Split(' '))
+                .When<CommitOptions>(options =>
+                {
+                    isParsed = true;
+                    options.All.Should().BeTrue();
+                });
+
+            parser.Parse("-aaa".Split(' '))
+                .When<CommitOptions>(options =>
+                {
+                    isParsed2 = true;
+                    options.All.Should().BeTrue();
+                });
+
+            isParsed.Should().BeTrue();
+            isParsed2.Should().BeTrue();
+        }
+
+        [Fact]
+        public void Throw_If_The_Configuration_Is_Insufficient_For_Args()
+        {
+            // arrange
+            var parser = new ArgParser<CommitOptions>(() => new CommitOptions());
+            Action throws = () => parser.Parse("-t this is something".Split(' '));
+            
+            // act
+            // assert
+            throws.Should().Throw<InvalidOperationException>();
+
+        }
+
+        [Fact]
         public void Pass_A_Basic_Use_Case()
         {
             // arrange
