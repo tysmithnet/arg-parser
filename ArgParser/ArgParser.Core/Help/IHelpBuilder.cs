@@ -37,6 +37,24 @@ namespace ArgParser.Core.Help
         string Url { get; }
     }
 
+    public class HelpHints : IHelpHints
+    {
+        /// <inheritdoc />
+        public string Name { get; set; }
+
+        /// <inheritdoc />
+        public string ShortDescription { get; set; }
+
+        /// <inheritdoc />
+        public string Description { get; set; }
+
+        /// <inheritdoc />
+        public string Synopsis { get; set; }
+
+        /// <inheritdoc />
+        public string Url { get; set; }
+    }
+
     public interface IHelpBuilder<T>
     {
         IHelpBuilder<T> AddIdentityInfomation(IdentityInformation information);
@@ -64,6 +82,7 @@ namespace ArgParser.Core.Help
         /// <inheritdoc />
         public IHelpBuilder<T> AddSwitch(Switch<T> @switch)
         {
+            Switches.Add(@switch);
             return this;
         }
 
