@@ -11,5 +11,7 @@
         void Visit(TextSnippetNode node);
         void Visit(LinkNode node);
         void Visit(TableNode node);
+        void Visit(TableRowNode node);
+        void Visit(TableCellNode node);
     }
 }

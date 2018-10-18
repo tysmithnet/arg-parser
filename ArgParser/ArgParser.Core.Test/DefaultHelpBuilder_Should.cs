@@ -12,6 +12,7 @@ namespace ArgParser.Core.Test
 {
     public class DefaultHelpBuilder_Should
     {
+        #region Options
         private class SomethingOptions
         {
             public string Something { get; set; }
@@ -21,6 +22,113 @@ namespace ArgParser.Core.Test
         private class SomethingElseOptions : SomethingOptions
         {
             public string SomethingElse { get; set; }
+        }
+
+        #endregion
+
+        #region Builders
+        private class TableHelpBuilder : IHelpBuilder<SomethingOptions>
+        {
+            private IdentityInformation Identity { get; set; }
+
+            /// <inheritdoc />
+            public IHelpBuilder<SomethingOptions> AddIdentityInfomation(IdentityInformation information)
+            {
+                Identity = information;
+                return this;
+            }
+
+            /// <inheritdoc />
+            public IHelpBuilder<SomethingOptions> AddSwitch(Switch<SomethingOptions> @switch)
+            {
+                return this;
+            }
+
+            /// <inheritdoc />
+            public IHelpBuilder<SomethingOptions> AddSubCommand<TSub>(ISubCommand subCommand) where TSub : SomethingOptions
+            {
+                return this;
+            }
+
+            /// <inheritdoc />
+            public IHelpBuilder<SomethingOptions> AddPositional(Positional<SomethingOptions> positional)
+            {
+                return this;
+            }
+
+            /// <inheritdoc />
+            public Node Build()
+            {
+                var table = new TableNode();
+                table.Children = new List<Node>()
+                {
+                    new TableRowNode()
+                    {
+                        Children = new List<Node>()
+                        {
+                            new TableCellNode()
+                            {
+                                Children = new List<Node>()
+                                {
+                                    new TextSnippetNode("Name")
+                                }
+                            },
+                            new TableCellNode()
+                            {
+                                Children = new List<Node>()
+                                {
+                                    new TextSnippetNode(Identity.Name)
+                                }
+                            }
+                        }
+                    },
+                    new TableRowNode()
+                    {
+                        Children = new List<Node>()
+                        {
+                            new TableCellNode()
+                            {
+                                Children = new List<Node>()
+                                {
+                                    new TextSnippetNode("Version")
+                                }
+                            },
+                            new TableCellNode()
+                            {
+                                Children = new List<Node>()
+                                {
+                                    new TextSnippetNode(Identity.Version)
+                                }
+                            }
+                        }
+                    }
+                };
+                return table;
+            }
+        }
+        
+        #endregion
+
+        [Fact]
+        public void Allow_Tables()
+        {
+            // arrange
+            var builder = new TableHelpBuilder()
+                .AddIdentityInfomation(new IdentityInformation("something")
+                {
+                    Version = "v1.2.3.4"
+                });
+
+            // act
+            // assert
+            if (builder.Build() is TableNode table)
+            {
+                table.Children.Should().HaveCount(2);
+            }
+            else
+            {
+                true.Should().BeFalse("We were expecting a TableNode but did not get one");
+            }
         }
 
         [Fact]
