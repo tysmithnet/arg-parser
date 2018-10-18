@@ -3,9 +3,13 @@ using System.Collections.Generic;
 
 namespace ArgParser.Core
 {
+    public delegate bool TakeWhileCallback(IterationInfo info, string element, int elementNumber);
+
     public abstract class CommandLineElement<T>
     {
-        public Func<IterationInfo, string, int, bool> TakeWhile { get; set; }
-        public Action<IterationInfo, T, string[]> Transformer { get; set; }
+        public delegate void TransformerCallback(IterationInfo info, T instance, string[] takenStrings);
+
+        public TakeWhileCallback TakeWhile { get; set; }
+        public TransformerCallback Transformer { get; set; }
     }
 }

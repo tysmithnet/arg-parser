@@ -23,5 +23,13 @@ namespace ArgParser.Core
         public string[] Rest => AllArgs.Skip(Index + 1).ToArray();
         public string[] CurOn => AllArgs.Skip(Index).ToArray();
         public bool IsEnd => Index >= AllArgs.Length;
+
+        public IterationInfo Clone()
+        {
+            return new IterationInfo(AllArgs, Index)
+            {
+                Errors = new List<ParsingError>(Errors)
+            };
+        }
     }
 }

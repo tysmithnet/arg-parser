@@ -6,6 +6,8 @@ namespace ArgParser.Core
     public class DefaultPositionalStrategy<T> : IPositionalStrategy<T>
     {
         protected internal ISet<object> Seen = new HashSet<object>();
+        protected internal ISwitchStrategy<T> SwitchStrategy { get; set; }      
+        protected internal IList<Switch<T>> Switches { get; set; }
 
         /// <inheritdoc />
         public IterationInfo Consume(IList<Positional<T>> positionals, T instance, IterationInfo info)
@@ -13,7 +15,15 @@ namespace ArgParser.Core
             var first = positionals.First(p => !Seen.Contains(p));
 
             Seen.Add(first);
-            var consumed = info.CurOn.TakeWhile((e, i) => first.TakeWhile(info, e, i)).ToArray();
+            var consumed = info.CurOn.TakeWhile((e, i) =>
+            {
+
+                var clone = info.Clone();
+                clone.Index += i;
+                var takeWhile = first.TakeWhile(info, e, i);
+                var isSwitch = SwitchStrategy.IsSwitch(Switches, clone) || SwitchStrategy.IsGroup(Switches, clone);
+                return takeWhile && !isSwitch;
+            }).ToArray();
             first.Transformer?.Invoke(info, instance, consumed);
             info.Index += consumed.Length;
             return info;

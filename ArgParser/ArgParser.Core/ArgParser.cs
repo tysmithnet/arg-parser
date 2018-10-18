@@ -12,11 +12,21 @@ namespace ArgParser.Core
         public ArgParser(Func<T> factoryFunction)
         {
             FactoryFunction = factoryFunction ?? throw new ArgumentNullException(nameof(factoryFunction));
+            SetupStrategies();
         }
 
-        public delegate void Validation(IterationInfo info, T instance);
-
-        protected internal IList<Validation> Validations { get; set; } = new List<Validation>();
+        private void SetupStrategies()
+        {
+            var p = new DefaultPositionalStrategy<T>();
+            var s = new DefaultSwitchStrategy<T>();
+            p.Switches = Switches;
+            s.Switches = Switches;
+            p.SwitchStrategy = s;
+            s.PositionalStrategy = p;
+            s.Positionals = Positionals;
+            SwitchStrategy = s;
+            PositionalStrategy = p;
+        }
 
         public virtual ParseResult Parse(string[] args)
         {
@@ -26,12 +36,10 @@ namespace ArgParser.Core
             var history = new List<int>();
             while (!info.IsEnd)
             {
-                if (history.Count > 1 && history.First() <= info.Index)
-                {
+                if (history.Count > 1 && history.First() >= info.Index)
                     throw new InvalidOperationException("No forward progress detected.");
-                }
                 history.Insert(0, info.Index);
-                if (SubCommandStrategy.IsSubCommand(SubCommands, info))
+                if (info.Index == 0 && SubCommandStrategy.IsSubCommand(SubCommands, info))
                     return SubCommandStrategy.Parse(SubCommands, info);
                 if (SwitchStrategy.IsSwitch(Switches, info))
                 {
@@ -61,12 +69,6 @@ namespace ArgParser.Core
             SwitchStrategy.Reset();
         }
 
-        public virtual ArgParser<T> WithValidation(Validation validation)
-        {
-            Validations.Add(validation);
-            return this;
-        }
-
         public ArgParser<T> WithName(string name)
         {
             Name = name;
@@ -92,6 +94,12 @@ namespace ArgParser.Core
             return this;
         }
 
+        public virtual ArgParser<T> WithValidation(Validation validation)
+        {
+            Validations.Add(validation);
+            return this;
+        }
+
         public string Name { get; protected internal set; }
 
         protected internal Func<T> FactoryFunction { get; set; }
@@ -111,5 +119,9 @@ namespace ArgParser.Core
 
         protected internal virtual IList<Switch<T>> Switches => OrderOfAddition.OfType<Switch<T>>().ToList();
         protected internal virtual ISwitchStrategy<T> SwitchStrategy { get; set; } = new DefaultSwitchStrategy<T>();
+
+        protected internal IList<Validation> Validations { get; set; } = new List<Validation>();
+
+        public delegate void Validation(IterationInfo info, T instance);
     }
 }
