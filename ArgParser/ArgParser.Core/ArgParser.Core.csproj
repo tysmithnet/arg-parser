@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.1</Version>
+    <Version>0.0.2</Version>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Description>Lightweight expressive argument parsing and help text generation library.</Description>
   </PropertyGroup>
