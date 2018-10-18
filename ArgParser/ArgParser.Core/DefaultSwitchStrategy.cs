@@ -25,10 +25,11 @@ namespace ArgParser.Core
             var consumed = info.Rest.TakeWhile((e, i) =>
             {
                 var clone = info.Clone();
-                clone.Index += i;
+                clone.Index += i + 1;
                 var takeWhile = lastSwitch.TakeWhile(info, e, i);
-                var isPositional = PositionalStrategy.IsPositional(Positionals, clone);
-                return takeWhile && !isPositional;
+                var isSwitch = clone.Index < info.AllArgs.Length && IsSwitch(switches, clone);
+                var isGroup = clone.Index < info.AllArgs.Length && IsGroup(switches, clone);
+                return takeWhile && !isSwitch && !isGroup;
             }).ToArray();
             lastSwitch.Transformer?.Invoke(info, instance, consumed);
             info.Index += consumed.Length + 1;
@@ -42,10 +43,11 @@ namespace ArgParser.Core
             var consumed = info.Rest.TakeWhile((e, i) =>
             {
                 var clone = info.Clone();
-                clone.Index += i;
+                clone.Index += i + 1;
                 var takeWhile = first.TakeWhile(info, e, i);
-                var isPositional = PositionalStrategy.IsPositional(Positionals, clone);
-                return takeWhile && !isPositional;
+                var isSwitch = clone.Index < info.AllArgs.Length && IsSwitch(switches, clone);
+                var isGroup = clone.Index < info.AllArgs.Length && IsGroup(switches, clone);
+                return takeWhile && !isSwitch && !isGroup;
             }).ToArray();
             first.Transformer(info, instance, consumed);
             info.Index += consumed.Length + 1;
