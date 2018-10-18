@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
 
@@ -12,8 +8,8 @@ namespace ArgParser.Core.Test
     {
         private class BaseOptions
         {
-            public string Name { get; set; }
             public int Age { get; set; }
+            public string Name { get; set; }
         }
 
         private class WhateverOptions : BaseOptions
@@ -22,27 +18,15 @@ namespace ArgParser.Core.Test
         }
 
         [Fact]
-        public void Throw_If_Not_Configured_To_Parse_All_Args()
-        {
-            // arrange
-            var parser = new SubCommandArgParser<WhateverOptions, BaseOptions>(() => new WhateverOptions());
-            Action throws = () => parser.Parse("this is something".Split(' '));
-
-            // act
-            // assert
-            throws.Should().Throw<InvalidOperationException>();
-        }
-
-        [Fact]
-        public void Fallback_On_The_Parent_Switch_Strategy()
+        public void Also_Use_Parent_Validation()
         {
             // arrange
             var whateverParser = new SubCommandArgParser<WhateverOptions, BaseOptions>(() => new WhateverOptions())
-                .WithPositional(new Positional<WhateverOptions>()
+                .WithPositional(new Positional<WhateverOptions>
                 {
                     TakeWhile = (info, element, number) => number == 0
                 })
-                .WithSwitch(new Switch<WhateverOptions>()
+                .WithSwitch(new Switch<WhateverOptions>
                 {
                     IsToken = info => info.Cur == "-a",
                     TakeWhile = (info, element, number) => number == 0,
@@ -50,25 +34,78 @@ namespace ArgParser.Core.Test
                 });
 
             var baseParser = new ArgParser<BaseOptions>(() => new BaseOptions())
-                .WithSwitch(new Switch<BaseOptions>()
+                .WithSwitch(new Switch<BaseOptions>
                 {
                     IsToken = info => info.Cur == "-b",
                     TakeWhile = (info, element, number) => true,
                     Transformer = (info, instance, strings) => instance.Name = strings[0]
                 })
-                .WithSwitch(new Switch<BaseOptions>()
+                .WithSwitch(new Switch<BaseOptions>
                 {
                     TakeWhile = (info, element, number) => number == 0,
                     GroupLetter = 'i',
-                    Transformer = (info, instance, strings) => instance.Age = Convert.ToInt32(strings[0]),
+                    Transformer = (info, instance, strings) => instance.Age = Convert.ToInt32(strings[0])
                 })
-                .WithSubCommand(new SubCommand<WhateverOptions,BaseOptions>()
+                .WithSubCommand(new SubCommand<WhateverOptions, BaseOptions>
+                {
+                    IsCommand = info => info.Cur == "add",
+                    ArgParser = whateverParser
+                })
+                .WithValidation((info, instance) =>
+                {
+                    if (instance.Name == "other")
+                        ((IterationInfo) info).Errors.Add(new FormatError("Name cannot be other for some reason"));
+                });
+            var isParsed = false;
+
+            // act
+            baseParser.Parse("add -a something -b other things".Split(' '))
+                .WhenErrored(info =>
+                {
+                    isParsed = true;
+                    ((IterationInfo) info).Errors.Should().HaveCount(1);
+                });
+
+            // assert
+            isParsed.Should().BeTrue();
+        }
+
+        [Fact]
+        public void Fallback_On_The_Parent_Switch_Strategy()
+        {
+            // arrange
+            var whateverParser = new SubCommandArgParser<WhateverOptions, BaseOptions>(() => new WhateverOptions())
+                .WithPositional(new Positional<WhateverOptions>
+                {
+                    TakeWhile = (info, element, number) => number == 0
+                })
+                .WithSwitch(new Switch<WhateverOptions>
+                {
+                    IsToken = info => info.Cur == "-a",
+                    TakeWhile = (info, element, number) => number == 0,
+                    Transformer = (info, instance, strings) => instance.OtherThing = strings[0]
+                });
+
+            var baseParser = new ArgParser<BaseOptions>(() => new BaseOptions())
+                .WithSwitch(new Switch<BaseOptions>
+                {
+                    IsToken = info => info.Cur == "-b",
+                    TakeWhile = (info, element, number) => true,
+                    Transformer = (info, instance, strings) => instance.Name = strings[0]
+                })
+                .WithSwitch(new Switch<BaseOptions>
+                {
+                    TakeWhile = (info, element, number) => number == 0,
+                    GroupLetter = 'i',
+                    Transformer = (info, instance, strings) => instance.Age = Convert.ToInt32(strings[0])
+                })
+                .WithSubCommand(new SubCommand<WhateverOptions, BaseOptions>
                 {
                     IsCommand = info => info.Cur == "add",
                     ArgParser = whateverParser
                 });
-            bool isParsed = false;
-            bool isParsed2 = false;
+            var isParsed = false;
+            var isParsed2 = false;
 
             // act
             baseParser.Parse("add -a something -b other things".Split(' '))
@@ -94,59 +131,15 @@ namespace ArgParser.Core.Test
         }
 
         [Fact]
-        public void Also_Use_Parent_Validation()
+        public void Throw_If_Not_Configured_To_Parse_All_Args()
         {
             // arrange
-            var whateverParser = new SubCommandArgParser<WhateverOptions, BaseOptions>(() => new WhateverOptions())
-                .WithPositional(new Positional<WhateverOptions>()
-                {
-                    TakeWhile = (info, element, number) => number == 0
-                })
-                .WithSwitch(new Switch<WhateverOptions>()
-                {
-                    IsToken = info => info.Cur == "-a",
-                    TakeWhile = (info, element, number) => number == 0,
-                    Transformer = (info, instance, strings) => instance.OtherThing = strings[0]
-                });
-
-            var baseParser = new ArgParser<BaseOptions>(() => new BaseOptions())
-                .WithSwitch(new Switch<BaseOptions>()
-                {
-                    IsToken = info => info.Cur == "-b",
-                    TakeWhile = (info, element, number) => true,
-                    Transformer = (info, instance, strings) => instance.Name = strings[0]
-                })
-                .WithSwitch(new Switch<BaseOptions>()
-                {
-                    TakeWhile = (info, element, number) => number == 0,
-                    GroupLetter = 'i',
-                    Transformer = (info, instance, strings) => instance.Age = Convert.ToInt32(strings[0]),
-                })
-                .WithSubCommand(new SubCommand<WhateverOptions, BaseOptions>()
-                {
-                    IsCommand = info => info.Cur == "add",
-                    ArgParser = whateverParser
-                })
-                .WithValidation((info, instance) =>
-                {
-                    if (instance.Name == "other")
-                    {
-                        info.Errors.Add(new FormatError("Name cannot be other for some reason"));
-                    }
-                });
-            bool isParsed = false;
+            var parser = new SubCommandArgParser<WhateverOptions, BaseOptions>(() => new WhateverOptions());
+            Action throws = () => parser.Parse("this is something".Split(' '));
 
             // act
-            baseParser.Parse("add -a something -b other things".Split(' '))
-                .WhenErrored(info => 
-                {
-                    isParsed = true;
-                    info.Errors.Should().HaveCount(1);
-                });
-
-
             // assert
-            isParsed.Should().BeTrue();
+            throws.Should().Throw<InvalidOperationException>();
         }
     }
 }

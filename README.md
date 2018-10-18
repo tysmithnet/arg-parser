@@ -1,82 +1,174 @@
 # ArgParser
-ArgParser is a lightweight command line argument parsing library that provides expressive and flexible argument parsing. I don't much care for the common approach to this problem of decorating POCOs with attributes. I find it difficult to get these frameworks to do things they weren't designed to do. Because of this, this library uses a fluent syntax for describing how arguments should be processed. My goal is to be able to easily recreate the argument parsing and help text generation of most common command line applications.
+ArgParser is a lightweight library that provides expressive and flexible argument parsing. 
+
+### Motivation
+I don't much care for the common approach to this problem of decorating POCOs with attributes. I find it difficult to get these frameworks to do things they weren't designed to do. Because of this, this library uses a fluent syntax for describing how arguments should be processed. My goal is to be able to easily recreate the argument parsing and help text generation of most common command line applications.
 
 ### Examples
-    var commitParser = new ArgParser<CommitOptions>(() => new CommitOptions())
-        .WithTokenSwitch(s =>
+        [Fact]
+        public void Pass_The_ReadMe_Example()
         {
-            s.GroupLetter = 'a';
-            s.IsToken = info => info.Cur == "-a" || info.Cur == "--all";
-            s.TakeWhile = (info, e, i) => false;
-            s.Transformer = (info, opts, strings) => opts.All = true;
-        })
-        .WithTokenSwitch(s =>
-        {
-            s.GroupLetter = 'm';
-            s.IsToken = info => info.Cur == "-m" || info.Cur == "--message";
-            s.TakeWhile = (info, e, i) => i < 1;
-            s.Transformer = (info, opts, strings) => opts.Message = strings[0];
-            s.Validate = (info, opts, strings, errors) =>
-            {
-                if (strings.Length != 1)
-                    errors.Add(new CardinalityError("Message needs a single string"));
-            };
-        });
+            // arrange
+            var addParser = new SubCommandArgParser<AddOptions, BaseOptions>(() => new AddOptions())
+                .WithName("add")
+                .WithPositional(new Positional<AddOptions>
+                {
+                    TakeWhile = (info, s, arg3) => arg3 == 0
+                })
+                .WithSwitch(new Switch<AddOptions>
+                {
+                    GroupLetter = 'a',
+                    IsToken = info => info.Cur == "-a" || info.Cur == "--all",
+                    TakeWhile = (info, s, arg3) => false,
+                    Transformer = (info, options, arg3) => options.All = true
+                })
+                .WithPositional(new Positional<AddOptions>
+                {
+                    TakeWhile = (info, s, arg3) => true,
+                    Transformer = (info, options, arg3) => options.Files = arg3.ToList()
+                })
+                .WithValidation((info, instance) =>
+                {
+                    if (!instance.All && instance.Files == null || instance.Files.Count == 0)
+                        info.Errors.Add(new CardinalityError($"You must either specify all or identify files"));
+                });
 
-    var parser = new ArgParser<BaseOptions>(() => new BaseOptions())
-        .WithTokenSwitch(s =>
-        {
-            s.GroupLetter = 'n';
-            s.IsToken = info => new[] {"-n", "--numbers"}.Contains(info.Cur);
-            s.TakeWhile = (info, e, i) => int.TryParse(e, out var throwAway) && i < 5;
-            s.Validate = (info, opts, strings, errors) =>
-            {
-                var nonInts = strings.Where(x => !int.TryParse(x, out var throwAway));
-                foreach (var bad in nonInts) errors.Add(new FormatError($"Expected int32 but found {bad}"));
-            };
-            s.Transformer = (info, opts, strings) =>
-                opts.Numbers = strings.Skip(1).Select(x => Convert.ToInt32(x));
-        })
-        .WithPositional(p =>
-        {
-            p.TakeWhile = (info, e, i) => i < 1;
-            p.Validate = (info, opts, strings, errors) =>
-            {
-                if (strings.Count() != 1)
-                    errors.Add(new CardinalityError($"Expected to find 1 word but found 0"))
-            };
-            p.Transformer = (info, opts, strings) => opts.Things = strings;
-        })
-        .WithSubCommand<CommitOptions>("commit", commitParser)
-        .When<CommitOptions>(opts => Commit(opts))
-        .ParseSubCommands(args);
+            var commitParser = new SubCommandArgParser<CommitOptions, BaseOptions>(() => new CommitOptions())
+                .WithName("commit")
+                .WithPositional(new Positional<CommitOptions>
+                {
+                    TakeWhile = (info, s, i) => i == 0,
+                    Transformer = (info, options, arg3) => { }
+                })
+                .WithSwitch(new Switch<CommitOptions>
+                {
+                    GroupLetter = 'a',
+                    IsToken = info => info.Cur == "-a" || info.Cur == "--all",
+                    TakeWhile = (info, e, i) => false,
+                    Transformer = (info, opts, strings) => opts.All = true
+                })
+                .WithSwitch(new Switch<CommitOptions>
+                {
+                    GroupLetter = 'm',
+                    IsToken = info => info.Cur == "-m" || info.Cur == "--message",
+                    TakeWhile = (info, e, i) => i < 1,
+                    Transformer = (info, opts, strings) => opts.Message = strings[0]
+                })
+                .WithValidation((info, instance) =>
+                {
+                    if (instance.Message.Length > 10)
+                        info.Errors.Add(
+                            new FormatError("Expected message to be 10 or less characters for some reason"));
+                });
+
+            var parser = new ArgParser<BaseOptions>(() => new BaseOptions())
+                .WithName("base")
+                .WithSwitch(new Switch<BaseOptions>
+                {
+                    GroupLetter = 'n',
+                    IsToken = info => new[] {"-n", "--numbers"}.Contains(info.Cur),
+                    TakeWhile = (info, e, i) => int.TryParse(e, out var throwAway) && i < 5,
+
+                    Transformer = (info, opts, strings) =>
+                        opts.Numbers = strings.Select(x => Convert.ToInt32(x)).ToList()
+                })
+                .WithPositional(new Positional<BaseOptions>
+                {
+                    TakeWhile = (info, e, i) => true,
+                    Transformer = (info, opts, strings) => opts.Things = strings.ToList()
+                })
+                .WithSubCommand(new SubCommand<CommitOptions, BaseOptions>
+                {
+                    IsCommand = info => info.Cur == "commit",
+                    ArgParser = commitParser
+                })
+                .WithSubCommand(new SubCommand<AddOptions, BaseOptions>
+                {
+                    IsCommand = info => info.Cur == "add",
+                    ArgParser = addParser
+                });
+
+            // act
+            // assert
+            var isAddParsed = false;
+            var isCommitParsed = false;
+            var isAddValidated = false;
+            var isCommitValidated = false;
+
+            parser
+                .Parse("add -a file1 file2".Split(' '))
+                .When<AddOptions>(opts =>
+                {
+                    isAddParsed = true;
+                    opts.All.Should().BeTrue();
+                    opts.Files.Should().BeEquivalentTo("file1", "file2");
+                });
+
+            parser
+                .Parse("add".Split(' '))
+                .When<AddOptions>(opts => { })
+                .WhenErrored(info =>
+                {
+                    isAddValidated = true;
+                    info.Errors.Should().HaveCount(1);
+                });
+
+            parser
+                .Parse("commit -am something -n 1 2 3 thing1 thing2".Split(' '))
+                .When<CommitOptions>(opts =>
+                {
+                    isCommitParsed = true;
+                    opts.All.Should().BeTrue();
+                    opts.Numbers.Should().BeEquivalentTo(new[] {1, 2, 3});
+                    opts.Message.Should().Be("something");
+                    opts.Things.Should().BeEquivalentTo("thing1", "thing2");
+                });
+
+            parser
+                .Parse("commit -m somethingreallynotthatlong -n 1 2 3 thing1 thing2".Split(' '))
+                .WhenErrored(info =>
+                {
+                    isCommitValidated = true;
+                    info.Errors.Should().HaveCount(1);
+                });
+
+            isAddParsed.Should().BeTrue();
+            isAddValidated.Should().BeTrue();
+            isCommitParsed.Should().BeTrue();
+            isCommitValidated.Should().BeTrue();
+        }
+    }
+
 
         
         
 
 ### Features
-- [ ] Fluent syntax
+- [x] Fluent syntax
   - [x] Setup of switches and positionals
-  - [ ] Fluent result parsing 
-- [ ] Verbs e.g. `git commit`
+  - [x] Fluent result parsing 
+- [x] Verbs e.g. `git commit`
 - [x] Multiple boolean switches e.g. `grep -rnw`
-- [ ] Boolean cardinality e.g. `nmap -vvv`
+- [x] Boolean cardinality e.g. `nmap -vvv`
 - [ ] Groups e.g. input, logging, processing, output
 - [ ] Help page generation
-- [ ] Custom switch syntax strategies e.g `-t` `--thing` `/t` `t:something`
-- [ ] Required parameters
-- [ ] Custom multiple value iterators
-- [ ] Enums
+- [x] Custom switch syntax strategies e.g `-t` `--thing` `/t` `t:something`
+- [x] Required parameters
+- [x] Custom multiple value iterators
+- [x] Enums
 
 ### Glossary
 |Term               |Definition|
 |-------------------|----------|
 |Arg                |Anything passed in the command line arguments passed to an application|
+|Consumption        |The process of collecting contiguous tokens to use in the transformation process|
 |Options            |Arguments are parsed into options. Options describe the requested behavior of the application|
-|Positional         |An input whose purpose is derived from its position in arguments that do not belong to another switch|
-|Subcommand         |A subcommand that typically takes has its own set of options. Called verb in other frameworks.|
+|Positional         |A token whose purpose is derived from its position in arguments that do not belong to another switch|
+|Subcommand         |A subcommand typically takes has its own set of options. Called verb in other frameworks.|
 |Switch             |A flag or token indicating that a behavior is requested, e.g. `-v` `--theme=dark` `-rnw`|
+|Switch Group       |A group of switches all passed in a single token|
 |Token              |A textual hint that indicates a switch has been found e.g. `-t` `--things` `/?` `filetype:` `--include=`|
+|Transformation     |As the processing progresses, an options instance undergoes many transformations -or state modifying actions|
 
 ### Inspirations
 - `git commit -am "something"`
