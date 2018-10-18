@@ -39,6 +39,7 @@ namespace ArgParser.Core
         {
             FactoryFunction = factoryFunction ?? throw new ArgumentNullException(nameof(factoryFunction));
             SetupStrategies();
+            HelpBuilder = new DefaultHelpBuilder<TOptions>();
         }
 
         /// <summary>
@@ -111,6 +112,7 @@ namespace ArgParser.Core
         public virtual ArgParser<TOptions> WithPositional(Positional<TOptions> positional)
         {
             OrderOfAddition.Add(positional);
+            HelpBuilder?.AddPositional(positional);
             return this;
         }
 
@@ -125,6 +127,7 @@ namespace ArgParser.Core
         {
             subCommand.ArgParser.ParentParser = this;
             SubCommands.Add(subCommand);
+            HelpBuilder?.AddSubCommand<TOptions>(subCommand);
             return this;
         }
 
@@ -136,6 +139,7 @@ namespace ArgParser.Core
         public virtual ArgParser<TOptions> WithSwitch(Switch<TOptions> @switch)
         {
             OrderOfAddition.Add(@switch);
+            HelpBuilder?.AddSwitch(@switch);
             return this;
         }
 
@@ -251,5 +255,12 @@ namespace ArgParser.Core
         /// <param name="info">The information.</param>
         /// <param name="instance">The instance.</param>
         public delegate void Validation(IIterationInfo info, TOptions instance);
+
+        public ArgParser<TOptions> WithIdentity(IdentityInformation identityInformation)
+        {
+            IdentityInformation = identityInformation;
+            HelpBuilder?.AddIdentityInfomation(identityInformation);
+            return this;
+        }
     }
 }
