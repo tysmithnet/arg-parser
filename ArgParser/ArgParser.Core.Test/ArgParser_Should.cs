@@ -75,54 +75,6 @@ namespace ArgParser.Core.Test
         }
 
         [Fact]
-        public void Work_When_Only_A_Single_Group_Letter_Exists()
-        {
-            // arrange
-            var isParsed = false;
-            var isParsed2 = false;
-            var parser = new ArgParser<CommitOptions>(() => new CommitOptions())
-                .WithSwitch(new Switch<CommitOptions>()
-                {
-                    GroupLetter = 'a',
-                    TakeWhile = (info, element, number) => false,
-                    Transformer =(info, instance, strings) => instance.All = true
-                });
-
-
-            // act
-            // assert
-            parser.Parse("-a".Split(' '))
-                .When<CommitOptions>(options =>
-                {
-                    isParsed = true;
-                    options.All.Should().BeTrue();
-                });
-
-            parser.Parse("-aaa".Split(' '))
-                .When<CommitOptions>(options =>
-                {
-                    isParsed2 = true;
-                    options.All.Should().BeTrue();
-                });
-
-            isParsed.Should().BeTrue();
-            isParsed2.Should().BeTrue();
-        }
-
-        [Fact]
-        public void Throw_If_The_Configuration_Is_Insufficient_For_Args()
-        {
-            // arrange
-            var parser = new ArgParser<CommitOptions>(() => new CommitOptions());
-            Action throws = () => parser.Parse("-t this is something".Split(' '));
-            
-            // act
-            // assert
-            throws.Should().Throw<InvalidOperationException>();
-
-        }
-
-        [Fact]
         public void Pass_A_Basic_Use_Case()
         {
             // arrange
@@ -148,10 +100,7 @@ namespace ArgParser.Core.Test
                 })
                 .WithValidation((info, instance) =>
                 {
-                    if (instance.Message.Length < 10)
-                    {
-                        info.AddError(new FormatError("Message is too short"));
-                    }
+                    if (instance.Message.Length < 10) info.AddError(new FormatError("Message is too short"));
                 });
 
             // act
@@ -200,7 +149,8 @@ namespace ArgParser.Core.Test
                 .WithValidation((info, instance) =>
                 {
                     if (!instance.All && instance.Files == null || instance.Files.Count == 0)
-                        ((IterationInfo)info).Errors.Add(new CardinalityError($"You must either specify all or identify files"));
+                        ((IterationInfo) info).Errors.Add(
+                            new CardinalityError($"You must either specify all or identify files"));
                 });
 
             var commitParser = new SubCommandArgParser<CommitOptions, BaseOptions>(() => new CommitOptions())
@@ -227,7 +177,7 @@ namespace ArgParser.Core.Test
                 .WithValidation((info, instance) =>
                 {
                     if (instance.Message.Length > 10)
-                        ((IterationInfo)info).Errors.Add(
+                        ((IterationInfo) info).Errors.Add(
                             new FormatError("Expected message to be 10 or less characters for some reason"));
                 });
 
@@ -280,7 +230,7 @@ namespace ArgParser.Core.Test
                 .WhenErrored(info =>
                 {
                     isAddValidated = true;
-                    ((IterationInfo)info).Errors.Should().HaveCount(1);
+                    ((IterationInfo) info).Errors.Should().HaveCount(1);
                 });
 
             parser
@@ -299,13 +249,59 @@ namespace ArgParser.Core.Test
                 .WhenErrored(info =>
                 {
                     isCommitValidated = true;
-                    ((IterationInfo)info).Errors.Should().HaveCount(1);
+                    ((IterationInfo) info).Errors.Should().HaveCount(1);
                 });
 
             isAddParsed.Should().BeTrue();
             isAddValidated.Should().BeTrue();
             isCommitParsed.Should().BeTrue();
             isCommitValidated.Should().BeTrue();
+        }
+
+        [Fact]
+        public void Throw_If_The_Configuration_Is_Insufficient_For_Args()
+        {
+            // arrange
+            var parser = new ArgParser<CommitOptions>(() => new CommitOptions());
+            Action throws = () => parser.Parse("-t this is something".Split(' '));
+
+            // act
+            // assert
+            throws.Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void Work_When_Only_A_Single_Group_Letter_Exists()
+        {
+            // arrange
+            var isParsed = false;
+            var isParsed2 = false;
+            var parser = new ArgParser<CommitOptions>(() => new CommitOptions())
+                .WithSwitch(new Switch<CommitOptions>
+                {
+                    GroupLetter = 'a',
+                    TakeWhile = (info, element, number) => false,
+                    Transformer = (info, instance, strings) => instance.All = true
+                });
+
+            // act
+            // assert
+            parser.Parse("-a".Split(' '))
+                .When<CommitOptions>(options =>
+                {
+                    isParsed = true;
+                    options.All.Should().BeTrue();
+                });
+
+            parser.Parse("-aaa".Split(' '))
+                .When<CommitOptions>(options =>
+                {
+                    isParsed2 = true;
+                    options.All.Should().BeTrue();
+                });
+
+            isParsed.Should().BeTrue();
+            isParsed2.Should().BeTrue();
         }
     }
 }

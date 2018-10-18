@@ -11,16 +11,17 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace ArgParser.Core
 {
     /// <summary>
-    /// Represents an error in processing that results from having the incorrect number of values
+    ///     Represents an error in processing that results from having the incorrect number of values
     /// </summary>
     /// <seealso cref="ArgParser.Core.ParsingError" />
     public class CardinalityError : ParsingError
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CardinalityError"/> class.
+        ///     Initializes a new instance of the <see cref="CardinalityError" /> class.
         /// </summary>
         /// <param name="message">The message.</param>
         /// <inheritdoc />

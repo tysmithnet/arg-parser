@@ -11,27 +11,29 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System.Collections.Generic;
 
 namespace ArgParser.Core
 {
     /// <summary>
-    /// Represents an object that is capable of identifying and consuming positional arguments 
+    ///     Represents an object that is capable of identifying and consuming positional arguments
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <seealso cref="ArgParser.Core.IParsingStrategy{T}" />
     public interface IPositionalStrategy<T> : IParsingStrategy<T>
     {
         /// <summary>
-        /// Consumes the current positional arguments
+        ///     Consumes the current positional arguments
         /// </summary>
         /// <param name="positionals">The positionals.</param>
         /// <param name="instance">The instance.</param>
         /// <param name="info">The iteration information</param>
         /// <returns>IterationInfo.</returns>
         IIterationInfo Consume(IList<Positional<T>> positionals, T instance, IIterationInfo info);
+
         /// <summary>
-        /// Determines whether the current location is positional.
+        ///     Determines whether the current location is positional.
         /// </summary>
         /// <param name="positionals">The positionals.</param>
         /// <param name="info">The iteration information</param>

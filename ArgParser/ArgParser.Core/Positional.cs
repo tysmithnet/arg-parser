@@ -11,10 +11,11 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace ArgParser.Core
 {
     /// <summary>
-    /// Represents a token whose purpose is derived from its position in arguments that do not belong to another switch
+    ///     Represents a token whose purpose is derived from its position in arguments that do not belong to another switch
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <seealso cref="PipelineElement{T}" />

@@ -11,13 +11,11 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
-using System;
-using System.Collections.Generic;
 
 namespace ArgParser.Core
 {
     /// <summary>
-    /// Describes functionality that is capable of determining when to stop token consumption
+    ///     Describes functionality that is capable of determining when to stop token consumption
     /// </summary>
     /// <param name="info">The iteration information</param>
     /// <param name="token">The token.</param>
@@ -26,28 +24,30 @@ namespace ArgParser.Core
     public delegate bool TakeWhileCallback(IIterationInfo info, string token, int tokenNumber);
 
     /// <summary>
-    /// Represents an object that is part of the argument parsing pipeline
+    ///     Represents an object that is part of the argument parsing pipeline
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public abstract class PipelineElement<T>
     {
         /// <summary>
-        /// Describes functionality that is capable of using the consumed strings to modify the options currently being constructed
+        ///     Gets or sets the functionality capable of identifying tokens to be consumed
+        /// </summary>
+        /// <value>The take while.</value>
+        public TakeWhileCallback TakeWhile { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the transformer.
+        /// </summary>
+        /// <value>The transformer.</value>
+        public TransformerCallback Transformer { get; set; }
+
+        /// <summary>
+        ///     Describes functionality that is capable of using the consumed strings to modify the options currently being
+        ///     constructed
         /// </summary>
         /// <param name="info">The iteration information</param>
         /// <param name="instance">The options instance currently being constructed.</param>
         /// <param name="consumedStrings">The consumed strings.</param>
         public delegate void TransformerCallback(IIterationInfo info, T instance, string[] consumedStrings);
-
-        /// <summary>
-        /// Gets or sets the functionality capable of identifying tokens to be consumed
-        /// </summary>
-        /// <value>The take while.</value>
-        public TakeWhileCallback TakeWhile { get; set; }
-        /// <summary>
-        /// Gets or sets the transformer.
-        /// </summary>
-        /// <value>The transformer.</value>
-        public TransformerCallback Transformer { get; set; }
     }
 }

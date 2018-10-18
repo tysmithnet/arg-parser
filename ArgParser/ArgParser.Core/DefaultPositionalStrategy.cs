@@ -11,35 +11,26 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ArgParser.Core
 {
     /// <summary>
-    /// The default positional strategy
+    ///     The default positional strategy
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <seealso cref="ArgParser.Core.IPositionalStrategy{T}" />
     public class DefaultPositionalStrategy<T> : IPositionalStrategy<T>
     {
         /// <summary>
-        /// A history of positionals that have been satisfied already
+        ///     A history of positionals that have been satisfied already
         /// </summary>
         protected internal ISet<object> Seen = new HashSet<object>();
-        /// <summary>
-        /// Gets or sets the switch strategy.
-        /// </summary>
-        /// <value>The switch strategy.</value>
-        protected internal ISwitchStrategy<T> SwitchStrategy { get; set; }
-        /// <summary>
-        /// Gets or sets the switches.
-        /// </summary>
-        /// <value>The switches.</value>
-        protected internal IList<Switch<T>> Switches { get; set; }
 
         /// <summary>
-        /// Consumes the current positional arguments
+        ///     Consumes the current positional arguments
         /// </summary>
         /// <param name="positionals">The positionals.</param>
         /// <param name="instance">The instance.</param>
@@ -53,7 +44,6 @@ namespace ArgParser.Core
             Seen.Add(first);
             var consumed = info.CurOn.TakeWhile((e, i) =>
             {
-
                 var clone = info.Clone();
                 clone.Index += i;
                 var takeWhile = first.TakeWhile(info, e, i);
@@ -66,7 +56,7 @@ namespace ArgParser.Core
         }
 
         /// <summary>
-        /// Determines whether the current location is positional.
+        ///     Determines whether the current location is positional.
         /// </summary>
         /// <param name="positionals">The positionals.</param>
         /// <param name="info">The iteration information</param>
@@ -78,7 +68,7 @@ namespace ArgParser.Core
         }
 
         /// <summary>
-        /// Resets this instance.
+        ///     Resets this instance.
         /// </summary>
         /// <inheritdoc />
         public void Reset()
@@ -87,9 +77,21 @@ namespace ArgParser.Core
         }
 
         /// <summary>
-        /// Gets or sets the order of command line element additions.
+        ///     Gets or sets the order of command line element additions.
         /// </summary>
         /// <value>The order of additions.</value>
         protected internal IList<PipelineElement<T>> OrderOfAdditions { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the switches.
+        /// </summary>
+        /// <value>The switches.</value>
+        protected internal IList<Switch<T>> Switches { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the switch strategy.
+        /// </summary>
+        /// <value>The switch strategy.</value>
+        protected internal ISwitchStrategy<T> SwitchStrategy { get; set; }
     }
 }

@@ -11,22 +11,22 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 
 namespace ArgParser.Core
 {
     /// <summary>
-    /// Represents the current state of the iteration of the arguments
+    ///     Represents the current state of the iteration of the arguments
     /// </summary>
     [DebuggerDisplay("{Index}:{Cur}")]
     public class IterationInfo : IIterationInfo
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="IterationInfo"/> class.
+        ///     Initializes a new instance of the <see cref="IterationInfo" /> class.
         /// </summary>
         /// <param name="allArgs">All arguments passed to the program.</param>
         /// <param name="index">The index of the read head.</param>
@@ -38,15 +38,6 @@ namespace ArgParser.Core
             Index = index;
         }
 
-        /// <summary>
-        /// Gets or sets the errors.
-        /// </summary>
-        /// <value>The errors.</value>
-        internal IList<ParsingError> Errors { get; set; } = new List<ParsingError>();
-
-        /// <inheritdoc />
-        public bool HasErrors => Errors.Any();
-
         /// <inheritdoc />
         public void AddError(ParsingError error)
         {
@@ -54,46 +45,57 @@ namespace ArgParser.Core
         }
 
         /// <summary>
-        /// Gets all arguments.
+        ///     Clones this instance.
+        /// </summary>
+        /// <returns>IterationInfo.</returns>
+        public IIterationInfo Clone() => new IterationInfo(AllArgs, Index)
+        {
+            Errors = new List<ParsingError>(Errors)
+        };
+
+        /// <summary>
+        ///     Gets all arguments.
         /// </summary>
         /// <value>All arguments.</value>
         public string[] AllArgs { get; internal set; }
+
         /// <summary>
-        /// Gets the index.
-        /// </summary>
-        /// <value>The index.</value>
-        public int Index { get; set; }
-        /// <summary>
-        /// Gets the current token.
+        ///     Gets the current token.
         /// </summary>
         /// <value>The current.</value>
         public string Cur => AllArgs[Index];
+
         /// <summary>
-        /// Gets the rest of the tokens following the current one
-        /// </summary>
-        /// <value>The rest.</value>
-        public string[] Rest => AllArgs.Skip(Index + 1).ToArray();
-        /// <summary>
-        /// Gets all tokens from the current token onward
+        ///     Gets all tokens from the current token onward
         /// </summary>
         /// <value>The current on.</value>
         public string[] CurOn => AllArgs.Skip(Index).ToArray();
+
+        /// <inheritdoc />
+        public bool HasErrors => Errors.Any();
+
         /// <summary>
-        /// Gets a value indicating whether the iteration has ended
+        ///     Gets the index.
+        /// </summary>
+        /// <value>The index.</value>
+        public int Index { get; set; }
+
+        /// <summary>
+        ///     Gets a value indicating whether the iteration has ended
         /// </summary>
         /// <value><c>true</c> if this instance is end; otherwise, <c>false</c>.</value>
         public bool IsEnd => Index >= AllArgs.Length;
 
         /// <summary>
-        /// Clones this instance.
+        ///     Gets the rest of the tokens following the current one
         /// </summary>
-        /// <returns>IterationInfo.</returns>
-        public IIterationInfo Clone()
-        {
-            return new IterationInfo(AllArgs, Index)
-            {
-                Errors = new List<ParsingError>(Errors)
-            };
-        }
+        /// <value>The rest.</value>
+        public string[] Rest => AllArgs.Skip(Index + 1).ToArray();
+
+        /// <summary>
+        ///     Gets or sets the errors.
+        /// </summary>
+        /// <value>The errors.</value>
+        internal IList<ParsingError> Errors { get; set; } = new List<ParsingError>();
     }
 }

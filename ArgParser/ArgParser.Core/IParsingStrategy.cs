@@ -11,16 +11,17 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace ArgParser.Core
 {
     /// <summary>
-    /// Represents an object that is contributing to argument parsing
+    ///     Represents an object that is contributing to argument parsing
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public interface IParsingStrategy<T>
     {
         /// <summary>
-        /// Resets this instance.
+        ///     Resets this instance.
         /// </summary>
         void Reset();
     }

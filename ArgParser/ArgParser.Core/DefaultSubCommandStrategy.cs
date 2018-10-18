@@ -11,21 +11,21 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
-using System;
+
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ArgParser.Core
 {
     /// <summary>
-    /// Default sub command strategy implementation
+    ///     Default sub command strategy implementation
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <seealso cref="ArgParser.Core.ISubCommandStrategy{T}" />
     public class DefaultSubCommandStrategy<T> : ISubCommandStrategy<T>
     {
         /// <summary>
-        /// Determines if the current token is a sub command
+        ///     Determines if the current token is a sub command
         /// </summary>
         /// <param name="subCommands">The sub commands to consider.</param>
         /// <param name="info">The iteration information.</param>
@@ -37,7 +37,7 @@ namespace ArgParser.Core
         }
 
         /// <summary>
-        /// Parse the arguments using the provided sub commands
+        ///     Parse the arguments using the provided sub commands
         /// </summary>
         /// <param name="subCommands">The sub commands to consider.</param>
         /// <param name="info">The iteration information</param>
@@ -50,12 +50,11 @@ namespace ArgParser.Core
         }
 
         /// <summary>
-        /// Resets this instance.
+        ///     Resets this instance.
         /// </summary>
         /// <inheritdoc />
         public void Reset()
         {
-            
         }
     }
 }

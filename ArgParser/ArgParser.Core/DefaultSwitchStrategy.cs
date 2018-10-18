@@ -11,36 +11,21 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ArgParser.Core
 {
     /// <summary>
-    /// Default switch strategy implementation
+    ///     Default switch strategy implementation
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <seealso cref="ArgParser.Core.ISwitchStrategy{T}" />
     public class DefaultSwitchStrategy<T> : ISwitchStrategy<T>
     {
         /// <summary>
-        /// Gets or sets the positional strategy.
-        /// </summary>
-        /// <value>The positional strategy.</value>
-        protected internal IPositionalStrategy<T> PositionalStrategy { get; set; }
-        /// <summary>
-        /// Gets or sets the positionals.
-        /// </summary>
-        /// <value>The positionals.</value>
-        protected internal IList<Positional<T>> Positionals { get; set; }
-        /// <summary>
-        /// Gets or sets the switches.
-        /// </summary>
-        /// <value>The switches.</value>
-        protected internal IList<Switch<T>> Switches { get; set; }
-
-        /// <summary>
-        /// Consumes the group.
+        ///     Consumes the group.
         /// </summary>
         /// <param name="switches">The switches.</param>
         /// <param name="instance">The instance.</param>
@@ -74,7 +59,7 @@ namespace ArgParser.Core
         }
 
         /// <summary>
-        /// Consume tokens to statisfy the provided switches if they require it
+        ///     Consume tokens to statisfy the provided switches if they require it
         /// </summary>
         /// <param name="switches">The switches to consider.</param>
         /// <param name="instance">The options object currently being constructed.</param>
@@ -99,7 +84,7 @@ namespace ArgParser.Core
         }
 
         /// <summary>
-        /// Determines if the current token is a group of switches e.g. grep -rnw
+        ///     Determines if the current token is a group of switches e.g. grep -rnw
         /// </summary>
         /// <param name="switches">The switches to consider.</param>
         /// <param name="info">The information about the current iteration over the arguments.</param>
@@ -114,12 +99,12 @@ namespace ArgParser.Core
                 .Select(x => x.GroupLetter.Value)
                 .Select(x => x.ToString())
                 .ToArray();
-                
+
             return sansHash.All(x => letters.Contains($"{x}"));
         }
 
         /// <summary>
-        /// Determines if the current token is a switch
+        ///     Determines if the current token is a switch
         /// </summary>
         /// <param name="switches">The switches to consider.</param>
         /// <param name="info">The iteration information</param>
@@ -131,11 +116,29 @@ namespace ArgParser.Core
         }
 
         /// <summary>
-        /// Resets this instance.
+        ///     Resets this instance.
         /// </summary>
         /// <inheritdoc />
         public void Reset()
         {
         }
+
+        /// <summary>
+        ///     Gets or sets the positionals.
+        /// </summary>
+        /// <value>The positionals.</value>
+        protected internal IList<Positional<T>> Positionals { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the positional strategy.
+        /// </summary>
+        /// <value>The positional strategy.</value>
+        protected internal IPositionalStrategy<T> PositionalStrategy { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the switches.
+        /// </summary>
+        /// <value>The switches.</value>
+        protected internal IList<Switch<T>> Switches { get; set; }
     }
 }

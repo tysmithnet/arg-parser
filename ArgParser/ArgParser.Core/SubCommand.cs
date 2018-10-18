@@ -11,12 +11,13 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System;
 
 namespace ArgParser.Core
 {
     /// <summary>
-    /// A subcommand typically takes has its own set of options. Called verb in other frameworks.
+    ///     A subcommand typically takes has its own set of options. Called verb in other frameworks.
     /// </summary>
     /// <typeparam name="T">Type of the sub command's options</typeparam>
     /// <typeparam name="TParent">The type of the parent parser to which this will be added</typeparam>
@@ -24,26 +25,23 @@ namespace ArgParser.Core
     public class SubCommand<T, TParent> : ISubCommand where T : TParent
     {
         /// <summary>
-        /// Gets or sets the argument parser.
-        /// </summary>
-        /// <value>The argument parser.</value>
-        internal SubCommandArgParser<T, TParent> ArgParser { get; set; }
-
-        /// <summary>
-        /// Parses the specified arguments.
+        ///     Parses the specified arguments.
         /// </summary>
         /// <param name="args">The arguments.</param>
         /// <returns>ParseResult.</returns>
-        public ParseResult Parse(string[] args)
-        {
-            return ArgParser.Parse(args);
-        }
+        public ParseResult Parse(string[] args) => ArgParser.Parse(args);
 
         /// <summary>
-        /// Gets or sets the function that determines if the current token should be considered a command
+        ///     Gets or sets the function that determines if the current token should be considered a command
         /// </summary>
         /// <value>The is command.</value>
         /// <inheritdoc />
         public Func<IIterationInfo, bool> IsCommand { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the argument parser.
+        /// </summary>
+        /// <value>The argument parser.</value>
+        internal SubCommandArgParser<T, TParent> ArgParser { get; set; }
     }
 }
