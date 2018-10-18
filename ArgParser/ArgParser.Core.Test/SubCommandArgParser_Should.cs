@@ -131,7 +131,7 @@ namespace ArgParser.Core.Test
                 {
                     if (instance.Name == "other")
                     {
-                        info.Errors.Add(new FormatError("Name cannot be other for some reason"));
+                        ((IterationInfo)info).Errors.Add(new FormatError("Name cannot be other for some reason"));
                     }
                 });
             bool isParsed = false;
@@ -141,7 +141,7 @@ namespace ArgParser.Core.Test
                 .WhenErrored(info => 
                 {
                     isParsed = true;
-                    info.Errors.Should().HaveCount(1);
+                    ((IterationInfo)info).Errors.Should().HaveCount(1);
                 });
 
 

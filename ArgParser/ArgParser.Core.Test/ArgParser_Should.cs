@@ -150,7 +150,7 @@ namespace ArgParser.Core.Test
                 {
                     if (instance.Message.Length < 10)
                     {
-                        info.Errors.Add(new FormatError("Message is too short"));
+                        info.AddError(new FormatError("Message is too short"));
                     }
                 });
 
@@ -168,7 +168,7 @@ namespace ArgParser.Core.Test
                 .WhenErrored(info =>
                 {
                     isValidated = true;
-                    info.Errors.Should().HaveCount(1);
+                    ((IterationInfo) info).Errors.Should().HaveCount(1);
                 });
 
             isParsed.Should().BeTrue();
@@ -200,7 +200,7 @@ namespace ArgParser.Core.Test
                 .WithValidation((info, instance) =>
                 {
                     if (!instance.All && instance.Files == null || instance.Files.Count == 0)
-                        info.Errors.Add(new CardinalityError($"You must either specify all or identify files"));
+                        ((IterationInfo)info).Errors.Add(new CardinalityError($"You must either specify all or identify files"));
                 });
 
             var commitParser = new SubCommandArgParser<CommitOptions, BaseOptions>(() => new CommitOptions())
@@ -227,7 +227,7 @@ namespace ArgParser.Core.Test
                 .WithValidation((info, instance) =>
                 {
                     if (instance.Message.Length > 10)
-                        info.Errors.Add(
+                        ((IterationInfo)info).Errors.Add(
                             new FormatError("Expected message to be 10 or less characters for some reason"));
                 });
 
@@ -280,7 +280,7 @@ namespace ArgParser.Core.Test
                 .WhenErrored(info =>
                 {
                     isAddValidated = true;
-                    info.Errors.Should().HaveCount(1);
+                    ((IterationInfo)info).Errors.Should().HaveCount(1);
                 });
 
             parser
@@ -299,7 +299,7 @@ namespace ArgParser.Core.Test
                 .WhenErrored(info =>
                 {
                     isCommitValidated = true;
-                    info.Errors.Should().HaveCount(1);
+                    ((IterationInfo)info).Errors.Should().HaveCount(1);
                 });
 
             isAddParsed.Should().BeTrue();

@@ -14,7 +14,7 @@
 namespace ArgParser.Core
 {
     /// <summary>
-    /// Interface IParsingStrategy
+    /// Represents an object that is contributing to argument parsing
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public interface IParsingStrategy<T>

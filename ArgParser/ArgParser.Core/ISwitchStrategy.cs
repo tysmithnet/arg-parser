@@ -30,21 +30,21 @@ namespace ArgParser.Core
         /// <param name="instance">The options object currently being constructed.</param>
         /// <param name="info">The information about the current iteration over the arguments.</param>
         /// <returns>IterationInfo.</returns>
-        IterationInfo ConsumeSwitch(IList<Switch<T>> switches, T instance, IterationInfo info);
+        IIterationInfo ConsumeSwitch(IList<Switch<T>> switches, T instance, IIterationInfo info);
         /// <summary>
         /// Determines if the current token is a switch
         /// </summary>
         /// <param name="switches">The switches to consider.</param>
-        /// <param name="info">The information.</param>
+        /// <param name="info">The iteration information</param>
         /// <returns><c>true</c> if the current token is a switch; otherwise, <c>false</c>.</returns>
-        bool IsSwitch(IList<Switch<T>> switches, IterationInfo info);
+        bool IsSwitch(IList<Switch<T>> switches, IIterationInfo info);
         /// <summary>
         /// Determines if the current token is a group of switches e.g. grep -rnw
         /// </summary>
         /// <param name="switches">The switches to consider.</param>
         /// <param name="info">The information about the current iteration over the arguments.</param>
         /// <returns><c>true</c> if the current token is a switch group; otherwise, <c>false</c>.</returns>
-        bool IsGroup(IList<Switch<T>> switches, IterationInfo info);
+        bool IsGroup(IList<Switch<T>> switches, IIterationInfo info);
         /// <summary>
         /// Consumes the group.
         /// </summary>
@@ -52,6 +52,6 @@ namespace ArgParser.Core
         /// <param name="instance">The instance.</param>
         /// <param name="info">The information about the current iteration over the arguments.</param>
         /// <returns>IterationInfo.</returns>
-        IterationInfo ConsumeGroup(IList<Switch<T>> switches, T instance, IterationInfo info);
+        IIterationInfo ConsumeGroup(IList<Switch<T>> switches, T instance, IIterationInfo info);
     }
 }
