@@ -174,15 +174,22 @@ namespace ArgParser.IntegrationTesting
             // assert
             if(BaseParser.HelpBuilder.Build() is LeafNode textNode)
             {
-                textNode.Text.Trim().Should().Be(@"clip - 1.0.0.0
-Interact with clipboard items
+                textNode.Text.Trim().Should().Be(@"clip - 1.0.0.0 - Interact with clipboard items
+Interact with the clipboard
+    * Text
+    * Audio
+    * Files
+    * Data
 
 Synopsis:
     clip -o -vvv -l file.log [sort -d] [zip -n file.zip]
 
 Sub Commands:
-    sort -d - Sort the contents of the clipboard
-    zip -n file.zip - Zip the files currently on the clipboard
+    sort -d
+    Sort the contents of the clipboard
+
+    zip -n file.zip
+    Zip the files currently on the clipboard
 
 Switches:
     -o

@@ -143,7 +143,7 @@ namespace ArgParser.Core.Test
         {
             // arrange
             var subMock = new Mock<ISubCommand>();
-            subMock.Setup(command => command.Help).Returns(new Help.HelpInfo()
+            subMock.Setup(command => command.Help).Returns(new HelpInfo()
             {
                 Synopsis = "se",
                 ShortDescription = "Set something else instead"
@@ -155,7 +155,7 @@ namespace ArgParser.Core.Test
                     ShortDescription = "do what?",
                     Description = "do something",
                     Version = "1.2.3.4",
-                    Synopsis = "doit [se] -blah",
+                    Synopsis = "doit -blah",
                     Url = "www.example.org"
                 })
                 .AddSwitch(new Switch<SomethingOptions>()
@@ -167,16 +167,16 @@ namespace ArgParser.Core.Test
                     }
                 }).AddSwitch(new Switch<SomethingOptions>()
                 {
-                    Help = new Help.HelpInfo()
+                    Help = new HelpInfo()
                     {
-                        Synopsis = "-s, --something something",
-                        ShortDescription = "Set something to some value"
+                        Synopsis = "-e, --else somethingelse",
+                        ShortDescription = "Set some other value"
                     }
                 })
                 .AddSubCommand<SomethingElseOptions>(subMock.Object)
                 .AddPositional(new Positional<SomethingOptions>()
                 {
-                    Help = new Help.HelpInfo()
+                    Help = new HelpInfo()
                     {
                         Synopsis = "thing1 thing2 ...",
                         ShortDescription = "The things"
@@ -187,21 +187,22 @@ namespace ArgParser.Core.Test
             // assert
             if (builder.Build() is TextSnippetNode snippet)
             {
-                snippet.Text.Trim().Should().Be(@"doit - 1.2.3.4
-do what?
+                snippet.Text.Trim().Should().Be(@"doit - 1.2.3.4 - do what?
+do something
 
 Synopsis:
-    doit [se] -blah [se]
+    doit -blah [se]
 
 Sub Commands:
-    se - Set something else instead
+    se
+    Set something else instead
 
 Switches:
     -s, --something something
     Set something to some value
 
-    -s, --something something
-    Set something to some value
+    -e, --else somethingelse
+    Set some other value
 
 Positionals:
     thing1 thing2 ...

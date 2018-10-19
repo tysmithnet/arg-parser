@@ -41,8 +41,8 @@ namespace ArgParser.Core.Help
         public Node Build()
         {
             StringBuilder
-                .AppendLine($"{Help.Name} - {Help.Version}")
-                .AppendLine($"{Help.ShortDescription}")
+                .AppendLine($"{Help.Name} - {Help.Version} - {Help.ShortDescription}")
+                .AppendLine(Help.Description)
                 .AppendLine()
                 .AppendLine("Synopsis:")
                 .Append($"    {Help.Synopsis}");
@@ -59,11 +59,12 @@ namespace ArgParser.Core.Help
             foreach (var subCommand in SubCommands)
             {
                 StringBuilder
-                    .AppendLine($"    {subCommand.Help?.Synopsis} - {subCommand.Help?.ShortDescription}");
+                    .AppendLine($"    {subCommand.Help?.Synopsis}")
+                    .AppendLine($"    {subCommand.Help?.ShortDescription}")
+                    .AppendLine();
             }
 
             StringBuilder
-                .AppendLine()
                 .AppendLine($"Switches:");
 
             foreach (var @switch in Switches)
