@@ -27,16 +27,9 @@ namespace ArgParser.Core.Test
         #endregion
 
         #region Builders
-        private class TableHelpBuilder : IHelpBuilder<SomethingOptions>
+        private class TableHelpBuilder : IHelpBuilder<SomethingOptions>, IHelpful
         {
-            private IdentityInformation Identity { get; set; }
 
-            /// <inheritdoc />
-            public IHelpBuilder<SomethingOptions> AddIdentityInfomation(IdentityInformation information)
-            {
-                Identity = information;
-                return this;
-            }
 
             /// <inheritdoc />
             public IHelpBuilder<SomethingOptions> AddSwitch(Switch<SomethingOptions> @switch)
@@ -53,6 +46,13 @@ namespace ArgParser.Core.Test
             /// <inheritdoc />
             public IHelpBuilder<SomethingOptions> AddPositional(Positional<SomethingOptions> positional)
             {
+                return this;
+            }
+
+            /// <inheritdoc />
+            public IHelpBuilder<SomethingOptions> AddHelp(IHelp help)
+            {
+                Help = help;
                 return this;
             }
 
@@ -77,7 +77,7 @@ namespace ArgParser.Core.Test
                             {
                                 Children = new List<Node>()
                                 {
-                                    new TextSnippetNode(Identity.Name)
+                                    new TextSnippetNode(Help.Name)
                                 }
                             }
                         }
@@ -97,7 +97,7 @@ namespace ArgParser.Core.Test
                             {
                                 Children = new List<Node>()
                                 {
-                                    new TextSnippetNode(Identity.Version)
+                                    new TextSnippetNode(Help.Version)
                                 }
                             }
                         }
@@ -105,6 +105,17 @@ namespace ArgParser.Core.Test
                 };
                 return table;
             }
+
+            /// <inheritdoc />
+            public IHelp Help { get; private set; } = new Help.HelpInfo()
+            {
+                Name = "clip",
+                ShortDescription = "Interact with the items in the clipboard",
+                Description = "",
+                Synopsis = "clip sort",
+                Url = "http://www.example.org",
+                Version = "v1.2.3.4"
+            }; 
         }
         
         #endregion
@@ -113,11 +124,7 @@ namespace ArgParser.Core.Test
         public void Allow_Tables()
         {
             // arrange
-            var builder = new TableHelpBuilder()
-                .AddIdentityInfomation(new IdentityInformation("something")
-                {
-                    Version = "v1.2.3.4"
-                });
+            var builder = new TableHelpBuilder();
 
             // act
             // assert
@@ -136,37 +143,40 @@ namespace ArgParser.Core.Test
         {
             // arrange
             var subMock = new Mock<ISubCommand>();
-            subMock.Setup(command => command.HelpHints).Returns(new HelpHints()
+            subMock.Setup(command => command.Help).Returns(new Help.HelpInfo()
             {
                 Synopsis = "se",
                 ShortDescription = "Set something else instead"
             });
             var builder = new DefaultHelpBuilder<SomethingOptions>()
+                .AddHelp(new HelpInfo()
+                {
+                    Name = "doit",
+                    ShortDescription = "do what?",
+                    Description = "do something",
+                    Version = "1.2.3.4",
+                    Synopsis = "doit [se] -blah",
+                    Url = "www.example.org"
+                })
                 .AddSwitch(new Switch<SomethingOptions>()
                 {
-                    HelpHints = new HelpHints()
+                    Help = new Help.HelpInfo()
                     {
                         Synopsis = "-s, --something something",
                         ShortDescription = "Set something to some value"
                     }
                 }).AddSwitch(new Switch<SomethingOptions>()
                 {
-                    HelpHints = new HelpHints()
+                    Help = new Help.HelpInfo()
                     {
                         Synopsis = "-s, --something something",
                         ShortDescription = "Set something to some value"
                     }
                 })
                 .AddSubCommand<SomethingElseOptions>(subMock.Object)
-                .AddIdentityInfomation(new IdentityInformation("something")
-                {
-                    Version = "v1.2.3.4",
-                    Name = "something",
-                    ShortDescription = "Everybody's looking for somethin"
-                })
                 .AddPositional(new Positional<SomethingOptions>()
                 {
-                    HelpHints = new HelpHints()
+                    Help = new Help.HelpInfo()
                     {
                         Synopsis = "thing1 thing2 ...",
                         ShortDescription = "The things"
@@ -177,8 +187,8 @@ namespace ArgParser.Core.Test
             // assert
             if (builder.Build() is TextSnippetNode snippet)
             {
-                snippet.Text.Trim().Should().Be(@"something - v1.2.3.4
-Everybody's looking for somethin
+                snippet.Text.Trim().Should().Be(@"doit - 1.2.3.4
+do what?
 Sub Commands:
 	se - Set something else instead
 Switches:
@@ -191,6 +201,8 @@ Switches:
 Positionals:
 	thing1 thing2 ...
 	The things
+
+
 ".Trim());
             }
             else

@@ -2,6 +2,6 @@
 {
     public interface IHelpful
     {
-        IHelpHints HelpHints { get; }
+        IHelp Help { get; }
     }
 }

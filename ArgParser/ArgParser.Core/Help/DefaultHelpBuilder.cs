@@ -3,21 +3,13 @@ using System.Text;
 
 namespace ArgParser.Core.Help
 {
-    public class DefaultHelpBuilder<T> : IHelpBuilder<T>
+    public class DefaultHelpBuilder<T> : IHelpBuilder<T>, IHelpful
     {
         protected internal StringBuilder StringBuilder { get; set; } = new StringBuilder();
-        protected internal IdentityInformation Identity { get; set; }
         protected internal IList<Switch<T>> Switches { get; set; } = new List<Switch<T>>();
         protected internal IList<Positional<T>> Positionals { get; set; } = new List<Positional<T>>();
         protected internal IList<ISubCommand> SubCommands { get; set; } = new List<ISubCommand>();
         
-        /// <inheritdoc />
-        public IHelpBuilder<T> AddIdentityInfomation(IdentityInformation information)
-        {
-            Identity = information;
-            return this;
-        }
-
         /// <inheritdoc />
         public IHelpBuilder<T> AddSwitch(Switch<T> @switch)
         {
@@ -39,17 +31,23 @@ namespace ArgParser.Core.Help
             return this;
         }
 
+        public IHelpBuilder<T> AddHelp(IHelp help)
+        {
+            Help = help;
+            return this;
+        }
+
         /// <inheritdoc />
         public Node Build()
         {
             StringBuilder
-                .AppendLine($"{Identity.Name} - {Identity.Version}")
-                .AppendLine($"{Identity.ShortDescription ?? ""}")
+                .AppendLine($"{Help.Name} - {Help.Version}")
+                .AppendLine($"{Help.ShortDescription}")
                 .AppendLine("Sub Commands:");
             foreach (var subCommand in SubCommands)
             {
                 StringBuilder
-                    .AppendLine($"\t{subCommand.HelpHints?.Synopsis} - {subCommand.HelpHints?.ShortDescription}");
+                    .AppendLine($"\t{subCommand.Help?.Synopsis} - {subCommand.Help?.ShortDescription}");
             }
 
             StringBuilder
@@ -58,8 +56,8 @@ namespace ArgParser.Core.Help
             foreach (var @switch in Switches)
             {
                 StringBuilder
-                    .AppendLine($"\t{@switch.HelpHints?.Synopsis}")
-                    .AppendLine($"\t{@switch.HelpHints?.ShortDescription}")
+                    .AppendLine($"\t{@switch.Help?.Synopsis}")
+                    .AppendLine($"\t{@switch.Help?.ShortDescription}")
                     .AppendLine();
             }
 
@@ -68,12 +66,15 @@ namespace ArgParser.Core.Help
             foreach (var positional in Positionals)
             {
                 StringBuilder
-                    .AppendLine($"\t{positional.HelpHints?.Synopsis}")
-                    .AppendLine($"\t{positional.HelpHints?.ShortDescription}")
+                    .AppendLine($"\t{positional.Help?.Synopsis}")
+                    .AppendLine($"\t{positional.Help?.ShortDescription}")
                     .AppendLine();
             }
 
             return new TextSnippetNode(StringBuilder.ToString());
         }
+
+        /// <inheritdoc />
+        public IHelp Help { get; protected internal set; } = new HelpInfo();
     }
 }

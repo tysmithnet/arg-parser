@@ -23,8 +23,6 @@ namespace ArgParser.Core
     /// </summary>
     public interface ISubCommand : IHelpful
     {
-        IdentityInformation Identity { get; }
-
         /// <summary>
         ///     Parses the specified arguments.
         /// </summary>

@@ -1,11 +1,11 @@
 ﻿namespace ArgParser.Core.Help
 {
-    public interface IHelpHints
+    public interface IHelp
     {
         string Name { get; }
         string ShortDescription { get; }
         string Description { get; }
-
+        string Version { get; }
         /// <summary>
         /// Gets the several character text representation of command template
         /// </summary>

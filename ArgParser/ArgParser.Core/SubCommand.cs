@@ -25,9 +25,6 @@ namespace ArgParser.Core
     /// <seealso cref="ArgParser.Core.ISubCommand" />
     public class SubCommand<T, TParent> : ISubCommand where T : TParent
     {
-        /// <inheritdoc />
-        public IdentityInformation Identity { get; set; }
-
         /// <summary>
         ///     Parses the specified arguments.
         /// </summary>
@@ -49,6 +46,6 @@ namespace ArgParser.Core
         internal SubCommandArgParser<T, TParent> ArgParser { get; set; }
 
         /// <inheritdoc />
-        public IHelpHints HelpHints { get; protected internal set; }
+        public IHelp Help { get; protected internal set; }
     }
 }

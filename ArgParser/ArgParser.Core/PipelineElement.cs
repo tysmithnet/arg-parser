@@ -53,6 +53,6 @@ namespace ArgParser.Core
         public delegate void TransformerCallback(IIterationInfo info, T instance, string[] consumedStrings);
 
         /// <inheritdoc />
-        public IHelpHints HelpHints { get; protected internal set; }
+        public IHelp Help { get; protected internal set; }
     }
 }

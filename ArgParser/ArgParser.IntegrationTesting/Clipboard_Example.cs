@@ -59,7 +59,7 @@ namespace ArgParser.IntegrationTesting
                     GroupLetter = 'd',
                     IsToken = info => info.Cur == "-d" || info.Cur == "--descending" || info.Cur == "--desc",
                     Transformer = (info, instance, strings) => instance.IsDescending = true,
-                    HelpHints = new HelpHints()
+                    Help = new HelpInfo()
                     {
                         Name = "Sort Descending",
                         ShortDescription = "Sort from highest to lowest",
@@ -77,7 +77,7 @@ namespace ArgParser.IntegrationTesting
                     GroupLetter = 'f',
                     IsToken = info => info.Cur == "-f" || info.Cur == "--file", 
                     Transformer = (info, instance, strings) => instance.FileName = strings[0],
-                    HelpHints = new HelpHints()
+                    Help = new HelpInfo()
                     {
                         Name = "Sort Descending",
                         ShortDescription = "Sort from highest to lowest",
@@ -89,11 +89,18 @@ namespace ArgParser.IntegrationTesting
         private void SetupBaseParser()
         {
             BaseParser
-                .WithIdentity(new IdentityInformation("clip")
+                .WithHelp(new HelpInfo()
                 {
-                    Version = "v1.2.3.4",
-                    ShortDescription = "Interact with the clipboard",
-                    Url = "www.example.com"
+                    Name = "clip",
+                    ShortDescription = "Interact with clipboard items",
+                    Description = @"Interact with the clipboard
+    * Text
+    * Audio
+    * Files
+    * Data",
+                    Version = "1.0.0.0",
+                    Synopsis = "clip sort -o, clip zip -n Archive.zip",
+                    Url = "www.example.org"
                 })
                 .WithSwitch(new Switch<ClipboardOptions>()
                 {
@@ -101,13 +108,11 @@ namespace ArgParser.IntegrationTesting
                     TakeWhile = (info, token, number) => false,
                     Transformer = (info, instance, strings) => instance.IsOverwrite = true,
                     IsToken = info => info.Cur == "-o" || info.Cur == "--overwrite",
-                    HelpHints = new HelpHints()
+                    Help = new HelpInfo()
                     {
                         Name = "Overwrite",
                         ShortDescription = "Overwrite the contents of the clipboard with the result of this operation",
                         Synopsis = "-o",
-                        Description = "",
-                        Url = ""
                     }
                 })
                 .WithSwitch(new Switch<ClipboardOptions>()
@@ -116,7 +121,7 @@ namespace ArgParser.IntegrationTesting
                     IsToken = info => Regex.IsMatch(info.Cur, "-v+"),
                     Transformer = (info, instance, strings) =>
                         instance.Verbosity += info.Cur.ToCharArray().Count(x => x == 'v'),
-                    HelpHints = new HelpHints()
+                    Help = new HelpInfo()
                     {
                         Name = "Verbosity",
                         ShortDescription = "Increase the amount of feedback to be given",
@@ -130,7 +135,7 @@ namespace ArgParser.IntegrationTesting
                     Transformer = (info, instance, strings) => instance.LogFile = strings[0],
                     IsToken = info => info.Cur == "-l" || info.Cur == "--log-file",
                     GroupLetter = 'l',
-                    HelpHints = new HelpHints()
+                    Help = new HelpInfo()
                     {
                         Name = "Log File",
                         ShortDescription = "Send logs to this file",
@@ -138,10 +143,9 @@ namespace ArgParser.IntegrationTesting
                     }
                 }).WithSubCommand(new SubCommand<SortOptions, ClipboardOptions>()
                 {
-                    Identity = new IdentityInformation("sort"),
                     IsCommand = info => info.Cur == "sort",
                     ArgParser = SortParser,
-                    HelpHints = new HelpHints()
+                    Help = new HelpInfo()
                     {
                         Name = "Sort",
                         ShortDescription = "Sort the contents of the clipboard",
@@ -149,10 +153,9 @@ namespace ArgParser.IntegrationTesting
                     },
                 }).WithSubCommand(new SubCommand<ZipOptions, ClipboardOptions>()
                 {
-                    Identity = new IdentityInformation("zip"),
                     IsCommand = info => info.Cur == "zip",
                     ArgParser = ZipParser,
-                    HelpHints = new HelpHints()
+                    Help = new HelpInfo()
                     {
                         Name = "Zip",
                         ShortDescription = "Zip the files currently on the clipboard",
@@ -171,8 +174,8 @@ namespace ArgParser.IntegrationTesting
             // assert
             if(BaseParser.HelpBuilder.Build() is LeafNode textNode)
             {
-                textNode.Text.Trim().Should().Be(@"clip - v1.2.3.4
-Interact with the clipboard
+                textNode.Text.Trim().Should().Be(@"clip - 1.0.0.0
+Interact with clipboard items
 Sub Commands:
 	sort - Sort the contents of the clipboard
 	zip - Zip the files currently on the clipboard

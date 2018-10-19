@@ -93,6 +93,15 @@ namespace ArgParser.Core
             SwitchStrategy.Reset();
         }
 
+        protected internal IHelp Help { get; set; }
+
+        public ArgParser<TOptions> WithHelp(IHelp help)
+        {
+            Help = help;
+            HelpBuilder?.AddHelp(help);
+            return this;
+        }
+
         /// <summary>
         ///     Set the name for this arg parser. Typically this is the name of the application.
         /// </summary>
@@ -176,11 +185,6 @@ namespace ArgParser.Core
         /// <value>The help builder.</value>
         public IHelpBuilder<TOptions> HelpBuilder { get; set; } = null;
 
-        /// <summary>
-        ///     Gets or sets the identity information.
-        /// </summary>
-        /// <value>The identity information.</value>
-        public IdentityInformation IdentityInformation { get; protected internal set; }
 
         /// <summary>
         ///     Gets or sets the name of the parser. Typically this is the name of the application or sub command.
@@ -255,12 +259,5 @@ namespace ArgParser.Core
         /// <param name="info">The information.</param>
         /// <param name="instance">The instance.</param>
         public delegate void Validation(IIterationInfo info, TOptions instance);
-
-        public ArgParser<TOptions> WithIdentity(IdentityInformation identityInformation)
-        {
-            IdentityInformation = identityInformation;
-            HelpBuilder?.AddIdentityInfomation(identityInformation);
-            return this;
-        }
     }
 }
