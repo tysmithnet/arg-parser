@@ -11,7 +11,7 @@ using Xunit;
 
 namespace ArgParser.IntegrationTesting
 {
-    public class Clipboard_Example
+    public class Clipboard_Example_Should
     {
         private class ClipboardOptions
         {
@@ -35,7 +35,7 @@ namespace ArgParser.IntegrationTesting
         private ArgParser<ClipboardOptions> BaseParser { get; set; }
 
         /// <inheritdoc />
-        public Clipboard_Example()
+        public Clipboard_Example_Should()
         {
             Setup();
         }
@@ -53,6 +53,13 @@ namespace ArgParser.IntegrationTesting
         private void SetupSortParser()
         {
             SortParser
+                .WithHelp(new HelpInfo()
+                {
+                    Name = "sort",
+                    ShortDescription = "Sort the clipboard lines",
+                    Description = "Sort the text currently on the clipboard move it to stdout",
+                    Synopsis = "sort -d"
+                })
                 .WithSwitch(new Switch<SortOptions>()
                 {
                     TakeWhile = (info, token, number) => false,
@@ -63,7 +70,7 @@ namespace ArgParser.IntegrationTesting
                     {
                         Name = "Sort Descending",
                         ShortDescription = "Sort from highest to lowest",
-                        Synopsis = "-d",
+                        Synopsis = "-d, --descending",
                     }
                 });
         }
@@ -91,7 +98,7 @@ namespace ArgParser.IntegrationTesting
             BaseParser
                 .WithHelp(new HelpInfo()
                 {
-                    Name = "clip",
+                    Name = "Clipboard",
                     ShortDescription = "Interact with clipboard items",
                     Description = @"Interact with the clipboard
     * Text
@@ -160,12 +167,13 @@ namespace ArgParser.IntegrationTesting
                         Name = "Zip",
                         ShortDescription = "Zip the files currently on the clipboard",
                         Synopsis = "zip -n file.zip",
+                        Description = "Sort the text currently on the clipboard move it to stdout"
                     }
                 });
         }
 
         [Fact]
-        public void Test_Help_Text()
+        public void Get_Default_Help_Text_For_Main_App()
         {
             // arrange
             Setup();
@@ -207,6 +215,34 @@ Positionals:
             else
             {
                 true.Should().BeFalse("We are expecting a TextNode but didn't get one");
+            }
+        }
+
+        [Fact]
+        public void Get_Help_Text_For_Sub_Commands()
+        {
+            // arrange
+            Setup();
+
+            // act
+            // assert
+            if (SortParser.HelpBuilder.Build() is LeafNode textNode)
+            {
+                textNode.Text.Trim().Should().Be(@"sort - Sort the contents of the clipboard
+Sort the text currently on the clipboard move it to stdout
+
+Synopsis:
+    clip sort -d
+
+Switches:
+    -d
+    Sort descending
+
+Positionals:");
+            }
+            else
+            {
+
             }
         }
     }

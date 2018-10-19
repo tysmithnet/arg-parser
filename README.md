@@ -4,6 +4,9 @@ ArgParser is a lightweight library that provides expressive and flexible argumen
 ### Motivation
 I don't much care for the common approach to this problem of decorating POCOs with attributes. I find it difficult to get these frameworks to do things they weren't designed to do. Because of this, this library uses a fluent syntax for describing how arguments should be processed. My goal is to be able to easily recreate the argument parsing and help text generation of most common command line applications.
 
+### Important Notes
+1. I only plan on supporting 1 level of subcommands. Said another way: `git commit -am` -> OK!  `git commit made-up --made-up-arg` -> Not OK. This is because I feel allowing more would encourage writing of applications that don't adhere to the sage wisdom: do 1 thing and do it well.
+
 ### Examples
         [Fact]
         public void Pass_The_ReadMe_Example()

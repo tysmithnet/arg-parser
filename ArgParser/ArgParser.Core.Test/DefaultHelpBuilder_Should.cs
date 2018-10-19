@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using ArgParser.Core.Help;
 using FluentAssertions;
 using Moq;
@@ -12,11 +8,10 @@ namespace ArgParser.Core.Test
 {
     public class DefaultHelpBuilder_Should
     {
-        #region Options
         private class SomethingOptions
         {
-            public string Something { get; set; }
             public bool IsSomething { get; set; }
+            public string Something { get; set; }
         }
 
         private class SomethingElseOptions : SomethingOptions
@@ -24,31 +19,8 @@ namespace ArgParser.Core.Test
             public string SomethingElse { get; set; }
         }
 
-        #endregion
-
-        #region Builders
         private class TableHelpBuilder : IHelpBuilder<SomethingOptions>, IHelpful
         {
-
-
-            /// <inheritdoc />
-            public IHelpBuilder<SomethingOptions> AddSwitch(Switch<SomethingOptions> @switch)
-            {
-                return this;
-            }
-
-            /// <inheritdoc />
-            public IHelpBuilder<SomethingOptions> AddSubCommand<TSub>(ISubCommand subCommand) where TSub : SomethingOptions
-            {
-                return this;
-            }
-
-            /// <inheritdoc />
-            public IHelpBuilder<SomethingOptions> AddPositional(Positional<SomethingOptions> positional)
-            {
-                return this;
-            }
-
             /// <inheritdoc />
             public IHelpBuilder<SomethingOptions> AddHelp(IHelp help)
             {
@@ -57,45 +29,55 @@ namespace ArgParser.Core.Test
             }
 
             /// <inheritdoc />
+            public IHelpBuilder<SomethingOptions> AddPositional(Positional<SomethingOptions> positional) => this;
+
+            /// <inheritdoc />
+            public IHelpBuilder<SomethingOptions> AddSubCommand<TSub>(ISubCommand subCommand)
+                where TSub : SomethingOptions => this;
+
+            /// <inheritdoc />
+            public IHelpBuilder<SomethingOptions> AddSwitch(Switch<SomethingOptions> @switch) => this;
+
+            /// <inheritdoc />
             public Node Build()
             {
                 var table = new TableNode();
-                table.Children = new List<Node>()
+                table.Children = new List<Node>
                 {
-                    new TableRowNode()
+                    new TableRowNode
                     {
-                        Children = new List<Node>()
+                        Children = new List<Node>
                         {
-                            new TableCellNode()
+                            new TableCellNode
                             {
-                                Children = new List<Node>()
+                                Children = new List<Node>
                                 {
                                     new TextSnippetNode("Name")
                                 }
                             },
-                            new TableCellNode()
+                            new TableCellNode
                             {
-                                Children = new List<Node>()
+                                Children = new List<Node>
                                 {
                                     new TextSnippetNode(Help.Name)
                                 }
                             }
                         }
                     },
-                    new TableRowNode()
+                    new TableRowNode
                     {
-                        Children = new List<Node>()
+                        Children = new List<Node>
                         {
-                            new TableCellNode()
+                            new TableCellNode
                             {
-                                Children = new List<Node>()
+                                Children = new List<Node>
                                 {
                                     new TextSnippetNode("Version")
                                 }
                             },
-                            new TableCellNode()
+                            new TableCellNode
                             {
-                                Children = new List<Node>()
+                                Children = new List<Node>
                                 {
                                     new TextSnippetNode(Help.Version)
                                 }
@@ -107,7 +89,7 @@ namespace ArgParser.Core.Test
             }
 
             /// <inheritdoc />
-            public IHelp Help { get; private set; } = new Help.HelpInfo()
+            public IHelp Help { get; private set; } = new HelpInfo
             {
                 Name = "clip",
                 ShortDescription = "Interact with the items in the clipboard",
@@ -115,10 +97,8 @@ namespace ArgParser.Core.Test
                 Synopsis = "clip sort",
                 Url = "http://www.example.org",
                 Version = "v1.2.3.4"
-            }; 
+            };
         }
-        
-        #endregion
 
         [Fact]
         public void Allow_Tables()
@@ -129,13 +109,9 @@ namespace ArgParser.Core.Test
             // act
             // assert
             if (builder.Build() is TableNode table)
-            {
                 table.Children.Should().HaveCount(2);
-            }
             else
-            {
                 true.Should().BeFalse("We were expecting a TableNode but did not get one");
-            }
         }
 
         [Fact]
@@ -143,13 +119,13 @@ namespace ArgParser.Core.Test
         {
             // arrange
             var subMock = new Mock<ISubCommand>();
-            subMock.Setup(command => command.Help).Returns(new HelpInfo()
+            subMock.Setup(command => command.Help).Returns(new HelpInfo
             {
                 Synopsis = "se",
                 ShortDescription = "Set something else instead"
             });
             var builder = new DefaultHelpBuilder<SomethingOptions>()
-                .AddHelp(new HelpInfo()
+                .AddHelp(new HelpInfo
                 {
                     Name = "doit",
                     ShortDescription = "do what?",
@@ -158,25 +134,25 @@ namespace ArgParser.Core.Test
                     Synopsis = "doit -blah",
                     Url = "www.example.org"
                 })
-                .AddSwitch(new Switch<SomethingOptions>()
+                .AddSwitch(new Switch<SomethingOptions>
                 {
-                    Help = new Help.HelpInfo()
+                    Help = new HelpInfo
                     {
                         Synopsis = "-s, --something something",
                         ShortDescription = "Set something to some value"
                     }
-                }).AddSwitch(new Switch<SomethingOptions>()
+                }).AddSwitch(new Switch<SomethingOptions>
                 {
-                    Help = new HelpInfo()
+                    Help = new HelpInfo
                     {
                         Synopsis = "-e, --else somethingelse",
                         ShortDescription = "Set some other value"
                     }
                 })
                 .AddSubCommand<SomethingElseOptions>(subMock.Object)
-                .AddPositional(new Positional<SomethingOptions>()
+                .AddPositional(new Positional<SomethingOptions>
                 {
-                    Help = new HelpInfo()
+                    Help = new HelpInfo
                     {
                         Synopsis = "thing1 thing2 ...",
                         ShortDescription = "The things"
@@ -186,7 +162,6 @@ namespace ArgParser.Core.Test
             // act
             // assert
             if (builder.Build() is TextSnippetNode snippet)
-            {
                 snippet.Text.Trim().Should().Be(@"doit - 1.2.3.4 - do what?
 do something
 
@@ -210,11 +185,8 @@ Positionals:
 
 
 ".Trim());
-            }
             else
-            {
                 true.Should().BeFalse("The builder did not return a TextSnippetNode");
-            }
         }
     }
 }
