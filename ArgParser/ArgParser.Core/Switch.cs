@@ -13,6 +13,7 @@
 // ***********************************************************************
 
 using System;
+using ArgParser.Core.Help;
 
 namespace ArgParser.Core
 {
@@ -35,5 +36,6 @@ namespace ArgParser.Core
         /// </summary>
         /// <value>The is token.</value>
         public Func<IIterationInfo, bool> IsToken { get; set; }
+
     }
 }

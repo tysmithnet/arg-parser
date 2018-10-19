@@ -4,7 +4,7 @@
 // Created          : 10-17-2018
 //
 // Last Modified By : @tysmithnet
-// Last Modified On : 10-17-2018
+// Last Modified On : 10-18-2018
 // ***********************************************************************
 // <copyright file="ArgParser.cs" company="ArgParser.Core">
 //     Copyright (c) . All rights reserved.
@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using ArgParser.Core.Help;
 
 namespace ArgParser.Core
 {
@@ -31,12 +32,14 @@ namespace ArgParser.Core
         ///     Initializes a new instance of the <see cref="ArgParser{T}" /> class.
         /// </summary>
         /// <param name="factoryFunction">The factory function.</param>
+        /// <exception cref="ArgumentNullException">factoryFunction</exception>
         /// <exception cref="System.ArgumentNullException">factoryFunction</exception>
         /// <inheritdoc />
         public ArgParser(Func<TOptions> factoryFunction)
         {
             FactoryFunction = factoryFunction ?? throw new ArgumentNullException(nameof(factoryFunction));
             SetupStrategies();
+            HelpBuilder = new DefaultHelpBuilder<TOptions>();
         }
 
         /// <summary>
@@ -44,6 +47,7 @@ namespace ArgParser.Core
         /// </summary>
         /// <param name="args">The arguments.</param>
         /// <returns>ParseResult.</returns>
+        /// <exception cref="InvalidOperationException">No forward progress detected.</exception>
         /// <exception cref="System.InvalidOperationException">No forward progress detected.</exception>
         public virtual ParseResult Parse(string[] args)
         {
@@ -89,6 +93,15 @@ namespace ArgParser.Core
             SwitchStrategy.Reset();
         }
 
+        protected internal IHelp Help { get; set; }
+
+        public ArgParser<TOptions> WithHelp(IHelp help)
+        {
+            Help = help;
+            HelpBuilder?.AddHelp(help);
+            return this;
+        }
+
         /// <summary>
         ///     Set the name for this arg parser. Typically this is the name of the application.
         /// </summary>
@@ -108,6 +121,7 @@ namespace ArgParser.Core
         public virtual ArgParser<TOptions> WithPositional(Positional<TOptions> positional)
         {
             OrderOfAddition.Add(positional);
+            HelpBuilder?.AddPositional(positional);
             return this;
         }
 
@@ -122,6 +136,7 @@ namespace ArgParser.Core
         {
             subCommand.ArgParser.ParentParser = this;
             SubCommands.Add(subCommand);
+            HelpBuilder?.AddSubCommand<TOptions>(subCommand);
             return this;
         }
 
@@ -133,6 +148,7 @@ namespace ArgParser.Core
         public virtual ArgParser<TOptions> WithSwitch(Switch<TOptions> @switch)
         {
             OrderOfAddition.Add(@switch);
+            HelpBuilder?.AddSwitch(@switch);
             return this;
         }
 
@@ -162,6 +178,13 @@ namespace ArgParser.Core
             SwitchStrategy = s;
             PositionalStrategy = p;
         }
+
+        /// <summary>
+        ///     Gets or sets the help builder.
+        /// </summary>
+        /// <value>The help builder.</value>
+        public IHelpBuilder<TOptions> HelpBuilder { get; set; } = null;
+
 
         /// <summary>
         ///     Gets or sets the name of the parser. Typically this is the name of the application or sub command.

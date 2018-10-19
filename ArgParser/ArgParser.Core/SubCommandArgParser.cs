@@ -84,7 +84,7 @@ namespace ArgParser.Core
                     continue;
                 }
 
-                if (ParentParser?.SwitchStrategy.IsGroup(ParentParser.Switches, info) ?? false)
+                if (ParentParser?.SwitchStrategy.IsGroup(ParentParser.Switches, info) ?? false) // todo: this doesn't account for groups that span child <-> parent gap
                 {
                     info = ParentParser.SwitchStrategy.ConsumeGroup(ParentParser.Switches, instance, info);
                     continue;

@@ -1,0 +1,192 @@
+﻿using System.Collections.Generic;
+using ArgParser.Core.Help;
+using FluentAssertions;
+using Moq;
+using Xunit;
+
+namespace ArgParser.Core.Test
+{
+    public class DefaultHelpBuilder_Should
+    {
+        private class SomethingOptions
+        {
+            public bool IsSomething { get; set; }
+            public string Something { get; set; }
+        }
+
+        private class SomethingElseOptions : SomethingOptions
+        {
+            public string SomethingElse { get; set; }
+        }
+
+        private class TableHelpBuilder : IHelpBuilder<SomethingOptions>, IHelpful
+        {
+            /// <inheritdoc />
+            public IHelpBuilder<SomethingOptions> AddHelp(IHelp help)
+            {
+                Help = help;
+                return this;
+            }
+
+            /// <inheritdoc />
+            public IHelpBuilder<SomethingOptions> AddPositional(Positional<SomethingOptions> positional) => this;
+
+            /// <inheritdoc />
+            public IHelpBuilder<SomethingOptions> AddSubCommand<TSub>(ISubCommand subCommand)
+                where TSub : SomethingOptions => this;
+
+            /// <inheritdoc />
+            public IHelpBuilder<SomethingOptions> AddSwitch(Switch<SomethingOptions> @switch) => this;
+
+            /// <inheritdoc />
+            public Node Build()
+            {
+                var table = new TableNode();
+                table.Children = new List<Node>
+                {
+                    new TableRowNode
+                    {
+                        Children = new List<Node>
+                        {
+                            new TableCellNode
+                            {
+                                Children = new List<Node>
+                                {
+                                    new TextSnippetNode("Name")
+                                }
+                            },
+                            new TableCellNode
+                            {
+                                Children = new List<Node>
+                                {
+                                    new TextSnippetNode(Help.Name)
+                                }
+                            }
+                        }
+                    },
+                    new TableRowNode
+                    {
+                        Children = new List<Node>
+                        {
+                            new TableCellNode
+                            {
+                                Children = new List<Node>
+                                {
+                                    new TextSnippetNode("Version")
+                                }
+                            },
+                            new TableCellNode
+                            {
+                                Children = new List<Node>
+                                {
+                                    new TextSnippetNode(Help.Version)
+                                }
+                            }
+                        }
+                    }
+                };
+                return table;
+            }
+
+            /// <inheritdoc />
+            public IHelp Help { get; private set; } = new HelpInfo
+            {
+                Name = "clip",
+                ShortDescription = "Interact with the items in the clipboard",
+                Description = "",
+                Synopsis = "clip sort",
+                Url = "http://www.example.org",
+                Version = "v1.2.3.4"
+            };
+        }
+
+        [Fact]
+        public void Allow_Tables()
+        {
+            // arrange
+            var builder = new TableHelpBuilder();
+
+            // act
+            // assert
+            if (builder.Build() is TableNode table)
+                table.Children.Should().HaveCount(2);
+            else
+                true.Should().BeFalse("We were expecting a TableNode but did not get one");
+        }
+
+        [Fact]
+        public void Pass_Basic_Use_Cases()
+        {
+            // arrange
+            var subMock = new Mock<ISubCommand>();
+            subMock.Setup(command => command.Help).Returns(new HelpInfo
+            {
+                Synopsis = "se",
+                ShortDescription = "Set something else instead"
+            });
+            var builder = new DefaultHelpBuilder<SomethingOptions>()
+                .AddHelp(new HelpInfo
+                {
+                    Name = "doit",
+                    ShortDescription = "do what?",
+                    Description = "do something",
+                    Version = "1.2.3.4",
+                    Synopsis = "doit -blah",
+                    Url = "www.example.org"
+                })
+                .AddSwitch(new Switch<SomethingOptions>
+                {
+                    Help = new HelpInfo
+                    {
+                        Synopsis = "-s, --something something",
+                        ShortDescription = "Set something to some value"
+                    }
+                }).AddSwitch(new Switch<SomethingOptions>
+                {
+                    Help = new HelpInfo
+                    {
+                        Synopsis = "-e, --else somethingelse",
+                        ShortDescription = "Set some other value"
+                    }
+                })
+                .AddSubCommand<SomethingElseOptions>(subMock.Object)
+                .AddPositional(new Positional<SomethingOptions>
+                {
+                    Help = new HelpInfo
+                    {
+                        Synopsis = "thing1 thing2 ...",
+                        ShortDescription = "The things"
+                    }
+                });
+
+            // act
+            // assert
+            if (builder.Build() is TextSnippetNode snippet)
+                snippet.Text.Trim().Should().Be(@"doit - 1.2.3.4 - do what?
+do something
+
+Synopsis:
+    doit -blah [se]
+
+Sub Commands:
+    se
+    Set something else instead
+
+Switches:
+    -s, --something something
+    Set something to some value
+
+    -e, --else somethingelse
+    Set some other value
+
+Positionals:
+    thing1 thing2 ...
+    The things
+
+
+".Trim());
+            else
+                true.Should().BeFalse("The builder did not return a TextSnippetNode");
+        }
+    }
+}

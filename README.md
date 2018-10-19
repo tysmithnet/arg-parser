@@ -4,6 +4,9 @@ ArgParser is a lightweight library that provides expressive and flexible argumen
 ### Motivation
 I don't much care for the common approach to this problem of decorating POCOs with attributes. I find it difficult to get these frameworks to do things they weren't designed to do. Because of this, this library uses a fluent syntax for describing how arguments should be processed. My goal is to be able to easily recreate the argument parsing and help text generation of most common command line applications.
 
+### Important Notes
+1. I only plan on supporting 1 level of subcommands. Said another way: `git commit -am` -> OK!  `git commit made-up --made-up-arg` -> Not OK. This is because I feel allowing more would encourage writing of applications that don't adhere to the sage wisdom: do 1 thing and do it well.
+
 ### Examples
         [Fact]
         public void Pass_The_ReadMe_Example()
@@ -162,11 +165,13 @@ I don't much care for the common approach to this problem of decorating POCOs wi
 |-------------------|----------|
 |Arg                |Anything passed in the command line arguments passed to an application|
 |Consumption        |The process of collecting contiguous tokens to use in the transformation process|
+|Helpful            |A pipeline component is said to be helpful if it provides generic help information. This is used by the help builders|
 |Options            |Arguments are parsed into options. Options describe the requested behavior of the application|
+|Pipeline Component |Any piece of functionality that goes into argument parsing. e.g. Subcommands, Switches, Positionals, etc|
 |Positional         |A token whose purpose is derived from its position in arguments that do not belong to another switch|
 |Subcommand         |A subcommand typically takes has its own set of options. Called verb in other frameworks.|
-|Switch             |A flag or token indicating that a behavior is requested, e.g. `-v` `--theme=dark` `-rnw`|
-|Switch Group       |A group of switches all passed in a single token|
+|Switch             |A flag or token indicating that a behavior is requested, e.g. `-v` `--theme=dark` |
+|Switch Group       |A group of switches all passed in a single token e.g. `-rnw`, `-a07`|
 |Token              |A textual hint that indicates a switch has been found e.g. `-t` `--things` `/?` `filetype:` `--include=`|
 |Transformation     |As the processing progresses, an options instance undergoes many transformations -or state modifying actions|
 
