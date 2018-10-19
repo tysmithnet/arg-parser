@@ -189,18 +189,23 @@ namespace ArgParser.Core.Test
             {
                 snippet.Text.Trim().Should().Be(@"doit - 1.2.3.4
 do what?
-Sub Commands:
-	se - Set something else instead
-Switches:
-	-s, --something something
-	Set something to some value
 
-	-s, --something something
-	Set something to some value
+Synopsis:
+    doit [se] -blah [se]
+
+Sub Commands:
+    se - Set something else instead
+
+Switches:
+    -s, --something something
+    Set something to some value
+
+    -s, --something something
+    Set something to some value
 
 Positionals:
-	thing1 thing2 ...
-	The things
+    thing1 thing2 ...
+    The things
 
 
 ".Trim());

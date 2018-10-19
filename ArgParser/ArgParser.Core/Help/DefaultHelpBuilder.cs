@@ -43,21 +43,34 @@ namespace ArgParser.Core.Help
             StringBuilder
                 .AppendLine($"{Help.Name} - {Help.Version}")
                 .AppendLine($"{Help.ShortDescription}")
+                .AppendLine()
+                .AppendLine("Synopsis:")
+                .Append($"    {Help.Synopsis}");
+
+            foreach (var syn in SubCommands)
+            {
+                StringBuilder.Append($" [{syn.Help.Synopsis}]");
+            }
+
+            StringBuilder
+                .AppendLine()
+                .AppendLine()
                 .AppendLine("Sub Commands:");
             foreach (var subCommand in SubCommands)
             {
                 StringBuilder
-                    .AppendLine($"\t{subCommand.Help?.Synopsis} - {subCommand.Help?.ShortDescription}");
+                    .AppendLine($"    {subCommand.Help?.Synopsis} - {subCommand.Help?.ShortDescription}");
             }
 
             StringBuilder
+                .AppendLine()
                 .AppendLine($"Switches:");
 
             foreach (var @switch in Switches)
             {
                 StringBuilder
-                    .AppendLine($"\t{@switch.Help?.Synopsis}")
-                    .AppendLine($"\t{@switch.Help?.ShortDescription}")
+                    .AppendLine($"    {@switch.Help?.Synopsis}")
+                    .AppendLine($"    {@switch.Help?.ShortDescription}")
                     .AppendLine();
             }
 
@@ -66,8 +79,8 @@ namespace ArgParser.Core.Help
             foreach (var positional in Positionals)
             {
                 StringBuilder
-                    .AppendLine($"\t{positional.Help?.Synopsis}")
-                    .AppendLine($"\t{positional.Help?.ShortDescription}")
+                    .AppendLine($"    {positional.Help?.Synopsis}")
+                    .AppendLine($"    {positional.Help?.ShortDescription}")
                     .AppendLine();
             }
 

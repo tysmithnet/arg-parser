@@ -99,7 +99,7 @@ namespace ArgParser.IntegrationTesting
     * Files
     * Data",
                     Version = "1.0.0.0",
-                    Synopsis = "clip sort -o, clip zip -n Archive.zip",
+                    Synopsis = "clip -o -vvv -l file.log",
                     Url = "www.example.org"
                 })
                 .WithSwitch(new Switch<ClipboardOptions>()
@@ -149,7 +149,7 @@ namespace ArgParser.IntegrationTesting
                     {
                         Name = "Sort",
                         ShortDescription = "Sort the contents of the clipboard",
-                        Synopsis = "sort",
+                        Synopsis = "sort -d",
                     },
                 }).WithSubCommand(new SubCommand<ZipOptions, ClipboardOptions>()
                 {
@@ -159,7 +159,7 @@ namespace ArgParser.IntegrationTesting
                     {
                         Name = "Zip",
                         ShortDescription = "Zip the files currently on the clipboard",
-                        Synopsis = "zip",
+                        Synopsis = "zip -n file.zip",
                     }
                 });
         }
@@ -176,18 +176,23 @@ namespace ArgParser.IntegrationTesting
             {
                 textNode.Text.Trim().Should().Be(@"clip - 1.0.0.0
 Interact with clipboard items
+
+Synopsis:
+    clip -o -vvv -l file.log [sort -d] [zip -n file.zip]
+
 Sub Commands:
-	sort - Sort the contents of the clipboard
-	zip - Zip the files currently on the clipboard
+    sort -d - Sort the contents of the clipboard
+    zip -n file.zip - Zip the files currently on the clipboard
+
 Switches:
-	-o
-	Overwrite the contents of the clipboard with the result of this operation
+    -o
+    Overwrite the contents of the clipboard with the result of this operation
 
-	-vvv
-	Increase the amount of feedback to be given
+    -vvv
+    Increase the amount of feedback to be given
 
-	-l file.log
-	Send logs to this file
+    -l file.log
+    Send logs to this file
 
 Positionals:
 ".Trim());
