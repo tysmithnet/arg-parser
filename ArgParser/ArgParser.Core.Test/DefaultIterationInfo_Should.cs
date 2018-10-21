@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using FluentAssertions;
 using Xunit;
 
@@ -15,11 +11,11 @@ namespace ArgParser.Core.Test
         {
             // arrange
             var info = new DefaultIterationInfo();
-            info = (DefaultIterationInfo)info.SetTokens(new List<IToken>()
+            info = (DefaultIterationInfo) info.SetTokens(new List<IToken>
             {
                 new Token("a"),
                 new Token("b"),
-                new Token("c"),
+                new Token("c")
             });
 
             // act
@@ -30,6 +26,5 @@ namespace ArgParser.Core.Test
             info.Index = 2;
             info.Current.Should().Be(new Token("c"));
         }
-
     }
 }

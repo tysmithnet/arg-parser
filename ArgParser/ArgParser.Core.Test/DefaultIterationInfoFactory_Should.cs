@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
 
@@ -17,6 +14,24 @@ namespace ArgParser.Core.Test
             {
                 return args.Select(x => x.ToUpper()).Select(x => new Token(x));
             }
+        }
+
+        [Fact]
+        public void Allow_For_Custom_Lexers()
+        {
+            // arrange
+            var lexer = new UppercaseLexer();
+            var fac = new DefaultIterationInfoFactory
+            {
+                Lexer = lexer
+            };
+
+            // act
+            var info = fac.Create(new[] {"a", "b"});
+
+            // assert
+            fac.Lexer = lexer;
+            info.Tokens.Should().BeEquivalentTo(new Token("A"), new Token("B"));
         }
 
         [Fact]
@@ -35,24 +50,6 @@ namespace ArgParser.Core.Test
             info.IsComplete.Should().BeFalse();
             info.Next.Raw.Should().Be("b");
             info.Rest.Should().HaveCount(1);
-        }
-
-        [Fact]
-        public void Allow_For_Custom_Lexers()
-        {
-            // arrange
-            var lexer = new UppercaseLexer();
-            var fac = new DefaultIterationInfoFactory
-            {
-                Lexer = lexer
-            };
-
-            // act
-            var info = fac.Create(new[] {"a", "b"});
-
-            // assert
-            fac.Lexer = lexer;
-            info.Tokens.Should().BeEquivalentTo(new[] {new Token("A"), new Token("B")});
         }
     }
 }

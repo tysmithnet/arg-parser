@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Xunit;
 
 namespace ArgParser.Core.Test
@@ -28,10 +23,10 @@ namespace ArgParser.Core.Test
             a.Equals(c).Should().BeFalse();
             a.Equals(null).Should().BeFalse();
             a.Equals("").Should().BeFalse();
-            a.Equals((object)a).Should().BeTrue();
-            a.Equals((object)b).Should().BeTrue();
-            a.Equals((object)c).Should().BeFalse();
-            a.Equals((object)null).Should().BeFalse();
+            a.Equals((object) a).Should().BeTrue();
+            a.Equals((object) b).Should().BeTrue();
+            a.Equals((object) c).Should().BeFalse();
+            a.Equals((object) null).Should().BeFalse();
         }
     }
 }
