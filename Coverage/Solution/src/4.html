@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\projects\arg-parser\ArgParser\ArgParser.Core\DefaultParser.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+// ***********************************************************************
+// Assembly         : ArgParser.Core
+// Author           : @tysmithnet
+// Created          : 10-20-2018
+//
+// Last Modified By : @tysmithnet
+// Last Modified On : 10-21-2018
+// ***********************************************************************
+// &lt;copyright file=&quot;DefaultParser.cs&quot; company=&quot;ArgParser.Core&quot;&gt;
+//     Copyright (c) . All rights reserved.
+// &lt;/copyright&gt;
+// &lt;summary&gt;&lt;/summary&gt;
+// ***********************************************************************
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ArgParser.Core
+{
+    /// &lt;summary&gt;
+    ///     Class DefaultParser.
+    /// &lt;/summary&gt;
+    /// &lt;typeparam name=&quot;T&quot;&gt;&lt;/typeparam&gt;
+    /// &lt;typeparam name=&quot;TBase&quot;&gt;The type of the t base.&lt;/typeparam&gt;
+    /// &lt;seealso cref=&quot;ArgParser.Core.IParser{T, TBase}&quot; /&gt;
+    /// &lt;seealso cref=&quot;IParameterContainer{T}&quot; /&gt;
+    public class DefaultParser&lt;T&gt; : IParser&lt;T&gt;, IParameterContainer&lt;T&gt;
+    {
+        public IList&lt;IParameter&lt;T&gt;&gt; Parameters { get; set; } = new List&lt;IParameter&lt;T&gt;&gt;();
+
+        /// &lt;summary&gt;
+        ///     Adds the switch.
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;parameter&quot;&gt;The svitch.&lt;/param&gt;
+        /// &lt;inheritdoc /&gt;
+        public void AddParameter(IParameter&lt;T&gt; parameter)
+        {
+            Parameters.Add(parameter);
+        }
+
+        /// &lt;summary&gt;
+        ///     Determines whether this instance can handle the specified instance.
+        /// &lt;/summary&gt;
+        /// &lt;typeparam name=&quot;TSub&quot;&gt;The type of the t sub.&lt;/typeparam&gt;
+        /// &lt;param name=&quot;instance&quot;&gt;The instance.&lt;/param&gt;
+        /// &lt;param name=&quot;info&quot;&gt;The information.&lt;/param&gt;
+        /// &lt;returns&gt;&lt;c&gt;true&lt;/c&gt; if this instance can handle the specified instance; otherwise, &lt;c&gt;false&lt;/c&gt;.&lt;/returns&gt;
+        /// &lt;inheritdoc /&gt;
+        public bool CanConsume&lt;TSub&gt;(TSub instance, IIterationInfo info) where TSub : T
+        {
+            return Parameters.Any(p =&gt; p.CanConsume(instance, info)) ||
+                   (BaseParser?.CanConsume(instance, info) ?? false);
+        }
+
+        /// &lt;summary&gt;
+        ///     Handles the specified instance.
+        /// &lt;/summary&gt;
+        /// &lt;typeparam name=&quot;TSub&quot;&gt;The type of the t sub.&lt;/typeparam&gt;
+        /// &lt;param name=&quot;instance&quot;&gt;The instance.&lt;/param&gt;
+        /// &lt;param name=&quot;info&quot;&gt;The information.&lt;/param&gt;
+        /// &lt;returns&gt;IIterationInfo.&lt;/returns&gt;
+        /// &lt;inheritdoc /&gt;
+        public IIterationInfo Consume&lt;TSub&gt;(TSub instance, IIterationInfo info) where TSub : T
+        {
+            var first = Parameters.FirstOrDefault(p =&gt; p.CanConsume?.Invoke(instance, info) ?? false);
+            var result = first?.Consume?.Invoke(instance, info) ?? BaseParser?.Consume(instance, info);
+            if(result == null)
+                throw new InvalidOperationException($&quot;CanConsume determined that instance: {instance}, could be consumed, but failed during consumption&quot;);
+            return result;
+        }
+
+        /// &lt;summary&gt;
+        ///     Gets or sets the base parser.
+        /// &lt;/summary&gt;
+        /// &lt;value&gt;The base parser.&lt;/value&gt;
+        /// &lt;inheritdoc /&gt;
+        public IParser BaseParser { get; set; }
+
+        /// &lt;summary&gt;
+        ///     Gets the default parser internal.
+        /// &lt;/summary&gt;
+        /// &lt;value&gt;The default parser internal.&lt;/value&gt;
+
+        /// &lt;inheritdoc /&gt;
+        public bool CanConsume(object instance, IIterationInfo info)
+        {
+            if (instance is T casted)
+                return CanConsume(casted, info);
+            return BaseParser?.CanConsume(instance, info) ?? false;
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public IIterationInfo Consume(object instance, IIterationInfo info)
+        {
+            if (instance is T casted)
+            {
+                return Consume(casted, info);
+            }
+
+            return BaseParser?.Consume(instance, info);
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[30,64,30,89,1],[38,9,38,10,1],[39,13,39,39,1],[40,9,40,10,1],[51,9,51,10,1],[52,13,52,40,1],[52,40,52,68,1],[52,68,53,70,1],[52,13,53,70,1],[54,9,54,10,1],[65,9,65,10,1],[66,13,66,56,1],[66,56,66,101,1],[66,101,66,103,1],[66,13,66,103,1],[67,13,67,104,1],[68,13,68,31,1],[69,17,69,155,1],[70,13,70,27,1],[71,9,71,10,1],[87,9,87,10,1],[88,13,88,38,1],[89,17,89,49,1],[90,13,90,68,1],[91,9,91,10,1],[95,9,95,10,1],[96,13,96,38,1],[97,13,97,14,1],[98,17,98,46,1],[101,13,101,56,1],[102,9,102,10,1]]);
+    </script>
+  </body>
+</html>
