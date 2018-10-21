@@ -23,17 +23,17 @@ namespace ArgParser.Core
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="TBase">The type of the t base.</typeparam>
     /// <seealso cref="ArgParser.Core.IParser{T, TBase}" />
-    /// <seealso cref="ArgParser.Core.ISwitchContainer{T}" />
-    public class DefaultParser<T, TBase> : IParser<T, TBase>, ISwitchContainer<T> where T : TBase
+    /// <seealso cref="IParameterContainer{T}" />
+    public class DefaultParser<T, TBase> : IParser<T, TBase>, IParameterContainer<T> where T : TBase
     {
         /// <summary>
         ///     Adds the switch.
         /// </summary>
         /// <param name="svitch">The svitch.</param>
         /// <inheritdoc />
-        public void AddSwitch(ISwitch<T> svitch)
+        public void AddParameter(IParameter<T> svitch)
         {
-            DefaultParserInternal.AddSwitch(svitch);
+            DefaultParserInternal.AddParameter(svitch);
         }
 
         /// <summary>
@@ -81,14 +81,14 @@ namespace ArgParser.Core
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <seealso cref="ArgParser.Core.IParser{T}" />
-    /// <seealso cref="ArgParser.Core.ISwitchContainer{T}" />
-    public class DefaultParser<T> : IParser<T>, ISwitchContainer<T>
+    /// <seealso cref="IParameterContainer{T}" />
+    public class DefaultParser<T> : IParser<T>, IParameterContainer<T>
     {
         /// <summary>
         ///     Adds the switch.
         /// </summary>
         /// <param name="svitch">The svitch.</param>
-        public void AddSwitch(ISwitch<T> svitch)
+        public void AddParameter(IParameter<T> svitch)
         {
             Switches.Add(svitch);
         }
@@ -126,6 +126,6 @@ namespace ArgParser.Core
         ///     Gets the switches.
         /// </summary>
         /// <value>The switches.</value>
-        protected internal IList<ISwitch<T>> Switches { get; } = new List<ISwitch<T>>();
+        protected internal IList<IParameter<T>> Switches { get; } = new List<IParameter<T>>();
     }
 }

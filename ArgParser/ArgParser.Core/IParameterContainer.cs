@@ -18,12 +18,12 @@ namespace ArgParser.Core
     ///     Interface ISwitchContainer
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface ISwitchContainer<out T>
+    public interface IParameterContainer<out T>
     {
         /// <summary>
         ///     Adds the switch.
         /// </summary>
         /// <param name="svitch">The svitch.</param>
-        void AddSwitch(ISwitch<T> svitch);
+        void AddParameter(IParameter<T> svitch);
     }
 }

@@ -4,9 +4,9 @@
 // Created          : 10-20-2018
 //
 // Last Modified By : @tysmithnet
-// Last Modified On : 10-20-2018
+// Last Modified On : 10-21-2018
 // ***********************************************************************
-// <copyright file="ISwitch.cs" company="ArgParser.Core">
+// <copyright file="Parameter.cs" company="ArgParser.Core">
 //     Copyright (c) . All rights reserved.
 // </copyright>
 // <summary></summary>
@@ -15,21 +15,24 @@
 namespace ArgParser.Core
 {
     /// <summary>
-    ///     Interface ISwitch
+    ///     Class Parameter.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface ISwitch<in T>
+    /// <seealso cref="ArgParser.Core.IParameter{T}" />
+    public class Parameter<T> : IParameter<T>
     {
         /// <summary>
         ///     Gets the can handle.
         /// </summary>
         /// <value>The can handle.</value>
-        CanHandleCallback<T> CanHandle { get; }
+        /// <inheritdoc />
+        public CanHandleCallback<T> CanHandle { get; set; }
 
         /// <summary>
         ///     Gets the handle.
         /// </summary>
         /// <value>The handle.</value>
-        HandlerCallback<T> Handle { get; }
+        /// <inheritdoc />
+        public HandlerCallback<T> Handle { get; set; }
     }
 }

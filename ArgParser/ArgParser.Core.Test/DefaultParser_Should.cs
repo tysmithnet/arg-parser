@@ -63,7 +63,7 @@ namespace ArgParser.Core.Test
             var args = new[] {"-d", "-t", "zip", "-s"};
             var tokens = args.Select(x => new Token(x)).ToArray();
             IIterationInfo curInfo = CreateInfo(args, tokens);
-            baseParser.AddSwitch(new Switch<BaseOptions>
+            baseParser.AddParameter(new Parameter<BaseOptions>
             {
                 CanHandle = (instance, info) => info.Current.Raw == "-d",
                 Handle = (instance, info) =>
@@ -73,7 +73,7 @@ namespace ArgParser.Core.Test
                 }
             });
 
-            childParser.AddSwitch(new Switch<CompressOptions>
+            childParser.AddParameter(new Parameter<CompressOptions>
             {
                 CanHandle = (instance, info) => info.Current.Raw == "-t",
                 Handle = (instance, info) =>
@@ -83,7 +83,7 @@ namespace ArgParser.Core.Test
                 }
             });
 
-            grandChildParser.AddSwitch(new Switch<SpecialCompressOptions>
+            grandChildParser.AddParameter(new Parameter<SpecialCompressOptions>
             {
                 CanHandle = (instance, info) => info.Current.Raw == "-s",
                 Handle = (instance, info) =>
@@ -111,11 +111,23 @@ namespace ArgParser.Core.Test
         }
 
         [Fact]
+        public void Parse_A_Single_Positional()
+        {
+            // arrange
+            var parser = new DefaultParser<BaseOptions>();
+            
+            // act
+            
+
+            // assert
+        }
+
+        [Fact]
         public void Parse_A_Single_Type()
         {
             // arrange
             var parser = new DefaultParser<BaseOptions>();
-            parser.AddSwitch(new Switch<BaseOptions>
+            parser.AddParameter(new Parameter<BaseOptions>
             {
                 CanHandle = (options, iterationInfo) => iterationInfo.Current.Raw == "-d",
                 Handle = (options, iterationInfo) =>
@@ -124,7 +136,7 @@ namespace ArgParser.Core.Test
                     return iterationInfo.Consume(1);
                 }
             });
-            parser.AddSwitch(new Switch<BaseOptions>
+            parser.AddParameter(new Parameter<BaseOptions>
             {
                 CanHandle = (options, iterationInfo) => iterationInfo.Current.Raw == "-f",
                 Handle = (options, iterationInfo) =>
