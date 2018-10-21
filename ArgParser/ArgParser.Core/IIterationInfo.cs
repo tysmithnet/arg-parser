@@ -69,5 +69,14 @@ namespace ArgParser.Core
         /// </summary>
         /// <value>The tokens.</value>
         IReadOnlyList<IToken> Tokens { get; }
+
+        bool IsLast { get; }
+
+        bool IsFirst { get; }
+
+        bool IsInternal { get; }
+
+        IToken Last { get; }
+        IToken First { get; }
     }
 }

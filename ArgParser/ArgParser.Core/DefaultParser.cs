@@ -12,6 +12,7 @@
 // <summary></summary>
 // ***********************************************************************
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -23,17 +24,19 @@ namespace ArgParser.Core
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="TBase">The type of the t base.</typeparam>
     /// <seealso cref="ArgParser.Core.IParser{T, TBase}" />
-    /// <seealso cref="ArgParser.Core.ISwitchContainer{T}" />
-    public class DefaultParser<T, TBase> : IParser<T, TBase>, ISwitchContainer<T> where T : TBase
+    /// <seealso cref="IParameterContainer{T}" />
+    public class DefaultParser<T> : IParser<T>, IParameterContainer<T>
     {
+        public IList<IParameter<T>> Parameters { get; set; } = new List<IParameter<T>>();
+
         /// <summary>
         ///     Adds the switch.
         /// </summary>
-        /// <param name="svitch">The svitch.</param>
+        /// <param name="parameter">The svitch.</param>
         /// <inheritdoc />
-        public void AddSwitch(ISwitch<T> svitch)
+        public void AddParameter(IParameter<T> parameter)
         {
-            DefaultParserInternal.AddSwitch(svitch);
+            Parameters.Add(parameter);
         }
 
         /// <summary>
@@ -44,8 +47,11 @@ namespace ArgParser.Core
         /// <param name="info">The information.</param>
         /// <returns><c>true</c> if this instance can handle the specified instance; otherwise, <c>false</c>.</returns>
         /// <inheritdoc />
-        public bool CanHandle<TSub>(TSub instance, IIterationInfo info) where TSub : T =>
-            DefaultParserInternal.CanHandle(instance, info) || BaseParser.CanHandle(instance, info);
+        public bool CanConsume<TSub>(TSub instance, IIterationInfo info) where TSub : T
+        {
+            return Parameters.Any(p => p.CanConsume(instance, info)) ||
+                   (BaseParser?.CanConsume(instance, info) ?? false);
+        }
 
         /// <summary>
         ///     Handles the specified instance.
@@ -55,11 +61,13 @@ namespace ArgParser.Core
         /// <param name="info">The information.</param>
         /// <returns>IIterationInfo.</returns>
         /// <inheritdoc />
-        public IIterationInfo Handle<TSub>(TSub instance, IIterationInfo info) where TSub : T
+        public IIterationInfo Consume<TSub>(TSub instance, IIterationInfo info) where TSub : T
         {
-            if (DefaultParserInternal.CanHandle(instance, info))
-                return DefaultParserInternal.Handle(instance, info);
-            return BaseParser?.Handle(instance, info) ?? info;
+            var first = Parameters.FirstOrDefault(p => p.CanConsume?.Invoke(instance, info) ?? false);
+            var result = first?.Consume?.Invoke(instance, info) ?? BaseParser?.Consume(instance, info);
+            if(result == null)
+                throw new InvalidOperationException($"CanConsume determined that instance: {instance}, could be consumed, but failed during consumption");
+            return result;
         }
 
         /// <summary>
@@ -67,65 +75,30 @@ namespace ArgParser.Core
         /// </summary>
         /// <value>The base parser.</value>
         /// <inheritdoc />
-        public IParser<TBase> BaseParser { get; set; }
+        public IParser BaseParser { get; set; }
 
         /// <summary>
         ///     Gets the default parser internal.
         /// </summary>
         /// <value>The default parser internal.</value>
-        private DefaultParser<T> DefaultParserInternal { get; } = new DefaultParser<T>();
-    }
 
-    /// <summary>
-    ///     Class DefaultParser.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <seealso cref="ArgParser.Core.IParser{T}" />
-    /// <seealso cref="ArgParser.Core.ISwitchContainer{T}" />
-    public class DefaultParser<T> : IParser<T>, ISwitchContainer<T>
-    {
-        /// <summary>
-        ///     Adds the switch.
-        /// </summary>
-        /// <param name="svitch">The svitch.</param>
-        public void AddSwitch(ISwitch<T> svitch)
-        {
-            Switches.Add(svitch);
-        }
-
-        /// <summary>
-        ///     Determines whether this instance can handle the specified instance.
-        /// </summary>
-        /// <typeparam name="TSub">The type of the t sub.</typeparam>
-        /// <param name="instance">The instance.</param>
-        /// <param name="info">The information.</param>
-        /// <returns><c>true</c> if this instance can handle the specified instance; otherwise, <c>false</c>.</returns>
         /// <inheritdoc />
-        public virtual bool CanHandle<TSub>(TSub instance, IIterationInfo info) where TSub : T
+        public bool CanConsume(object instance, IIterationInfo info)
         {
-            if (Switches.Any(s => s.CanHandle?.Invoke(instance, info) ?? false)) return true;
-
-            return false;
+            if (instance is T casted)
+                return CanConsume(casted, info);
+            return BaseParser?.CanConsume(instance, info) ?? false;
         }
 
-        /// <summary>
-        ///     Handles the specified instance.
-        /// </summary>
-        /// <typeparam name="TSub">The type of the t sub.</typeparam>
-        /// <param name="instance">The instance.</param>
-        /// <param name="info">The information.</param>
-        /// <returns>IIterationInfo.</returns>
         /// <inheritdoc />
-        public virtual IIterationInfo Handle<TSub>(TSub instance, IIterationInfo info) where TSub : T
+        public IIterationInfo Consume(object instance, IIterationInfo info)
         {
-            var svitch = Switches.FirstOrDefault(s => s.CanHandle?.Invoke(instance, info) ?? false);
-            return svitch?.Handle?.Invoke(instance, info) ?? info;
-        }
+            if (instance is T casted)
+            {
+                return Consume(casted, info);
+            }
 
-        /// <summary>
-        ///     Gets the switches.
-        /// </summary>
-        /// <value>The switches.</value>
-        protected internal IList<ISwitch<T>> Switches { get; } = new List<ISwitch<T>>();
+            return BaseParser?.Consume(instance, info);
+        }
     }
 }

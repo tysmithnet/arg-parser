@@ -4,9 +4,9 @@
 // Created          : 10-20-2018
 //
 // Last Modified By : @tysmithnet
-// Last Modified On : 10-21-2018
+// Last Modified On : 10-20-2018
 // ***********************************************************************
-// <copyright file="CanHandleCallback.cs" company="ArgParser.Core">
+// <copyright file="ISwitchContainer.cs" company="ArgParser.Core">
 //     Copyright (c) . All rights reserved.
 // </copyright>
 // <summary></summary>
@@ -15,11 +15,15 @@
 namespace ArgParser.Core
 {
     /// <summary>
-    ///     Delegate CanHandleCallback
+    ///     Interface ISwitchContainer
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <param name="instance">The instance.</param>
-    /// <param name="info">The information.</param>
-    /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-    public delegate bool CanHandleCallback<in T>(T instance, IIterationInfo info);
+    public interface IParameterContainer<out T>
+    {
+        /// <summary>
+        ///     Adds the switch.
+        /// </summary>
+        /// <param name="parameter">The svitch.</param>
+        void AddParameter(IParameter<T> parameter);
+    }
 }

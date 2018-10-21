@@ -5,11 +5,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0D1B2C1C-DD60-4AAE-879C-04628D173C81}</ProjectGuid>
+    <ProjectGuid>{4132E2E2-8EF1-48C2-AC24-DCA8A8C0C5BC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ArgParser.Core.Test</RootNamespace>
-    <AssemblyName>ArgParser.Core.Test</AssemblyName>
+    <RootNamespace>ArgParser.IntegrationTests</RootNamespace>
+    <AssemblyName>ArgParser.IntegrationTests</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -75,26 +75,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DefaultIterationInfoFactory_Should.cs" />
-    <Compile Include="DefaultIterationInfo_Should.cs" />
-    <Compile Include="DefaultLexer_Should.cs" />
-    <Compile Include="DefaultParser_Should.cs" />
-    <Compile Include="DefaultParseStrategy_Should.cs" />
+    <Compile Include="NaiveGit_Example.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Token_Should.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\ArgParser.Core\ArgParser.Core.csproj">
       <Project>{1E5FD54F-B5A9-4638-A216-2292F6393664}</Project>
       <Name>ArgParser.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

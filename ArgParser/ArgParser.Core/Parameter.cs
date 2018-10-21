@@ -4,9 +4,9 @@
 // Created          : 10-20-2018
 //
 // Last Modified By : @tysmithnet
-// Last Modified On : 10-20-2018
+// Last Modified On : 10-21-2018
 // ***********************************************************************
-// <copyright file="Switch.cs" company="ArgParser.Core">
+// <copyright file="Parameter.cs" company="ArgParser.Core">
 //     Copyright (c) . All rights reserved.
 // </copyright>
 // <summary></summary>
@@ -15,24 +15,24 @@
 namespace ArgParser.Core
 {
     /// <summary>
-    ///     Class Switch.
+    ///     Class Parameter.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <seealso cref="ArgParser.Core.ISwitch{T}" />
-    public class Switch<T> : ISwitch<T>
+    /// <seealso cref="ArgParser.Core.IParameter{T}" />
+    public class Parameter<T> : IParameter<T>
     {
         /// <summary>
         ///     Gets the can handle.
         /// </summary>
         /// <value>The can handle.</value>
         /// <inheritdoc />
-        public CanHandleCallback<T> CanHandle { get; set; }
+        public CanConsumeCallback<T> CanConsume { get; set; }
 
         /// <summary>
         ///     Gets the handle.
         /// </summary>
         /// <value>The handle.</value>
         /// <inheritdoc />
-        public HandlerCallback<T> Handle { get; set; }
+        public ConsumerCallback<T> Consume { get; set; }
     }
 }

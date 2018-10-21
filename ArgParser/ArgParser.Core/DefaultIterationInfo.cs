@@ -117,5 +117,20 @@ namespace ArgParser.Core
         /// <value>The tokens.</value>
         /// <inheritdoc />
         public IReadOnlyList<IToken> Tokens { get; internal set; }
+
+        /// <inheritdoc />
+        public bool IsLast => Index == Tokens?.Count - 1;
+
+        /// <inheritdoc />
+        public bool IsFirst => Index == 0;
+
+        /// <inheritdoc />
+        public bool IsInternal => Index > 0 && Index < Tokens?.Count - 1;
+
+        /// <inheritdoc />
+        public IToken Last => Tokens?.LastOrDefault();
+
+        /// <inheritdoc />
+        public IToken First => Tokens?.FirstOrDefault();
     }
 }

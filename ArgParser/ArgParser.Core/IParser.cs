@@ -14,12 +14,20 @@
 
 namespace ArgParser.Core
 {
+    public interface IParser
+    {
+        bool CanConsume(object instance, IIterationInfo info);
+        IIterationInfo Consume(object instance, IIterationInfo info);
+    }
+
     /// <summary>
     ///     Interface IParser
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IParser<in T>
+    public interface IParser<in T> : IParser
     {
+        IParser BaseParser { get; }
+
         /// <summary>
         ///     Determines whether this instance can handle the specified instance.
         /// </summary>
@@ -27,7 +35,7 @@ namespace ArgParser.Core
         /// <param name="instance">The instance.</param>
         /// <param name="info">The information.</param>
         /// <returns><c>true</c> if this instance can handle the specified instance; otherwise, <c>false</c>.</returns>
-        bool CanHandle<TSub>(TSub instance, IIterationInfo info) where TSub : T;
+        bool CanConsume<TSub>(TSub instance, IIterationInfo info) where TSub : T;
 
         /// <summary>
         ///     Handles the specified instance.
@@ -36,7 +44,7 @@ namespace ArgParser.Core
         /// <param name="instance">The instance.</param>
         /// <param name="info">The information.</param>
         /// <returns>IIterationInfo.</returns>
-        IIterationInfo Handle<TSub>(TSub instance, IIterationInfo info) where TSub : T;
+        IIterationInfo Consume<TSub>(TSub instance, IIterationInfo info) where TSub : T;
     }
 
     /// <summary>
