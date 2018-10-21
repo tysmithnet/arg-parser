@@ -114,7 +114,7 @@ namespace ArgParser.Core.Test
             // assert
             var options = new CompressOptions();
             int i = 0;
-            while (!curInfo.IsComplete)
+            while (!curInfo.IsComplete && childParser.CanHandle(options, curInfo))
             {
                 curInfo = childParser.Handle(options, curInfo);
                 if (curInfo.Index == i)
