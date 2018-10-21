@@ -33,8 +33,7 @@ namespace ArgParser.Core
 
     public class DefaultParser<T> : IParser<T>, ISwitchContainer<T>
     {
-        protected internal IList<ISwitch<T>> Switches { get; set; } = new List<ISwitch<T>>();
-        protected internal ILexer Lexer { get; set; } = new DefaultLexer();
+        protected internal IList<ISwitch<T>> Switches { get; } = new List<ISwitch<T>>();
 
         public void AddSwitch(ISwitch<T> svitch)
         {
