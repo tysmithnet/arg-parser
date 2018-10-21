@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ArgParser.Core
 {
-    public class IterationInfo : IIterationInfo
+    public class DefaultIterationInfo : IIterationInfo
     {
         /// <inheritdoc />
         public bool IsComplete => Index >= Tokens?.Count;
@@ -29,9 +29,9 @@ namespace ArgParser.Core
             return Clone(info => info.Tokens = tokens?.ToList());
         }
 
-        private IterationInfo Clone(Action<IterationInfo> transformer)
+        private DefaultIterationInfo Clone(Action<DefaultIterationInfo> transformer)
         {
-            var newGuy = new IterationInfo()
+            var newGuy = new DefaultIterationInfo()
             {
                 Args = Args?.ToArray(),
                 Tokens = Tokens?.ToList(),

@@ -21,7 +21,7 @@ namespace ArgParser.Core
             var instance = FactoryFucntion();
             if (Parser.CanHandle(instance, info))
             {
-                Parser.Handle(instance, new IterationInfo());
+                Parser.Handle(instance, new DefaultIterationInfo());
                 return instance;
             }
             return default(T);

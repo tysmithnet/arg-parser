@@ -10,7 +10,7 @@ namespace ArgParser.Core
         public IIterationInfo Create(string[] args)
         {
             var tokens = Lexer.Lex(args);
-            return new IterationInfo()
+            return new DefaultIterationInfo()
             {
                 Tokens = tokens.ToList(),
                 Index = 0,

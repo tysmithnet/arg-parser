@@ -110,6 +110,8 @@ namespace ArgParser.Core.Test
                 }
             });
 
+            // act
+            // assert
             var options = new CompressOptions();
             int i = 0;
             while (!curInfo.IsComplete)
@@ -120,13 +122,12 @@ namespace ArgParser.Core.Test
                 i = curInfo.Index;
             }
 
-            // act
-
-            // assert
+            options.DryRun.Should().BeTrue();
+            options.CompressionType.Should().Be("zip");
         }
-        private IterationInfo CreateInfo(string[] args = null, IReadOnlyList<IToken> tokens = null, int index = 0)
+        private DefaultIterationInfo CreateInfo(string[] args = null, IReadOnlyList<IToken> tokens = null, int index = 0)
         {
-            var info = new IterationInfo()
+            var info = new DefaultIterationInfo()
             {
                 Args = args ?? new string[0],
                 Tokens = tokens ?? new List<IToken>(),
