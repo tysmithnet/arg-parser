@@ -7,13 +7,19 @@ namespace ArgParser.Core
     public class IterationInfo : IIterationInfo
     {
         /// <inheritdoc />
-        public IToken Current => Tokens?[Index];
+        public bool IsComplete => Index >= Tokens?.Count;
+
+        /// <inheritdoc />
+        public IToken Current => !IsComplete ? Tokens?[Index] : null;
 
         /// <inheritdoc />
         public IToken Next => Tokens.Count < Index + 1 ? Tokens[Index + 1] : null;
 
         /// <inheritdoc />
         public IReadOnlyList<IToken> Tokens { get; internal set; }
+
+        /// <inheritdoc />
+        public IEnumerable<IToken> Rest => Tokens?.Skip(Index + 1);
 
         /// <inheritdoc />
         public int Index { get; set; }

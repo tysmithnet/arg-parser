@@ -36,13 +36,57 @@ namespace ArgParser.Core.Test
             mightThrow.Should().NotThrow();
         }
 
-        private IterationInfo CreateInfo()
+        [Fact]
+        public void Parse_A_Single_Type()
+        {
+            // arrange
+            var parser = new DefaultParser<BaseOptions>();
+            parser.AddSwitch(new Switch<BaseOptions>()
+            {
+                CanHandle = (options, iterationInfo) => iterationInfo.Current.Raw == "-d",
+                Handle = (options, iterationInfo) =>
+                {
+                    options.DryRun = true;
+                    return iterationInfo.Consume(1);
+                }
+            });
+            parser.AddSwitch(new Switch<BaseOptions>()
+            {
+                CanHandle = (options, iterationInfo) => iterationInfo.Current.Raw == "-f",
+                Handle = (options, iterationInfo) =>
+                {
+                    var files = iterationInfo.Rest.Select(x => x.Raw).ToArray();
+                    options.Files = files;
+                    return iterationInfo.Consume(1 + files.Length);
+                }
+            });
+            var instance = new BaseOptions();
+            var args = new [] {"-d", "-f", "file1", "file2"};
+            var tokens = args.Select(s => new Token(s)).ToList();
+            IIterationInfo info = CreateInfo(args: args, tokens: tokens);
+
+            // act
+            int i = 0;
+            while (!info.IsComplete)
+            {
+                info = parser.Handle(instance, info);
+                if (info.Index == i)
+                    true.Should().BeFalse("No progress made");
+                i = info.Index;
+            }
+
+            // assert
+            instance.DryRun.Should().BeTrue();
+            instance.Files.Should().BeEquivalentTo(new[] {"file1", "file2"});
+        }
+
+        private IterationInfo CreateInfo(string[] args = null, IReadOnlyList<IToken> tokens = null, int index = 0)
         {
             var info = new IterationInfo()
             {
-                Args = new string[0],
-                Tokens = new List<IToken>(),
-                Index = 0
+                Args = args ?? new string[0],
+                Tokens = tokens ?? new List<IToken>(),
+                Index = index
             };
             return info;
         }
