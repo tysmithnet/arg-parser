@@ -70,21 +70,21 @@ namespace ArgParser.Core
         IParser<TBase> BaseParser { get; }
     }
 
-    public class Parser<T, TBase> : IParser<T, TBase>, ISwitchContainer<T> where T : TBase
+    public class DefaultParser<T, TBase> : IParser<T, TBase>, ISwitchContainer<T> where T : TBase
     {
-        private Parser<T> ParserInternal { get; } = new Parser<T>();
+        private DefaultParser<T> DefaultParserInternal { get; } = new DefaultParser<T>();
 
         /// <inheritdoc />
         public bool CanHandle<TSub>(TSub instance, IIterationInfo info) where TSub : T
         {
-            return ParserInternal.CanHandle(instance, info) || BaseParser.CanHandle(instance, info);
+            return DefaultParserInternal.CanHandle(instance, info) || BaseParser.CanHandle(instance, info);
         }
 
         /// <inheritdoc />
         public IIterationInfo Handle<TSub>(TSub instance, IIterationInfo info) where TSub : T
         {
-            if (ParserInternal.CanHandle(instance, info))
-                return ParserInternal.Handle(instance, info);
+            if (DefaultParserInternal.CanHandle(instance, info))
+                return DefaultParserInternal.Handle(instance, info);
             return BaseParser?.Handle(instance, info) ?? info;
         }
 
@@ -94,7 +94,60 @@ namespace ArgParser.Core
         /// <inheritdoc />
         public void AddSwitch(ISwitch<T> svitch)
         {
-            ParserInternal.AddSwitch(svitch);
+            DefaultParserInternal.AddSwitch(svitch);
+        }
+    }
+
+    public interface IIterationInfoFactory
+    {
+        IIterationInfo Create(string[] args);
+    }
+
+    public class DefaultIterationInfoFactory : IIterationInfoFactory
+    {
+        protected internal ILexer Lexer { get; set; } = new DefaultLexer();
+
+        /// <inheritdoc />
+        public IIterationInfo Create(string[] args)
+        {
+            var tokens = Lexer.Lex(args);
+            return new IterationInfo()
+            {
+                Tokens = tokens.ToList(),
+                Index = 0,
+                Args = args.ToArray()
+            };
+        }
+    }
+
+    public interface IOptionsBuilder<out T>
+    {
+        T Build(string[] args);
+    }
+
+    public class DefaultOptionsBuilder<T> : IOptionsBuilder<T>
+    {
+        protected internal IIterationInfoFactory IterationInfoFactory { get; set; } = new DefaultIterationInfoFactory();
+        protected internal Func<T> FactoryFucntion { get; set; }
+        protected internal IParser<T> Parser { get; set; } = new DefaultParser<T>();
+
+        /// <inheritdoc />
+        public DefaultOptionsBuilder(Func<T> factoryFucntion)
+        {
+            FactoryFucntion = factoryFucntion ?? throw new ArgumentNullException(nameof(factoryFucntion));
+        }
+
+        /// <inheritdoc />
+        public T Build(string[] args)
+        {
+            var info = IterationInfoFactory.Create(args);
+            var instance = FactoryFucntion();
+            if (Parser.CanHandle(instance, info))
+            {
+                Parser.Handle(instance, new IterationInfo());
+                return instance;
+            }
+            return default(T);
         }
     }
 
@@ -139,19 +192,20 @@ namespace ArgParser.Core
         public HandlerCallback<T> Handle { get; set; }
     }
 
-    public class Parser<T> : IParser<T>, ISwitchContainer<T>
+    public class DefaultParser<T> : IParser<T>, ISwitchContainer<T>
     {
-        private IList<ISwitch<T>> _switches = new List<ISwitch<T>>();
+        protected internal IList<ISwitch<T>> Switches { get; set; } = new List<ISwitch<T>>();
+        protected internal ILexer Lexer { get; set; } = new DefaultLexer();
 
         public void AddSwitch(ISwitch<T> svitch)
         {
-            _switches.Add(svitch);
+            Switches.Add(svitch);
         }
 
         /// <inheritdoc />
-        public bool CanHandle<TSub>(TSub instance, IIterationInfo info) where TSub : T
+        public virtual bool CanHandle<TSub>(TSub instance, IIterationInfo info) where TSub : T
         {
-            if (_switches.Any(s => s.CanHandle?.Invoke(instance, info) ?? false))
+            if (Switches.Any(s => s.CanHandle?.Invoke(instance, info) ?? false))
             {
                 return true;
             }
@@ -160,9 +214,9 @@ namespace ArgParser.Core
         }
 
         /// <inheritdoc />
-        public IIterationInfo Handle<TSub>(TSub instance, IIterationInfo info) where TSub : T
+        public virtual IIterationInfo Handle<TSub>(TSub instance, IIterationInfo info) where TSub : T
         {
-            var svitch = _switches.FirstOrDefault(s => s.CanHandle?.Invoke(instance, info) ?? false);
+            var svitch = Switches.FirstOrDefault(s => s.CanHandle?.Invoke(instance, info) ?? false);
             return svitch?.Handle?.Invoke(instance, info) ?? info;
         }
     }
@@ -184,7 +238,7 @@ namespace ArgParser.Core
         public string Raw { get; }
     }
 
-    public class Lexer : ILexer
+    public class DefaultLexer : ILexer
     {
         /// <inheritdoc />
         public IEnumerable<IToken> Lex(string[] args)
@@ -197,7 +251,7 @@ namespace ArgParser.Core
     {
         public void DoStuff(string[] args)
         {
-            var parser = new Parser<BaseOptions>();
+            var parser = new DefaultParser<BaseOptions>();
             parser.AddSwitch(new Switch<BaseOptions>()
             {
                 CanHandle = (instance, info) => info.Current.Raw == "do",
@@ -217,7 +271,7 @@ namespace ArgParser.Core
                 }
             });
 
-            var childParser = new Parser<ChildOptions, BaseOptions>();
+            var childParser = new DefaultParser<ChildOptions, BaseOptions>();
             childParser.BaseParser = parser;
             
         }
