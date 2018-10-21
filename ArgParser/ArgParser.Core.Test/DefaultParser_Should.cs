@@ -31,6 +31,11 @@ namespace ArgParser.Core.Test
             return info;
         }
 
+        private class SpecialCompressOptions : CompressOptions
+        {
+            public bool IsSpecial { get; set; }
+        }
+
         [Fact]
         public void Not_Throw_When_Given_Nothing()
         {
@@ -52,8 +57,10 @@ namespace ArgParser.Core.Test
             // arrange
             var baseParser = new DefaultParser<BaseOptions>();
             var childParser = new DefaultParser<CompressOptions, BaseOptions>();
+            var grandChildParser = new DefaultParser<SpecialCompressOptions, CompressOptions>();
             childParser.BaseParser = baseParser;
-            var args = new[] {"-d", "-t", "zip"};
+            grandChildParser.BaseParser = childParser;
+            var args = new[] {"-d", "-t", "zip", "-s"};
             var tokens = args.Select(x => new Token(x)).ToArray();
             IIterationInfo curInfo = CreateInfo(args, tokens);
             baseParser.AddSwitch(new Switch<BaseOptions>
@@ -76,13 +83,23 @@ namespace ArgParser.Core.Test
                 }
             });
 
+            grandChildParser.AddSwitch(new Switch<SpecialCompressOptions>
+            {
+                CanHandle = (instance, info) => info.Current.Raw == "-s",
+                Handle = (instance, info) =>
+                {
+                    instance.IsSpecial = true;
+                    return info.Consume(1);
+                }
+            });
+
             // act
             // assert
-            var options = new CompressOptions();
+            var options = new SpecialCompressOptions();
             var i = 0;
-            while (!curInfo.IsComplete && childParser.CanHandle(options, curInfo))
+            while (!curInfo.IsComplete && grandChildParser.CanHandle(options, curInfo))
             {
-                curInfo = childParser.Handle(options, curInfo);
+                curInfo = grandChildParser.Handle(options, curInfo);
                 if (curInfo.Index == i)
                     true.Should().BeFalse("No progress made");
                 i = curInfo.Index;
@@ -90,6 +107,7 @@ namespace ArgParser.Core.Test
 
             options.DryRun.Should().BeTrue();
             options.CompressionType.Should().Be("zip");
+            options.IsSpecial.Should().BeTrue();
         }
 
         [Fact]
