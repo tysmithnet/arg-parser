@@ -13,7 +13,7 @@ namespace ArgParser.Core
         public IToken Current => !IsComplete ? Tokens?[Index] : null;
 
         /// <inheritdoc />
-        public IToken Next => Tokens.Count < Index + 1 ? Tokens[Index + 1] : null;
+        public IToken Next => Rest?.FirstOrDefault();
 
         /// <inheritdoc />
         public IReadOnlyList<IToken> Tokens { get; internal set; }

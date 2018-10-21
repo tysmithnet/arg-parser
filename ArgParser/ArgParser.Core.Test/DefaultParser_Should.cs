@@ -80,6 +80,50 @@ namespace ArgParser.Core.Test
             instance.Files.Should().BeEquivalentTo(new[] {"file1", "file2"});
         }
 
+        [Fact]
+        public void Parse_A_Hierarchy()
+        {
+            // arrange
+            var baseParser = new DefaultParser<BaseOptions>();
+            var childParser = new DefaultParser<CompressOptions, BaseOptions>();
+            childParser.BaseParser = baseParser;
+            var args = new[] {"-d", "-t", "zip"};
+            var tokens = args.Select(x => new Token(x)).ToArray();
+            IIterationInfo curInfo = CreateInfo(args: args, tokens: tokens);
+            baseParser.AddSwitch(new Switch<BaseOptions>()
+            {
+                CanHandle = (instance, info) => info.Current.Raw == "-d",
+                Handle = (instance, info) =>
+                {
+                    instance.DryRun = true;
+                    return info.Consume(1);
+                }
+            });
+
+            childParser.AddSwitch(new Switch<CompressOptions>()
+            {
+                CanHandle = (instance, info) => info.Current.Raw == "-t",
+                Handle = (instance, info) =>
+                {
+                    instance.CompressionType = info.Next?.Raw;
+                    return info.Next != null ? info.Consume(2) : info.Consume(1);
+                }
+            });
+
+            var options = new CompressOptions();
+            int i = 0;
+            while (!curInfo.IsComplete)
+            {
+                curInfo = childParser.Handle(options, curInfo);
+                if (curInfo.Index == i)
+                    true.Should().BeFalse("No progress made");
+                i = curInfo.Index;
+            }
+
+            // act
+
+            // assert
+        }
         private IterationInfo CreateInfo(string[] args = null, IReadOnlyList<IToken> tokens = null, int index = 0)
         {
             var info = new IterationInfo()
