@@ -11,8 +11,7 @@ namespace ArgParser.Core
         /// <inheritdoc />
         public DefaultParseStrategy(IEnumerable<Func<object>> factoryFuncs = null)
         {
-            if (factoryFuncs == null) return;
-            foreach (var factoryFunc in factoryFuncs)
+            foreach (var factoryFunc in factoryFuncs ?? new Func<object>[0])
             {
                 FactoryFunctions.Add(factoryFunc);
             }

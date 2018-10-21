@@ -26,13 +26,13 @@ namespace ArgParser.Core
         /// </summary>
         /// <value>The can handle.</value>
         /// <inheritdoc />
-        public CanConsumeCallback<T> CanHandle { get; set; }
+        public CanConsumeCallback<T> CanConsume { get; set; }
 
         /// <summary>
         ///     Gets the handle.
         /// </summary>
         /// <value>The handle.</value>
         /// <inheritdoc />
-        public ConsumerCallback<T> Handle { get; set; }
+        public ConsumerCallback<T> Consume { get; set; }
     }
 }

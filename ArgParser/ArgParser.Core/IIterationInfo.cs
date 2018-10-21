@@ -75,5 +75,8 @@ namespace ArgParser.Core
         bool IsFirst { get; }
 
         bool IsInternal { get; }
+
+        IToken Last { get; }
+        IToken First { get; }
     }
 }

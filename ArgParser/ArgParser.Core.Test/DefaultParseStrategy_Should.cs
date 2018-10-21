@@ -26,14 +26,43 @@ namespace ArgParser.Core.Test
         }
 
         [Fact]
+        public void Identify_Lack_Of_Forward_Progress()
+        {
+            // arrange
+            var parser = new DefaultParser<BaseOptions>();
+            parser.AddParameter(new Parameter<BaseOptions>()
+            {
+                CanConsume = (instance, info) => info.Current.Raw == "-h" || info.Current.Raw == "--help",
+                Consume = (instance, info) =>
+                {
+                    instance.HelpRequested = true;
+                    return info.Consume(-1);
+                }
+            });
+            var strat = new DefaultParseStrategy(new Func<object>[] { () => new BaseOptions() });
+
+            // act
+            var result = strat.Parse(new[] { parser }, "--help".Split(' '));
+
+            // assert
+            bool isParsed = false;
+            result.When<BaseOptions>(options =>
+            {
+                options.HelpRequested.Should().BeTrue();
+                isParsed = true;
+            });
+            isParsed.Should().BeFalse();
+        }
+
+        [Fact]
         public void Parse_A_Single_Type()
         {
             // arrange
             var parser = new DefaultParser<BaseOptions>();
             parser.AddParameter(new Parameter<BaseOptions>()
             {
-                CanHandle = (instance, info) => info.Current.Raw == "-h" || info.Current.Raw == "--help",
-                Handle = (instance, info) =>
+                CanConsume = (instance, info) => info.Current.Raw == "-h" || info.Current.Raw == "--help",
+                Consume = (instance, info) =>
                 {
                     instance.HelpRequested = true;
                     return info.Consume(1);
@@ -61,8 +90,8 @@ namespace ArgParser.Core.Test
             var parentParser = new DefaultParser<BaseOptions>();
             parentParser.AddParameter(new Parameter<BaseOptions>()
             {
-                CanHandle = (instance, info) => info.Current.Raw == "-h" || info.Current.Raw == "--help",
-                Handle = (instance, info) =>
+                CanConsume = (instance, info) => info.Current.Raw == "-h" || info.Current.Raw == "--help",
+                Consume = (instance, info) =>
                 {
                     instance.HelpRequested = true;
                     return info.Consume(1);
@@ -72,8 +101,8 @@ namespace ArgParser.Core.Test
             var childParser = new DefaultParser<ChildOptions>();
             childParser.AddParameter(new Parameter<ChildOptions>()
             {
-                CanHandle = (instance, info) => info.Current.Raw.StartsWith("thing="),
-                Handle = (instance, info) =>
+                CanConsume = (instance, info) => info.Current.Raw.StartsWith("thing="),
+                Consume = (instance, info) =>
                 {
                     instance.Thing = info.Current.Raw.Substring("thing=".Length);
                     return info.Consume(1);
@@ -83,8 +112,8 @@ namespace ArgParser.Core.Test
             var grandChildParser = new DefaultParser<GrandChildOptions>();
             grandChildParser.AddParameter(new Parameter<GrandChildOptions>()
             {
-                CanHandle = (instance, info) => info.Current.Raw == "--special" && info.Next != null,
-                Handle = (instance, info) =>
+                CanConsume = (instance, info) => info.Current.Raw == "--special" && info.Next != null,
+                Consume = (instance, info) =>
                 {
                     instance.SpecialThing = info.Next.Raw;
                     return info.Consume(2);

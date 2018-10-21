@@ -49,7 +49,7 @@ namespace ArgParser.Core
         /// <inheritdoc />
         public bool CanConsume<TSub>(TSub instance, IIterationInfo info) where TSub : T
         {
-            return Parameters.Any(p => p.CanHandle(instance, info)) ||
+            return Parameters.Any(p => p.CanConsume(instance, info)) ||
                    (BaseParser?.CanConsume(instance, info) ?? false);
         }
 
@@ -63,8 +63,8 @@ namespace ArgParser.Core
         /// <inheritdoc />
         public IIterationInfo Consume<TSub>(TSub instance, IIterationInfo info) where TSub : T
         {
-            var first = Parameters.FirstOrDefault(p => p.CanHandle(instance, info));
-            var result = first?.Handle(instance, info) ?? BaseParser?.Consume(instance, info);
+            var first = Parameters.FirstOrDefault(p => p.CanConsume?.Invoke(instance, info) ?? false);
+            var result = first?.Consume?.Invoke(instance, info) ?? BaseParser?.Consume(instance, info);
             if(result == null)
                 throw new InvalidOperationException($"CanConsume determined that instance: {instance}, could be consumed, but failed during consumption");
             return result;

@@ -9,7 +9,7 @@ using Xunit;
 
 namespace ArgParser.IntegrationTests
 {
-    public class Git_Example
+    public class NaiveGit_Example
     {
         private class BaseOptions
         {
@@ -63,7 +63,7 @@ namespace ArgParser.IntegrationTests
             var commitParser = new DefaultParser<CommitOptions>();
             commitParser.AddParameter(new Parameter<CommitOptions>()
             {
-                CanHandle = (instance, info) => info.Current.Raw == ""
+                CanConsume = (instance, info) => info.Current.Raw == ""
             });
 
             // act

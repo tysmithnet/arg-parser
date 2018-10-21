@@ -126,5 +126,11 @@ namespace ArgParser.Core
 
         /// <inheritdoc />
         public bool IsInternal => Index > 0 && Index < Tokens?.Count - 1;
+
+        /// <inheritdoc />
+        public IToken Last => Tokens?.LastOrDefault();
+
+        /// <inheritdoc />
+        public IToken First => Tokens?.FirstOrDefault();
     }
 }
