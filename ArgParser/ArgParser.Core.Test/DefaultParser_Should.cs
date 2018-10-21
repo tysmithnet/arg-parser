@@ -56,8 +56,8 @@ namespace ArgParser.Core.Test
         {
             // arrange
             var baseParser = new DefaultParser<BaseOptions>();
-            var childParser = new DefaultParser<CompressOptions, BaseOptions>();
-            var grandChildParser = new DefaultParser<SpecialCompressOptions, CompressOptions>();
+            var childParser = new DefaultParser<CompressOptions>();
+            var grandChildParser = new DefaultParser<SpecialCompressOptions>();
             childParser.BaseParser = baseParser;
             grandChildParser.BaseParser = childParser;
             var args = new[] {"-d", "-t", "zip", "-s"};

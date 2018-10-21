@@ -14,12 +14,20 @@
 
 namespace ArgParser.Core
 {
+    public interface IParser
+    {
+        bool CanConsume(object instance, IIterationInfo info);
+        IIterationInfo Consume(object instance, IIterationInfo info);
+    }
+
     /// <summary>
     ///     Interface IParser
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IParser<in T>
+    public interface IParser<in T> : IParser
     {
+        IParser BaseParser { get; }
+
         /// <summary>
         ///     Determines whether this instance can handle the specified instance.
         /// </summary>
