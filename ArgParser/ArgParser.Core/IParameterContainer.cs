@@ -23,7 +23,7 @@ namespace ArgParser.Core
         /// <summary>
         ///     Adds the switch.
         /// </summary>
-        /// <param name="svitch">The svitch.</param>
-        void AddParameter(IParameter<T> svitch);
+        /// <param name="parameter">The svitch.</param>
+        void AddParameter(IParameter<T> parameter);
     }
 }

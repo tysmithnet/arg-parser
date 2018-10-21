@@ -29,11 +29,11 @@ namespace ArgParser.Core
         /// <summary>
         ///     Adds the switch.
         /// </summary>
-        /// <param name="svitch">The svitch.</param>
+        /// <param name="parameter">The svitch.</param>
         /// <inheritdoc />
-        public void AddParameter(IParameter<T> svitch)
+        public void AddParameter(IParameter<T> parameter)
         {
-            DefaultParserInternal.AddParameter(svitch);
+            DefaultParserInternal.AddParameter(parameter);
         }
 
         /// <summary>
@@ -87,10 +87,10 @@ namespace ArgParser.Core
         /// <summary>
         ///     Adds the switch.
         /// </summary>
-        /// <param name="svitch">The svitch.</param>
-        public void AddParameter(IParameter<T> svitch)
+        /// <param name="parameter">The svitch.</param>
+        public void AddParameter(IParameter<T> parameter)
         {
-            Switches.Add(svitch);
+            Parameters.Add(parameter);
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace ArgParser.Core
         /// <inheritdoc />
         public virtual bool CanHandle<TSub>(TSub instance, IIterationInfo info) where TSub : T
         {
-            if (Switches.Any(s => s.CanHandle?.Invoke(instance, info) ?? false)) return true;
+            if (Parameters.Any(s => s.CanHandle?.Invoke(instance, info) ?? false)) return true;
 
             return false;
         }
@@ -118,7 +118,7 @@ namespace ArgParser.Core
         /// <inheritdoc />
         public virtual IIterationInfo Handle<TSub>(TSub instance, IIterationInfo info) where TSub : T
         {
-            var svitch = Switches.FirstOrDefault(s => s.CanHandle?.Invoke(instance, info) ?? false);
+            var svitch = Parameters.FirstOrDefault(s => s.CanHandle?.Invoke(instance, info) ?? false);
             return svitch?.Handle?.Invoke(instance, info) ?? info;
         }
 
@@ -126,6 +126,6 @@ namespace ArgParser.Core
         ///     Gets the switches.
         /// </summary>
         /// <value>The switches.</value>
-        protected internal IList<IParameter<T>> Switches { get; } = new List<IParameter<T>>();
+        protected internal IList<IParameter<T>> Parameters { get; } = new List<IParameter<T>>();
     }
 }
