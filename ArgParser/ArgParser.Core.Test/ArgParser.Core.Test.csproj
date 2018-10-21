@@ -79,6 +79,7 @@
     <Compile Include="DefaultIterationInfo_Should.cs" />
     <Compile Include="DefaultLexer_Should.cs" />
     <Compile Include="DefaultParser_Should.cs" />
+    <Compile Include="DefaultParseStrategy_Should.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Token_Should.cs" />
   </ItemGroup>
