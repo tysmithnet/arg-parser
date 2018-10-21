@@ -45,7 +45,7 @@ namespace ArgParser.Core.Test
             var info = CreateInfo();
 
             // act
-            Action mightThrow = () => parser.CanHandle(instance, info);
+            Action mightThrow = () => parser.CanConsume(instance, info);
 
             // assert
             mightThrow.Should().NotThrow();
@@ -97,9 +97,9 @@ namespace ArgParser.Core.Test
             // assert
             var options = new SpecialCompressOptions();
             var i = 0;
-            while (!curInfo.IsComplete && grandChildParser.CanHandle(options, curInfo))
+            while (!curInfo.IsComplete && grandChildParser.CanConsume(options, curInfo))
             {
-                curInfo = grandChildParser.Handle(options, curInfo);
+                curInfo = grandChildParser.Consume(options, curInfo);
                 if (curInfo.Index == i)
                     true.Should().BeFalse("No progress made");
                 i = curInfo.Index;
@@ -155,7 +155,7 @@ namespace ArgParser.Core.Test
             var i = 0;
             while (!info.IsComplete)
             {
-                info = parser.Handle(instance, info);
+                info = parser.Consume(instance, info);
                 if (info.Index == i)
                     true.Should().BeFalse("No progress made");
                 i = info.Index;

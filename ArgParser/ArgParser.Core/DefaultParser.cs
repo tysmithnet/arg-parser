@@ -44,8 +44,8 @@ namespace ArgParser.Core
         /// <param name="info">The information.</param>
         /// <returns><c>true</c> if this instance can handle the specified instance; otherwise, <c>false</c>.</returns>
         /// <inheritdoc />
-        public bool CanHandle<TSub>(TSub instance, IIterationInfo info) where TSub : T =>
-            DefaultParserInternal.CanHandle(instance, info) || BaseParser.CanHandle(instance, info);
+        public bool CanConsume<TSub>(TSub instance, IIterationInfo info) where TSub : T =>
+            DefaultParserInternal.CanConsume(instance, info) || BaseParser.CanConsume(instance, info);
 
         /// <summary>
         ///     Handles the specified instance.
@@ -55,11 +55,11 @@ namespace ArgParser.Core
         /// <param name="info">The information.</param>
         /// <returns>IIterationInfo.</returns>
         /// <inheritdoc />
-        public IIterationInfo Handle<TSub>(TSub instance, IIterationInfo info) where TSub : T
+        public IIterationInfo Consume<TSub>(TSub instance, IIterationInfo info) where TSub : T
         {
-            if (DefaultParserInternal.CanHandle(instance, info))
-                return DefaultParserInternal.Handle(instance, info);
-            return BaseParser?.Handle(instance, info) ?? info;
+            if (DefaultParserInternal.CanConsume(instance, info))
+                return DefaultParserInternal.Consume(instance, info);
+            return BaseParser?.Consume(instance, info) ?? info;
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace ArgParser.Core
         /// <param name="info">The information.</param>
         /// <returns><c>true</c> if this instance can handle the specified instance; otherwise, <c>false</c>.</returns>
         /// <inheritdoc />
-        public virtual bool CanHandle<TSub>(TSub instance, IIterationInfo info) where TSub : T
+        public virtual bool CanConsume<TSub>(TSub instance, IIterationInfo info) where TSub : T
         {
             if (Parameters.Any(s => s.CanHandle?.Invoke(instance, info) ?? false)) return true;
 
@@ -116,7 +116,7 @@ namespace ArgParser.Core
         /// <param name="info">The information.</param>
         /// <returns>IIterationInfo.</returns>
         /// <inheritdoc />
-        public virtual IIterationInfo Handle<TSub>(TSub instance, IIterationInfo info) where TSub : T
+        public virtual IIterationInfo Consume<TSub>(TSub instance, IIterationInfo info) where TSub : T
         {
             var svitch = Parameters.FirstOrDefault(s => s.CanHandle?.Invoke(instance, info) ?? false);
             return svitch?.Handle?.Invoke(instance, info) ?? info;

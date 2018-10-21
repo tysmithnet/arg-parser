@@ -27,7 +27,7 @@ namespace ArgParser.Core
         /// <param name="instance">The instance.</param>
         /// <param name="info">The information.</param>
         /// <returns><c>true</c> if this instance can handle the specified instance; otherwise, <c>false</c>.</returns>
-        bool CanHandle<TSub>(TSub instance, IIterationInfo info) where TSub : T;
+        bool CanConsume<TSub>(TSub instance, IIterationInfo info) where TSub : T;
 
         /// <summary>
         ///     Handles the specified instance.
@@ -36,7 +36,7 @@ namespace ArgParser.Core
         /// <param name="instance">The instance.</param>
         /// <param name="info">The information.</param>
         /// <returns>IIterationInfo.</returns>
-        IIterationInfo Handle<TSub>(TSub instance, IIterationInfo info) where TSub : T;
+        IIterationInfo Consume<TSub>(TSub instance, IIterationInfo info) where TSub : T;
     }
 
     /// <summary>
