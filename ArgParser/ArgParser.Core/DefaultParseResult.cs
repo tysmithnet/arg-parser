@@ -6,8 +6,6 @@ namespace ArgParser.Core
 {
     public class DefaultParseResult : IParseResult
     {
-        public IList<object> ParsedInstances { get; set; }
-
         /// <inheritdoc />
         public DefaultParseResult(IList<object> parsedInstances)
         {
@@ -17,10 +15,9 @@ namespace ArgParser.Core
         /// <inheritdoc />
         public void When<T>(Action<T> handler)
         {
-            foreach (T parsedInstance in ParsedInstances.OfType<T>())
-            {
-                handler(parsedInstance);
-            }    
+            foreach (var parsedInstance in ParsedInstances.OfType<T>()) handler(parsedInstance);
         }
+
+        public IList<object> ParsedInstances { get; set; }
     }
 }

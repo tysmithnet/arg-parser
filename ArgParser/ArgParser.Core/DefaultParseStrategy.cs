@@ -5,16 +5,10 @@ namespace ArgParser.Core
 {
     public class DefaultParseStrategy : IParseStrategy
     {
-        public IList<Func<object>> FactoryFunctions { get; set; } = new List<Func<object>>();
-        public IIterationInfoFactory IterationInfoFactory { get; set; } = new DefaultIterationInfoFactory();
-
         /// <inheritdoc />
         public DefaultParseStrategy(IEnumerable<Func<object>> factoryFuncs = null)
         {
-            foreach (var factoryFunc in factoryFuncs ?? new Func<object>[0])
-            {
-                FactoryFunctions.Add(factoryFunc);
-            }
+            foreach (var factoryFunc in factoryFuncs ?? new Func<object>[0]) FactoryFunctions.Add(factoryFunc);
         }
 
         /// <inheritdoc />
@@ -22,29 +16,25 @@ namespace ArgParser.Core
         {
             var results = new List<object>();
             foreach (var parser in parsers)
+            foreach (var factoryFunction in FactoryFunctions)
             {
-                foreach (var factoryFunction in FactoryFunctions)
+                var info = IterationInfoFactory.Create(args);
+                var instance = factoryFunction();
+                var hasFailed = false;
+                var last = 0;
+                while (!hasFailed && !info.IsComplete && parser.CanConsume(instance, info))
                 {
-                    var info = IterationInfoFactory.Create(args);
-                    var instance = factoryFunction();
-                    bool hasFailed = false;
-                    int last = 0;
-                    while (!hasFailed && !info.IsComplete && parser.CanConsume(instance, info))
-                    {
-                        info = parser.Consume(instance, info);
-                        if (info.Index <= last)
-                        {
-                            hasFailed = true;
-                        }
-                    }
-
-                    if (!hasFailed && info.IsComplete)
-                    {
-                        results.Add(instance);
-                    }
+                    info = parser.Consume(instance, info);
+                    if (info.Index <= last) hasFailed = true;
                 }
+
+                if (!hasFailed && info.IsComplete) results.Add(instance);
             }
+
             return new DefaultParseResult(results);
         }
+
+        public IList<Func<object>> FactoryFunctions { get; set; } = new List<Func<object>>();
+        public IIterationInfoFactory IterationInfoFactory { get; set; } = new DefaultIterationInfoFactory();
     }
 }
