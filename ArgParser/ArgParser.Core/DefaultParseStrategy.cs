@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ArgParser.Core.Validation;
 
 namespace ArgParser.Core
 {
@@ -36,10 +35,9 @@ namespace ArgParser.Core
                 if (!hasFailed && info.IsComplete && passedValidation) results.Add(instance);
             }
 
-
             return new DefaultParseResult(results);
         }
-        
+
         public IList<Func<object>> FactoryFunctions { get; set; } = new List<Func<object>>();
         public IIterationInfoFactory IterationInfoFactory { get; set; } = new DefaultIterationInfoFactory();
         public IList<IValidator> Validators { get; set; } = new List<IValidator>();

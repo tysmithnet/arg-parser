@@ -4,9 +4,9 @@ namespace ArgParser.Core.Validation
 {
     public interface IValidationResult
     {
-        bool IsSuccess { get; }
         IList<ValidationError> Errors { get; }
         object Instance { get; }
+        bool IsSuccess { get; }
     }
 
     public interface IValidationResult<out T> : IValidationResult
