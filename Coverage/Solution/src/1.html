@@ -2,151 +2,35 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>C:\projects\arg-parser\ArgParser\ArgParser.Core\DefaultIterationInfo.cs</title>
+    <title>C:\projects\arg-parser\ArgParser\ArgParser.Core\BasicExtensions.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
-// ***********************************************************************
-// Assembly         : ArgParser.Core
-// Author           : @tysmithnet
-// Created          : 10-20-2018
-//
-// Last Modified By : @tysmithnet
-// Last Modified On : 10-21-2018
-// ***********************************************************************
-// &lt;copyright file=&quot;DefaultIterationInfo.cs&quot; company=&quot;ArgParser.Core&quot;&gt;
-//     Copyright (c) . All rights reserved.
-// &lt;/copyright&gt;
-// &lt;summary&gt;&lt;/summary&gt;
-// ***********************************************************************
-
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ArgParser.Core
 {
-    /// &lt;summary&gt;
-    ///     Class DefaultIterationInfo.
-    /// &lt;/summary&gt;
-    /// &lt;seealso cref=&quot;ArgParser.Core.IIterationInfo&quot; /&gt;
-    public class DefaultIterationInfo : IIterationInfo
+    internal static class BasicExtensions
     {
-        /// &lt;summary&gt;
-        ///     Consumes the specified number tokens.
-        /// &lt;/summary&gt;
-        /// &lt;param name=&quot;numTokens&quot;&gt;The number tokens.&lt;/param&gt;
-        /// &lt;returns&gt;IIterationInfo.&lt;/returns&gt;
-        /// &lt;inheritdoc /&gt;
-        public IIterationInfo Consume(int numTokens) =&gt; SetIndex(Index + numTokens);
+        public static bool IsNullOrWhiteSpace(this string source) =&gt; string.IsNullOrWhiteSpace(source);
 
-        /// &lt;summary&gt;
-        ///     Sets the index.
-        /// &lt;/summary&gt;
-        /// &lt;param name=&quot;i&quot;&gt;The i.&lt;/param&gt;
-        /// &lt;returns&gt;IIterationInfo.&lt;/returns&gt;
-        public IIterationInfo SetIndex(int i)
+        public static string Join(this IEnumerable&lt;string&gt; strings, string separator) =&gt;
+            string.Join(separator, strings);
+
+        public static string JoinNonNullOrWhiteSpace(this IEnumerable&lt;string&gt; strings, string separator)
         {
-            return Clone(info =&gt; info.Index = i);
+            return string.Join(separator, strings.Where(x =&gt; !x.IsNullOrWhiteSpace()));
         }
 
-        /// &lt;summary&gt;
-        ///     Sets the tokens.
-        /// &lt;/summary&gt;
-        /// &lt;param name=&quot;tokens&quot;&gt;The tokens.&lt;/param&gt;
-        /// &lt;returns&gt;IIterationInfo.&lt;/returns&gt;
-        public IIterationInfo SetTokens(IList&lt;IToken&gt; tokens)
-        {
-            return Clone(info =&gt; info.Tokens = tokens?.ToList());
-        }
-
-        /// &lt;summary&gt;
-        ///     Clones the specified transformer.
-        /// &lt;/summary&gt;
-        /// &lt;param name=&quot;transformer&quot;&gt;The transformer.&lt;/param&gt;
-        /// &lt;returns&gt;DefaultIterationInfo.&lt;/returns&gt;
-        private DefaultIterationInfo Clone(Action&lt;DefaultIterationInfo&gt; transformer)
-        {
-            var newGuy = new DefaultIterationInfo
-            {
-                Args = Args?.ToArray(),
-                Tokens = Tokens?.ToList(),
-                Index = Index
-            };
-            transformer?.Invoke(newGuy);
-            return newGuy;
-        }
-
-        /// &lt;summary&gt;
-        ///     Gets or sets the arguments.
-        /// &lt;/summary&gt;
-        /// &lt;value&gt;The arguments.&lt;/value&gt;
-        /// &lt;inheritdoc /&gt;
-        public string[] Args { get; set; }
-
-        /// &lt;summary&gt;
-        ///     Gets the current.
-        /// &lt;/summary&gt;
-        /// &lt;value&gt;The current.&lt;/value&gt;
-        /// &lt;inheritdoc /&gt;
-        public IToken Current =&gt; !IsComplete ? Tokens?[Index] : null;
-
-        /// &lt;summary&gt;
-        ///     Gets or sets the index.
-        /// &lt;/summary&gt;
-        /// &lt;value&gt;The index.&lt;/value&gt;
-        /// &lt;inheritdoc /&gt;
-        public int Index { get; set; }
-
-        /// &lt;summary&gt;
-        ///     Gets a value indicating whether this instance is complete.
-        /// &lt;/summary&gt;
-        /// &lt;value&gt;&lt;c&gt;true&lt;/c&gt; if this instance is complete; otherwise, &lt;c&gt;false&lt;/c&gt;.&lt;/value&gt;
-        /// &lt;inheritdoc /&gt;
-        public bool IsComplete =&gt; Index &gt;= Tokens?.Count;
-
-        /// &lt;summary&gt;
-        ///     Gets the next.
-        /// &lt;/summary&gt;
-        /// &lt;value&gt;The next.&lt;/value&gt;
-        /// &lt;inheritdoc /&gt;
-        public IToken Next =&gt; Rest?.FirstOrDefault();
-
-        /// &lt;summary&gt;
-        ///     Gets the rest.
-        /// &lt;/summary&gt;
-        /// &lt;value&gt;The rest.&lt;/value&gt;
-        /// &lt;inheritdoc /&gt;
-        public IEnumerable&lt;IToken&gt; Rest =&gt; Tokens?.Skip(Index + 1);
-
-        /// &lt;summary&gt;
-        ///     Gets the tokens.
-        /// &lt;/summary&gt;
-        /// &lt;value&gt;The tokens.&lt;/value&gt;
-        /// &lt;inheritdoc /&gt;
-        public IReadOnlyList&lt;IToken&gt; Tokens { get; internal set; }
-
-        /// &lt;inheritdoc /&gt;
-        public bool IsLast =&gt; Index == Tokens?.Count - 1;
-
-        /// &lt;inheritdoc /&gt;
-        public bool IsFirst =&gt; Index == 0;
-
-        /// &lt;inheritdoc /&gt;
-        public bool IsInternal =&gt; Index &gt; 0 &amp;&amp; Index &lt; Tokens?.Count - 1;
-
-        /// &lt;inheritdoc /&gt;
-        public IToken Last =&gt; Tokens?.LastOrDefault();
-
-        /// &lt;inheritdoc /&gt;
-        public IToken First =&gt; Tokens?.FirstOrDefault();
+        public static IEnumerable&lt;T&gt; PreventNull&lt;T&gt;(this IEnumerable&lt;T&gt; source) =&gt; source ?? new T[0];
     }
 }
     </pre>
     <script type="text/javascript">
-      highlightRanges([[33,57,33,84,1],[41,9,41,10,1],[42,13,42,34,1],[42,34,42,48,1],[42,48,42,50,1],[42,13,42,50,1],[43,9,43,10,1],[51,9,51,10,1],[52,13,52,34,1],[52,34,52,64,1],[52,64,52,66,1],[52,13,52,66,1],[53,9,53,10,1],[61,9,61,10,1],[62,13,67,15,1],[68,13,68,41,1],[69,13,69,27,1],[70,9,70,10,1],[84,34,84,69,1],[98,35,98,57,1],[105,31,105,53,1],[112,44,112,67,1],[122,31,122,57,1],[125,32,125,42,1],[128,35,128,73,1],[131,31,131,54,1],[134,32,134,56,1]]);
+      highlightRanges([[8,70,8,103,1],[11,13,11,44,1],[14,9,14,10,1],[15,13,15,62,1],[15,62,15,85,1],[15,85,15,88,1],[15,13,15,88,1],[16,9,16,10,1],[18,84,18,102,1]]);
     </script>
   </body>
 </html>
