@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgParser.Core.Test", "ArgP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgParser.TestConsole", "ArgParser.TestConsole\ArgParser.TestConsole.csproj", "{FCCC41E9-E7C0-4BF5-A420-84490D98D599}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgParser.IntegrationTests", "ArgParser.IntegrationTests\ArgParser.IntegrationTests.csproj", "{4132E2E2-8EF1-48C2-AC24-DCA8A8C0C5BC}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{FCCC41E9-E7C0-4BF5-A420-84490D98D599}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCCC41E9-E7C0-4BF5-A420-84490D98D599}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCCC41E9-E7C0-4BF5-A420-84490D98D599}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4132E2E2-8EF1-48C2-AC24-DCA8A8C0C5BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4132E2E2-8EF1-48C2-AC24-DCA8A8C0C5BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4132E2E2-8EF1-48C2-AC24-DCA8A8C0C5BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4132E2E2-8EF1-48C2-AC24-DCA8A8C0C5BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
