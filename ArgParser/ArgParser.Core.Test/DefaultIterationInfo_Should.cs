@@ -8,38 +8,17 @@ namespace ArgParser.Core.Test
     public class DefaultIterationInfo_Should
     {
         [Fact]
-        public void Return_The_Token_At_Index_For_Current()
-        {
-            // arrange
-            var info = new DefaultIterationInfo();
-            info = (DefaultIterationInfo) info.SetTokens(new List<IToken>
-            {
-                new Token("a"),
-                new Token("b"),
-                new Token("c")
-            });
-
-            // act
-            // assert
-            info.Current.Should().Be(new Token("a"));
-            info.Index = 1;
-            info.Current.Should().Be(new Token("b"));
-            info.Index = 2;
-            info.Current.Should().Be(new Token("c"));
-        }
-
-        [Fact]
         public void Consume_The_Correct_Amount_Of_Tokens()
         {
             var info = new DefaultIterationInfo();
-            info = (DefaultIterationInfo)info.SetTokens(new List<IToken>
+            info = (DefaultIterationInfo) info.SetTokens(new List<IToken>
             {
                 new Token("a"),
                 new Token("b"),
                 new Token("c"),
                 new Token("d"),
                 new Token("e"),
-                new Token("f"),
+                new Token("f")
             });
 
             // act
@@ -61,11 +40,11 @@ namespace ArgParser.Core.Test
         {
             // arrange
             string[] args = {"a", "b", "c"};
-            IIterationInfo info = new DefaultIterationInfo()
+            IIterationInfo info = new DefaultIterationInfo
             {
                 Args = args.ToArray(),
                 Tokens = args.Select(x => new Token(x)).ToList(),
-                Index = 0,
+                Index = 0
             };
 
             // act
@@ -88,6 +67,27 @@ namespace ArgParser.Core.Test
             info.Current.Raw.Should().Be("c");
             info.IsLast.Should().BeTrue();
             info.IsInternal.Should().BeFalse();
+        }
+
+        [Fact]
+        public void Return_The_Token_At_Index_For_Current()
+        {
+            // arrange
+            var info = new DefaultIterationInfo();
+            info = (DefaultIterationInfo) info.SetTokens(new List<IToken>
+            {
+                new Token("a"),
+                new Token("b"),
+                new Token("c")
+            });
+
+            // act
+            // assert
+            info.Current.Should().Be(new Token("a"));
+            info.Index = 1;
+            info.Current.Should().Be(new Token("b"));
+            info.Index = 2;
+            info.Current.Should().Be(new Token("c"));
         }
     }
 }
