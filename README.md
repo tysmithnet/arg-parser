@@ -17,7 +17,7 @@ I don't much care for the common approach to this problem of decorating POCOs wi
 ### Features
 - [x] Switches, positional arguments, sub commands
 - [ ] Validation methods
-- [ ] Help text generation  
+- [x] Help text generation  
 
 ### Glossary
 |Term               |Definition|
