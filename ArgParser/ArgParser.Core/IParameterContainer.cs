@@ -12,6 +12,8 @@
 // <summary></summary>
 // ***********************************************************************
 
+using ArgParser.Core.Help;
+
 namespace ArgParser.Core
 {
     /// <summary>
@@ -24,6 +26,6 @@ namespace ArgParser.Core
         ///     Adds the switch.
         /// </summary>
         /// <param name="parameter">The svitch.</param>
-        void AddParameter(IParameter<T> parameter);
+        void AddParameter(IParameter<T> parameter, IGenericHelp help = null);
     }
 }

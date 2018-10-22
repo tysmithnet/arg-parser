@@ -12,9 +12,11 @@
 // <summary></summary>
 // ***********************************************************************
 
+using ArgParser.Core.Help;
+
 namespace ArgParser.Core
 {
-    public interface IParser
+    public interface IParser : IHelpful
     {
         bool CanConsume(object instance, IIterationInfo info);
         IIterationInfo Consume(object instance, IIterationInfo info);

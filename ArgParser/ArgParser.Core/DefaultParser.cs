@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ArgParser.Core.Help;
 
 namespace ArgParser.Core
 {
@@ -27,14 +28,20 @@ namespace ArgParser.Core
     /// <seealso cref="IParameterContainer{T}" />
     public class DefaultParser<T> : IParser<T>, IParameterContainer<T>
     {
-        /// <summary>
-        ///     Adds the switch.
-        /// </summary>
-        /// <param name="parameter">The svitch.</param>
-        /// <inheritdoc />
-        public void AddParameter(IParameter<T> parameter)
+        public DefaultHelpBuilder HelpBuilder { get; set; } = new DefaultHelpBuilder();
+
+        public void AddParameter(IParameter<T> parameter, IGenericHelp help = null)
         {
             Parameters.Add(parameter);
+            if (help == null)
+                return;
+            HelpBuilder.AddParameter(help.Name, help.Examples?.SelectMany(e => e?.Usage).Where(x => !x.IsNullOrWhiteSpace()).ToArray(), help.ShortDescription);
+        }
+
+        public void AddHelp(IGenericHelp help)
+        {
+            Help = help;
+            HelpBuilder.AddGenericHelp(help);
         }
 
         /// <summary>
@@ -97,5 +104,8 @@ namespace ArgParser.Core
         public IParser BaseParser { get; set; }
 
         public IList<IParameter<T>> Parameters { get; set; } = new List<IParameter<T>>();
+
+        /// <inheritdoc />
+        public IGenericHelp Help { get; protected internal set; }
     }
 }

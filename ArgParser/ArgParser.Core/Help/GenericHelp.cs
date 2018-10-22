@@ -1,4 +1,6 @@
-﻿namespace ArgParser.Core.Help
+﻿using System.Collections.Generic;
+
+namespace ArgParser.Core.Help
 {
     public class GenericHelp : IGenericHelp
     {
@@ -16,5 +18,8 @@
 
         /// <inheritdoc />
         public string Author { get; set; }
+
+        /// <inheritdoc />
+        public IList<IExample> Examples { get; set; }
     }
 }

@@ -40,7 +40,16 @@ namespace ArgParser.Core.Test
                     Description = "Duke is a pretty cool corgi. He's a heckin' good boy",
                     ShortDescription = "Duke's program",
                     Name = "duke.exe",
-                    Version = "1.2.3.4"
+                    Version = "1.2.3.4",
+                    Examples = new List<IExample>()
+                    {
+                        new DefaultExample()
+                        {
+                            Name = "Basic",
+                            Usage = new []{"duke.exe"},
+                            ShortDescription = "Launch duke with the basic options"
+                        }
+                    }
                 });
 
             // act

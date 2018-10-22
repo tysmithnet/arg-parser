@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using ArgParser.Core.Help;
 using FluentAssertions;
 using Xunit;
 
@@ -53,6 +54,23 @@ namespace ArgParser.Core.Test
         }
 
         [Fact]
+        public void Add_Help()
+        {
+            // arrange
+            var parser = new DefaultParser<BaseOptions>();
+            var help = new GenericHelp()
+            {
+                Name = "hi"
+            };
+
+            // act
+            parser.AddHelp(help);
+
+            // assert
+            parser.Help.Name.Should().Be("hi");
+        }
+
+        [Fact]
         public void Parse_A_Hierarchy()
         {
             // arrange
@@ -71,6 +89,19 @@ namespace ArgParser.Core.Test
                 {
                     instance.DryRun = true;
                     return info.Consume(1);
+                }
+            }, new GenericHelp()
+            {
+                Name = "Dry Run",
+                ShortDescription = "Don't actually do anything, just output what would be done",
+                Examples = new List<IExample>()
+                {
+                    new DefaultExample()
+                    {
+                        Name = "Basic",
+                        Usage = new []{"-d", "--dry-run"},
+                        ShortDescription = "Just turning on dry run"
+                    }
                 }
             });
 
