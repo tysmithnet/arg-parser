@@ -7,5 +7,10 @@
         {
             visitor.Visit(this);
         }
+
+        /// <inheritdoc />
+        public CodeNode(string text) : base(text)
+        {
+        }
     }
 }
