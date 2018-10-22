@@ -12,9 +12,11 @@
 // <summary></summary>
 // ***********************************************************************
 
+using ArgParser.Core.Help;
+
 namespace ArgParser.Core
 {
-    public interface IParser
+    public interface IParser : IHelpful
     {
         bool CanConsume(object instance, IIterationInfo info);
         IIterationInfo Consume(object instance, IIterationInfo info);
@@ -45,20 +47,5 @@ namespace ArgParser.Core
         IIterationInfo Consume<TSub>(TSub instance, IIterationInfo info) where TSub : T;
 
         IParser BaseParser { get; }
-    }
-
-    /// <summary>
-    ///     Interface IParser
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TBase">The type of the t base.</typeparam>
-    /// <seealso cref="ArgParser.Core.IParser{T}" />
-    public interface IParser<in T, in TBase> : IParser<T> where T : TBase
-    {
-        /// <summary>
-        ///     Gets the base parser.
-        /// </summary>
-        /// <value>The base parser.</value>
-        IParser<TBase> BaseParser { get; }
     }
 }

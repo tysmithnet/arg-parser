@@ -9,5 +9,10 @@
         {
             visitor.Visit(this);
         }
+
+        /// <inheritdoc />
+        public HeadingNode(string text) : base(text)
+        {
+        }
     }
 }
