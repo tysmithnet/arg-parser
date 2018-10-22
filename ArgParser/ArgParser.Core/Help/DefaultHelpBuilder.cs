@@ -64,10 +64,8 @@ namespace ArgParser.Core.Help
                     sb.AppendLine(firstLine.Trim());
                 }
 
-                bool wasUsage = false;
-                foreach (var usage in info.Usages ?? new string[0])
+                foreach (var usage in info.Usages.PreventNull())
                 {
-                    wasUsage = true;
                     sb.AppendLine($"    {usage}");
                 }
 

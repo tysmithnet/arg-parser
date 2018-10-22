@@ -21,5 +21,10 @@ namespace ArgParser.Core
         {
             return string.IsNullOrWhiteSpace(source);
         }
+
+        public static IEnumerable<T> PreventNull<T>(this IEnumerable<T> source)
+        {
+            return source ?? new T[0];
+        }
     }
 }

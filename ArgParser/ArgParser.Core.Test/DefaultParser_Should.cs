@@ -25,8 +25,8 @@ namespace ArgParser.Core.Test
         {
             var info = new DefaultIterationInfo
             {
-                Args = args ?? new string[0],
-                Tokens = tokens ?? new List<IToken>(),
+                Args = args.PreventNull().ToArray(),
+                Tokens = tokens.PreventNull().ToList(),
                 Index = index
             };
             return info;

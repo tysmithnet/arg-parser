@@ -31,7 +31,7 @@ namespace ArgParser.Core
         /// <inheritdoc />
         public IEnumerable<IToken> Lex(string[] args)
         {
-            return args?.Select(a => new Token(a)).ToList() ?? new List<Token>();
+            return args?.Select(a => new Token(a)).ToList().PreventNull();
         }
     }
 }
