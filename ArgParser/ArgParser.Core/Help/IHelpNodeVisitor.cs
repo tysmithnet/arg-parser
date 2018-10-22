@@ -8,5 +8,6 @@
         void Visit(TableNode node);
         void Visit(TableRowNode node);
         void Visit(TableDataNode node);
+        void Visit(RootNode node);
     }
 }
