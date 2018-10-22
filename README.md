@@ -16,8 +16,12 @@ I don't much care for the common approach to this problem of decorating POCOs wi
 
 ### Features
 - [x] Switches, positional arguments, sub commands
-- [ ] Validation methods
+- [ ] Validation
 - [x] Help text generation  
+- [x] Lexing args into tokens
+- [x] Parsing of tokens into instances
+- [ ] Reasonable default implementations
+- [ ] Many examples
 
 ### Glossary
 |Term               |Definition|
