@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ArgParser.Core
+namespace ArgParser.Core.Validation
 {
     public interface IValidationResult
     {
