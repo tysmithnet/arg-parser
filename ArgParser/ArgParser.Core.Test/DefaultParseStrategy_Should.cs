@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
 
@@ -30,7 +26,7 @@ namespace ArgParser.Core.Test
         {
             // arrange
             var parser = new DefaultParser<BaseOptions>();
-            parser.AddParameter(new Parameter<BaseOptions>()
+            parser.AddParameter(new Parameter<BaseOptions>
             {
                 CanConsume = (instance, info) => info.Current.Raw == "-h" || info.Current.Raw == "--help",
                 Consume = (instance, info) =>
@@ -39,13 +35,13 @@ namespace ArgParser.Core.Test
                     return info.Consume(-1);
                 }
             });
-            var strat = new DefaultParseStrategy(new Func<object>[] { () => new BaseOptions() });
+            var strat = new DefaultParseStrategy(new Func<object>[] {() => new BaseOptions()});
 
             // act
-            var result = strat.Parse(new[] { parser }, "--help".Split(' '));
+            var result = strat.Parse(new[] {parser}, "--help".Split(' '));
 
             // assert
-            bool isParsed = false;
+            var isParsed = false;
             result.When<BaseOptions>(options =>
             {
                 options.HelpRequested.Should().BeTrue();
@@ -55,40 +51,11 @@ namespace ArgParser.Core.Test
         }
 
         [Fact]
-        public void Parse_A_Single_Type()
-        {
-            // arrange
-            var parser = new DefaultParser<BaseOptions>();
-            parser.AddParameter(new Parameter<BaseOptions>()
-            {
-                CanConsume = (instance, info) => info.Current.Raw == "-h" || info.Current.Raw == "--help",
-                Consume = (instance, info) =>
-                {
-                    instance.HelpRequested = true;
-                    return info.Consume(1);
-                }
-            });
-            var strat = new DefaultParseStrategy(new Func<object>[]{ () => new BaseOptions() });
-
-            // act
-            var result = strat.Parse(new[] {parser}, "--help".Split(' '));
-
-            // assert
-            bool isParsed = false;
-            result.When<BaseOptions>(options =>
-            {
-                options.HelpRequested.Should().BeTrue();
-                isParsed = true;
-            });
-            isParsed.Should().BeTrue();
-        }
-
-        [Fact]
         public void Parse_A_Hierarchy()
         {
             // arrange
             var parentParser = new DefaultParser<BaseOptions>();
-            parentParser.AddParameter(new Parameter<BaseOptions>()
+            parentParser.AddParameter(new Parameter<BaseOptions>
             {
                 CanConsume = (instance, info) => info.Current.Raw == "-h" || info.Current.Raw == "--help",
                 Consume = (instance, info) =>
@@ -99,7 +66,7 @@ namespace ArgParser.Core.Test
             });
 
             var childParser = new DefaultParser<ChildOptions>();
-            childParser.AddParameter(new Parameter<ChildOptions>()
+            childParser.AddParameter(new Parameter<ChildOptions>
             {
                 CanConsume = (instance, info) => info.Current.Raw.StartsWith("thing="),
                 Consume = (instance, info) =>
@@ -110,7 +77,7 @@ namespace ArgParser.Core.Test
             });
 
             var grandChildParser = new DefaultParser<GrandChildOptions>();
-            grandChildParser.AddParameter(new Parameter<GrandChildOptions>()
+            grandChildParser.AddParameter(new Parameter<GrandChildOptions>
             {
                 CanConsume = (instance, info) => info.Current.Raw == "--special" && info.Next != null,
                 Consume = (instance, info) =>
@@ -122,15 +89,17 @@ namespace ArgParser.Core.Test
             grandChildParser.BaseParser = childParser;
             childParser.BaseParser = parentParser;
 
-            var strat = new DefaultParseStrategy(new Func<object>[] { () => new BaseOptions(), () => new ChildOptions(), () => new GrandChildOptions(),  });
+            var strat = new DefaultParseStrategy(new Func<object>[]
+                {() => new BaseOptions(), () => new ChildOptions(), () => new GrandChildOptions()});
 
             // act
-            var result = strat.Parse(new IParser[] { parentParser, childParser, grandChildParser }, "--help thing=duke --special corgi".Split(' '));
+            var result = strat.Parse(new IParser[] {parentParser, childParser, grandChildParser},
+                "--help thing=duke --special corgi".Split(' '));
 
             // assert
-            int baseParsed = 0;
-            int childParsed = 0;
-            int grandChildParsed = 0;
+            var baseParsed = 0;
+            var childParsed = 0;
+            var grandChildParsed = 0;
             result.When<BaseOptions>(options =>
             {
                 options.HelpRequested.Should().BeTrue();
@@ -152,6 +121,35 @@ namespace ArgParser.Core.Test
             baseParsed.Should().Be(1);
             childParsed.Should().Be(1);
             grandChildParsed.Should().Be(1);
+        }
+
+        [Fact]
+        public void Parse_A_Single_Type()
+        {
+            // arrange
+            var parser = new DefaultParser<BaseOptions>();
+            parser.AddParameter(new Parameter<BaseOptions>
+            {
+                CanConsume = (instance, info) => info.Current.Raw == "-h" || info.Current.Raw == "--help",
+                Consume = (instance, info) =>
+                {
+                    instance.HelpRequested = true;
+                    return info.Consume(1);
+                }
+            });
+            var strat = new DefaultParseStrategy(new Func<object>[] {() => new BaseOptions()});
+
+            // act
+            var result = strat.Parse(new[] {parser}, "--help".Split(' '));
+
+            // assert
+            var isParsed = false;
+            result.When<BaseOptions>(options =>
+            {
+                options.HelpRequested.Should().BeTrue();
+                isParsed = true;
+            });
+            isParsed.Should().BeTrue();
         }
     }
 }

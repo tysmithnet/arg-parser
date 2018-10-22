@@ -112,55 +112,6 @@ namespace ArgParser.Core.Test
         }
 
         [Fact]
-        public void Parse_When_Only_Positionals()
-        {
-            // arrange
-            var parser = new DefaultParser<BaseOptions>();
-            var infoFac = new DefaultIterationInfoFactory();
-            parser.AddParameter(new Parameter<BaseOptions>()
-            {
-                CanConsume = (instance, info) => !Regex.IsMatch(info.Current.Raw, "--?[a-zA-Z0-9]+"),
-                Consume = (instance, info) =>
-                {
-                    instance.Files.Add(info.Current.Raw);
-                    return info.Consume(1);
-                }
-            });
-
-            // act
-            var options = new BaseOptions();
-            var nfo = infoFac.Create("pos1 pos2 pos3".Split(' '));
-            while (!nfo.IsComplete)
-            {
-                nfo = parser.Consume(options, nfo);
-            }
-
-            // assert
-            options.Files.Should().BeEquivalentTo("pos1", "pos2", "pos3");
-        }
-
-        [Fact]
-        public void Throw_If_No_Consumer_Found()
-        {
-            // arrange
-            var parser = new DefaultParser<BaseOptions>();
-            var infoFac = new DefaultIterationInfoFactory();
-            int count = 0;
-            parser.AddParameter(new Parameter<BaseOptions>()
-            {
-                CanConsume = (instance, info) => count++ == 0
-            });
-
-            // act
-            var options = new BaseOptions();
-            var nfo = infoFac.Create("pos1 pos2 pos3".Split(' '));
-            Action mightThrow = () => parser.Consume(options, nfo);
-
-            // assert
-            mightThrow.Should().Throw<InvalidOperationException>();
-        }
-
-        [Fact]
         public void Parse_A_Single_Type()
         {
             // arrange
@@ -202,6 +153,52 @@ namespace ArgParser.Core.Test
             // assert
             instance.DryRun.Should().BeTrue();
             instance.Files.Should().BeEquivalentTo("file1", "file2");
+        }
+
+        [Fact]
+        public void Parse_When_Only_Positionals()
+        {
+            // arrange
+            var parser = new DefaultParser<BaseOptions>();
+            var infoFac = new DefaultIterationInfoFactory();
+            parser.AddParameter(new Parameter<BaseOptions>
+            {
+                CanConsume = (instance, info) => !Regex.IsMatch(info.Current.Raw, "--?[a-zA-Z0-9]+"),
+                Consume = (instance, info) =>
+                {
+                    instance.Files.Add(info.Current.Raw);
+                    return info.Consume(1);
+                }
+            });
+
+            // act
+            var options = new BaseOptions();
+            var nfo = infoFac.Create("pos1 pos2 pos3".Split(' '));
+            while (!nfo.IsComplete) nfo = parser.Consume(options, nfo);
+
+            // assert
+            options.Files.Should().BeEquivalentTo("pos1", "pos2", "pos3");
+        }
+
+        [Fact]
+        public void Throw_If_No_Consumer_Found()
+        {
+            // arrange
+            var parser = new DefaultParser<BaseOptions>();
+            var infoFac = new DefaultIterationInfoFactory();
+            var count = 0;
+            parser.AddParameter(new Parameter<BaseOptions>
+            {
+                CanConsume = (instance, info) => count++ == 0
+            });
+
+            // act
+            var options = new BaseOptions();
+            var nfo = infoFac.Create("pos1 pos2 pos3".Split(' '));
+            Action mightThrow = () => parser.Consume(options, nfo);
+
+            // assert
+            mightThrow.Should().Throw<InvalidOperationException>();
         }
     }
 }

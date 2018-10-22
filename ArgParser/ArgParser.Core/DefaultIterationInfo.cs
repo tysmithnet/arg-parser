@@ -83,6 +83,9 @@ namespace ArgParser.Core
         /// <inheritdoc />
         public IToken Current => !IsComplete ? Tokens?[Index] : null;
 
+        /// <inheritdoc />
+        public IToken First => Tokens?.FirstOrDefault();
+
         /// <summary>
         ///     Gets or sets the index.
         /// </summary>
@@ -96,6 +99,18 @@ namespace ArgParser.Core
         /// <value><c>true</c> if this instance is complete; otherwise, <c>false</c>.</value>
         /// <inheritdoc />
         public bool IsComplete => Index >= Tokens?.Count;
+
+        /// <inheritdoc />
+        public bool IsFirst => Index == 0;
+
+        /// <inheritdoc />
+        public bool IsInternal => Index > 0 && Index < Tokens?.Count - 1;
+
+        /// <inheritdoc />
+        public bool IsLast => Index == Tokens?.Count - 1;
+
+        /// <inheritdoc />
+        public IToken Last => Tokens?.LastOrDefault();
 
         /// <summary>
         ///     Gets the next.
@@ -117,20 +132,5 @@ namespace ArgParser.Core
         /// <value>The tokens.</value>
         /// <inheritdoc />
         public IReadOnlyList<IToken> Tokens { get; internal set; }
-
-        /// <inheritdoc />
-        public bool IsLast => Index == Tokens?.Count - 1;
-
-        /// <inheritdoc />
-        public bool IsFirst => Index == 0;
-
-        /// <inheritdoc />
-        public bool IsInternal => Index > 0 && Index < Tokens?.Count - 1;
-
-        /// <inheritdoc />
-        public IToken Last => Tokens?.LastOrDefault();
-
-        /// <inheritdoc />
-        public IToken First => Tokens?.FirstOrDefault();
     }
 }

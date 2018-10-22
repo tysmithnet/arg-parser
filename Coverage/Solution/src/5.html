@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\projects\arg-parser\ArgParser\ArgParser.Core\DefaultParseResult.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ArgParser.Core
+{
+    public class DefaultParseResult : IParseResult
+    {
+        public IList&lt;object&gt; ParsedInstances { get; set; }
+
+        /// &lt;inheritdoc /&gt;
+        public DefaultParseResult(IList&lt;object&gt; parsedInstances)
+        {
+            ParsedInstances = parsedInstances ?? throw new ArgumentNullException(nameof(parsedInstances));
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public void When&lt;T&gt;(Action&lt;T&gt; handler)
+        {
+            foreach (T parsedInstance in ParsedInstances.OfType&lt;T&gt;())
+            {
+                handler(parsedInstance);
+            }    
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[12,9,12,65,1],[13,9,13,10,1],[14,13,14,107,1],[15,9,15,10,1],[19,9,19,10,1],[20,13,20,20,1],[20,22,20,38,1],[20,39,20,41,1],[20,42,20,69,1],[21,13,21,14,1],[22,17,22,41,1],[23,13,23,14,1],[24,9,24,10,1]]);
+    </script>
+  </body>
+</html>

@@ -26,8 +26,6 @@ namespace ArgParser.Core
     /// <typeparam name="T"></typeparam>
     public interface IParser<in T> : IParser
     {
-        IParser BaseParser { get; }
-
         /// <summary>
         ///     Determines whether this instance can handle the specified instance.
         /// </summary>
@@ -45,6 +43,8 @@ namespace ArgParser.Core
         /// <param name="info">The information.</param>
         /// <returns>IIterationInfo.</returns>
         IIterationInfo Consume<TSub>(TSub instance, IIterationInfo info) where TSub : T;
+
+        IParser BaseParser { get; }
     }
 
     /// <summary>

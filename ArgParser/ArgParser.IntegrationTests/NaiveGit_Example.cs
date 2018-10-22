@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using ArgParser.Core;
 using Xunit;
 
@@ -13,9 +10,8 @@ namespace ArgParser.IntegrationTests
     {
         private class BaseOptions
         {
-            public bool IsVersionRequested { get; set; }
             public bool IsHelpRequested { get; set; }
-
+            public bool IsVersionRequested { get; set; }
         }
 
         private class AddOptions : BaseOptions
@@ -27,11 +23,11 @@ namespace ArgParser.IntegrationTests
 
         private class CommitOptions : BaseOptions
         {
-            public bool IsAll { get; set; }
             public string Author { get; set; }
             public string[] Files { get; set; }
-            public string Message { get; set; }
+            public bool IsAll { get; set; }
             public bool IsVerbose { get; set; }
+            public string Message { get; set; }
         }
 
         private class GitLexer : ILexer
@@ -61,7 +57,7 @@ namespace ArgParser.IntegrationTests
         {
             // arrange
             var commitParser = new DefaultParser<CommitOptions>();
-            commitParser.AddParameter(new Parameter<CommitOptions>()
+            commitParser.AddParameter(new Parameter<CommitOptions>
             {
                 CanConsume = (instance, info) => info.Current.Raw == ""
             });

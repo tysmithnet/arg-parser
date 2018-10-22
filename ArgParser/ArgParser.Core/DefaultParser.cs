@@ -27,8 +27,6 @@ namespace ArgParser.Core
     /// <seealso cref="IParameterContainer{T}" />
     public class DefaultParser<T> : IParser<T>, IParameterContainer<T>
     {
-        public IList<IParameter<T>> Parameters { get; set; } = new List<IParameter<T>>();
-
         /// <summary>
         ///     Adds the switch.
         /// </summary>
@@ -54,6 +52,18 @@ namespace ArgParser.Core
         }
 
         /// <summary>
+        ///     Gets the default parser internal.
+        /// </summary>
+        /// <value>The default parser internal.</value>
+        /// <inheritdoc />
+        public bool CanConsume(object instance, IIterationInfo info)
+        {
+            if (instance is T casted)
+                return CanConsume(casted, info);
+            return BaseParser?.CanConsume(instance, info) ?? false;
+        }
+
+        /// <summary>
         ///     Handles the specified instance.
         /// </summary>
         /// <typeparam name="TSub">The type of the t sub.</typeparam>
@@ -65,9 +75,18 @@ namespace ArgParser.Core
         {
             var first = Parameters.FirstOrDefault(p => p.CanConsume?.Invoke(instance, info) ?? false);
             var result = first?.Consume?.Invoke(instance, info) ?? BaseParser?.Consume(instance, info);
-            if(result == null)
-                throw new InvalidOperationException($"CanConsume determined that instance: {instance}, could be consumed, but failed during consumption");
+            if (result == null)
+                throw new InvalidOperationException(
+                    $"CanConsume determined that instance: {instance}, could be consumed, but failed during consumption");
             return result;
+        }
+
+        /// <inheritdoc />
+        public IIterationInfo Consume(object instance, IIterationInfo info)
+        {
+            if (instance is T casted) return Consume(casted, info);
+
+            return BaseParser?.Consume(instance, info);
         }
 
         /// <summary>
@@ -77,28 +96,6 @@ namespace ArgParser.Core
         /// <inheritdoc />
         public IParser BaseParser { get; set; }
 
-        /// <summary>
-        ///     Gets the default parser internal.
-        /// </summary>
-        /// <value>The default parser internal.</value>
-
-        /// <inheritdoc />
-        public bool CanConsume(object instance, IIterationInfo info)
-        {
-            if (instance is T casted)
-                return CanConsume(casted, info);
-            return BaseParser?.CanConsume(instance, info) ?? false;
-        }
-
-        /// <inheritdoc />
-        public IIterationInfo Consume(object instance, IIterationInfo info)
-        {
-            if (instance is T casted)
-            {
-                return Consume(casted, info);
-            }
-
-            return BaseParser?.Consume(instance, info);
-        }
+        public IList<IParameter<T>> Parameters { get; set; } = new List<IParameter<T>>();
     }
 }

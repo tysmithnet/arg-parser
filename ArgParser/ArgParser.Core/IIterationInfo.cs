@@ -40,6 +40,8 @@ namespace ArgParser.Core
         /// <value>The current.</value>
         IToken Current { get; }
 
+        IToken First { get; }
+
         /// <summary>
         ///     Gets the index.
         /// </summary>
@@ -51,6 +53,14 @@ namespace ArgParser.Core
         /// </summary>
         /// <value><c>true</c> if this instance is complete; otherwise, <c>false</c>.</value>
         bool IsComplete { get; }
+
+        bool IsFirst { get; }
+
+        bool IsInternal { get; }
+
+        bool IsLast { get; }
+
+        IToken Last { get; }
 
         /// <summary>
         ///     Gets the next.
@@ -69,14 +79,5 @@ namespace ArgParser.Core
         /// </summary>
         /// <value>The tokens.</value>
         IReadOnlyList<IToken> Tokens { get; }
-
-        bool IsLast { get; }
-
-        bool IsFirst { get; }
-
-        bool IsInternal { get; }
-
-        IToken Last { get; }
-        IToken First { get; }
     }
 }
