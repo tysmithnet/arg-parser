@@ -39,6 +39,23 @@ namespace ArgParser.Core.Test
         }
 
         [Fact]
+        public void Add_Help()
+        {
+            // arrange
+            var parser = new DefaultParser<BaseOptions>();
+            var help = new GenericHelp
+            {
+                Name = "hi"
+            };
+
+            // act
+            parser.AddHelp(help);
+
+            // assert
+            parser.Help.Name.Should().Be("hi");
+        }
+
+        [Fact]
         public void Not_Throw_When_Given_Nothing()
         {
             // arrange
@@ -51,23 +68,6 @@ namespace ArgParser.Core.Test
 
             // assert
             mightThrow.Should().NotThrow();
-        }
-
-        [Fact]
-        public void Add_Help()
-        {
-            // arrange
-            var parser = new DefaultParser<BaseOptions>();
-            var help = new GenericHelp()
-            {
-                Name = "hi"
-            };
-
-            // act
-            parser.AddHelp(help);
-
-            // assert
-            parser.Help.Name.Should().Be("hi");
         }
 
         [Fact]
@@ -90,16 +90,16 @@ namespace ArgParser.Core.Test
                     instance.DryRun = true;
                     return info.Consume(1);
                 }
-            }, new GenericHelp()
+            }, new GenericHelp
             {
                 Name = "Dry Run",
                 ShortDescription = "Don't actually do anything, just output what would be done",
-                Examples = new List<IExample>()
+                Examples = new List<IExample>
                 {
-                    new DefaultExample()
+                    new DefaultExample
                     {
                         Name = "Basic",
-                        Usage = new []{"-d", "--dry-run"},
+                        Usage = new[] {"-d", "--dry-run"},
                         ShortDescription = "Just turning on dry run"
                     }
                 }

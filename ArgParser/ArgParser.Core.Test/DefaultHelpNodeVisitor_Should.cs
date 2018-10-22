@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using ArgParser.Core.Help;
 using FluentAssertions;
 using Xunit;
@@ -15,39 +11,38 @@ namespace ArgParser.Core.Test
         public void Perform_The_Correct_Action_For_Each_Node_Type()
         {
             // arrange
-            bool code = false;
-            bool heading = false;
-            bool row = false;
-            bool table = false;
-            bool td = false;
-            bool text = false;
-            bool root = false;
+            var code = false;
+            var heading = false;
+            var row = false;
+            var table = false;
+            var td = false;
+            var text = false;
+            var root = false;
 
-            var help = new RootNode()
+            var help = new RootNode
             {
                 Children = new IHelpNode[]
                 {
-                    new TextNode("hi"), 
-                    new CodeNode("blah"), 
-                    new HeadingNode("big"), 
-                    new TableNode()
+                    new TextNode("hi"),
+                    new CodeNode("blah"),
+                    new HeadingNode("big"),
+                    new TableNode
                     {
-                        Rows = new TableRowNode[]
+                        Rows = new[]
                         {
-                            new TableRowNode()
+                            new TableRowNode
                             {
-                                TableDataNodes = new List<TableDataNode>()
+                                TableDataNodes = new List<TableDataNode>
                                 {
                                     new TableDataNode("nested")
                                 }
-                            }, 
+                            }
                         }
-                    },
+                    }
                 }
             };
 
-
-            var visitor = new DefaultHelpNodeVisitor()
+            var visitor = new DefaultHelpNodeVisitor
             {
                 RootNode = node => root = true,
                 CodeNode = node => code = true,
@@ -55,7 +50,7 @@ namespace ArgParser.Core.Test
                 TableDataNode = node => td = true,
                 TableNode = node => table = true,
                 TableRowNode = node => row = true,
-                TextNode = node => text = true,
+                TextNode = node => text = true
             };
 
             // act

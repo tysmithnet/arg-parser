@@ -4,8 +4,6 @@ namespace ArgParser.Core.Help
 {
     public class TextNode : IHelpNode
     {
-        public string Text { get; set; }
-
         /// <inheritdoc />
         public TextNode(string text)
         {
@@ -17,5 +15,7 @@ namespace ArgParser.Core.Help
         {
             visitor.Visit(this);
         }
+
+        public string Text { get; set; }
     }
 }

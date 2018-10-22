@@ -28,20 +28,20 @@ namespace ArgParser.Core
     /// <seealso cref="IParameterContainer{T}" />
     public class DefaultParser<T> : IParser<T>, IParameterContainer<T>
     {
-        public DefaultHelpBuilder HelpBuilder { get; set; } = new DefaultHelpBuilder();
+        public void AddHelp(IGenericHelp help)
+        {
+            Help = help;
+            HelpBuilder.AddGenericHelp(help);
+        }
 
         public void AddParameter(IParameter<T> parameter, IGenericHelp help = null)
         {
             Parameters.Add(parameter);
             if (help == null)
                 return;
-            HelpBuilder.AddParameter(help.Name, help.Examples?.SelectMany(e => e?.Usage).Where(x => !x.IsNullOrWhiteSpace()).ToArray(), help.ShortDescription);
-        }
-
-        public void AddHelp(IGenericHelp help)
-        {
-            Help = help;
-            HelpBuilder.AddGenericHelp(help);
+            HelpBuilder.AddParameter(help.Name,
+                help.Examples?.SelectMany(e => e?.Usage).Where(x => !x.IsNullOrWhiteSpace()).ToArray(),
+                help.ShortDescription);
         }
 
         /// <summary>
@@ -103,9 +103,11 @@ namespace ArgParser.Core
         /// <inheritdoc />
         public IParser BaseParser { get; set; }
 
-        public IList<IParameter<T>> Parameters { get; set; } = new List<IParameter<T>>();
-
         /// <inheritdoc />
         public IGenericHelp Help { get; protected internal set; }
+
+        public DefaultHelpBuilder HelpBuilder { get; set; } = new DefaultHelpBuilder();
+
+        public IList<IParameter<T>> Parameters { get; set; } = new List<IParameter<T>>();
     }
 }

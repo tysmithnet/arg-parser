@@ -3,14 +3,14 @@
     public class CodeNode : TextNode
     {
         /// <inheritdoc />
-        public override void Accept(IHelpNodeVisitor visitor)
+        public CodeNode(string text) : base(text)
         {
-            visitor.Visit(this);
         }
 
         /// <inheritdoc />
-        public CodeNode(string text) : base(text)
+        public override void Accept(IHelpNodeVisitor visitor)
         {
+            visitor.Visit(this);
         }
     }
 }

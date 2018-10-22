@@ -1,18 +1,16 @@
-﻿using System.Collections.Generic;
-
-namespace ArgParser.Core.Help
+﻿namespace ArgParser.Core.Help
 {
     public class TableDataNode : TextNode
     {
         /// <inheritdoc />
-        public virtual void Accept(IHelpNodeVisitor visitor)
+        public TableDataNode(string text) : base(text)
         {
-            visitor.Visit(this);
         }
 
         /// <inheritdoc />
-        public TableDataNode(string text) : base(text)
+        public virtual void Accept(IHelpNodeVisitor visitor)
         {
+            visitor.Visit(this);
         }
     }
 }
