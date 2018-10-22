@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ArgParser.Core
 {
-    internal static class PrimitiveExtensions
+    internal static class BasicExtensions
     {
         public static string Join(this IEnumerable<string> strings, string separator)
         {
