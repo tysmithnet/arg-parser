@@ -75,6 +75,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefaultHelpBuilder_Should.cs" />
     <Compile Include="DefaultIterationInfoFactory_Should.cs" />
     <Compile Include="DefaultIterationInfo_Should.cs" />
     <Compile Include="DefaultLexer_Should.cs" />
