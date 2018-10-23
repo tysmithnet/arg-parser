@@ -23,6 +23,48 @@ namespace ArgParser.Core.Test
             public string SpecialThing { get; set; }
         }
 
+        private class BaseOptionsNoHelpValidator : IValidator<BaseOptions>
+        {
+            /// <inheritdoc />
+            public bool CanValidate(object instance)
+            {
+                if (instance is BaseOptions casted)
+                    return CanValidate(casted);
+                return false;
+            }
+
+            /// <inheritdoc />
+            public bool CanValidate(BaseOptions instance) => true;
+
+            /// <inheritdoc />
+            public IValidationResult Validate(object instance)
+            {
+                if (instance is BaseOptions casted)
+                    return Validate(casted);
+                throw new InvalidOperationException();
+            }
+
+            /// <inheritdoc />
+            public IValidationResult Validate(BaseOptions instance)
+            {
+                if (instance.HelpRequested)
+                    return new ValidationResult
+                    {
+                        Errors = new List<ValidationError>
+                        {
+                            new ValidationError()
+                        },
+                        IsSuccess = false,
+                        Instance = instance
+                    };
+                return new ValidationResult
+                {
+                    IsSuccess = true,
+                    Instance = instance
+                };
+            }
+        }
+
         [Fact]
         public void Identify_Lack_Of_Forward_Progress()
         {
@@ -47,84 +89,6 @@ namespace ArgParser.Core.Test
             result.When<BaseOptions>(options =>
             {
                 options.HelpRequested.Should().BeTrue();
-                isParsed = true;
-            });
-            isParsed.Should().BeFalse();
-        }
-
-        private class BaseOptionsNoHelpValidator : IValidator<BaseOptions>
-        {
-            /// <inheritdoc />
-            public bool CanValidate(object instance)
-            {
-                if (instance is BaseOptions casted)
-                    return CanValidate(casted);
-                return false;
-            }
-
-            /// <inheritdoc />
-            public IValidationResult Validate(object instance)
-            {
-                if (instance is BaseOptions casted)
-                    return Validate(casted);
-                throw new InvalidOperationException();
-            }
-
-            /// <inheritdoc />
-            public bool CanValidate(BaseOptions instance)
-            {
-                return true;
-            }
-
-            /// <inheritdoc />
-            public IValidationResult Validate(BaseOptions instance)
-            {
-                if(instance.HelpRequested)
-                    return new ValidationResult()
-                    {
-                        Errors = new List<ValidationError>()
-                        {
-                            new ValidationError()
-                        },
-                        IsSuccess = false,
-                        Instance = instance
-                    };
-                return new ValidationResult()
-                {
-                    IsSuccess = true,
-                    Instance = instance
-                };
-            }
-        }
-
-        [Fact]
-        public void Validate_Results()
-        {
-            // arrange
-            var parser = new DefaultParser<BaseOptions>();
-            parser.AddParameter(new Parameter<BaseOptions>
-            {
-                CanConsume = (instance, info) => info.Current.Raw == "-h" || info.Current.Raw == "--help",
-                Consume = (instance, info) =>
-                {
-                    instance.HelpRequested = true;
-                    return info.Consume(1);
-                }
-            });
-            var strat = new DefaultParseStrategy(new Func<object>[] { () => new BaseOptions() })
-            {
-                Validators = new List<IValidator>()
-            {
-                new BaseOptionsNoHelpValidator()
-            }
-            };
-            // act
-            var result = strat.Parse(new[] { parser }, "--help".Split(' '));
-
-            // assert
-            var isParsed = false;
-            result.When<BaseOptions>(options =>
-            {
                 isParsed = true;
             });
             isParsed.Should().BeFalse();
@@ -230,6 +194,36 @@ namespace ArgParser.Core.Test
                 isParsed = true;
             });
             isParsed.Should().BeTrue();
+        }
+
+        [Fact]
+        public void Validate_Results()
+        {
+            // arrange
+            var parser = new DefaultParser<BaseOptions>();
+            parser.AddParameter(new Parameter<BaseOptions>
+            {
+                CanConsume = (instance, info) => info.Current.Raw == "-h" || info.Current.Raw == "--help",
+                Consume = (instance, info) =>
+                {
+                    instance.HelpRequested = true;
+                    return info.Consume(1);
+                }
+            });
+            var strat = new DefaultParseStrategy(new Func<object>[] {() => new BaseOptions()})
+            {
+                Validators = new List<IValidator>
+                {
+                    new BaseOptionsNoHelpValidator()
+                }
+            };
+            // act
+            var result = strat.Parse(new[] {parser}, "--help".Split(' '));
+
+            // assert
+            var isParsed = false;
+            result.When<BaseOptions>(options => { isParsed = true; });
+            isParsed.Should().BeFalse();
         }
     }
 }

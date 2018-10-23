@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Root CoveredStatements="353" TotalStatements="362" CoveragePercent="98" ReportType="NDependXML" DotCoverVersion="2017.3.5">
-  <Assembly Name="ArgParser.Core" CoveredStatements="353" TotalStatements="362" CoveragePercent="98">
-    <Namespace Name="ArgParser.Core" CoveredStatements="172" TotalStatements="176" CoveragePercent="98">
-      <Type Name="BasicExtensions" CoveredStatements="13" TotalStatements="13" CoveragePercent="100">
+<Root CoveredStatements="345" TotalStatements="360" CoveragePercent="96" ReportType="NDependXML" DotCoverVersion="2017.3.5">
+  <Assembly Name="ArgParser.Core" CoveredStatements="345" TotalStatements="360" CoveragePercent="96">
+    <Namespace Name="ArgParser.Core" CoveredStatements="174" TotalStatements="180" CoveragePercent="97">
+      <Type Name="BasicExtensions" CoveredStatements="7" TotalStatements="7" CoveragePercent="100">
         <Type Name="&lt;&gt;c" CoveredStatements="1" TotalStatements="1" CoveragePercent="100">
-          <Method Name="&lt;JoinNonNullOrWhiteSpace&gt;b__1_0(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="17" />
+          <Method Name="&lt;JoinNonNullOrWhiteSpace&gt;b__2_0(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="15" />
         </Type>
-        <Method Name="IsNullOrWhiteSpace(String)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="21" />
-        <Method Name="Join(IEnumerable&lt;String&gt;,String)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="11" />
-        <Method Name="JoinNonNullOrWhiteSpace(IEnumerable&lt;String&gt;,String)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="16" />
-        <Method Name="PreventNull&lt;T&gt;(IEnumerable&lt;T&gt;)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="26" />
+        <Method Name="IsNullOrWhiteSpace(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="8" />
+        <Method Name="Join(IEnumerable&lt;String&gt;,String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="11" />
+        <Method Name="JoinNonNullOrWhiteSpace(IEnumerable&lt;String&gt;,String)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="14" />
+        <Method Name="PreventNull&lt;T&gt;(IEnumerable&lt;T&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="18" />
       </Type>
       <Type Name="CanConsumeCallback&lt;T&gt;" CoveredStatements="0" TotalStatements="0" CoveragePercent="0" />
       <Type Name="ConsumerCallback&lt;T&gt;" CoveredStatements="0" TotalStatements="0" CoveragePercent="0" />
@@ -54,30 +54,30 @@
       </Type>
       <Type Name="DefaultParser&lt;T&gt;" CoveredStatements="42" TotalStatements="44" CoveragePercent="95">
         <Type Name="&lt;&gt;c" CoveredStatements="2" TotalStatements="2" CoveragePercent="100">
-          <Method Name="&lt;AddParameter&gt;b__4_0(IExample)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="38" />
-          <Method Name="&lt;AddParameter&gt;b__4_1(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="38" />
+          <Method Name="&lt;AddParameter&gt;b__1_0(IExample)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="43" />
+          <Method Name="&lt;AddParameter&gt;b__1_1(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="43" />
         </Type>
-        <Type Name="&lt;&gt;c__DisplayClass6_0&lt;TSub&gt;" CoveredStatements="1" TotalStatements="1" CoveragePercent="100">
+        <Type Name="&lt;&gt;c__DisplayClass2_0&lt;TSub&gt;" CoveredStatements="1" TotalStatements="1" CoveragePercent="100">
           <Method Name="&lt;CanConsume&gt;b__0(IParameter&lt;T&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="57" />
         </Type>
-        <Type Name="&lt;&gt;c__DisplayClass8_0&lt;TSub&gt;" CoveredStatements="1" TotalStatements="1" CoveragePercent="100">
+        <Type Name="&lt;&gt;c__DisplayClass4_0&lt;TSub&gt;" CoveredStatements="1" TotalStatements="1" CoveragePercent="100">
           <Method Name="&lt;Consume&gt;b__0(IParameter&lt;T&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="83" />
         </Type>
-        <Method Name=".ctor()" CoveredStatements="2" TotalStatements="2" CoveragePercent="100" FirstStatementLine="31" />
-        <Method Name="AddHelp(IGenericHelp)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="42" />
-        <Method Name="AddParameter(IParameter&lt;T&gt;,IGenericHelp)" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" FirstStatementLine="34" />
+        <Method Name=".ctor()" CoveredStatements="2" TotalStatements="2" CoveragePercent="100" FirstStatementLine="109" />
+        <Method Name="AddHelp(IGenericHelp)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="32" />
+        <Method Name="AddParameter(IParameter&lt;T&gt;,IGenericHelp)" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" FirstStatementLine="38" />
         <Method Name="CanConsume(Object,IIterationInfo)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="67" />
         <Method Name="CanConsume&lt;TSub&gt;(TSub,IIterationInfo)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="56" />
         <Method Name="Consume(Object,IIterationInfo)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="93" />
         <Method Name="Consume&lt;TSub&gt;(TSub,IIterationInfo)" CoveredStatements="7" TotalStatements="7" CoveragePercent="100" FirstStatementLine="82" />
         <Method Name="get_BaseParser()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="104" />
-        <Method Name="get_Help()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="109" />
-        <Method Name="get_HelpBuilder()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="31" />
-        <Method Name="get_Parameters()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="106" />
+        <Method Name="get_Help()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="107" />
+        <Method Name="get_HelpBuilder()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="109" />
+        <Method Name="get_Parameters()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="111" />
         <Method Name="set_BaseParser(IParser)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="104" />
-        <Method Name="set_Help(IGenericHelp)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="109" />
-        <Method Name="set_HelpBuilder(DefaultHelpBuilder)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="31" />
-        <Method Name="set_Parameters(IList&lt;IParameter&lt;T&gt;&gt;)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="106" />
+        <Method Name="set_Help(IGenericHelp)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="107" />
+        <Method Name="set_HelpBuilder(DefaultHelpBuilder)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="109" />
+        <Method Name="set_Parameters(IList&lt;IParameter&lt;T&gt;&gt;)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="111" />
       </Type>
       <Type Name="DefaultParseResult" CoveredStatements="13" TotalStatements="13" CoveragePercent="100">
         <Method Name=".ctor(IList&lt;Object&gt;)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="10" />
@@ -85,19 +85,32 @@
         <Method Name="set_ParsedInstances(IList&lt;Object&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="21" />
         <Method Name="When&lt;T&gt;(Action&lt;T&gt;)" CoveredStatements="7" TotalStatements="7" CoveragePercent="100" FirstStatementLine="17" />
       </Type>
-      <Type Name="DefaultParseStrategy" CoveredStatements="38" TotalStatements="40" CoveragePercent="95">
-        <Method Name=".ctor(IEnumerable&lt;Func&lt;Object&gt;&gt;)" CoveredStatements="10" TotalStatements="10" CoveragePercent="100" FirstStatementLine="37" />
-        <Method Name="get_FactoryFunctions()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="37" />
-        <Method Name="get_IterationInfoFactory()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="38" />
-        <Method Name="Parse(IEnumerable&lt;IParser&gt;,String[])" CoveredStatements="26" TotalStatements="26" CoveragePercent="100" FirstStatementLine="16" />
-        <Method Name="set_FactoryFunctions(IList&lt;Func&lt;Object&gt;&gt;)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="37" />
-        <Method Name="set_IterationInfoFactory(IIterationInfoFactory)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="38" />
+      <Type Name="DefaultParseStrategy" CoveredStatements="46" TotalStatements="48" CoveragePercent="96">
+        <Type Name="&lt;&gt;c" CoveredStatements="1" TotalStatements="1" CoveragePercent="100">
+          <Method Name="&lt;Parse&gt;b__1_2(IValidationResult)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="34" />
+        </Type>
+        <Type Name="&lt;&gt;c__DisplayClass1_0" CoveredStatements="2" TotalStatements="2" CoveragePercent="100">
+          <Method Name="&lt;Parse&gt;b__0(IValidator)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="33" />
+          <Method Name="&lt;Parse&gt;b__1(IValidator)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="33" />
+        </Type>
+        <Method Name=".ctor(IEnumerable&lt;Func&lt;Object&gt;&gt;)" CoveredStatements="11" TotalStatements="11" CoveragePercent="100" FirstStatementLine="41" />
+        <Method Name="get_FactoryFunctions()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="41" />
+        <Method Name="get_IterationInfoFactory()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="42" />
+        <Method Name="get_Validators()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="43" />
+        <Method Name="Parse(IEnumerable&lt;IParser&gt;,String[])" CoveredStatements="28" TotalStatements="28" CoveragePercent="100" FirstStatementLine="17" />
+        <Method Name="set_FactoryFunctions(IList&lt;Func&lt;Object&gt;&gt;)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="41" />
+        <Method Name="set_IterationInfoFactory(IIterationInfoFactory)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="42" />
+        <Method Name="set_Validators(IList&lt;IValidator&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="43" />
       </Type>
       <Type Name="Parameter&lt;T&gt;" CoveredStatements="4" TotalStatements="4" CoveragePercent="100">
         <Method Name="get_CanConsume()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="29" />
         <Method Name="get_Consume()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="36" />
         <Method Name="set_CanConsume(CanConsumeCallback&lt;T&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="29" />
         <Method Name="set_Consume(ConsumerCallback&lt;T&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="36" />
+      </Type>
+      <Type Name="ParseError" CoveredStatements="0" TotalStatements="2" CoveragePercent="0">
+        <Method Name="get_Message()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="5" />
+        <Method Name="set_Message(String)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="5" />
       </Type>
       <Type Name="Token" CoveredStatements="22" TotalStatements="22" CoveragePercent="100">
         <Method Name=".ctor(String)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="32" />
@@ -106,112 +119,127 @@
         <Method Name="get_Raw()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="76" />
         <Method Name="GetHashCode()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="69" />
       </Type>
+      <Type Name="ValidationError" CoveredStatements="0" TotalStatements="0" CoveragePercent="0" />
     </Namespace>
-    <Namespace Name="ArgParser.Core.Help" CoveredStatements="181" TotalStatements="186" CoveragePercent="97">
+    <Namespace Name="ArgParser.Core.Help" CoveredStatements="167" TotalStatements="172" CoveragePercent="97">
       <Type Name="CodeNode" CoveredStatements="6" TotalStatements="6" CoveragePercent="100">
-        <Method Name=".ctor(String)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="12" />
-        <Method Name="Accept(IHelpNodeVisitor)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="7" />
+        <Method Name=".ctor(String)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="6" />
+        <Method Name="Accept(IHelpNodeVisitor)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="12" />
       </Type>
       <Type Name="DefaultExample" CoveredStatements="4" TotalStatements="6" CoveragePercent="67">
-        <Method Name="get_Name()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="15" />
-        <Method Name="get_ShortDescription()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="21" />
-        <Method Name="get_Usage()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="18" />
-        <Method Name="set_Name(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="15" />
-        <Method Name="set_ShortDescription(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="21" />
-        <Method Name="set_Usage(String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="18" />
+        <Method Name="get_Name()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="6" />
+        <Method Name="get_ShortDescription()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="9" />
+        <Method Name="get_Usage()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="12" />
+        <Method Name="set_Name(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="6" />
+        <Method Name="set_ShortDescription(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="9" />
+        <Method Name="set_Usage(String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="12" />
       </Type>
-      <Type Name="DefaultHelpBuilder" CoveredStatements="66" TotalStatements="67" CoveragePercent="99">
+      <Type Name="DefaultHelpBuilder" CoveredStatements="58" TotalStatements="59" CoveragePercent="98">
         <Type Name="&lt;&gt;c" CoveredStatements="1" TotalStatements="1" CoveragePercent="100">
-          <Method Name="&lt;Build&gt;b__14_0(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="89" />
+          <Method Name="&lt;Build&gt;b__2_0(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="33" />
         </Type>
         <Type Name="ParameterInfo" CoveredStatements="6" TotalStatements="6" CoveragePercent="100">
-          <Method Name="get_Name()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="14" />
-          <Method Name="get_ShortDescription()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="13" />
-          <Method Name="get_Usages()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="12" />
-          <Method Name="set_Name(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="14" />
-          <Method Name="set_ShortDescription(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="13" />
-          <Method Name="set_Usages(String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="12" />
+          <Method Name="get_Name()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="77" />
+          <Method Name="get_ShortDescription()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="78" />
+          <Method Name="get_Usages()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="79" />
+          <Method Name="set_Name(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="77" />
+          <Method Name="set_ShortDescription(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="78" />
+          <Method Name="set_Usages(String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="79" />
         </Type>
-        <Method Name=".ctor()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="17" />
-        <Method Name="AddGenericHelp(IGenericHelp)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="33" />
-        <Method Name="AddParameter(String,String[],String)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="22" />
-        <Method Name="Build()" CoveredStatements="7" TotalStatements="7" CoveragePercent="100" FirstStatementLine="85" />
-        <Method Name="BuildBody()" CoveredStatements="25" TotalStatements="25" CoveragePercent="100" FirstStatementLine="55" />
-        <Method Name="BuildFooter()" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="79" />
-        <Method Name="BuildHeader()" CoveredStatements="12" TotalStatements="12" CoveragePercent="100" FirstStatementLine="39" />
-        <Method Name="get_Help()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="19" />
-        <Method Name="get_ParameterInfos()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="17" />
-        <Method Name="set_Help(IGenericHelp)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="19" />
-        <Method Name="set_ParameterInfos(IList&lt;ParameterInfo&gt;)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="17" />
+        <Method Name=".ctor()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="73" />
+        <Method Name="AddGenericHelp(IGenericHelp)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="11" />
+        <Method Name="AddParameter(String,String[],String)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="17" />
+        <Method Name="Build()" CoveredStatements="7" TotalStatements="7" CoveragePercent="100" FirstStatementLine="29" />
+        <Method Name="BuildBody()" CoveredStatements="21" TotalStatements="21" CoveragePercent="100" FirstStatementLine="38" />
+        <Method Name="BuildFooter()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="55" />
+        <Method Name="BuildHeader()" CoveredStatements="10" TotalStatements="10" CoveragePercent="100" FirstStatementLine="58" />
+        <Method Name="get_Help()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="71" />
+        <Method Name="get_ParameterInfos()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="73" />
+        <Method Name="set_Help(IGenericHelp)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="71" />
+        <Method Name="set_ParameterInfos(IList&lt;ParameterInfo&gt;)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="73" />
       </Type>
-      <Type Name="DefaultHelpNodeVisitor" CoveredStatements="56" TotalStatements="56" CoveragePercent="100">
-        <Method Name="get_CodeNode()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="8" />
-        <Method Name="get_HeadingNode()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="9" />
-        <Method Name="get_RootNode()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="13" />
-        <Method Name="get_TableDataNode()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="12" />
-        <Method Name="get_TableNode()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="10" />
-        <Method Name="get_TableRowNode()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="11" />
-        <Method Name="get_TextNode()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="7" />
-        <Method Name="set_CodeNode(Action&lt;CodeNode&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="8" />
-        <Method Name="set_HeadingNode(Action&lt;HeadingNode&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="9" />
-        <Method Name="set_RootNode(Action&lt;RootNode&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="13" />
-        <Method Name="set_TableDataNode(Action&lt;TableDataNode&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="12" />
-        <Method Name="set_TableNode(Action&lt;TableNode&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="10" />
-        <Method Name="set_TableRowNode(Action&lt;TableRowNode&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="11" />
-        <Method Name="set_TextNode(Action&lt;TextNode&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="7" />
-        <Method Name="Visit(CodeNode)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="23" />
-        <Method Name="Visit(HeadingNode)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="29" />
-        <Method Name="Visit(RootNode)" CoveredStatements="10" TotalStatements="10" CoveragePercent="100" FirstStatementLine="61" />
-        <Method Name="Visit(TableDataNode)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="55" />
-        <Method Name="Visit(TableNode)" CoveredStatements="10" TotalStatements="10" CoveragePercent="100" FirstStatementLine="35" />
-        <Method Name="Visit(TableRowNode)" CoveredStatements="10" TotalStatements="10" CoveragePercent="100" FirstStatementLine="45" />
-        <Method Name="Visit(TextNode)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="17" />
+      <Type Name="DefaultHelpNodeVisitor" CoveredStatements="50" TotalStatements="50" CoveragePercent="100">
+        <Method Name="get_CodeNode()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="52" />
+        <Method Name="get_HeadingNode()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="53" />
+        <Method Name="get_RootNode()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="54" />
+        <Method Name="get_TableDataNode()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="55" />
+        <Method Name="get_TableNode()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="56" />
+        <Method Name="get_TableRowNode()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="57" />
+        <Method Name="get_TextNode()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="58" />
+        <Method Name="set_CodeNode(Action&lt;CodeNode&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="52" />
+        <Method Name="set_HeadingNode(Action&lt;HeadingNode&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="53" />
+        <Method Name="set_RootNode(Action&lt;RootNode&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="54" />
+        <Method Name="set_TableDataNode(Action&lt;TableDataNode&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="55" />
+        <Method Name="set_TableNode(Action&lt;TableNode&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="56" />
+        <Method Name="set_TableRowNode(Action&lt;TableRowNode&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="57" />
+        <Method Name="set_TextNode(Action&lt;TextNode&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="58" />
+        <Method Name="Visit(CodeNode)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="15" />
+        <Method Name="Visit(HeadingNode)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="21" />
+        <Method Name="Visit(RootNode)" CoveredStatements="8" TotalStatements="8" CoveragePercent="100" FirstStatementLine="47" />
+        <Method Name="Visit(TableDataNode)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="41" />
+        <Method Name="Visit(TableNode)" CoveredStatements="8" TotalStatements="8" CoveragePercent="100" FirstStatementLine="27" />
+        <Method Name="Visit(TableRowNode)" CoveredStatements="8" TotalStatements="8" CoveragePercent="100" FirstStatementLine="34" />
+        <Method Name="Visit(TextNode)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="9" />
       </Type>
       <Type Name="GenericHelp" CoveredStatements="12" TotalStatements="12" CoveragePercent="100">
-        <Method Name="get_Author()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="20" />
-        <Method Name="get_Description()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="17" />
-        <Method Name="get_Examples()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="23" />
-        <Method Name="get_Name()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="11" />
-        <Method Name="get_ShortDescription()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="14" />
-        <Method Name="get_Version()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="8" />
-        <Method Name="set_Author(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="20" />
-        <Method Name="set_Description(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="17" />
-        <Method Name="set_Examples(IList&lt;IExample&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="23" />
-        <Method Name="set_Name(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="11" />
-        <Method Name="set_ShortDescription(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="14" />
-        <Method Name="set_Version(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="8" />
+        <Method Name="get_Author()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="8" />
+        <Method Name="get_Description()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="11" />
+        <Method Name="get_Examples()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="14" />
+        <Method Name="get_Name()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="17" />
+        <Method Name="get_ShortDescription()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="20" />
+        <Method Name="get_Version()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="23" />
+        <Method Name="set_Author(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="8" />
+        <Method Name="set_Description(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="11" />
+        <Method Name="set_Examples(IList&lt;IExample&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="14" />
+        <Method Name="set_Name(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="17" />
+        <Method Name="set_ShortDescription(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="20" />
+        <Method Name="set_Version(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="23" />
       </Type>
       <Type Name="HeadingNode" CoveredStatements="6" TotalStatements="8" CoveragePercent="75">
-        <Method Name=".ctor(String)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="14" />
-        <Method Name="Accept(IHelpNodeVisitor)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="9" />
-        <Method Name="get_Size()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="5" />
-        <Method Name="set_Size(Int32)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="5" />
+        <Method Name=".ctor(String)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="6" />
+        <Method Name="Accept(IHelpNodeVisitor)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="12" />
+        <Method Name="get_Size()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="16" />
+        <Method Name="set_Size(Int32)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="16" />
       </Type>
       <Type Name="RootNode" CoveredStatements="5" TotalStatements="5" CoveragePercent="100">
-        <Method Name="Accept(IHelpNodeVisitor)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="16" />
-        <Method Name="get_Children()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="12" />
-        <Method Name="set_Children(IReadOnlyList&lt;IHelpNode&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="12" />
+        <Method Name="Accept(IHelpNodeVisitor)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="9" />
+        <Method Name="get_Children()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="13" />
+        <Method Name="set_Children(IReadOnlyList&lt;IHelpNode&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="13" />
       </Type>
       <Type Name="TableDataNode" CoveredStatements="6" TotalStatements="6" CoveragePercent="100">
-        <Method Name=".ctor(String)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="14" />
-        <Method Name="Accept(IHelpNodeVisitor)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="9" />
+        <Method Name=".ctor(String)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="6" />
+        <Method Name="Accept(IHelpNodeVisitor)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="12" />
       </Type>
       <Type Name="TableNode" CoveredStatements="5" TotalStatements="5" CoveragePercent="100">
-        <Method Name="Accept(IHelpNodeVisitor)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="11" />
-        <Method Name="get_Rows()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="7" />
-        <Method Name="set_Rows(IReadOnlyList&lt;TableRowNode&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="7" />
+        <Method Name="Accept(IHelpNodeVisitor)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="9" />
+        <Method Name="get_Rows()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="13" />
+        <Method Name="set_Rows(IReadOnlyList&lt;TableRowNode&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="13" />
       </Type>
       <Type Name="TableRowNode" CoveredStatements="6" TotalStatements="6" CoveragePercent="100">
-        <Method Name=".ctor()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="7" />
-        <Method Name="Accept(IHelpNodeVisitor)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="11" />
-        <Method Name="get_TableDataNodes()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="7" />
-        <Method Name="set_TableDataNodes(IList&lt;TableDataNode&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="7" />
+        <Method Name=".ctor()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="13" />
+        <Method Name="Accept(IHelpNodeVisitor)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="9" />
+        <Method Name="get_TableDataNodes()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="13" />
+        <Method Name="set_TableDataNodes(IList&lt;TableDataNode&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="13" />
       </Type>
       <Type Name="TextNode" CoveredStatements="9" TotalStatements="9" CoveragePercent="100">
-        <Method Name=".ctor(String)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="10" />
-        <Method Name="Accept(IHelpNodeVisitor)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="17" />
-        <Method Name="get_Text()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="7" />
-        <Method Name="set_Text(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="7" />
+        <Method Name=".ctor(String)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="8" />
+        <Method Name="Accept(IHelpNodeVisitor)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="15" />
+        <Method Name="get_Text()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="19" />
+        <Method Name="set_Text(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="19" />
+      </Type>
+    </Namespace>
+    <Namespace Name="ArgParser.Core.Validation" CoveredStatements="4" TotalStatements="8" CoveragePercent="50">
+      <Type Name="ValidationResult" CoveredStatements="4" TotalStatements="6" CoveragePercent="67">
+        <Method Name="get_Errors()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="14" />
+        <Method Name="get_Instance()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="17" />
+        <Method Name="get_IsSuccess()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="20" />
+        <Method Name="set_Errors(IList&lt;ValidationError&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="14" />
+        <Method Name="set_Instance(Object)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="17" />
+        <Method Name="set_IsSuccess(Boolean)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="20" />
+      </Type>
+      <Type Name="ValidationResult&lt;T&gt;" CoveredStatements="0" TotalStatements="2" CoveragePercent="0">
+        <Method Name="get_Instance()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="8" />
+        <Method Name="set_Instance(T)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="8" />
       </Type>
     </Namespace>
   </Assembly>

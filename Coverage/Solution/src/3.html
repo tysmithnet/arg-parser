@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>C:\projects\arg-parser\ArgParser\ArgParser.Core\DefaultLexer.cs</title>
+    <title>C:\projects\arg-parser\ArgParser\ArgParser.Core\DefaultIterationInfoFactory.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
@@ -16,38 +16,49 @@
 // Last Modified By : @tysmithnet
 // Last Modified On : 10-21-2018
 // ***********************************************************************
-// &lt;copyright file=&quot;DefaultLexer.cs&quot; company=&quot;ArgParser.Core&quot;&gt;
+// &lt;copyright file=&quot;DefaultIterationInfoFactory.cs&quot; company=&quot;ArgParser.Core&quot;&gt;
 //     Copyright (c) . All rights reserved.
 // &lt;/copyright&gt;
 // &lt;summary&gt;&lt;/summary&gt;
 // ***********************************************************************
 
-using System.Collections.Generic;
 using System.Linq;
 
 namespace ArgParser.Core
 {
     /// &lt;summary&gt;
-    ///     Class DefaultLexer.
+    ///     Class DefaultIterationInfoFactory.
     /// &lt;/summary&gt;
-    /// &lt;seealso cref=&quot;ArgParser.Core.ILexer&quot; /&gt;
-    public class DefaultLexer : ILexer
+    /// &lt;seealso cref=&quot;ArgParser.Core.IIterationInfoFactory&quot; /&gt;
+    public class DefaultIterationInfoFactory : IIterationInfoFactory
     {
         /// &lt;summary&gt;
-        ///     Lexes the specified arguments.
+        ///     Creates the specified arguments.
         /// &lt;/summary&gt;
         /// &lt;param name=&quot;args&quot;&gt;The arguments.&lt;/param&gt;
-        /// &lt;returns&gt;IEnumerable&amp;lt;IToken&amp;gt;.&lt;/returns&gt;
+        /// &lt;returns&gt;IIterationInfo.&lt;/returns&gt;
         /// &lt;inheritdoc /&gt;
-        public IEnumerable&lt;IToken&gt; Lex(string[] args)
+        public IIterationInfo Create(string[] args)
         {
-            return args?.Select(a =&gt; new Token(a)).ToList() ?? new List&lt;Token&gt;();
+            var tokens = Lexer.Lex(args);
+            return new DefaultIterationInfo
+            {
+                Tokens = tokens.ToList(),
+                Index = 0,
+                Args = args.ToArray()
+            };
         }
+
+        /// &lt;summary&gt;
+        ///     Gets or sets the lexer.
+        /// &lt;/summary&gt;
+        /// &lt;value&gt;The lexer.&lt;/value&gt;
+        protected internal ILexer Lexer { get; set; } = new DefaultLexer();
     }
 }
     </pre>
     <script type="text/javascript">
-      highlightRanges([[33,9,33,10,1],[34,13,34,38,1],[34,38,34,50,1],[34,50,34,82,1],[34,13,34,82,1],[35,9,35,10,1]]);
+      highlightRanges([[32,9,32,10,1],[33,13,33,42,1],[34,13,39,15,1],[40,9,40,10,1],[46,57,46,75,1]]);
     </script>
   </body>
 </html>
