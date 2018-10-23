@@ -35,6 +35,8 @@ I don't much care for the common approach to this problem of decorating POCOs wi
 |Parse Strategy     |Something that knows how to use parsers to create instances of potentially related instances|
 |Parser             |Uses the tokens from the `ILexer` implementation to transform an instance|
 |Token              |Args are transformed into tokens by the `ILexer` implementation|
+|Validator          |Something that can validate the correctness of a parsed instance|
+
 
 ### Inspirations
 - `git commit -am "something"`

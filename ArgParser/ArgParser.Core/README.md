@@ -18,3 +18,16 @@ Herein lies the most base classes for ArgParser. If you need to see how the defa
     - Required arguments
     - Valid ranges
     - Incompatible values
+
+### Help Building
+- You can't have an argument parsing library without support for help generation
+- There is a subset of DOM-like elements exposed by default, but the default parser only produces a single block of text
+  - [x] Root
+  - [x] Text
+  - [x] Code
+  - [x] Table
+    - [x] Table Row
+    - [x] Table Data
+  - [x] Heading
+  - [ ] Ordered List
+  - [ ] Unordered List
