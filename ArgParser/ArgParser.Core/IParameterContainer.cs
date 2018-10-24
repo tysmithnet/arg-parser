@@ -20,12 +20,17 @@ namespace ArgParser.Core
     ///     Interface ISwitchContainer
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IParameterContainer<out T>
+    public interface IParameterContainer<out T> : IParameterContainer
     {
         /// <summary>
         ///     Adds the switch.
         /// </summary>
         /// <param name="parameter">The svitch.</param>
         void AddParameter(IParameter<T> parameter, IGenericHelp help = null);
+    }
+
+    public interface IParameterContainer
+    {
+        void AddParameter(IParameter parameter, IGenericHelp help = null);
     }
 }

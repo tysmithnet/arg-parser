@@ -19,6 +19,7 @@ using ArgParser.Core.Help;
 
 namespace ArgParser.Core
 {
+
     /// <summary>
     ///     Class DefaultParser.
     /// </summary>
@@ -26,7 +27,7 @@ namespace ArgParser.Core
     /// <typeparam name="TBase">The type of the t base.</typeparam>
     /// <seealso cref="ArgParser.Core.IParser{T, TBase}" />
     /// <seealso cref="IParameterContainer{T}" />
-    public class DefaultParser<T> : IParser<T>, IParameterContainer<T>
+    public class DefaultParser<T> : DefaultParser, IParser<T>, IParameterContainer<T>
     {
         public void AddHelp(IGenericHelp help)
         {
@@ -36,12 +37,7 @@ namespace ArgParser.Core
 
         public void AddParameter(IParameter<T> parameter, IGenericHelp help = null)
         {
-            Parameters.Add(parameter);
-            if (help == null)
-                return;
-            HelpBuilder.AddParameter(help.Name,
-                help.Examples?.SelectMany(e => e?.Usage).Where(x => !x.IsNullOrWhiteSpace()).ToArray(),
-                help.ShortDescription);
+            
         }
 
         /// <summary>
@@ -109,5 +105,6 @@ namespace ArgParser.Core
         public DefaultHelpBuilder HelpBuilder { get; set; } = new DefaultHelpBuilder();
 
         public IList<IParameter<T>> Parameters { get; set; } = new List<IParameter<T>>();
+
     }
 }
