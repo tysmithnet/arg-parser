@@ -19,20 +19,29 @@ namespace ArgParser.Core
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <seealso cref="ArgParser.Core.IParameter{T}" />
-    public class Parameter<T> : IParameter<T>
+    public class Parameter<T> : Parameter, IParameter<T>
     {
         /// <summary>
         ///     Gets the can handle.
         /// </summary>
         /// <value>The can handle.</value>
         /// <inheritdoc />
-        public CanConsumeCallback<T> CanConsume { get; set; }
+        public new CanConsumeCallback<T> CanConsume { get; set; }
 
         /// <summary>
         ///     Gets the handle.
         /// </summary>
         /// <value>The handle.</value>
         /// <inheritdoc />
-        public ConsumeCallback<T> Consume { get; set; }
+        public new ConsumeCallback<T> Consume { get; set; }
+    }
+
+    public class Parameter : IParameter
+    {
+        /// <inheritdoc />
+        public CanConsumeCallback CanConsume { get; set; }
+
+        /// <inheritdoc />
+        public ConsumeCallback Consume { get; set; }
     }
 }

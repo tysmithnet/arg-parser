@@ -22,4 +22,6 @@ namespace ArgParser.Core
     /// <param name="info">The information.</param>
     /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
     public delegate bool CanConsumeCallback<in T>(T instance, IIterationInfo info);
+
+    public delegate bool CanConsumeCallback(object instance, IIterationInfo info);
 }

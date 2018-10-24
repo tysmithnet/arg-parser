@@ -22,4 +22,6 @@ namespace ArgParser.Core
     /// <param name="info">The information.</param>
     /// <returns>IIterationInfo.</returns>
     public delegate IIterationInfo ConsumeCallback<in T>(T instance, IIterationInfo info);
+
+    public delegate IIterationInfo ConsumeCallback(object instance, IIterationInfo info);
 }
