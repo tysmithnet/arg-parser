@@ -16,14 +16,13 @@ namespace ArgParser.Core
 {
     public interface IParameter<in T> : IParameter
     {
-        new CanConsumeCallback<T> CanConsume { get; }
-
-        new ConsumeCallback<T> Consume { get; }
+        bool CanConsume(T instance, IIterationInfo info);
+        IIterationInfo Consume(T instance, IIterationInfo info);
     }
 
     public interface IParameter
     {
-        CanConsumeCallback CanConsume { get; }
-        ConsumeCallback Consume { get; }
+        bool CanConsume(object instance, IIterationInfo info);
+        IIterationInfo Consume(object instance, IIterationInfo info);
     }
 }

@@ -64,8 +64,8 @@ namespace ArgParser.Core
 
         public IIterationInfo Consume(object instance, IIterationInfo info)
         {
-            var first = Parameters.FirstOrDefault(p => p.CanConsume?.Invoke(instance, info) ?? false);
-            var result = first?.Consume?.Invoke(instance, info) ?? BaseParser?.Consume(instance, info);
+            var first = Parameters.FirstOrDefault(p => p.CanConsume(instance, info));
+            var result = first?.Consume(instance, info) ?? BaseParser?.Consume(instance, info);
             if (result == null)
                 throw new InvalidOperationException(
                     $"CanConsume determined that instance: {instance}, could be consumed, but failed during consumption");

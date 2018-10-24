@@ -12,36 +12,69 @@
 // <summary></summary>
 // ***********************************************************************
 
+using System;
+
 namespace ArgParser.Core
 {
-    /// <summary>
-    ///     Class Parameter.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <seealso cref="ArgParser.Core.IParameter{T}" />
-    public class DefaultParameter<T> : DefaultParameter, IParameter<T>
-    {
-        /// <summary>
-        ///     Gets the can handle.
-        /// </summary>
-        /// <value>The can handle.</value>
-        /// <inheritdoc />
-        public CanConsumeCallback<T> CanConsume { get; set; }
-
-        /// <summary>
-        ///     Gets the handle.
-        /// </summary>
-        /// <value>The handle.</value>
-        /// <inheritdoc />
-        public ConsumeCallback<T> Consume { get; set; }
-    }
-
     public class DefaultParameter : IParameter
     {
-        /// <inheritdoc />
-        public CanConsumeCallback CanConsume { get; set; }
+        public Func<object, IIterationInfo, bool> CanConsumeCallback { get; set; }
+        public Func<object, IIterationInfo, IIterationInfo> ConsumeCallback { get; set; }
 
         /// <inheritdoc />
-        public ConsumeCallback Consume { get; set; }
+        public DefaultParameter(Func<object, IIterationInfo, bool> canConsumeCallback, Func<object, IIterationInfo, IIterationInfo> consumeCallback)
+        {
+            CanConsumeCallback = canConsumeCallback ?? throw new ArgumentNullException(nameof(canConsumeCallback));
+            ConsumeCallback = consumeCallback ?? throw new ArgumentNullException(nameof(consumeCallback));
+        }
+
+        internal DefaultParameter()
+        {
+
+        }
+
+        /// <inheritdoc />
+        public bool CanConsume(object instance, IIterationInfo info)
+        {
+            return CanConsumeCallback?.Invoke(instance, info) ?? false;
+        }
+
+        /// <inheritdoc />
+        public IIterationInfo Consume(object instance, IIterationInfo info)
+        {
+            return ConsumeCallback?.Invoke(instance, info) ?? info;
+        }
+    }
+
+    public class DefaultParameter<T> : DefaultParameter, IParameter<T>
+    {
+        /// <inheritdoc />
+        public DefaultParameter(Func<T, IIterationInfo, bool> canConsumeCallback, Func<T, IIterationInfo, IIterationInfo> consumeCallback)
+        {
+            CanConsumeCallback = (obj, info) =>
+            {
+                if (obj is T casted)
+                    return canConsumeCallback?.Invoke(casted, info) ?? false;
+                return false;
+            };
+            ConsumeCallback = (obj, info) =>
+            {
+                if (obj is T casted)
+                    return consumeCallback?.Invoke(casted, info) ?? info;
+                return info;
+            };
+        }
+
+        /// <inheritdoc />
+        public bool CanConsume(T instance, IIterationInfo info)
+        {
+            return CanConsumeCallback?.Invoke(instance, info) ?? base.CanConsume(instance, info);
+        }
+
+        /// <inheritdoc />
+        public IIterationInfo Consume(T instance, IIterationInfo info)
+        {
+            return ConsumeCallback?.Invoke(instance, info) ?? base.ConsumeCallback(instance, info);
+        }
     }
 }

@@ -70,15 +70,13 @@ namespace ArgParser.Core.Test
         {
             // arrange
             var parser = new DefaultParser<BaseOptions>();
-            parser.AddParameter(new DefaultParameter<BaseOptions>
-            {
-                CanConsume = (instance, info) => info.Current.Raw == "-h" || info.Current.Raw == "--help",
-                Consume = (instance, info) =>
+            parser.AddParameter(new DefaultParameter<BaseOptions>(
+                (instance, info) => info.Current.Raw == "-h" || info.Current.Raw == "--help",
+                (instance, info) =>
                 {
                     instance.HelpRequested = true;
                     return info.Consume(-1);
-                }
-            });
+                }));
             var strat = new DefaultParseStrategy(new Func<object>[] {() => new BaseOptions()});
 
             // act
@@ -99,37 +97,32 @@ namespace ArgParser.Core.Test
         {
             // arrange
             var parentParser = new DefaultParser<BaseOptions>();
-            parentParser.AddParameter(new DefaultParameter<BaseOptions>
-            {
-                CanConsume = (instance, info) => info.Current.Raw == "-h" || info.Current.Raw == "--help",
-                Consume = (instance, info) =>
+            parentParser.AddParameter(new DefaultParameter<BaseOptions>(
+                (instance, info) => info.Current.Raw == "-h" || info.Current.Raw == "--help",
+                (instance, info) =>
                 {
                     instance.HelpRequested = true;
                     return info.Consume(1);
-                }
-            });
+                }));
 
             var childParser = new DefaultParser<ChildOptions>();
-            childParser.AddParameter(new DefaultParameter<ChildOptions>
-            {
-                CanConsume = (instance, info) => info.Current.Raw.StartsWith("thing="),
-                Consume = (instance, info) =>
+            childParser.AddParameter(new DefaultParameter<ChildOptions>(
+                (instance, info) => info.Current.Raw.StartsWith("thing="),
+                (instance, info) =>
                 {
                     instance.Thing = info.Current.Raw.Substring("thing=".Length);
                     return info.Consume(1);
-                }
-            });
+                }));
 
             var grandChildParser = new DefaultParser<GrandChildOptions>();
-            grandChildParser.AddParameter(new DefaultParameter<GrandChildOptions>
-            {
-                CanConsume = (instance, info) => info.Current.Raw == "--special" && info.Next != null,
-                Consume = (instance, info) =>
+            grandChildParser.AddParameter(new DefaultParameter<GrandChildOptions>(
+                (instance, info) => info.Current.Raw == "--special" && info.Next != null,
+                (instance, info) =>
                 {
                     instance.SpecialThing = info.Next.Raw;
                     return info.Consume(2);
-                }
-            });
+                }));
+
             grandChildParser.BaseParser = childParser;
             childParser.BaseParser = parentParser;
 
@@ -172,15 +165,13 @@ namespace ArgParser.Core.Test
         {
             // arrange
             var parser = new DefaultParser<BaseOptions>();
-            parser.AddParameter(new DefaultParameter<BaseOptions>
-            {
-                CanConsume = (instance, info) => info.Current.Raw == "-h" || info.Current.Raw == "--help",
-                Consume = (instance, info) =>
+            parser.AddParameter(new DefaultParameter<BaseOptions>(
+                (instance, info) => info.Current.Raw == "-h" || info.Current.Raw == "--help",
+                (instance, info) =>
                 {
                     instance.HelpRequested = true;
                     return info.Consume(1);
-                }
-            });
+                }));
             var strat = new DefaultParseStrategy(new Func<object>[] {() => new BaseOptions()});
 
             // act
@@ -201,15 +192,13 @@ namespace ArgParser.Core.Test
         {
             // arrange
             var parser = new DefaultParser<BaseOptions>();
-            parser.AddParameter(new DefaultParameter<BaseOptions>
-            {
-                CanConsume = (instance, info) => info.Current.Raw == "-h" || info.Current.Raw == "--help",
-                Consume = (instance, info) =>
+            parser.AddParameter(new DefaultParameter<BaseOptions>(
+                (instance, info) => info.Current.Raw == "-h" || info.Current.Raw == "--help",
+                (instance, info) =>
                 {
                     instance.HelpRequested = true;
                     return info.Consume(1);
-                }
-            });
+                }));
             var strat = new DefaultParseStrategy(new Func<object>[] {() => new BaseOptions()})
             {
                 Validators = new List<IValidator>
