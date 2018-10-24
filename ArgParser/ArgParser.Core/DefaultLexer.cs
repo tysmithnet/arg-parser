@@ -12,6 +12,7 @@
 // <summary></summary>
 // ***********************************************************************
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -32,6 +33,22 @@ namespace ArgParser.Core
         public IEnumerable<IToken> Lex(string[] args)
         {
             return args?.Select(a => new DefaultToken(a)).ToList().PreventNull();
+        }
+    }
+
+    public class DefaultLexer<T> : DefaultLexer, ILexer<T> where T : IToken
+    {
+        public Func<string, T> FactoryFunc { get; set; }
+
+        /// <inheritdoc />
+        public DefaultLexer(Func<string, T> factoryFunc)
+        {
+            FactoryFunc = factoryFunc ?? throw new ArgumentNullException(nameof(factoryFunc));
+        }
+
+        public new IEnumerable<T> Lex(string[] args)
+        {
+            return args?.Select(x => FactoryFunc(x)).PreventNull();
         }
     }
 }

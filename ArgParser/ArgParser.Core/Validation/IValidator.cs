@@ -1,6 +1,4 @@
-﻿using ArgParser.Core.Validation;
-
-namespace ArgParser.Core
+﻿namespace ArgParser.Core.Validation
 {
     public interface IValidator<in T> : IValidator
     {
