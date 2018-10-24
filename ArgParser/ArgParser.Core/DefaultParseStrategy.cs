@@ -8,7 +8,8 @@ namespace ArgParser.Core
     public class DefaultParseStrategy<T> : DefaultParseStrategy, IParseStrategy<T>
     {
         /// <inheritdoc />
-        public DefaultParseStrategy(IEnumerable<Func<T>> factoryFuncs = null) : base(factoryFuncs.Cast<Func<object>>())
+        // ReSharper disable once SuspiciousTypeConversion.Global
+        public DefaultParseStrategy(IEnumerable<Func<T>> factoryFuncs = null) : base(factoryFuncs?.Cast<Func<object>>())
         {
 
         }

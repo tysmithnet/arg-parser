@@ -19,15 +19,7 @@ using ArgParser.Core.Help;
 
 namespace ArgParser.Core
 {
-
-    /// <summary>
-    ///     Class DefaultParser.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TBase">The type of the t base.</typeparam>
-    /// <seealso cref="ArgParser.Core.IParser{T, TBase}" />
-    /// <seealso cref="IParameterContainer{T}" />
-    public class DefaultParser<T> : DefaultParser, IParser<T>, IParameterContainer<T>
+    public class DefaultParser : IParser, IParameterContainer
     {
         public void AddHelp(IGenericHelp help)
         {
@@ -35,46 +27,21 @@ namespace ArgParser.Core
             HelpBuilder.AddGenericHelp(help);
         }
 
-        public void AddParameter(IParameter<T> parameter, IGenericHelp help = null)
+        public void AddParameter(IParameter parameter, IGenericHelp help = null)
         {
-            
+            Parameters.Add(parameter);
+            if (help == null) return;
+            HelpBuilder.AddParameter(help.Name, help.Examples.SelectMany(x => x.Usage).ToArray(),
+                help.ShortDescription);
         }
 
-        /// <summary>
-        ///     Determines whether this instance can handle the specified instance.
-        /// </summary>
-        /// <typeparam name="TSub">The type of the t sub.</typeparam>
-        /// <param name="instance">The instance.</param>
-        /// <param name="info">The information.</param>
-        /// <returns><c>true</c> if this instance can handle the specified instance; otherwise, <c>false</c>.</returns>
-        /// <inheritdoc />
-        public bool CanConsume<TSub>(TSub instance, IIterationInfo info) where TSub : T
+        public bool CanConsume(object instance, IIterationInfo info)
         {
-            return Parameters.Any(p => p.CanConsume(instance, info)) ||
+            return Parameters.Any(p => p?.CanConsume.Invoke(instance, info) ?? false) ||
                    (BaseParser?.CanConsume(instance, info) ?? false);
         }
 
-        /// <summary>
-        ///     Gets the default parser internal.
-        /// </summary>
-        /// <value>The default parser internal.</value>
-        /// <inheritdoc />
-        public bool CanConsume(object instance, IIterationInfo info)
-        {
-            if (instance is T casted)
-                return CanConsume(casted, info);
-            return BaseParser?.CanConsume(instance, info) ?? false;
-        }
-
-        /// <summary>
-        ///     Handles the specified instance.
-        /// </summary>
-        /// <typeparam name="TSub">The type of the t sub.</typeparam>
-        /// <param name="instance">The instance.</param>
-        /// <param name="info">The information.</param>
-        /// <returns>IIterationInfo.</returns>
-        /// <inheritdoc />
-        public IIterationInfo Consume<TSub>(TSub instance, IIterationInfo info) where TSub : T
+        public IIterationInfo Consume(object instance, IIterationInfo info)
         {
             var first = Parameters.FirstOrDefault(p => p.CanConsume?.Invoke(instance, info) ?? false);
             var result = first?.Consume?.Invoke(instance, info) ?? BaseParser?.Consume(instance, info);
@@ -84,27 +51,34 @@ namespace ArgParser.Core
             return result;
         }
 
-        /// <inheritdoc />
-        public IIterationInfo Consume(object instance, IIterationInfo info)
-        {
-            if (instance is T casted) return Consume(casted, info);
-
-            return BaseParser?.Consume(instance, info);
-        }
-
-        /// <summary>
-        ///     Gets or sets the base parser.
-        /// </summary>
-        /// <value>The base parser.</value>
-        /// <inheritdoc />
         public IParser BaseParser { get; set; }
 
-        /// <inheritdoc />
         public IGenericHelp Help { get; protected internal set; }
 
         public DefaultHelpBuilder HelpBuilder { get; set; } = new DefaultHelpBuilder();
 
-        public IList<IParameter<T>> Parameters { get; set; } = new List<IParameter<T>>();
+        public IList<IParameter> Parameters { get; set; } = new List<IParameter>();
 
+    }
+
+    public class DefaultParser<T> : DefaultParser, IParser<T>, IParameterContainer<T>
+    {
+        /// <inheritdoc />
+        public bool CanConsume<TSub>(TSub instance, IIterationInfo info) where TSub : T
+        {
+            return base.CanConsume(instance, info);
+        }
+
+        /// <inheritdoc />
+        public IIterationInfo Consume<TSub>(TSub instance, IIterationInfo info) where TSub : T
+        {
+            return base.Consume(instance, info);
+        }
+
+        /// <inheritdoc />
+        public void AddParameter(IParameter<T> parameter, IGenericHelp help = null)
+        {
+            base.AddParameter(parameter, help);
+        }
     }
 }
