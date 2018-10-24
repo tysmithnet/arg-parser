@@ -19,7 +19,25 @@ using ArgParser.Core.Help;
 
 namespace ArgParser.Core
 {
-    public class DefaultParser<T> : IParser<T>, IParameterContainer<T>
+    public class DefaultParser<T> : DefaultParser, IParser<T>, IParameterContainer<T>
+    {
+        public void AddParameter(IParameter<T> parameter, IGenericHelp help = null)
+        {
+            base.AddParameter(parameter, help);
+        }
+
+        public bool CanConsume<TSub>(TSub instance, IIterationInfo info) where TSub : T
+        {
+            return base.CanConsume(instance, info);
+        }
+        
+        public IIterationInfo Consume<TSub>(TSub instance, IIterationInfo info) where TSub : T
+        {
+            return base.Consume(instance, info);
+        }
+    }
+
+    public class DefaultParser : IParser, IParameterContainer
     {
         public void AddHelp(IGenericHelp help)
         {
@@ -27,7 +45,7 @@ namespace ArgParser.Core
             HelpBuilder.AddGenericHelp(help);
         }
 
-        public void AddParameter(IParameter<T> parameter, IGenericHelp help = null)
+        public void AddParameter(IParameter parameter, IGenericHelp help = null)
         {
             Parameters.Add(parameter);
             if (help == null)
@@ -37,20 +55,14 @@ namespace ArgParser.Core
                 help.ShortDescription);
         }
 
-        public bool CanConsume<TSub>(TSub instance, IIterationInfo info) where TSub : T
+        public bool CanConsume(object instance, IIterationInfo info)
         {
             return Parameters.Any(p => p.CanConsume(instance, info)) ||
                    (BaseParser?.CanConsume(instance, info) ?? false);
         }
 
-        public bool CanConsume(object instance, IIterationInfo info)
-        {
-            if (instance is T casted)
-                return CanConsume(casted, info);
-            return BaseParser?.CanConsume(instance, info) ?? false;
-        }
 
-        public IIterationInfo Consume<TSub>(TSub instance, IIterationInfo info) where TSub : T
+        public IIterationInfo Consume(object instance, IIterationInfo info)
         {
             var first = Parameters.FirstOrDefault(p => p.CanConsume?.Invoke(instance, info) ?? false);
             var result = first?.Consume?.Invoke(instance, info) ?? BaseParser?.Consume(instance, info);
@@ -59,15 +71,7 @@ namespace ArgParser.Core
                     $"CanConsume determined that instance: {instance}, could be consumed, but failed during consumption");
             return result;
         }
-
-        /// <inheritdoc />
-        public IIterationInfo Consume(object instance, IIterationInfo info)
-        {
-            if (instance is T casted) return Consume(casted, info);
-
-            return BaseParser?.Consume(instance, info);
-        }
-
+        
         public IParser BaseParser { get; set; }
 
         /// <inheritdoc />
@@ -75,6 +79,6 @@ namespace ArgParser.Core
 
         public DefaultHelpBuilder HelpBuilder { get; set; } = new DefaultHelpBuilder();
 
-        public IList<IParameter<T>> Parameters { get; set; } = new List<IParameter<T>>();
+        public IList<IParameter> Parameters { get; set; } = new List<IParameter>();
     }
 }
