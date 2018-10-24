@@ -16,16 +16,13 @@ using System.Collections.Generic;
 
 namespace ArgParser.Core
 {
-    /// <summary>
-    ///     Interface ILexer
-    /// </summary>
     public interface ILexer
     {
-        /// <summary>
-        ///     Lexes the specified arguments.
-        /// </summary>
-        /// <param name="args">The arguments.</param>
-        /// <returns>IEnumerable&lt;IToken&gt;.</returns>
         IEnumerable<IToken> Lex(string[] args);
+    }
+
+    public interface ILexer<out T> where T : ILexer, IToken
+    {
+        IEnumerable<T> Lex(string[] args);
     }
 }
