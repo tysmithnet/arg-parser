@@ -42,4 +42,13 @@ namespace ArgParser.Core
         public IIterationInfoFactory IterationInfoFactory { get; set; } = new DefaultIterationInfoFactory();
         public IList<IValidator> Validators { get; set; } = new List<IValidator>();
     }
+
+    public class DefaultParseStrategy<T> : DefaultParseStrategy, IParseStrategy<T>
+    {
+        /// <inheritdoc />
+        public IParseResult Parse(IEnumerable<IParser<T>> parsers, string[] args)
+        {
+            return base.Parse(parsers, args);
+        }
+    }
 }
