@@ -82,7 +82,7 @@ namespace ArgParser.Core.Test
             var args = new[] {"-d", "-t", "zip", "-s"};
             var tokens = args.Select(x => new DefaultToken(x)).ToArray();
             IIterationInfo curInfo = CreateInfo(args, tokens);
-            baseParser.AddParameter(new Parameter<BaseOptions>
+            baseParser.AddParameter(new DefaultParameter<BaseOptions>
             {
                 CanConsume = (instance, info) => info.Current.Raw == "-d",
                 Consume = (instance, info) =>
@@ -105,7 +105,7 @@ namespace ArgParser.Core.Test
                 }
             });
 
-            childParser.AddParameter(new Parameter<CompressOptions>
+            childParser.AddParameter(new DefaultParameter<CompressOptions>
             {
                 CanConsume = (instance, info) => info.Current.Raw == "-t",
                 Consume = (instance, info) =>
@@ -115,7 +115,7 @@ namespace ArgParser.Core.Test
                 }
             });
 
-            grandChildParser.AddParameter(new Parameter<SpecialCompressOptions>
+            grandChildParser.AddParameter(new DefaultParameter<SpecialCompressOptions>
             {
                 CanConsume = (instance, info) => info.Current.Raw == "-s",
                 Consume = (instance, info) =>
@@ -147,7 +147,7 @@ namespace ArgParser.Core.Test
         {
             // arrange
             var parser = new DefaultParser<BaseOptions>();
-            parser.AddParameter(new Parameter<BaseOptions>
+            parser.AddParameter(new DefaultParameter<BaseOptions>
             {
                 CanConsume = (options, iterationInfo) => iterationInfo.Current.Raw == "-d",
                 Consume = (options, iterationInfo) =>
@@ -156,7 +156,7 @@ namespace ArgParser.Core.Test
                     return iterationInfo.Consume(1);
                 }
             });
-            parser.AddParameter(new Parameter<BaseOptions>
+            parser.AddParameter(new DefaultParameter<BaseOptions>
             {
                 CanConsume = (options, iterationInfo) => iterationInfo.Current.Raw == "-f",
                 Consume = (options, iterationInfo) =>
@@ -192,7 +192,7 @@ namespace ArgParser.Core.Test
             // arrange
             var parser = new DefaultParser<BaseOptions>();
             var infoFac = new DefaultIterationInfoFactory();
-            parser.AddParameter(new Parameter<BaseOptions>
+            parser.AddParameter(new DefaultParameter<BaseOptions>
             {
                 CanConsume = (instance, info) => !Regex.IsMatch(info.Current.Raw, "--?[a-zA-Z0-9]+"),
                 Consume = (instance, info) =>
@@ -218,7 +218,7 @@ namespace ArgParser.Core.Test
             var parser = new DefaultParser<BaseOptions>();
             var infoFac = new DefaultIterationInfoFactory();
             var count = 0;
-            parser.AddParameter(new Parameter<BaseOptions>
+            parser.AddParameter(new DefaultParameter<BaseOptions>
             {
                 CanConsume = (instance, info) => count++ == 0
             });

@@ -70,7 +70,7 @@ namespace ArgParser.Core.Test
         {
             // arrange
             var parser = new DefaultParser<BaseOptions>();
-            parser.AddParameter(new Parameter<BaseOptions>
+            parser.AddParameter(new DefaultParameter<BaseOptions>
             {
                 CanConsume = (instance, info) => info.Current.Raw == "-h" || info.Current.Raw == "--help",
                 Consume = (instance, info) =>
@@ -99,7 +99,7 @@ namespace ArgParser.Core.Test
         {
             // arrange
             var parentParser = new DefaultParser<BaseOptions>();
-            parentParser.AddParameter(new Parameter<BaseOptions>
+            parentParser.AddParameter(new DefaultParameter<BaseOptions>
             {
                 CanConsume = (instance, info) => info.Current.Raw == "-h" || info.Current.Raw == "--help",
                 Consume = (instance, info) =>
@@ -110,7 +110,7 @@ namespace ArgParser.Core.Test
             });
 
             var childParser = new DefaultParser<ChildOptions>();
-            childParser.AddParameter(new Parameter<ChildOptions>
+            childParser.AddParameter(new DefaultParameter<ChildOptions>
             {
                 CanConsume = (instance, info) => info.Current.Raw.StartsWith("thing="),
                 Consume = (instance, info) =>
@@ -121,7 +121,7 @@ namespace ArgParser.Core.Test
             });
 
             var grandChildParser = new DefaultParser<GrandChildOptions>();
-            grandChildParser.AddParameter(new Parameter<GrandChildOptions>
+            grandChildParser.AddParameter(new DefaultParameter<GrandChildOptions>
             {
                 CanConsume = (instance, info) => info.Current.Raw == "--special" && info.Next != null,
                 Consume = (instance, info) =>
@@ -172,7 +172,7 @@ namespace ArgParser.Core.Test
         {
             // arrange
             var parser = new DefaultParser<BaseOptions>();
-            parser.AddParameter(new Parameter<BaseOptions>
+            parser.AddParameter(new DefaultParameter<BaseOptions>
             {
                 CanConsume = (instance, info) => info.Current.Raw == "-h" || info.Current.Raw == "--help",
                 Consume = (instance, info) =>
@@ -201,7 +201,7 @@ namespace ArgParser.Core.Test
         {
             // arrange
             var parser = new DefaultParser<BaseOptions>();
-            parser.AddParameter(new Parameter<BaseOptions>
+            parser.AddParameter(new DefaultParameter<BaseOptions>
             {
                 CanConsume = (instance, info) => info.Current.Raw == "-h" || info.Current.Raw == "--help",
                 Consume = (instance, info) =>
