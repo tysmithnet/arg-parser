@@ -2,5 +2,6 @@
 {
     public class ValidationError : ParseError
     {
+        // todo: body
     }
 }
