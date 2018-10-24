@@ -14,12 +14,6 @@
 
 namespace ArgParser.Core
 {
-    /// <summary>
-    ///     Delegate HandlerCallback
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="instance">The instance.</param>
-    /// <param name="info">The information.</param>
-    /// <returns>IIterationInfo.</returns>
     public delegate IIterationInfo ConsumeCallback<in T>(T instance, IIterationInfo info);
+    public delegate IIterationInfo ConsumeCallback(object instance, IIterationInfo info);
 }
