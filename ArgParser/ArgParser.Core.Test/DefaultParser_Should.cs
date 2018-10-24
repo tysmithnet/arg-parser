@@ -181,6 +181,24 @@ namespace ArgParser.Core.Test
         }
 
         [Fact]
+        public void Throw_If_No_Parser_To_Back_Up_CanConsume()
+        {
+            // arrange
+            var parser = new DefaultParser();
+            int count = 0;
+            parser.AddParameter(new DefaultParameter((o, info) => count++ == 0, (o, info) => info));
+            
+            // act
+            var instance = new object();
+            var defaultIterationInfo = new DefaultIterationInfo();
+            parser.CanConsume(instance, defaultIterationInfo);
+
+            // assert
+            Action mightThrow = () => parser.Consume(instance, defaultIterationInfo);
+            mightThrow.Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
         public void Parse_When_Only_Positionals()
         {
             // arrange

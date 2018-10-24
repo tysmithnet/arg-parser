@@ -172,7 +172,7 @@ namespace ArgParser.Core.Test
                     instance.HelpRequested = true;
                     return info.Consume(1);
                 }));
-            var strat = new DefaultParseStrategy(new Func<object>[] {() => new BaseOptions()});
+            var strat = new DefaultParseStrategy<BaseOptions>(new Func<BaseOptions>[] {() => new BaseOptions()});
 
             // act
             var result = strat.Parse(new[] {parser}, "--help".Split(' '));

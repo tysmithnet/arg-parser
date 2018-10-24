@@ -80,6 +80,7 @@
     <Compile Include="DefaultIterationInfoFactory_Should.cs" />
     <Compile Include="DefaultIterationInfo_Should.cs" />
     <Compile Include="DefaultLexer_Should.cs" />
+    <Compile Include="DefaultParameter_Should.cs" />
     <Compile Include="DefaultParser_Should.cs" />
     <Compile Include="DefaultParseStrategy_Should.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
