@@ -33,6 +33,6 @@ namespace ArgParser.Core
         /// </summary>
         /// <value>The handle.</value>
         /// <inheritdoc />
-        public ConsumerCallback<T> Consume { get; set; }
+        public ConsumeCallback<T> Consume { get; set; }
     }
 }

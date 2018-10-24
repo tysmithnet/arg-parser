@@ -34,6 +34,6 @@ namespace ArgParser.Core
         ///     Gets the handle.
         /// </summary>
         /// <value>The handle.</value>
-        ConsumerCallback<T> Consume { get; }
+        ConsumeCallback<T> Consume { get; }
     }
 }
