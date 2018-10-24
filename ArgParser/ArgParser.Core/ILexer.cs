@@ -21,8 +21,8 @@ namespace ArgParser.Core
         IEnumerable<IToken> Lex(string[] args);
     }
 
-    public interface ILexer<out T> where T : ILexer, IToken
+    public interface ILexer<out T> : ILexer where T : IToken
     {
-        IEnumerable<T> Lex(string[] args);
+        new IEnumerable<T> Lex(string[] args);
     }
 }
