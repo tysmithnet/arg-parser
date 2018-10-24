@@ -85,6 +85,16 @@
   <ItemGroup>
     <Analyzer Include="..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ArgParser.Core\ArgParser.Core.csproj">
+      <Project>{1E5FD54F-B5A9-4638-A216-2292F6393664}</Project>
+      <Name>ArgParser.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ArgParser.Flavors\ArgParser.Flavors.csproj">
+      <Project>{F9C0843B-4F42-4E82-B4BC-8BE2168109A1}</Project>
+      <Name>ArgParser.Flavors</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

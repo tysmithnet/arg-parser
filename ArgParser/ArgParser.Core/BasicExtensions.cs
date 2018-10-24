@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace ArgParser.Core
 {
-    internal static class BasicExtensions
+    public static class BasicExtensions
     {
         public static bool IsNullOrWhiteSpace(this string source) => string.IsNullOrWhiteSpace(source);
 
