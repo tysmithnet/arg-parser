@@ -16,16 +16,13 @@ using ArgParser.Core.Help;
 
 namespace ArgParser.Core
 {
-    /// <summary>
-    ///     Interface ISwitchContainer
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public interface IParameterContainer<out T>
+    public interface IParameterContainer
     {
-        /// <summary>
-        ///     Adds the switch.
-        /// </summary>
-        /// <param name="parameter">The svitch.</param>
+        void AddParameter(IParameter parameter, IGenericHelp help = null);
+    }
+
+    public interface IParameterContainer<out T> : IParameterContainer
+    {
         void AddParameter(IParameter<T> parameter, IGenericHelp help = null);
     }
 }
