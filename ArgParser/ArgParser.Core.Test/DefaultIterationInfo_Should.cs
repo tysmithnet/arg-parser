@@ -13,12 +13,12 @@ namespace ArgParser.Core.Test
             var info = new DefaultIterationInfo();
             info = (DefaultIterationInfo) info.SetTokens(new List<IToken>
             {
-                new Token("a"),
-                new Token("b"),
-                new Token("c"),
-                new Token("d"),
-                new Token("e"),
-                new Token("f")
+                new DefaultToken("a"),
+                new DefaultToken("b"),
+                new DefaultToken("c"),
+                new DefaultToken("d"),
+                new DefaultToken("e"),
+                new DefaultToken("f")
             });
 
             // act
@@ -43,7 +43,7 @@ namespace ArgParser.Core.Test
             IIterationInfo info = new DefaultIterationInfo
             {
                 Args = args.ToArray(),
-                Tokens = args.Select(x => new Token(x)).ToList(),
+                Tokens = args.Select(x => new DefaultToken(x)).ToList(),
                 Index = 0
             };
 
@@ -76,18 +76,18 @@ namespace ArgParser.Core.Test
             var info = new DefaultIterationInfo();
             info = (DefaultIterationInfo) info.SetTokens(new List<IToken>
             {
-                new Token("a"),
-                new Token("b"),
-                new Token("c")
+                new DefaultToken("a"),
+                new DefaultToken("b"),
+                new DefaultToken("c")
             });
 
             // act
             // assert
-            info.Current.Should().Be(new Token("a"));
+            info.Current.Should().Be(new DefaultToken("a"));
             info.Index = 1;
-            info.Current.Should().Be(new Token("b"));
+            info.Current.Should().Be(new DefaultToken("b"));
             info.Index = 2;
-            info.Current.Should().Be(new Token("c"));
+            info.Current.Should().Be(new DefaultToken("c"));
         }
     }
 }

@@ -9,9 +9,9 @@ namespace ArgParser.Core.Test
         public void Exhibit_Value_Equality()
         {
             // arrange
-            var a = new Token("a");
-            var b = new Token("a");
-            var c = new Token("c");
+            var a = new DefaultToken("a");
+            var b = new DefaultToken("a");
+            var c = new DefaultToken("c");
 
             // act
             // assert

@@ -12,7 +12,7 @@ namespace ArgParser.Core.Test
             /// <inheritdoc />
             public IEnumerable<IToken> Lex(string[] args)
             {
-                return args.Select(x => x.ToUpper()).Select(x => new Token(x));
+                return args.Select(x => x.ToUpper()).Select(x => new DefaultToken(x));
             }
         }
 
@@ -31,7 +31,7 @@ namespace ArgParser.Core.Test
 
             // assert
             fac.Lexer = lexer;
-            info.Tokens.Should().BeEquivalentTo(new Token("A"), new Token("B"));
+            info.Tokens.Should().BeEquivalentTo(new DefaultToken("A"), new DefaultToken("B"));
         }
 
         [Fact]

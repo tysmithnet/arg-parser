@@ -18,9 +18,9 @@ namespace ArgParser.Flavors
                 return args.SelectMany(s =>
                 {
                     var match = Regex.Match(s, "^-(?<letters>[a-zA-Z0-9]{2,}$)");
-                    if (!match.Success) return new[] { new Token(s) };
+                    if (!match.Success) return new[] { new DefaultToken(s) };
                     var letters = match.Groups["letters"].Value.ToCharArray();
-                    return letters.Select(c => new Token($"-{c}"));
+                    return letters.Select(c => new DefaultToken($"-{c}"));
                 });
             }
         }

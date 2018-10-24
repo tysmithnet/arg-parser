@@ -21,15 +21,15 @@ namespace ArgParser.Core
     /// </summary>
     /// <seealso cref="ArgParser.Core.IToken" />
     /// <seealso cref="System.IEquatable{ArgParser.Core.Token}" />
-    public class Token : IToken, IEquatable<Token>
+    public class DefaultToken : IToken, IEquatable<DefaultToken>
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="Token" /> class.
+        ///     Initializes a new instance of the <see cref="DefaultToken" /> class.
         /// </summary>
         /// <param name="raw">The raw.</param>
         /// <exception cref="ArgumentNullException">raw</exception>
         /// <inheritdoc />
-        public Token(string raw)
+        public DefaultToken(string raw)
         {
             Raw = raw ?? throw new ArgumentNullException(nameof(raw));
         }
@@ -40,7 +40,7 @@ namespace ArgParser.Core
         /// <param name="other">An object to compare with this object.</param>
         /// <returns>true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.</returns>
         /// <inheritdoc />
-        public bool Equals(Token other)
+        public bool Equals(DefaultToken other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -58,7 +58,7 @@ namespace ArgParser.Core
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((Token) obj);
+            return Equals((DefaultToken) obj);
         }
 
         /// <summary>

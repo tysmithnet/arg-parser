@@ -15,7 +15,7 @@ namespace ArgParser.Core.Test
 
             // act
             // assert
-            lexer.Lex(args).Should().BeEquivalentTo(args.Select(a => new Token(a)));
+            lexer.Lex(args).Should().BeEquivalentTo(args.Select(a => new DefaultToken(a)));
         }
     }
 }

@@ -80,7 +80,7 @@ namespace ArgParser.Core.Test
             childParser.BaseParser = baseParser;
             grandChildParser.BaseParser = childParser;
             var args = new[] {"-d", "-t", "zip", "-s"};
-            var tokens = args.Select(x => new Token(x)).ToArray();
+            var tokens = args.Select(x => new DefaultToken(x)).ToArray();
             IIterationInfo curInfo = CreateInfo(args, tokens);
             baseParser.AddParameter(new Parameter<BaseOptions>
             {
@@ -168,7 +168,7 @@ namespace ArgParser.Core.Test
             });
             var instance = new BaseOptions();
             var args = new[] {"-d", "-f", "file1", "file2"};
-            var tokens = args.Select(s => new Token(s)).ToList();
+            var tokens = args.Select(s => new DefaultToken(s)).ToList();
             IIterationInfo info = CreateInfo(args, tokens);
 
             // act
