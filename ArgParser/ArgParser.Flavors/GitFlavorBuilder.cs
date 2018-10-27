@@ -9,6 +9,9 @@ namespace ArgParser.Flavors
 {
     public class GitParameter : DefaultParameter
     {
+        private bool _isLetter;
+        private bool _isWordNoEqual;
+        private bool _isWordEquals;
         public char? Letter { get; set; }
         public string Word { get; set; }
         public bool IsGroupable { get; set; }
@@ -21,29 +24,27 @@ namespace ArgParser.Flavors
         public GitParameter(Func<object, IIterationInfo, bool> canConsumeCallback = null,
             Func<object, IIterationInfo, IIterationInfo> consumeCallback = null) : base((o, info) => true, (o, info) => info)
         {
-            bool isLetter = false;
-            bool isWordNoEqual = false;
-            bool isWordEquals = false;
+            _isLetter = false;
+            _isWordNoEqual = false;
+            _isWordEquals = false;
             CanConsumeCallback = canConsumeCallback ?? ((o, info) =>
             {
-                isLetter = Letter.HasValue || info.Current.Raw == $"-{Letter}";
-                isWordNoEqual = !UsesEqualSignSeparator && !Word.IsNullOrWhiteSpace() && info.Current.Raw == $"--{Word}";
-                isWordEquals = UsesEqualSignSeparator && !Word.IsNullOrWhiteSpace() &&
-                               info.Current.Raw.StartsWith($"--{Word}=");
-                return isLetter || isWordEquals || isWordNoEqual;
+                ExtractBooleanResults(info);
+                return base.CanConsume(o, info) || _isLetter || _isWordEquals || _isWordNoEqual;
             });
             ConsumeCallback = consumeCallback ?? ((o, info) =>
             {
-                if(NumberOfValues > info.Rest.Count())
+                ExtractBooleanResults(info);
+                if (NumberOfValues > info.Rest.Count())
                     throw new ArgumentException($"Expected {NumberOfValues} values but found only {info.Rest.Count()}");
-                if (isLetter || isWordNoEqual)
+                if (_isLetter || _isWordNoEqual)
                 {
-                    var raws = info.Rest.Select(x => x.Raw).ToList();
+                    var raws = info.Rest.Take(NumberOfValues).Select(x => x.Raw).ToList();
                     Values.AddRange(raws);
                     return info.Consume(1 + raws.Count());
                 }
 
-                if (isWordEquals)
+                if (_isWordEquals)
                 {
                     var rest = info.Current.Raw.Substring($"--{Word}=".Length);
                     Values.Add(rest);
@@ -60,15 +61,31 @@ namespace ArgParser.Flavors
                 return info;
             });
         }
+
+        private void ExtractBooleanResults(IIterationInfo info)
+        {
+            _isLetter = Letter.HasValue || info.Current.Raw == $"-{Letter}";
+            _isWordNoEqual = !UsesEqualSignSeparator && !Word.IsNullOrWhiteSpace() && info.Current.Raw == $"--{Word}";
+            _isWordEquals = UsesEqualSignSeparator && !Word.IsNullOrWhiteSpace() &&
+                            info.Current.Raw.StartsWith($"--{Word}=");
+        }
     }
 
-    public class GitFlavor<T> : IFlavor
+    public class GitParameter<T> : GitParameter
+    {
+        public GitParameter(Func<object, IIterationInfo, bool> canConsumeCallback = null, Func<object, IIterationInfo, IIterationInfo> consumeCallback = null) : base(canConsumeCallback, consumeCallback)
+        {
+        }
+    }
+
+    public class GitFlavor<T> : IFlavor<T>
     {
         private GitParameter letter;
         private GitParameter wordNoEquals;
         private GitParameter wordEquals;
         private GitParameter positional;
-        public IList<GitParameter> Parameters { get; set; }
+        private DefaultParseStrategy<T> parseStrategy;
+        public IList<GitParameter> Parameters { get; set; } = new List<GitParameter>();
         public Func<T, IIterationInfo, bool> CanConsumeCallback { get; set; }
         public Func<T, IIterationInfo, IIterationInfo> ConsumeCallback { get; set; }
 
@@ -86,37 +103,82 @@ namespace ArgParser.Flavors
             });
         }
 
+        public GitFlavor(IEnumerable<Func<T>> factoryFuncs)
+        {
+            FactoryFuncs = factoryFuncs.ToList();
+            parseStrategy = new DefaultParseStrategy<T>(FactoryFuncs);
+        }
+
+        public List<Func<T>> FactoryFuncs { get; set; }
+
         /// <inheritdoc />
-        public IGenericHelp Help { get; }
+        public IGenericHelp Help { get; set; }
 
         public ISet<GitParameter> History { get; set; } = new HashSet<GitParameter>();
 
         /// <inheritdoc />
         public bool CanConsume(object instance, IIterationInfo info)
         {
-            letter = Parameters?.FirstOrDefault(p => $"-{p.Letter}" == info.Current.Raw);
-            wordNoEquals = Parameters?.FirstOrDefault(p => p.Word != null && !p.UsesEqualSignSeparator && $"--{p.Word}" == info.Current.Raw);
-            wordEquals = Parameters?.FirstOrDefault(p =>
-                                p.Word != null && p.UsesEqualSignSeparator && info.Current.Raw.StartsWith($"--{p.Word}="));
-            positional = Parameters?.FirstOrDefault(p => p.IsPositional && !History.Contains(p));
-            return letter != null || wordNoEquals != null || wordEquals != null || positional != null; 
+            if (instance is T casted)
+                return CanConsume(casted, info);
+            return false;
         }
 
         /// <inheritdoc />
         public IIterationInfo Consume(object instance, IIterationInfo info)
         {
-            if (letter != null)
-            {
-                
-            }
-
+            if (instance is T casted)
+                return Consume(casted, info);
             return info;
+        }
+
+        /// <inheritdoc />
+        public IParseResult Parse(IEnumerable<IParser<T>> parsers, string[] args)
+        {
+            return parseStrategy.Parse(new[] {this}, args);
         }
 
         /// <inheritdoc />
         public IParseResult Parse(IEnumerable<IParser> parsers, string[] args)
         {
-            throw new NotImplementedException();
+            return parseStrategy.Parse(new[] {this}, args);
         }
+
+        /// <inheritdoc />
+        public IParseResult Parse(string[] args)
+        {
+            return Parse(new[] {this}, args);
+        }
+
+        /// <inheritdoc />
+        public bool CanConsume<TSub>(TSub instance, IIterationInfo info) where TSub : T
+        {
+            ExtractBooleanValues<TSub>(info);
+            return letter != null || wordNoEquals != null || wordEquals != null || positional != null;
+        }
+
+        private void ExtractBooleanValues<TSub>(IIterationInfo info) where TSub : T
+        {
+            letter = Parameters?.FirstOrDefault(p => $"-{p.Letter}" == info.Current.Raw);
+            wordNoEquals = Parameters?.FirstOrDefault(p =>
+                p.Word != null && !p.UsesEqualSignSeparator && $"--{p.Word}" == info.Current.Raw);
+            wordEquals = Parameters?.FirstOrDefault(p =>
+                p.Word != null && p.UsesEqualSignSeparator && info.Current.Raw.StartsWith($"--{p.Word}="));
+            positional = Parameters?.FirstOrDefault(p => p.IsPositional && !History.Contains(p));
+        }
+
+        /// <inheritdoc />
+        public IIterationInfo Consume<TSub>(TSub instance, IIterationInfo info) where TSub : T
+        {
+            ExtractBooleanValues<TSub>(info);
+            var parameter = letter ?? wordNoEquals ?? wordEquals ?? positional;
+            if (parameter != null)
+                return parameter.Consume(instance, info);
+
+            return info;
+        }
+
+        /// <inheritdoc />
+        public IParser BaseParser { get; set; }
     }
 }

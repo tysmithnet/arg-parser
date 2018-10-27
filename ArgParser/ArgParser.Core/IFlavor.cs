@@ -6,10 +6,10 @@ namespace ArgParser.Core
 {
     public interface IFlavor : ILexer, IParser, IParseStrategy
     {
-
+        IParseResult Parse(string[] args);
     }
 
-    public interface IFlavor<TOptions> : ILexer, IParser<TOptions>, IParseStrategy<TOptions>
+    public interface IFlavor<TOptions> : IFlavor, ILexer, IParser<TOptions>, IParseStrategy<TOptions>
     {
 
     }

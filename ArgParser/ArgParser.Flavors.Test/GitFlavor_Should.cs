@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Xunit;
 
 namespace ArgParser.Flavors.Test
@@ -26,17 +27,28 @@ namespace ArgParser.Flavors.Test
         public void Identify_Help_Requested()
         {
             // arrange
-            var flavor = new GitFlavor();
-            flavor.Parameters.Add(new GitParameter()
+            var flavor = new GitFlavor<CommitOptions>(new Func<CommitOptions>[] {() => new CommitOptions(), });
+            flavor.Parameters.Add(new GitParameter<CommitOptions>()
             {
                 Letter = 'h',
-                Word = "--help"
+                Word = "help",
+                ConsumeCallback = (o, info) =>
+                {
+                    o.
+                }
             });
 
             // act
-
+            var result = flavor.Parse("--help".Split(' '));
 
             // assert
+            bool isParsed = false;
+            result.When<CommitOptions>(options =>
+            {
+                isParsed = true;
+                options.IsHelpRequested.Should().BeTrue();
+            });
+            isParsed.Should().BeTrue();
         }
     }
 }
