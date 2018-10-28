@@ -7,21 +7,63 @@ using ArgParser.Core.Help;
 
 namespace ArgParser.Flavors
 {
-    public class Switch
+    public class Switch : IParameter
     {
         public char? Letter { get; set; }
         public string Word { get; set; }
         public bool IsGroupable { get; set; }
+
+        /// <inheritdoc />
+        public bool CanConsume(object instance, IIterationInfo info)
+        {
+            if (Letter.HasValue && info.Current.Raw == $"-{Letter.Value}")
+                return true;
+            if (!Word.IsNullOrWhiteSpace() && info.Current.Raw == $"--{Word}")
+                return true;
+            return false;
+        }
+
+        /// <inheritdoc />
+        public virtual IIterationInfo Consume(object instance, IIterationInfo info)
+        {
+            return info;
+        }
     }
 
     public class BooleanSwitch : Switch
     {
-        public Action<object> Consume { get; set; }
+        public Action<object> Callback { get; set; }
+
+        /// <inheritdoc />
+        public override IIterationInfo Consume(object instance, IIterationInfo info)
+        {
+            Callback(instance);
+            return info.Consume(1);
+        }
+    }
+
+    public class BooleanSwitch<T> : BooleanSwitch, IParameter<T>
+    {
+        /// <inheritdoc />
+        public bool CanConsume(T instance, IIterationInfo info)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        public IIterationInfo Consume(T instance, IIterationInfo info)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class ValueSwitch : Switch
     {
         public Action<object, string> Consume { get; set; }
+    }
+
+    public class ValueSwitch<T> : ValueSwitch
+    {
     }
 
     public class ValuesSwitch : Switch, IMultiValue
