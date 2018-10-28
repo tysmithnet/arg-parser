@@ -30,10 +30,10 @@ namespace ArgParser.Flavors.Test
         public void Correctly_Parse_Groups()
         {
             // arrange
-            var git = new GitFlavor<GitOptions>(() => new GitOptions());
+            var git = new GitFlavor<GitOptions>();
             git.AddBooleanSwitch('h', "help", o => o.IsHelpRequested = true);
 
-            var commit = new GitFlavor<CommitOptions>(() => new CommitOptions());
+            var commit = new GitFlavor<CommitOptions>();
             commit.AddBooleanSwitch('a', "all", o => o.IsAddAll = true);
             commit.AddValueSwitch('m', "message", (o, v) => o.Message = v);
             commit.AddPositionalList((o, v) => o.Files = v);

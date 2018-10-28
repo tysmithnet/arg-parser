@@ -7,157 +7,181 @@ using ArgParser.Core.Help;
 
 namespace ArgParser.Flavors
 {
-    public class Switch<T>
+    public class Switch
     {
-        public bool IsGroupable { get; set; }
         public char? Letter { get; set; }
         public string Word { get; set; }
+        public bool IsGroupable { get; set; }
     }
 
-    public class ValueSwitch<T> : Switch<T>
+    public class BooleanSwitch : Switch
     {
-        public Action<T, string> Consume { get; set; }
-        public Regex Regex { get; set; }
-        public string Separator { get; set; }
+        public Action<object> Consume { get; set; }
     }
 
-    public class ValuesSwitch<T> : Switch<T>
+    public class ValueSwitch : Switch
     {
-        public Action<T, string[]> Consume { get; set; }
+        public Action<object, string> Consume { get; set; }
     }
 
-    public class Positional<T>
+    public class ValuesSwitch : Switch, IMultiValue
     {
-        public Action<T, string> Consume { get; set; }
-    }
-
-    public class PositionalList<T>
-    {
-        public Action<T, string[]> Consume { get; set; }
-        public int? Max { get; set; }
+        public Action<object, string[]> Consume { get; set; }
         public int? Min { get; set; }
+        public int? Max { get; set; }
     }
 
-    public class BooleanSwitch<T> : Switch<T>
+    public class Positional
     {
-        public Action<T> Consume { get; set; }
+        public Action<object, string> Consume { get; set; }
     }
 
-    public class GitFlavor<T> : IParser<T>, IFlavor, IEnumerable<IParser>
+    public class PositionalList : IMultiValue
     {
-        public GitFlavor(Func<T> factoryFunc)
+        /// <inheritdoc />
+        public Action<object, string[]> Consume { get; set;  }
+
+        /// <inheritdoc />
+        public int? Min { get; set; }
+
+        /// <inheritdoc />
+        public int? Max { get; set; }
+    }
+
+    public interface IMultiValue
+    {
+        Action<object, string[]> Consume { get; }
+        int? Min { get; }
+        int? Max { get; }
+    }
+
+    public class SubCommand
+    {
+        public string Name { get; set; }
+        public GitFlavor GitFlavor { get; set; }
+    }
+
+    public interface IGitFlavorVisitor
+    {
+        void Visit(GitFlavor flavor);
+    }
+
+    public class GitFlavor : IFlavor
+    {
+        public Func<object> InstanceFactory { get; set; }
+        public GitFlavor BaseFlavor { get; set; }
+        public List<BooleanSwitch> BooleanSwitches { get; set; } = new List<BooleanSwitch>();
+        public List<ValueSwitch> ValueSwitches { get; set; } = new List<ValueSwitch>();
+        public List<ValuesSwitch> ValuesSwitches { get; set; } = new List<ValuesSwitch>();
+        public List<Positional> Positionals { get; set; } = new List<Positional>();
+        public List<PositionalList> PositionalLists { get; set; } = new List<PositionalList>();
+        public List<SubCommand> SubCommands { get; set; } = new List<SubCommand>();
+        public DefaultParser DefaultParser { get; set; } = new DefaultParser();
+
+        public void Accept(IGitFlavorVisitor visitor)
         {
-            FactoryFunc = factoryFunc;
-            DefaultParser = new DefaultParser<T>();
-            _defaultParseStrategy = new DefaultParseStrategy<T>();
+            visitor.Visit(this);
         }
 
-        private DefaultParseStrategy<T> _defaultParseStrategy;
-
-        public void AddBooleanSwitch(char letter, string word, Action<T> consume)
+        public void AddSubCommand(string command, GitFlavor flavor)
         {
-            var s = new BooleanSwitch<T>
+            flavor.BaseFlavor = this;
+            SubCommands.Add(new SubCommand()
+            {
+                Name = command,
+                GitFlavor = flavor
+            });
+        }
+
+        public void AddBooleanSwitch(char letter, string word, Action<object> consume)
+        {
+            BooleanSwitches.Add(new BooleanSwitch()
             {
                 Letter = letter,
                 Word = word,
                 Consume = consume
-            };
-            BooleanSwitches.Add(s);
+            });
         }
 
-        public void AddPositional(Action<T, string> consume)
+        public void AddValueSwitch(char letter, string word, Action<object, string> consume)
         {
-            var p = new Positional<T>
+            ValueSwitches.Add(new ValueSwitch()
             {
+                Letter = letter,
+                Word = word,
                 Consume = consume
-            };
-            Positionals.Add(p);
+            });
         }
 
-        public void AddPositionalList(Action<T, string[]> consume, int? min = 1, int? max = 1)
+        public void AddValuesSwitch(char letter, string word, Action<object, string[]> consume, int? min = 1, int? max = int.MaxValue)
         {
-            var p = new PositionalList<T>
-            {
-                Consume = consume,
-                Max = max,
-                Min = min
-            };
-            PositionalLists.Add(p);
-        }
-
-        public void AddSubCommand<TSub>(string subCommand, GitFlavor<TSub> parser) where TSub : T
-        {
-            parser.BaseParser = this;
-            SubCommands.Add(subCommand, parser);
-        }
-
-        public void AddValueSwitch(char letter, string word, Action<T, string> consume, string separator = null,
-            Regex regex = null)
-        {
-            var s = new ValueSwitch<T>
+            ValuesSwitches.Add(new ValuesSwitch()
             {
                 Letter = letter,
                 Word = word,
                 Consume = consume,
-                Separator = separator,
-                Regex = regex
-            };
-            ValueSwitches.Add(s);
+                Min = min,
+                Max = max
+            });
         }
 
-        /// <inheritdoc />
-        public bool CanConsume(object instance, IIterationInfo info) =>
-            ((DefaultParser) DefaultParser).CanConsume(instance, info);
-
-        /// <inheritdoc />
-        public bool CanConsume<TSub>(TSub instance, IIterationInfo info) where TSub : T =>
-            DefaultParser.CanConsume(instance, info);
-
-        /// <inheritdoc />
-        public IIterationInfo Consume(object instance, IIterationInfo info) =>
-            ((DefaultParser) DefaultParser).Consume(instance, info);
-
-        /// <inheritdoc />
-        public IIterationInfo Consume<TSub>(TSub instance, IIterationInfo info) where TSub : T =>
-            DefaultParser.Consume(instance, info);
-
-        /// <inheritdoc />
-        public IEnumerator<IParser> GetEnumerator()
+        public void AddPositional(Action<object, string> consume)
         {
-            IParser itr = this;
-            while (itr != null)
+            Positionals.Add(new Positional()
             {
-                yield return itr;
-                itr = itr.BaseParser;
-            }
+                Consume = consume
+            });
+        }
+
+        public void AddValuesSwitch(Action<object, string[]> consume, int? min = 1, int? max = int.MaxValue)
+        {
+            PositionalLists.Add(new PositionalList()
+            {
+                Consume = consume,
+                Min = min,
+                Max = max
+            });
         }
 
         /// <inheritdoc />
         public IParseResult Parse(string[] args)
         {
-            _defaultParseStrategy = new DefaultParseStrategy<T>(FactoryFuncs);
-            return _defaultParseStrategy.Parse(this, args);
+            var parserCollector = new ParserCollector();
+            Accept(parserCollector);
+            var facCollector = new FactoryMethodCollector();
+            Accept(facCollector);
+            var strat = new DefaultParseStrategy(facCollector.Funcs);
+            return strat.Parse(parserCollector.Parsers, args);
         }
+    }
+
+    public class FactoryMethodCollector : IGitFlavorVisitor
+    {
+        public List<Func<object>> Funcs { get; set; }
 
         /// <inheritdoc />
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-        /// <inheritdoc />
-        public IParser BaseParser
+        public void Visit(GitFlavor flavor)
         {
-            get => DefaultParser.BaseParser;
-            set => DefaultParser.BaseParser = value;
+            Funcs.Add(flavor.InstanceFactory);
+            foreach (var sub in flavor.SubCommands)
+            {
+                sub.GitFlavor.Accept(this);
+            }
         }
+    }
 
-        public IList<BooleanSwitch<T>> BooleanSwitches { get; set; } = new List<BooleanSwitch<T>>();
-        public DefaultParser<T> DefaultParser { get; set; }
-        public Func<T> FactoryFunc { get; set; }
-        public List<Func<T>> FactoryFuncs { get; set; } = new List<Func<T>>();
-        public IGenericHelp Help => DefaultParser.Help;
-        public IList<PositionalList<T>> PositionalLists { get; set; } = new List<PositionalList<T>>();
-        public IList<Positional<T>> Positionals { get; set; } = new List<Positional<T>>();
-        public Dictionary<string, IParser> SubCommands { get; set; } = new Dictionary<string, IParser>();
-        public IList<ValuesSwitch<T>> ValuesSwitches { get; set; } = new List<ValuesSwitch<T>>();
-        public IList<ValueSwitch<T>> ValueSwitches { get; set; } = new List<ValueSwitch<T>>();
+    public class ParserCollector : IGitFlavorVisitor
+    {
+        public List<IParser> Parsers { get; set; } = new List<IParser>();
+
+        /// <inheritdoc />
+        public void Visit(GitFlavor flavor)
+        {
+            Parsers.Add(flavor.DefaultParser);
+            foreach (var sub in flavor.SubCommands)
+            {
+                sub.GitFlavor.Accept(this);
+            }
+        }
     }
 }
