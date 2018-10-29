@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using ArgParser.Flavors.Git;
 using FluentAssertions;
 using Xunit;
@@ -12,17 +7,23 @@ namespace ArgParser.Flavors.Test
 {
     public class GitOptions
     {
+        public List<string> CurrentWorkingPaths { get; set; } = new List<string>();
         public bool IsHelpRequested { get; set; }
         public bool IsVersionRequested { get; set; }
-        public List<string> CurrentWorkingPaths { get; set; } = new List<string>();
     }
 
     public class CommitOptions : GitOptions
     {
+        public string[] Files { get; set; }
         public bool IsAddAll { get; set; }
         public string Message { get; set; }
-        public string[] Files { get; set; }
         public string ReuseMessageCommit { get; set; }
+    }
+
+    public class PushOptions : GitOptions
+    {
+        public List<string> RefSpec { get; set; } = new List<string>();
+        public string Repository { get; set; }
     }
 
     public class GitFlavor_Should
@@ -34,19 +35,13 @@ namespace ArgParser.Flavors.Test
             var git = new GitFlavor();
             git.AddBooleanSwitch('h', "help", o =>
             {
-                if (o is GitOptions go)
-                {
-                    go.IsHelpRequested = true;
-                }
+                if (o is GitOptions go) go.IsHelpRequested = true;
             });
-            
+
             var commit = new GitFlavor();
             git.AddBooleanSwitch('a', "all", o =>
             {
-                if (o is CommitOptions co)
-                {
-                    co.IsAddAll = true;
-                }
+                if (o is CommitOptions co) co.IsAddAll = true;
             });
 
             git.AddSubCommand("commit", commit);
@@ -56,8 +51,8 @@ namespace ArgParser.Flavors.Test
             var result = git.Parse("commit -a -h".Split(' '));
 
             // assert
-            int optionsParsedCount = 0;
-            int commitParsedCount = 0;
+            var optionsParsedCount = 0;
+            var commitParsedCount = 0;
             result.When<GitOptions>(options =>
             {
                 optionsParsedCount++;
@@ -73,13 +68,50 @@ namespace ArgParser.Flavors.Test
         }
 
         [Fact]
+        public void Parse_Multiple_Positionals()
+        {
+            // arrange
+            var git = new GitFlavor();
+
+            var push = new GitFlavor();
+            push.AddPositional((o, s) =>
+            {
+                if (o is PushOptions po)
+                    po.Repository = s;
+            });
+            push.AddPositionals((o, strings) =>
+            {
+                if(o is PushOptions po)
+                    po.RefSpec.AddRange(strings);
+            });
+            push.AddFactoryMethods(() => new PushOptions());
+
+            git.AddSubCommand("push", push);
+
+            // act
+            var result = push.Parse("push origin master develop".Split(' '));
+
+            // assert
+            int parseCount = 0;
+
+            result.When<PushOptions>(options =>
+            {
+                parseCount++;
+                options.Repository.Should().Be("origin");
+                options.RefSpec.Should().BeEquivalentTo(new[] {"master", "develop"});
+            });
+
+            parseCount.Should().Be(1);
+        }
+
+        [Fact]
         public void Parse_Switches_In_A_Hierarchy()
         {
             // arrange
             var git = new GitFlavor();
             git.AddSingleValueSwitch('C', null, (o, s) =>
             {
-                if(o is GitOptions casted)
+                if (o is GitOptions casted)
                     casted.CurrentWorkingPaths.Add(s);
             });
 
@@ -97,16 +129,13 @@ namespace ArgParser.Flavors.Test
             var result = git.Parse("commit -C path1 -C path2 -m something".Split(' '));
 
             // assert
-            int optionsParsedCount = 0;
-            int commitParsedCount = 0;
-            result.When<GitOptions>(options =>
-            {
-                optionsParsedCount++;
-            });
+            var optionsParsedCount = 0;
+            var commitParsedCount = 0;
+            result.When<GitOptions>(options => { optionsParsedCount++; });
             result.When<CommitOptions>(options =>
             {
                 commitParsedCount++;
-                options.CurrentWorkingPaths.Should().BeEquivalentTo(new[] { "path1", "path2" });
+                options.CurrentWorkingPaths.Should().BeEquivalentTo("path1", "path2");
                 options.Message.Should().Be("something");
             });
             optionsParsedCount.Should().Be(1);
