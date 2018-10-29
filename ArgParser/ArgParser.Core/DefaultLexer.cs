@@ -38,8 +38,6 @@ namespace ArgParser.Core
 
     public class DefaultLexer<T> : DefaultLexer, ILexer<T> where T : IToken
     {
-        public Func<string, T> FactoryFunc { get; set; }
-
         /// <inheritdoc />
         public DefaultLexer(Func<string, T> factoryFunc)
         {
@@ -50,5 +48,7 @@ namespace ArgParser.Core
         {
             return args?.Select(x => FactoryFunc(x)).PreventNull();
         }
+
+        public Func<string, T> FactoryFunc { get; set; }
     }
 }
