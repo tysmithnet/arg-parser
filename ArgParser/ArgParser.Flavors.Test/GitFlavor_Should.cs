@@ -25,33 +25,24 @@ namespace ArgParser.Flavors.Test
 
     public class GitFlavor_Should
     {
-
         [Fact]
-        public void Correctly_Parse_Groups()
+        public void Lex_Tokens_Correctly()
         {
             // arrange
             var git = new GitFlavor<GitOptions>();
-            git.AddBooleanSwitch('h', "help", o => o.IsHelpRequested = true);
+            git.AddBooleanParameter('h', "help", options => options.IsHelpRequested = true);
 
             var commit = new GitFlavor<CommitOptions>();
-            commit.AddBooleanSwitch('a', "all", o => o.IsAddAll = true);
-            commit.AddValueSwitch('m', "message", (o, v) => o.Message = v);
-            commit.AddPositionalList((o, v) => o.Files = v);
-            commit.AddValueSwitch('C', "reuse-message", (o, v) => o.ReuseMessageCommit = v, separator: "=", regex: new Regex("^[a-fA-F0-9]$"));
-
+            commit.AddBooleanParameter('a', "all", options => options.IsAddAll = true);
+            commit.AddValueSwitch('m', "message", (options, s) => options.Message = s);
+            
             git.AddSubCommand("commit", commit);
+            git.AddFactoryMethods(() => new GitOptions(), () => new CommitOptions());
 
             // act
-            var result = git.Parse("commit -am \"something\"".Split(' '));
+            
 
             // assert
-            bool isParsed = false;
-            result.When<CommitOptions>(o => {
-                isParsed = true;
-                o.IsAddAll.Should().BeTrue();
-                o.Message.Should().Be("something");
-            });
-            isParsed.Should().BeTrue();
         }
     }
 }

@@ -21,17 +21,17 @@ namespace ArgParser.Core
 {
     public class DefaultParser<T> : DefaultParser, IParser<T>, IParameterContainer<T>
     {
-        public void AddParameter(IParameter<T> parameter, IGenericHelp help = null)
+        public virtual void AddParameter(IParameter<T> parameter, IGenericHelp help = null)
         {
             base.AddParameter(parameter, help);
         }
 
-        public bool CanConsume<TSub>(TSub instance, IIterationInfo info) where TSub : T
+        public virtual bool CanConsume<TSub>(TSub instance, IIterationInfo info) where TSub : T
         {
             return base.CanConsume(instance, info);
         }
-        
-        public IIterationInfo Consume<TSub>(TSub instance, IIterationInfo info) where TSub : T
+
+        public virtual IIterationInfo Consume<TSub>(TSub instance, IIterationInfo info) where TSub : T
         {
             return base.Consume(instance, info);
         }
@@ -39,13 +39,13 @@ namespace ArgParser.Core
 
     public class DefaultParser : IParser, IParameterContainer
     {
-        public void AddHelp(IGenericHelp help)
+        public virtual void AddHelp(IGenericHelp help)
         {
             Help = help;
             HelpBuilder.AddGenericHelp(help);
         }
 
-        public void AddParameter(IParameter parameter, IGenericHelp help = null)
+        public virtual void AddParameter(IParameter parameter, IGenericHelp help = null)
         {
             Parameters.Add(parameter);
             if (help == null)
@@ -55,14 +55,14 @@ namespace ArgParser.Core
                 help.ShortDescription);
         }
 
-        public bool CanConsume(object instance, IIterationInfo info)
+        public virtual bool CanConsume(object instance, IIterationInfo info)
         {
             return Parameters.Any(p => p.CanConsume(instance, info)) ||
                    (BaseParser?.CanConsume(instance, info) ?? false);
         }
 
 
-        public IIterationInfo Consume(object instance, IIterationInfo info)
+        public virtual IIterationInfo Consume(object instance, IIterationInfo info)
         {
             var first = Parameters.FirstOrDefault(p => p.CanConsume(instance, info));
             var result = first?.Consume(instance, info) ?? BaseParser?.Consume(instance, info);

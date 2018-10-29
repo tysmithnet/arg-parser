@@ -1,229 +1,243 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using ArgParser.Core;
 using ArgParser.Core.Help;
 
 namespace ArgParser.Flavors
 {
-    public class Switch : IParameter
+
+    public class GitToken : IToken
     {
-        public char? Letter { get; set; }
+        /// <inheritdoc />
+        public string Raw { get; set; }
+
+        public bool IsSubCommand { get; set; }
+        public bool IsSwitch { get; set; }
+    }
+
+    public class ValueSwitch
+    {
+        public char Letter { get; set; }
         public string Word { get; set; }
-        public bool IsGroupable { get; set; }
-
-        /// <inheritdoc />
-        public bool CanConsume(object instance, IIterationInfo info)
-        {
-            if (Letter.HasValue && info.Current.Raw == $"-{Letter.Value}")
-                return true;
-            if (!Word.IsNullOrWhiteSpace() && info.Current.Raw == $"--{Word}")
-                return true;
-            return false;
-        }
-
-        /// <inheritdoc />
-        public virtual IIterationInfo Consume(object instance, IIterationInfo info)
-        {
-            return info;
-        }
     }
 
-    public class BooleanSwitch : Switch
+    public class ValuesSwitch : ValueSwitch
     {
-        public Action<object> Callback { get; set; }
-
-        /// <inheritdoc />
-        public override IIterationInfo Consume(object instance, IIterationInfo info)
-        {
-            Callback(instance);
-            return info.Consume(1);
-        }
+        public int Min { get; set; }
+        public int Max { get; set; }
     }
-
-    public class BooleanSwitch<T> : BooleanSwitch, IParameter<T>
-    {
-        /// <inheritdoc />
-        public bool CanConsume(T instance, IIterationInfo info)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public IIterationInfo Consume(T instance, IIterationInfo info)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class ValueSwitch : Switch
-    {
-        public Action<object, string> Consume { get; set; }
-    }
-
-    public class ValueSwitch<T> : ValueSwitch
-    {
-    }
-
-    public class ValuesSwitch : Switch, IMultiValue
-    {
-        public Action<object, string[]> Consume { get; set; }
-        public int? Min { get; set; }
-        public int? Max { get; set; }
-    }
-
+    
     public class Positional
     {
-        public Action<object, string> Consume { get; set; }
+        public int Min { get; set; }
+        public int Max { get; set; }
     }
 
-    public class PositionalList : IMultiValue
+    public class GitFlavor<T> : IParser<T>, IParseStrategy<T>, ILexer<GitToken>
     {
-        /// <inheritdoc />
-        public Action<object, string[]> Consume { get; set;  }
-
-        /// <inheritdoc />
-        public int? Min { get; set; }
-
-        /// <inheritdoc />
-        public int? Max { get; set; }
-    }
-
-    public interface IMultiValue
-    {
-        Action<object, string[]> Consume { get; }
-        int? Min { get; }
-        int? Max { get; }
-    }
-
-    public class SubCommand
-    {
-        public string Name { get; set; }
-        public GitFlavor GitFlavor { get; set; }
-    }
-
-    public interface IGitFlavorVisitor
-    {
-        void Visit(GitFlavor flavor);
-    }
-
-    public class GitFlavor : IFlavor
-    {
-        public Func<object> InstanceFactory { get; set; }
-        public GitFlavor BaseFlavor { get; set; }
-        public List<BooleanSwitch> BooleanSwitches { get; set; } = new List<BooleanSwitch>();
+        public List<ValueSwitch> BooleanSwitches { get; set; } = new List<ValueSwitch>();
         public List<ValueSwitch> ValueSwitches { get; set; } = new List<ValueSwitch>();
         public List<ValuesSwitch> ValuesSwitches { get; set; } = new List<ValuesSwitch>();
         public List<Positional> Positionals { get; set; } = new List<Positional>();
-        public List<PositionalList> PositionalLists { get; set; } = new List<PositionalList>();
-        public List<SubCommand> SubCommands { get; set; } = new List<SubCommand>();
-        public DefaultParser DefaultParser { get; set; } = new DefaultParser();
+        public DefaultParser<T> DefaultParser = new DefaultParser<T>();
+        public DefaultParseStrategy<T> ParseStrat = new DefaultParseStrategy<T>();
+        public List<Func<T>> FactoryMethods { get; set; } = new List<Func<T>>();
 
-        public void Accept(IGitFlavorVisitor visitor)
+        public IParseResult Parse(string[] args)
         {
-            visitor.Visit(this);
+            
         }
 
-        public void AddSubCommand(string command, GitFlavor flavor)
+        public void AddFactoryMethods(params Func<T>[] funcs)
         {
-            flavor.BaseFlavor = this;
-            SubCommands.Add(new SubCommand()
-            {
-                Name = command,
-                GitFlavor = flavor
-            });
+            FactoryMethods.AddRange(funcs);
         }
 
-        public void AddBooleanSwitch(char letter, string word, Action<object> consume)
+        public void AddBooleanParameter(char letter, string word, Action<T> consume)
         {
-            BooleanSwitches.Add(new BooleanSwitch()
+            BooleanSwitches.Add(new ValueSwitch()
             {
                 Letter = letter,
-                Word = word,
-                Consume = consume
+                Word = word
             });
+            bool CanConsume(T inst, IIterationInfo info) => info.Current.Raw == $"-{letter}" || info.Current.Raw == $"--{word}";
+
+            IIterationInfo DoConsume(T inst, IIterationInfo info)
+            {
+                consume(inst);
+                return info.Consume(1);
+            }
+
+            DefaultParser.AddParameter(new DefaultParameter<T>(CanConsume, DoConsume));
         }
 
-        public void AddValueSwitch(char letter, string word, Action<object, string> consume)
+        public void AddValueSwitch(char letter, string word, Action<T, string> consume)
         {
             ValueSwitches.Add(new ValueSwitch()
             {
                 Letter = letter,
-                Word = word,
-                Consume = consume
+                Word = word
             });
+
+            bool CanConsume(T inst, IIterationInfo info) => info.Current.Raw == $"-{letter}" || info.Current.Raw == $"--{word}";
+
+            IIterationInfo DoConsume(T inst, IIterationInfo info)
+            {
+                if(info.Next == null)
+                    throw new InvalidOperationException(); // todo
+                consume(inst, info.Next.Raw);
+                return info.Consume(2);
+            }
+
+            DefaultParser.AddParameter(new DefaultParameter<T>(CanConsume, DoConsume));
         }
 
-        public void AddValuesSwitch(char letter, string word, Action<object, string[]> consume, int? min = 1, int? max = int.MaxValue)
+        public void AddValuesStitch(char letter, string word, Action<T, string[]> consume, int min = 1, int max = int.MaxValue)
         {
             ValuesSwitches.Add(new ValuesSwitch()
             {
                 Letter = letter,
                 Word = word,
-                Consume = consume,
-                Min = min,
-                Max = max
+
             });
+
+            bool CanConsume(T inst, IIterationInfo info) => info.Current.Raw == $"-{letter}" || info.Current.Raw == $"--{word}";
+
+            IIterationInfo DoConsume(T inst, IIterationInfo info)
+            {
+                return info.Consume(1); // todo: nonsense
+            }
+
+            DefaultParser.AddParameter(new DefaultParameter<T>(CanConsume, DoConsume));
         }
 
-        public void AddPositional(Action<object, string> consume)
+        public void AddSubCommand<TSub>(string word, GitFlavor<TSub> flavor) where TSub : T
         {
-            Positionals.Add(new Positional()
-            {
-                Consume = consume
-            });
+            flavor.BaseParser = this;
         }
 
-        public void AddValuesSwitch(Action<object, string[]> consume, int? min = 1, int? max = int.MaxValue)
+        public ISet<string> SubCommands { get; set; } = new HashSet<string>();
+
+
+        /// <inheritdoc />
+        public IGenericHelp Help => DefaultParser.Help;
+
+        /// <inheritdoc />
+        public bool CanConsume(object instance, IIterationInfo info)
         {
-            PositionalLists.Add(new PositionalList()
-            {
-                Consume = consume,
-                Min = min,
-                Max = max
-            });
+            return ((DefaultParser)DefaultParser).CanConsume(instance, info);
         }
 
         /// <inheritdoc />
-        public IParseResult Parse(string[] args)
+        public IIterationInfo Consume(object instance, IIterationInfo info)
         {
-            var parserCollector = new ParserCollector();
-            Accept(parserCollector);
-            var facCollector = new FactoryMethodCollector();
-            Accept(facCollector);
-            var strat = new DefaultParseStrategy(facCollector.Funcs);
-            return strat.Parse(parserCollector.Parsers, args);
+            return ((DefaultParser) DefaultParser).Consume(instance, info);
         }
-    }
-
-    public class FactoryMethodCollector : IGitFlavorVisitor
-    {
-        public List<Func<object>> Funcs { get; set; }
 
         /// <inheritdoc />
-        public void Visit(GitFlavor flavor)
+        public IParser BaseParser
         {
-            Funcs.Add(flavor.InstanceFactory);
-            foreach (var sub in flavor.SubCommands)
+            get => DefaultParser.BaseParser;
+            set => DefaultParser.BaseParser = value;
+        }
+
+        /// <inheritdoc />
+        public bool CanConsume<TSub>(TSub instance, IIterationInfo info) where TSub : T
+        {
+            return DefaultParser.CanConsume(instance, info);
+        }
+
+        /// <inheritdoc />
+        public IIterationInfo Consume<TSub>(TSub instance, IIterationInfo info) where TSub : T
+        {
+            return DefaultParser.Consume(instance, info);
+        }
+
+        /// <inheritdoc />
+        public IParseResult Parse(IEnumerable<IParser<T>> parsers, string[] args)
+        {
+            return ParseStrat.Parse(parsers, args);
+        }
+
+        /// <inheritdoc />
+        public IParseResult Parse(IEnumerable<IParser> parsers, string[] args)
+        {
+            return ParseStrat.Parse(parsers, args);
+        }
+
+        /// <inheritdoc />
+        IEnumerable<GitToken> ILexer<GitToken>.Lex(string[] args)
+        {
+            if (args == null || !args.Any())
+                yield break;
+            var booleanLetters = BooleanSwitches.Select(x => x.Letter.ToString()).Join("");
+            var switchLetters = ValueSwitches.Select(x => x.Letter.ToString()).Join("");
+            var switchesLetters = ValuesSwitches.Select(x => x.ToString()).Join("");
+
+            var groupRegex = new Regex($@"^-(?<b>[{booleanLetters}])+(?<v>[{switchLetters + switchesLetters}])?$");
+
+            for (int i = 0; i < args.Length; i++)
             {
-                sub.GitFlavor.Accept(this);
+                var arg = args[i];
+                if (i == 0 && SubCommands.Contains(arg))
+                {
+                    yield return new GitToken()
+                    {
+                        IsSubCommand = true,
+                        Raw = arg
+                    };
+                    continue;
+                }
+
+                var firstBool = BooleanSwitches
+                    .Concat(ValueSwitches)
+                    .Concat(ValuesSwitches)
+                    .FirstOrDefault(s => arg == $"-{s.Letter}");
+
+                if (firstBool != null)
+                {
+                    yield return new GitToken()
+                    {
+                        Raw = arg,
+                        IsSwitch = true,
+                    };
+                    continue;
+                }
+                
+                var groupMatch = groupRegex.Match(arg);
+                if (groupMatch.Success)
+                {
+                    var booleans = groupMatch.Groups["b"].Value;
+                    var other = groupMatch.Groups["v"].Success ? groupMatch.Groups["v"].Value : "";
+                    foreach (var c in booleans)
+                    {
+                        yield return new GitToken()
+                        {
+                            Raw = $"-{c}",
+                            IsSwitch = true
+                        };
+                    }
+
+                    foreach (var c in other)
+                    {
+                        yield return new GitToken()
+                        {
+                            Raw = $"-{c}",
+                            IsSwitch = true
+                        };
+                    }
+                    continue;
+                }
             }
         }
-    }
-
-    public class ParserCollector : IGitFlavorVisitor
-    {
-        public List<IParser> Parsers { get; set; } = new List<IParser>();
 
         /// <inheritdoc />
-        public void Visit(GitFlavor flavor)
+        IEnumerable<IToken> ILexer.Lex(string[] args)
         {
-            Parsers.Add(flavor.DefaultParser);
-            foreach (var sub in flavor.SubCommands)
-            {
-                sub.GitFlavor.Accept(this);
-            }
+            throw new NotImplementedException();
         }
     }
 }
