@@ -2,38 +2,96 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>C:\projects\arg-parser\ArgParser\ArgParser.Core\DefaultParseResult.cs</title>
+    <title>C:\projects\arg-parser\ArgParser\ArgParser.Core\DefaultParser.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
+// ***********************************************************************
+// Assembly         : ArgParser.Core
+// Author           : @tysmithnet
+// Created          : 10-20-2018
+//
+// Last Modified By : @tysmithnet
+// Last Modified On : 10-21-2018
+// ***********************************************************************
+// &lt;copyright file=&quot;DefaultParser.cs&quot; company=&quot;ArgParser.Core&quot;&gt;
+//     Copyright (c) . All rights reserved.
+// &lt;/copyright&gt;
+// &lt;summary&gt;&lt;/summary&gt;
+// ***********************************************************************
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ArgParser.Core.Help;
 
 namespace ArgParser.Core
 {
-    public class DefaultParseResult : IParseResult
+    public class DefaultParser&lt;T&gt; : DefaultParser, IParser&lt;T&gt;, IParameterContainer&lt;T&gt;
     {
-        /// &lt;inheritdoc /&gt;
-        public DefaultParseResult(IList&lt;object&gt; parsedInstances)
+        public virtual void AddParameter(IParameter&lt;T&gt; parameter, IGenericHelp help = null)
         {
-            ParsedInstances = parsedInstances ?? throw new ArgumentNullException(nameof(parsedInstances));
+            base.AddParameter(parameter, help);
         }
 
-        /// &lt;inheritdoc /&gt;
-        public void When&lt;T&gt;(Action&lt;T&gt; handler)
+        public virtual bool CanConsume&lt;TSub&gt;(TSub instance, IIterationInfo info) where TSub : T =&gt;
+            base.CanConsume(instance, info);
+
+        public virtual IIterationInfo Consume&lt;TSub&gt;(TSub instance, IIterationInfo info) where TSub : T =&gt;
+            base.Consume(instance, info);
+    }
+
+    public class DefaultParser : IParser, IParameterContainer
+    {
+        public virtual void AddHelp(IGenericHelp help)
         {
-            foreach (var parsedInstance in ParsedInstances.OfType&lt;T&gt;()) handler(parsedInstance);
+            Help = help;
+            HelpBuilder.AddGenericHelp(help);
         }
 
-        public IList&lt;object&gt; ParsedInstances { get; set; }
+        public virtual void AddParameter(IParameter parameter, IGenericHelp help = null)
+        {
+            Parameters.Add(parameter);
+            if (help == null)
+                return;
+            HelpBuilder.AddParameter(help.Name,
+                help.Examples?.SelectMany(e =&gt; e?.Usage).Where(x =&gt; !x.IsNullOrWhiteSpace()).ToArray(),
+                help.ShortDescription);
+        }
+
+        public virtual bool CanConsume(object instance, IIterationInfo info)
+        {
+            var canSelf = Parameters
+                .Any(p =&gt; p.CanConsume(instance, info));
+            var canBase = BaseParser?.CanConsume(instance, info) ?? false;
+            return canSelf || canBase;
+        }
+
+        public virtual IIterationInfo Consume(object instance, IIterationInfo info)
+        {
+            var first = Parameters.FirstOrDefault(p =&gt; p.CanConsume(instance, info));
+            var result = first?.Consume(instance, info) ?? BaseParser?.Consume(instance, info);
+            if (result == null)
+                throw new InvalidOperationException(
+                    $&quot;CanConsume determined that instance: {instance}, could be consumed, but failed during consumption&quot;);
+            return result;
+        }
+
+        public IParser BaseParser { get; set; }
+
+        /// &lt;inheritdoc /&gt;
+        public IGenericHelp Help { get; protected internal set; }
+
+        public DefaultHelpBuilder HelpBuilder { get; set; } = new DefaultHelpBuilder();
+
+        public IList&lt;IParameter&gt; Parameters { get; set; } = new List&lt;IParameter&gt;();
     }
 }
     </pre>
     <script type="text/javascript">
-      highlightRanges([[10,9,10,65,1],[11,9,11,10,1],[12,13,12,107,1],[13,9,13,10,1],[17,9,17,10,1],[18,13,18,20,1],[18,22,18,40,1],[18,41,18,43,1],[18,44,18,71,1],[18,73,18,97,1],[19,9,19,10,1]]);
+      highlightRanges([[25,9,25,10,1],[26,13,26,48,1],[27,9,27,10,1],[30,13,30,44,1],[33,13,33,41,1],[39,9,39,10,1],[40,13,40,25,1],[41,13,41,46,1],[42,9,42,10,1],[45,9,45,10,1],[46,13,46,39,1],[47,13,47,30,1],[48,17,48,24,1],[49,13,50,48,1],[50,48,50,56,1],[50,56,50,69,1],[50,69,50,92,1],[50,92,51,40,1],[49,13,51,40,1],[52,9,52,10,1],[55,9,55,10,1],[56,13,57,27,1],[57,27,57,55,1],[57,55,57,57,1],[56,13,57,57,1],[58,13,58,75,1],[59,13,59,39,1],[60,9,60,10,1],[63,9,63,10,1],[64,13,64,56,1],[64,56,64,84,1],[64,84,64,86,1],[64,13,64,86,1],[65,13,65,96,1],[66,13,66,32,1],[67,17,68,123,1],[69,13,69,27,1],[70,9,70,10,1],[77,63,77,87,1],[79,61,79,83,1]]);
     </script>
   </body>
 </html>

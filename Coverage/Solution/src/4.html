@@ -22,6 +22,7 @@
 // &lt;summary&gt;&lt;/summary&gt;
 // ***********************************************************************
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -41,13 +42,29 @@ namespace ArgParser.Core
         /// &lt;inheritdoc /&gt;
         public IEnumerable&lt;IToken&gt; Lex(string[] args)
         {
-            return args?.Select(a =&gt; new Token(a)).ToList().PreventNull();
+            return args?.Select(a =&gt; new DefaultToken(a)).ToList().PreventNull();
+        }
+    }
+
+    public class DefaultLexer&lt;T&gt; : DefaultLexer, ILexer&lt;T&gt; where T : IToken
+    {
+        public Func&lt;string, T&gt; FactoryFunc { get; set; }
+
+        /// &lt;inheritdoc /&gt;
+        public DefaultLexer(Func&lt;string, T&gt; factoryFunc)
+        {
+            FactoryFunc = factoryFunc ?? throw new ArgumentNullException(nameof(factoryFunc));
+        }
+
+        public new IEnumerable&lt;T&gt; Lex(string[] args)
+        {
+            return args?.Select(x =&gt; FactoryFunc(x)).PreventNull();
         }
     }
 }
     </pre>
     <script type="text/javascript">
-      highlightRanges([[33,9,33,10,1],[34,13,34,38,1],[34,38,34,50,1],[34,50,34,75,1],[34,13,34,75,1],[35,9,35,10,1]]);
+      highlightRanges([[34,9,34,10,1],[35,13,35,38,1],[35,38,35,57,1],[35,57,35,82,1],[35,13,35,82,1],[36,9,36,10,1],[44,9,44,57,1],[45,9,45,10,1],[46,13,46,95,1],[47,9,47,10,1],[50,9,50,10,1],[51,13,51,38,1],[51,38,51,52,1],[51,52,51,68,1],[51,13,51,68,1],[52,9,52,10,1]]);
     </script>
   </body>
 </html>
