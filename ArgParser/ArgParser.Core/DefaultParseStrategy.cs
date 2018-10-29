@@ -44,11 +44,14 @@ namespace ArgParser.Core
         protected virtual List<object> ParseInstances(IEnumerable<IParser> parsers, string[] args)
         {
             var results = new List<object>();
-            foreach (var parser in parsers)
+            var list = parsers.ToList();
             foreach (var factoryFunction in FactoryFunctions)
+            foreach (var parser in list)
             {
                 var info = IterationInfoFactory.Create(args);
                 var instance = factoryFunction();
+                if (results.Any(r => r.GetType() == instance.GetType()))
+                    continue;
                 var hasFailed = false;
                 var last = 0;
                 while (!hasFailed && !info.IsComplete && parser.CanConsume(instance, info))

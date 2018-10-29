@@ -105,11 +105,10 @@ namespace ArgParser.Flavors.Test
             result.When<CommitOptions>(options =>
             {
                 commitParsedCount++;
-                options.IsAddAll.Should().BeTrue();
                 options.CurrentWorkingPaths.Should().BeEquivalentTo(new[] { "path1", "path2" });
-
+                options.Message.Should().Be("something");
             });
-            optionsParsedCount.Should().Be(0);
+            optionsParsedCount.Should().Be(1);
             commitParsedCount.Should().Be(1);
         }
     }

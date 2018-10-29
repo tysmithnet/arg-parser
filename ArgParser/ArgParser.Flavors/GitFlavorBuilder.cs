@@ -157,15 +157,22 @@ namespace ArgParser.Flavors
         public bool CanConsume(object instance, IIterationInfo info)
         {
             if (info.Index == 0 && _flavor.SubCommands.ContainsKey(info.Current.Raw)) return true;
-
-            return DefaultParser.CanConsume(instance, info);
+            var canSelf = DefaultParser.CanConsume(instance, info);
+            var canBase = _flavor.BaseFlavor?.Parser.CanConsume(instance, info) ?? false;
+            return canSelf || canBase;
         }
 
         /// <inheritdoc />
         public IIterationInfo Consume(object instance, IIterationInfo info)
         {
             if (info.Index == 0 && _flavor.SubCommands.ContainsKey(info.Current.Raw)) return info.Consume(1);
-            return DefaultParser.Consume(instance, info);
+            var canSelf = DefaultParser.CanConsume(instance, info);
+            if (canSelf)
+                return DefaultParser.Consume(instance, info);
+            var canBase = _flavor.BaseFlavor?.Parser.CanConsume(instance, info) ?? false;
+            if (canBase)
+                return _flavor.BaseFlavor.Parser.Consume(instance, info);
+            throw new InvalidOperationException(""); // todo: fix
         }
 
         /// <inheritdoc />
@@ -215,6 +222,8 @@ namespace ArgParser.Flavors
 
     public class GitFlavor
     {
+        public GitParser Parser { get; set; }
+
         public void AddBooleanSwitch(char letter, string word, Action<object> consume)
         {
             Switches.Add(new BooleanSwitch
@@ -256,14 +265,20 @@ namespace ArgParser.Flavors
             });
         }
 
+        /// <inheritdoc />
+        public GitFlavor()
+        {
+            Parser = new GitParser(this);
+        }
+
         public IEnumerable<IParser> GetParsers()
         {
-            var parser = new GitParser(this);
-            foreach (var @switch in Switches) parser.AddParameter(@switch);
-            foreach (var positional in Positionals) parser.AddParameter(positional);
+            
+            foreach (var @switch in Switches) Parser.AddParameter(@switch);
+            foreach (var positional in Positionals) Parser.AddParameter(positional);
 
             var others = SubCommands.Values.SelectMany(x => x.GetParsers());
-            return new[] {parser}.Concat(others);
+            return new[] { Parser }.Concat(others);
         }
 
         public IParseResult Parse(string[] args)
