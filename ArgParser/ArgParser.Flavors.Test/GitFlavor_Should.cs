@@ -13,6 +13,7 @@ namespace ArgParser.Flavors.Test
     {
         public bool IsHelpRequested { get; set; }
         public bool IsVersionRequested { get; set; }
+        public List<string> CurrentWorkingPaths { get; set; } = new List<string>();
     }
 
     public class CommitOptions : GitOptions
@@ -26,11 +27,11 @@ namespace ArgParser.Flavors.Test
     public class GitFlavor_Should
     {
         [Fact]
-        public void Parse_Non_Generic_Values()
+        public void Parse_Boolean_Switches_In_A_Hierarchy()
         {
             // arrange
             var git = new GitFlavor();
-            git.AddValueSwitch('h', "help", (o, strings) =>
+            git.AddBooleanSwitch('h', "help", o =>
             {
                 if (o is GitOptions go)
                 {
@@ -54,20 +55,62 @@ namespace ArgParser.Flavors.Test
             var result = git.Parse("commit -a -h".Split(' '));
 
             // assert
-            bool isOptionsParsed = false;
-            bool isCommitParsed = false;
+            int optionsParsedCount = 0;
+            int commitParsedCount = 0;
             result.When<GitOptions>(options =>
             {
-                isOptionsParsed = true;
+                optionsParsedCount++;
                 options.IsHelpRequested.Should().BeTrue();
             });
             result.When<CommitOptions>(options =>
             {
-                isCommitParsed = true;
+                commitParsedCount++;
                 options.IsAddAll.Should().BeTrue();
             });
-            isOptionsParsed.Should().BeTrue();
-            isCommitParsed.Should().BeTrue();
+            optionsParsedCount.Should().Be(1);
+            commitParsedCount.Should().Be(1);
+        }
+
+        [Fact]
+        public void Parse_Switches_In_A_Hierarchy()
+        {
+            // arrange
+            var git = new GitFlavor();
+            git.AddSingleValueSwitch('C', null, (o, s) =>
+            {
+                if(o is GitOptions casted)
+                    casted.CurrentWorkingPaths.Add(s);
+            });
+
+            var commit = new GitFlavor();
+            commit.AddSingleValueSwitch('m', "message", (o, s) =>
+            {
+                if (o is CommitOptions casted)
+                    casted.Message = s;
+            });
+
+            git.AddSubCommand("commit", commit);
+            git.AddFactoryMethods(() => new GitOptions(), () => new CommitOptions());
+
+            // act
+            var result = git.Parse("commit -C path1 -C path2 -m something".Split(' '));
+
+            // assert
+            int optionsParsedCount = 0;
+            int commitParsedCount = 0;
+            result.When<GitOptions>(options =>
+            {
+                optionsParsedCount++;
+            });
+            result.When<CommitOptions>(options =>
+            {
+                commitParsedCount++;
+                options.IsAddAll.Should().BeTrue();
+                options.CurrentWorkingPaths.Should().BeEquivalentTo(new[] { "path1", "path2" });
+
+            });
+            optionsParsedCount.Should().Be(0);
+            commitParsedCount.Should().Be(1);
         }
     }
 }

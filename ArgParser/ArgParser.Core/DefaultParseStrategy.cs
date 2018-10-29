@@ -32,6 +32,17 @@ namespace ArgParser.Core
         /// <inheritdoc />
         public virtual IParseResult Parse(IEnumerable<IParser> parsers, string[] args)
         {
+            var results = ParseInstances(parsers, args);
+            return CreateParseResult(results);
+        }
+
+        protected virtual IParseResult CreateParseResult(List<object> results)
+        {
+            return new DefaultParseResult(results);
+        }
+
+        protected virtual List<object> ParseInstances(IEnumerable<IParser> parsers, string[] args)
+        {
             var results = new List<object>();
             foreach (var parser in parsers)
             foreach (var factoryFunction in FactoryFunctions)
@@ -52,7 +63,7 @@ namespace ArgParser.Core
                 if (!hasFailed && info.IsComplete && passedValidation) results.Add(instance);
             }
 
-            return new DefaultParseResult(results);
+            return results;
         }
 
         public IList<Func<object>> FactoryFunctions { get; set; } = new List<Func<object>>();

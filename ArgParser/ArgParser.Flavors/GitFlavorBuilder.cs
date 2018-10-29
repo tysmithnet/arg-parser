@@ -181,6 +181,38 @@ namespace ArgParser.Flavors
         public IGenericHelp Help => DefaultParser.Help;
     }
 
+    public class GitParseResult : IParseResult
+    {
+        /// <inheritdoc />
+        public GitParseResult(IList<object> parsedInstances)
+        {
+            ParsedInstances = parsedInstances ?? throw new ArgumentNullException(nameof(parsedInstances));
+        }
+
+        /// <inheritdoc />
+        public void When<T>(Action<T> handler)
+        {
+            foreach (var parsedInstance in ParsedInstances.Where(x => x.GetType() == typeof(T)).OfType<T>())
+                handler(parsedInstance);
+        }
+
+        public IList<object> ParsedInstances { get; set; }
+    }
+
+    public class GitParseStrategy : DefaultParseStrategy
+    {
+        public GitParseStrategy(List<Func<object>> factoryMethods) : base(factoryMethods)
+        {
+            
+        }
+
+        /// <inheritdoc />
+        protected override IParseResult CreateParseResult(List<object> results)
+        {
+            return new GitParseResult(results);
+        }
+    }
+
     public class GitFlavor
     {
         public void AddBooleanSwitch(char letter, string word, Action<object> consume)
@@ -236,7 +268,7 @@ namespace ArgParser.Flavors
 
         public IParseResult Parse(string[] args)
         {
-            var strat = new DefaultParseStrategy(FactoryMethods);
+            var strat = new GitParseStrategy(FactoryMethods);
             return strat.Parse(GetParsers(), args);
         }
 
