@@ -26,15 +26,11 @@ namespace ArgParser.Core
             base.AddParameter(parameter, help);
         }
 
-        public virtual bool CanConsume<TSub>(TSub instance, IIterationInfo info) where TSub : T
-        {
-            return base.CanConsume(instance, info);
-        }
+        public virtual bool CanConsume<TSub>(TSub instance, IIterationInfo info) where TSub : T =>
+            base.CanConsume(instance, info);
 
-        public virtual IIterationInfo Consume<TSub>(TSub instance, IIterationInfo info) where TSub : T
-        {
-            return base.Consume(instance, info);
-        }
+        public virtual IIterationInfo Consume<TSub>(TSub instance, IIterationInfo info) where TSub : T =>
+            base.Consume(instance, info);
     }
 
     public class DefaultParser : IParser, IParameterContainer
@@ -61,7 +57,6 @@ namespace ArgParser.Core
                    (BaseParser?.CanConsume(instance, info) ?? false);
         }
 
-
         public virtual IIterationInfo Consume(object instance, IIterationInfo info)
         {
             var first = Parameters.FirstOrDefault(p => p.CanConsume(instance, info));
@@ -71,7 +66,7 @@ namespace ArgParser.Core
                     $"CanConsume determined that instance: {instance}, could be consumed, but failed during consumption");
             return result;
         }
-        
+
         public IParser BaseParser { get; set; }
 
         /// <inheritdoc />

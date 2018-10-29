@@ -55,7 +55,7 @@ namespace ArgParser.Core
             return new DefaultParseResult(results);
         }
 
-        public virtual IList<Func<object>> FactoryFunctions { get; set; } = new List<Func<object>>();
+        public IList<Func<object>> FactoryFunctions { get; set; } = new List<Func<object>>();
         public virtual IIterationInfoFactory IterationInfoFactory { get; set; } = new DefaultIterationInfoFactory();
         public virtual IList<IValidator> Validators { get; set; } = new List<IValidator>();
     }

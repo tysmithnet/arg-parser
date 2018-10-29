@@ -26,32 +26,48 @@ namespace ArgParser.Flavors.Test
     public class GitFlavor_Should
     {
         [Fact]
-        public void Lex_Tokens_Correctly()
+        public void Parse_Non_Generic_Values()
         {
             // arrange
-            var git = new GitFlavor<GitOptions>();
-            git.AddBooleanParameter('h', "help", options => options.IsHelpRequested = true);
-
-            var commit = new GitFlavor<CommitOptions>();
-            commit.AddBooleanParameter('a', "all", options => options.IsAddAll = true);
-            commit.AddValueSwitch('m', "message", (options, s) => options.Message = s);
+            var git = new GitFlavor();
+            git.AddValueSwitch('h', "help", (o, strings) =>
+            {
+                if (o is GitOptions go)
+                {
+                    go.IsHelpRequested = true;
+                }
+            });
             
+            var commit = new GitFlavor();
+            git.AddBooleanSwitch('a', "all", o =>
+            {
+                if (o is CommitOptions co)
+                {
+                    co.IsAddAll = true;
+                }
+            });
+
             git.AddSubCommand("commit", commit);
             git.AddFactoryMethods(() => new GitOptions(), () => new CommitOptions());
 
             // act
-            var tokens = git.Lex("commit -am something".Split(' ')).ToArray();
+            var result = git.Parse("commit -a -h".Split(' '));
 
             // assert
-            tokens[0].IsSubCommand.Should().BeTrue();
-            tokens[0].Raw.Should().Be("commit");
-            tokens[1].IsSwitch.Should().BeTrue();
-            tokens[1].Raw.Should().Be("-a");
-            tokens[2].IsSwitch.Should().BeTrue();
-            tokens[2].Raw.Should().Be("-m");
-            tokens[3].IsSwitch.Should().BeFalse();
-            tokens[3].IsSubCommand.Should().BeFalse();
-            tokens[3].Raw.Should().Be("something");
+            bool isOptionsParsed = false;
+            bool isCommitParsed = false;
+            result.When<GitOptions>(options =>
+            {
+                isOptionsParsed = true;
+                options.IsHelpRequested.Should().BeTrue();
+            });
+            result.When<CommitOptions>(options =>
+            {
+                isCommitParsed = true;
+                options.IsAddAll.Should().BeTrue();
+            });
+            isOptionsParsed.Should().BeTrue();
+            isCommitParsed.Should().BeTrue();
         }
     }
 }
