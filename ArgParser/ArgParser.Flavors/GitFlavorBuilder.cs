@@ -36,8 +36,19 @@ namespace ArgParser.Flavors
         public int Max { get; set; }
     }
 
-    public class GitFlavor<T> : IParser<T>, IParseStrategy<T>, ILexer<GitToken>
+    public interface IGitLexer : ILexer<GitToken>
     {
+        IEnumerable<char> BooleanLetters { get; }
+        IEnumerable<char> SwitchLetters { get; }
+    }
+
+    public class GitFlavor<T> : IParser<T>, IParseStrategy<T>, IGitLexer
+    {
+        public IEnumerable<char> BooleanLetters => BooleanSwitches.Select(x => x.Letter).Concat(SubLexers.SelectMany(x => x.BooleanLetters));
+
+        /// <inheritdoc />
+        public IEnumerable<char> SwitchLetters => ValueSwitches.Concat(ValuesSwitches).Select(x => x.Letter).Concat(SubLexers.SelectMany(x => x.SwitchLetters));
+
         public List<ValueSwitch> BooleanSwitches { get; set; } = new List<ValueSwitch>();
         public List<ValueSwitch> ValueSwitches { get; set; } = new List<ValueSwitch>();
         public List<ValuesSwitch> ValuesSwitches { get; set; } = new List<ValuesSwitch>();
@@ -45,10 +56,11 @@ namespace ArgParser.Flavors
         public DefaultParser<T> DefaultParser = new DefaultParser<T>();
         public DefaultParseStrategy<T> ParseStrat = new DefaultParseStrategy<T>();
         public List<Func<T>> FactoryMethods { get; set; } = new List<Func<T>>();
-
+        public IList<IParser> Parsers { get; set; } = new List<IParser>();
+        public IList<IGitLexer> SubLexers { get; set; } = new List<IGitLexer>();
         public IParseResult Parse(string[] args)
         {
-            
+            return ParseStrat.Parse(Parsers, args);
         }
 
         public void AddFactoryMethods(params Func<T>[] funcs)
@@ -117,6 +129,8 @@ namespace ArgParser.Flavors
         public void AddSubCommand<TSub>(string word, GitFlavor<TSub> flavor) where TSub : T
         {
             flavor.BaseParser = this;
+            Parsers.Add(flavor);
+            SubLexers.Add(flavor);
         }
 
         public ISet<string> SubCommands { get; set; } = new HashSet<string>();
@@ -169,7 +183,7 @@ namespace ArgParser.Flavors
         }
 
         /// <inheritdoc />
-        IEnumerable<GitToken> ILexer<GitToken>.Lex(string[] args)
+        public IEnumerable<GitToken> Lex(string[] args)
         {
             if (args == null || !args.Any())
                 yield break;
@@ -177,7 +191,11 @@ namespace ArgParser.Flavors
             var switchLetters = ValueSwitches.Select(x => x.Letter.ToString()).Join("");
             var switchesLetters = ValuesSwitches.Select(x => x.ToString()).Join("");
 
-            var groupRegex = new Regex($@"^-(?<b>[{booleanLetters}])+(?<v>[{switchLetters + switchesLetters}])?$");
+            var frmtStr = $@"^-(?<b>[{booleanLetters}])+";
+            if((switchLetters + switchesLetters).Length > 0)
+                frmtStr += $@"(?<v>[{switchLetters + switchesLetters}])?";
+            frmtStr += "$";
+            var groupRegex = new Regex(frmtStr);
 
             for (int i = 0; i < args.Length; i++)
             {
@@ -234,10 +252,5 @@ namespace ArgParser.Flavors
             }
         }
 
-        /// <inheritdoc />
-        IEnumerable<IToken> ILexer.Lex(string[] args)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

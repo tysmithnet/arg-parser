@@ -40,9 +40,18 @@ namespace ArgParser.Flavors.Test
             git.AddFactoryMethods(() => new GitOptions(), () => new CommitOptions());
 
             // act
-            
+            var tokens = git.Lex("commit -am something".Split(' ')).ToArray();
 
             // assert
+            tokens[0].IsSubCommand.Should().BeTrue();
+            tokens[0].Raw.Should().Be("commit");
+            tokens[1].IsSwitch.Should().BeTrue();
+            tokens[1].Raw.Should().Be("-a");
+            tokens[2].IsSwitch.Should().BeTrue();
+            tokens[2].Raw.Should().Be("-m");
+            tokens[3].IsSwitch.Should().BeFalse();
+            tokens[3].IsSubCommand.Should().BeFalse();
+            tokens[3].Raw.Should().Be("something");
         }
     }
 }
