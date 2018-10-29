@@ -131,7 +131,7 @@ namespace ArgParser.Core.Test
 
             // act
             var result = strat.Parse(new IParser[] { parentParser, childParser, grandChildParser },
-                "--help thing=duke --special corgi".Split(' '));
+                "--special corgi thing=duke --help".Split(' '));
 
             // assert
             var baseParsed = 0;

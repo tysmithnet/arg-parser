@@ -53,8 +53,10 @@ namespace ArgParser.Core
 
         public virtual bool CanConsume(object instance, IIterationInfo info)
         {
-            return Parameters.Any(p => p.CanConsume(instance, info)) ||
-                   (BaseParser?.CanConsume(instance, info) ?? false);
+            var canSelf = Parameters
+                .Any(p => p.CanConsume(instance, info));
+            var canBase = BaseParser?.CanConsume(instance, info) ?? false;
+            return canSelf || canBase;
         }
 
         public virtual IIterationInfo Consume(object instance, IIterationInfo info)
