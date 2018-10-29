@@ -70,19 +70,17 @@ namespace ArgParser.Core.Test
         {
             // arrange
             var parser = new DefaultParser<BaseOptions>();
-            parser.AddParameter(new Parameter<BaseOptions>
-            {
-                CanConsume = (instance, info) => info.Current.Raw == "-h" || info.Current.Raw == "--help",
-                Consume = (instance, info) =>
+            parser.AddParameter(new DefaultParameter<BaseOptions>(
+                (instance, info) => info.Current.Raw == "-h" || info.Current.Raw == "--help",
+                (instance, info) =>
                 {
                     instance.HelpRequested = true;
                     return info.Consume(-1);
-                }
-            });
-            var strat = new DefaultParseStrategy(new Func<object>[] {() => new BaseOptions()});
+                }));
+            var strat = new DefaultParseStrategy(new Func<object>[] { () => new BaseOptions() });
 
             // act
-            var result = strat.Parse(new[] {parser}, "--help".Split(' '));
+            var result = strat.Parse(new[] { parser }, "--help".Split(' '));
 
             // assert
             var isParsed = false;
@@ -99,37 +97,32 @@ namespace ArgParser.Core.Test
         {
             // arrange
             var parentParser = new DefaultParser<BaseOptions>();
-            parentParser.AddParameter(new Parameter<BaseOptions>
-            {
-                CanConsume = (instance, info) => info.Current.Raw == "-h" || info.Current.Raw == "--help",
-                Consume = (instance, info) =>
+            parentParser.AddParameter(new DefaultParameter<BaseOptions>(
+                (instance, info) => info.Current.Raw == "-h" || info.Current.Raw == "--help",
+                (instance, info) =>
                 {
                     instance.HelpRequested = true;
                     return info.Consume(1);
-                }
-            });
+                }));
 
             var childParser = new DefaultParser<ChildOptions>();
-            childParser.AddParameter(new Parameter<ChildOptions>
-            {
-                CanConsume = (instance, info) => info.Current.Raw.StartsWith("thing="),
-                Consume = (instance, info) =>
+            childParser.AddParameter(new DefaultParameter<ChildOptions>(
+                (instance, info) => info.Current.Raw.StartsWith("thing="),
+                (instance, info) =>
                 {
                     instance.Thing = info.Current.Raw.Substring("thing=".Length);
                     return info.Consume(1);
-                }
-            });
+                }));
 
             var grandChildParser = new DefaultParser<GrandChildOptions>();
-            grandChildParser.AddParameter(new Parameter<GrandChildOptions>
-            {
-                CanConsume = (instance, info) => info.Current.Raw == "--special" && info.Next != null,
-                Consume = (instance, info) =>
+            grandChildParser.AddParameter(new DefaultParameter<GrandChildOptions>(
+                (instance, info) => info.Current.Raw == "--special" && info.Next != null,
+                (instance, info) =>
                 {
                     instance.SpecialThing = info.Next.Raw;
                     return info.Consume(2);
-                }
-            });
+                }));
+
             grandChildParser.BaseParser = childParser;
             childParser.BaseParser = parentParser;
 
@@ -137,8 +130,8 @@ namespace ArgParser.Core.Test
                 {() => new BaseOptions(), () => new ChildOptions(), () => new GrandChildOptions()});
 
             // act
-            var result = strat.Parse(new IParser[] {parentParser, childParser, grandChildParser},
-                "--help thing=duke --special corgi".Split(' '));
+            var result = strat.Parse(new IParser[] { parentParser, childParser, grandChildParser },
+                "--special corgi thing=duke --help".Split(' '));
 
             // assert
             var baseParsed = 0;
@@ -172,19 +165,17 @@ namespace ArgParser.Core.Test
         {
             // arrange
             var parser = new DefaultParser<BaseOptions>();
-            parser.AddParameter(new Parameter<BaseOptions>
-            {
-                CanConsume = (instance, info) => info.Current.Raw == "-h" || info.Current.Raw == "--help",
-                Consume = (instance, info) =>
+            parser.AddParameter(new DefaultParameter<BaseOptions>(
+                (instance, info) => info.Current.Raw == "-h" || info.Current.Raw == "--help",
+                (instance, info) =>
                 {
                     instance.HelpRequested = true;
                     return info.Consume(1);
-                }
-            });
-            var strat = new DefaultParseStrategy(new Func<object>[] {() => new BaseOptions()});
+                }));
+            var strat = new DefaultParseStrategy<BaseOptions>(new Func<BaseOptions>[] { () => new BaseOptions() });
 
             // act
-            var result = strat.Parse(new[] {parser}, "--help".Split(' '));
+            var result = strat.Parse(new[] { parser }, "--help".Split(' '));
 
             // assert
             var isParsed = false;
@@ -201,16 +192,14 @@ namespace ArgParser.Core.Test
         {
             // arrange
             var parser = new DefaultParser<BaseOptions>();
-            parser.AddParameter(new Parameter<BaseOptions>
-            {
-                CanConsume = (instance, info) => info.Current.Raw == "-h" || info.Current.Raw == "--help",
-                Consume = (instance, info) =>
+            parser.AddParameter(new DefaultParameter<BaseOptions>(
+                (instance, info) => info.Current.Raw == "-h" || info.Current.Raw == "--help",
+                (instance, info) =>
                 {
                     instance.HelpRequested = true;
                     return info.Consume(1);
-                }
-            });
-            var strat = new DefaultParseStrategy(new Func<object>[] {() => new BaseOptions()})
+                }));
+            var strat = new DefaultParseStrategy(new Func<object>[] { () => new BaseOptions() })
             {
                 Validators = new List<IValidator>
                 {
@@ -218,7 +207,7 @@ namespace ArgParser.Core.Test
                 }
             };
             // act
-            var result = strat.Parse(new[] {parser}, "--help".Split(' '));
+            var result = strat.Parse(new[] { parser }, "--help".Split(' '));
 
             // assert
             var isParsed = false;

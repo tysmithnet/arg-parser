@@ -12,6 +12,8 @@
 // <summary></summary>
 // ***********************************************************************
 
+using System;
+using System.Collections.Generic;
 using ArgParser.Core.Help;
 
 namespace ArgParser.Core
@@ -20,6 +22,7 @@ namespace ArgParser.Core
     {
         bool CanConsume(object instance, IIterationInfo info);
         IIterationInfo Consume(object instance, IIterationInfo info);
+        IParser BaseParser { get; }
     }
 
     /// <summary>
@@ -45,7 +48,5 @@ namespace ArgParser.Core
         /// <param name="info">The information.</param>
         /// <returns>IIterationInfo.</returns>
         IIterationInfo Consume<TSub>(TSub instance, IIterationInfo info) where TSub : T;
-
-        IParser BaseParser { get; }
     }
 }

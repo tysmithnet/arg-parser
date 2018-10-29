@@ -80,17 +80,17 @@ namespace ArgParser.Core.Test
             childParser.BaseParser = baseParser;
             grandChildParser.BaseParser = childParser;
             var args = new[] {"-d", "-t", "zip", "-s"};
-            var tokens = args.Select(x => new Token(x)).ToArray();
+            var tokens = args.Select(x => new DefaultToken(x)).ToArray();
             IIterationInfo curInfo = CreateInfo(args, tokens);
-            baseParser.AddParameter(new Parameter<BaseOptions>
-            {
-                CanConsume = (instance, info) => info.Current.Raw == "-d",
-                Consume = (instance, info) =>
+            baseParser.AddParameter(new DefaultParameter<BaseOptions>
+            (
+                (instance, info) => info.Current.Raw == "-d",
+                (instance, info) =>
                 {
                     instance.DryRun = true;
                     return info.Consume(1);
                 }
-            }, new GenericHelp
+            ), new GenericHelp
             {
                 Name = "Dry Run",
                 ShortDescription = "Don't actually do anything, just output what would be done",
@@ -105,25 +105,19 @@ namespace ArgParser.Core.Test
                 }
             });
 
-            childParser.AddParameter(new Parameter<CompressOptions>
-            {
-                CanConsume = (instance, info) => info.Current.Raw == "-t",
-                Consume = (instance, info) =>
+            childParser.AddParameter(new DefaultParameter<CompressOptions>((instance, info) => info.Current.Raw == "-t",
+                (instance, info) =>
                 {
                     instance.CompressionType = info.Next?.Raw;
                     return info.Next != null ? info.Consume(2) : info.Consume(1);
-                }
-            });
+                }));
 
-            grandChildParser.AddParameter(new Parameter<SpecialCompressOptions>
-            {
-                CanConsume = (instance, info) => info.Current.Raw == "-s",
-                Consume = (instance, info) =>
+            grandChildParser.AddParameter(new DefaultParameter<SpecialCompressOptions>((instance, info) => info.Current.Raw == "-s",
+                (instance, info) =>
                 {
                     instance.IsSpecial = true;
                     return info.Consume(1);
-                }
-            });
+                }));
 
             // act
             // assert
@@ -147,28 +141,28 @@ namespace ArgParser.Core.Test
         {
             // arrange
             var parser = new DefaultParser<BaseOptions>();
-            parser.AddParameter(new Parameter<BaseOptions>
-            {
-                CanConsume = (options, iterationInfo) => iterationInfo.Current.Raw == "-d",
-                Consume = (options, iterationInfo) =>
+            parser.AddParameter(new DefaultParameter<BaseOptions>
+            (
+                (options, iterationInfo) => iterationInfo.Current.Raw == "-d",
+                (options, iterationInfo) =>
                 {
                     options.DryRun = true;
                     return iterationInfo.Consume(1);
                 }
-            });
-            parser.AddParameter(new Parameter<BaseOptions>
-            {
-                CanConsume = (options, iterationInfo) => iterationInfo.Current.Raw == "-f",
-                Consume = (options, iterationInfo) =>
+            ));
+            parser.AddParameter(new DefaultParameter<BaseOptions>
+            (
+                (options, iterationInfo) => iterationInfo.Current.Raw == "-f",
+                (options, iterationInfo) =>
                 {
                     var files = iterationInfo.Rest.Select(x => x.Raw).ToArray();
                     options.Files = files.ToList();
                     return iterationInfo.Consume(1 + files.Length);
                 }
-            });
+            ));
             var instance = new BaseOptions();
             var args = new[] {"-d", "-f", "file1", "file2"};
-            var tokens = args.Select(s => new Token(s)).ToList();
+            var tokens = args.Select(s => new DefaultToken(s)).ToList();
             IIterationInfo info = CreateInfo(args, tokens);
 
             // act
@@ -187,20 +181,38 @@ namespace ArgParser.Core.Test
         }
 
         [Fact]
+        public void Throw_If_No_Parser_To_Back_Up_CanConsume()
+        {
+            // arrange
+            var parser = new DefaultParser();
+            int count = 0;
+            parser.AddParameter(new DefaultParameter((o, info) => count++ == 0, (o, info) => info));
+            
+            // act
+            var instance = new object();
+            var defaultIterationInfo = new DefaultIterationInfo();
+            parser.CanConsume(instance, defaultIterationInfo);
+
+            // assert
+            Action mightThrow = () => parser.Consume(instance, defaultIterationInfo);
+            mightThrow.Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
         public void Parse_When_Only_Positionals()
         {
             // arrange
             var parser = new DefaultParser<BaseOptions>();
             var infoFac = new DefaultIterationInfoFactory();
-            parser.AddParameter(new Parameter<BaseOptions>
-            {
-                CanConsume = (instance, info) => !Regex.IsMatch(info.Current.Raw, "--?[a-zA-Z0-9]+"),
-                Consume = (instance, info) =>
+            parser.AddParameter(new DefaultParameter<BaseOptions>
+            (
+                (instance, info) => !Regex.IsMatch(info.Current.Raw, "--?[a-zA-Z0-9]+"),
+                (instance, info) =>
                 {
                     instance.Files.Add(info.Current.Raw);
                     return info.Consume(1);
                 }
-            });
+            ));
 
             // act
             var options = new BaseOptions();
@@ -209,27 +221,6 @@ namespace ArgParser.Core.Test
 
             // assert
             options.Files.Should().BeEquivalentTo("pos1", "pos2", "pos3");
-        }
-
-        [Fact]
-        public void Throw_If_No_Consumer_Found()
-        {
-            // arrange
-            var parser = new DefaultParser<BaseOptions>();
-            var infoFac = new DefaultIterationInfoFactory();
-            var count = 0;
-            parser.AddParameter(new Parameter<BaseOptions>
-            {
-                CanConsume = (instance, info) => count++ == 0
-            });
-
-            // act
-            var options = new BaseOptions();
-            var nfo = infoFac.Create("pos1 pos2 pos3".Split(' '));
-            Action mightThrow = () => parser.Consume(options, nfo);
-
-            // assert
-            mightThrow.Should().Throw<InvalidOperationException>();
         }
     }
 }

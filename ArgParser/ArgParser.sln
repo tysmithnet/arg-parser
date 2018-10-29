@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgParser.Core.Test", "ArgP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgParser.TestConsole", "ArgParser.TestConsole\ArgParser.TestConsole.csproj", "{FCCC41E9-E7C0-4BF5-A420-84490D98D599}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArgParser.Flavors", "ArgParser.Flavors\ArgParser.Flavors.csproj", "{F9C0843B-4F42-4E82-B4BC-8BE2168109A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgParser.Flavors.Test", "ArgParser.Flavors.Test\ArgParser.Flavors.Test.csproj", "{1D266D9A-E432-4DB4-AA24-196EC7992466}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{FCCC41E9-E7C0-4BF5-A420-84490D98D599}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCCC41E9-E7C0-4BF5-A420-84490D98D599}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCCC41E9-E7C0-4BF5-A420-84490D98D599}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9C0843B-4F42-4E82-B4BC-8BE2168109A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9C0843B-4F42-4E82-B4BC-8BE2168109A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9C0843B-4F42-4E82-B4BC-8BE2168109A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9C0843B-4F42-4E82-B4BC-8BE2168109A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D266D9A-E432-4DB4-AA24-196EC7992466}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D266D9A-E432-4DB4-AA24-196EC7992466}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D266D9A-E432-4DB4-AA24-196EC7992466}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D266D9A-E432-4DB4-AA24-196EC7992466}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
