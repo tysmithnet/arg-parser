@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using ArgParser.Core;
 
-namespace ArgParser.Flavors
+namespace ArgParser.Flavors.Git
 {
     public class GitParseStrategy : DefaultParseStrategy
     {

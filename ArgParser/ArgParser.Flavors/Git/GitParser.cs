@@ -2,7 +2,7 @@
 using ArgParser.Core;
 using ArgParser.Core.Help;
 
-namespace ArgParser.Flavors
+namespace ArgParser.Flavors.Git
 {
     public class GitParser : IParser
     {

@@ -1,6 +1,6 @@
 ﻿using ArgParser.Core;
 
-namespace ArgParser.Flavors
+namespace ArgParser.Flavors.Git
 {
     public abstract class Switch : IParameter
     {

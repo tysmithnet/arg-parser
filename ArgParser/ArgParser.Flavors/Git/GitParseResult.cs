@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ArgParser.Core;
 
-namespace ArgParser.Flavors
+namespace ArgParser.Flavors.Git
 {
     public class GitParseResult : IParseResult
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using ArgParser.Core;
 
-namespace ArgParser.Flavors
+namespace ArgParser.Flavors.Git
 {
     public class BooleanSwitch : Switch
     {
