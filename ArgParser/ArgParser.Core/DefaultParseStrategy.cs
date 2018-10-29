@@ -11,14 +11,10 @@ namespace ArgParser.Core
         // ReSharper disable once SuspiciousTypeConversion.Global
         public DefaultParseStrategy(IEnumerable<Func<T>> factoryFuncs = null) : base(factoryFuncs?.Cast<Func<object>>())
         {
-
         }
 
         /// <inheritdoc />
-        public IParseResult Parse(IEnumerable<IParser<T>> parsers, string[] args)
-        {
-            return base.Parse(parsers, args);
-        }
+        public IParseResult Parse(IEnumerable<IParser<T>> parsers, string[] args) => base.Parse(parsers, args);
     }
 
     public class DefaultParseStrategy : IParseStrategy
@@ -36,10 +32,7 @@ namespace ArgParser.Core
             return CreateParseResult(results);
         }
 
-        protected virtual IParseResult CreateParseResult(List<object> results)
-        {
-            return new DefaultParseResult(results);
-        }
+        protected virtual IParseResult CreateParseResult(List<object> results) => new DefaultParseResult(results);
 
         protected virtual List<object> ParseInstances(IEnumerable<IParser> parsers, string[] args)
         {

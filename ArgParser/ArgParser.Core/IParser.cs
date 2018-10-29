@@ -12,8 +12,6 @@
 // <summary></summary>
 // ***********************************************************************
 
-using System;
-using System.Collections.Generic;
 using ArgParser.Core.Help;
 
 namespace ArgParser.Core
