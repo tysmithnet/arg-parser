@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using ArgParser.Core;
 
 namespace ArgParser.Flavors.Git
 {
+    [DebuggerDisplay("Name")]
     public class GitFlavor
     {
         /// <inheritdoc />
@@ -95,5 +97,6 @@ namespace ArgParser.Flavors.Git
         public List<Positional> Positionals { get; set; } = new List<Positional>();
         public Dictionary<string, GitFlavor> SubCommands { get; set; } = new Dictionary<string, GitFlavor>();
         public List<Switch> Switches { get; set; } = new List<Switch>();
+        public string Name { get; set; }
     }
 }

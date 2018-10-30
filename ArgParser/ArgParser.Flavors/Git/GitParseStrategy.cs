@@ -8,6 +8,8 @@ namespace ArgParser.Flavors.Git
 {
     public class GitParseStrategy : DefaultParseStrategy
     {
+        public GitFlavor RootFlavor { get; set; }
+
         public GitParseStrategy(List<Func<object>> factoryMethods) : base(factoryMethods)
         {
             

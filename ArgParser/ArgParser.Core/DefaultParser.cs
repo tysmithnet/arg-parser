@@ -61,7 +61,6 @@ namespace ArgParser.Core
 
         public virtual IIterationInfo Consume(object instance, IIterationInfo info)
         {
-            // todo: this returns the second one in the enumeration?
             var first = Parameters.FirstOrDefault(p => p.CanConsume(instance, info));
             var result = first?.Consume(instance, info) ?? BaseParser?.Consume(instance, info);
             if (result == null)

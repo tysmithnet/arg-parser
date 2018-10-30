@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ArgParser.Core;
 using ArgParser.Core.Help;
 
@@ -24,7 +25,8 @@ namespace ArgParser.Flavors.Git
         /// <inheritdoc />
         public bool CanConsume(object instance, IIterationInfo info)
         {
-            if (info.Index == 0 && _flavor.SubCommands.ContainsKey(info.Current.Raw)) return true;
+            if (_isSubCommand && _flavor.SubCommands.ContainsKey(info.Current.Raw)) return true;
+            _isSubCommand = false;
             var canSelf = DefaultParser.CanConsume(instance, info);
             var canBase = _flavor.BaseFlavor?.Parser.CanConsume(instance, info) ?? false;
             return canSelf || canBase;
@@ -33,14 +35,19 @@ namespace ArgParser.Flavors.Git
         /// <inheritdoc />
         public IIterationInfo Consume(object instance, IIterationInfo info)
         {
-            if (info.Index == 0)
+            GitFlavor itr = _flavor;
+
+            while (_isSubCommand)
             {
-                var itr = _flavor;
-                while (itr != null)
+                if (itr.SubCommands.ContainsKey(info.Current.Raw))
                 {
-                    if (itr.SubCommands.ContainsKey(info.Current.Raw))
-                        return info.Consume(1);
-                    itr = itr.BaseFlavor;
+                    itr = itr.SubCommands[info.Current.Raw];
+                    info = info.Consume(1);
+                }
+                else
+                {
+                    _isSubCommand = false;
+                    return info;
                 }
             }
             var canSelf = DefaultParser.CanConsume(instance, info);
@@ -59,9 +66,11 @@ namespace ArgParser.Flavors.Git
             set => DefaultParser.BaseParser = value;
         }
 
+        private bool _isSubCommand = true;
         /// <inheritdoc />
         public void Reset()
         {
+            _isSubCommand = true;
             foreach (var allParameter in AllParameters)
             {
                 allParameter.Reset();
