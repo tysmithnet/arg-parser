@@ -38,6 +38,12 @@ namespace ArgParser.Core
         public IIterationInfo Consume(object instance, IIterationInfo info) =>
             ConsumeCallback?.Invoke(instance, info) ?? info;
 
+        /// <inheritdoc />
+        public void Reset()
+        {
+            ;
+        }
+
         public Func<object, IIterationInfo, bool> CanConsumeCallback { get; set; }
         public Func<object, IIterationInfo, IIterationInfo> ConsumeCallback { get; set; }
     }

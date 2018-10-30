@@ -24,5 +24,6 @@ namespace ArgParser.Core
     {
         bool CanConsume(object instance, IIterationInfo info);
         IIterationInfo Consume(object instance, IIterationInfo info);
+        void Reset();
     }
 }

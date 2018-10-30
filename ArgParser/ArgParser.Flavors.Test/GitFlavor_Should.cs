@@ -84,12 +84,12 @@ namespace ArgParser.Flavors.Test
                 if(o is PushOptions po)
                     po.RefSpec.AddRange(strings);
             });
-            push.AddFactoryMethods(() => new PushOptions());
 
+            git.AddFactoryMethods(() => new PushOptions());
             git.AddSubCommand("push", push);
 
             // act
-            var result = push.Parse("push origin master develop".Split(' '));
+            var result = git.Parse("push origin master develop".Split(' '));
 
             // assert
             int parseCount = 0;

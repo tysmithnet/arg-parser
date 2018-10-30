@@ -17,6 +17,12 @@ namespace ArgParser.Flavors.Git
         /// <inheritdoc />
         public abstract IIterationInfo Consume(object instance, IIterationInfo info);
 
+        /// <inheritdoc />
+        public void Reset()
+        {
+            
+        }
+
         public char Letter { get; set; }
         public string Word { get; set; }
     }
