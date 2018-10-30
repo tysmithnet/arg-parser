@@ -6,42 +6,6 @@ using ArgParser.Core;
 
 namespace ArgParser.Flavors.Git
 {
-    public interface IGitFlavorVisitor
-    {
-        void Visit(GitFlavor gitFlavor);
-    }
-
-    public class AncestorAndDescendentVisitor : IGitFlavorVisitor
-    {
-        public IList<GitFlavor> GitFlavors { get; set; } = new List<GitFlavor>();
-
-        /// <inheritdoc />
-        public void Visit(GitFlavor gitFlavor)
-        {
-            GitFlavor itr = gitFlavor.BaseFlavor;
-            while (itr != null)
-            {
-                GitFlavors.Add(itr);
-                itr = itr.BaseFlavor;
-            }
-
-            var queue = new Queue<GitFlavor>();
-            queue.Enqueue(gitFlavor);
-
-            while (queue.Any())
-            {
-                var first = queue.Dequeue();
-                GitFlavors.Insert(0, first);
-                foreach (var sc in first.SubCommands)
-                {
-                    queue.Enqueue(sc.Value);
-                }
-            }
-
-            GitFlavors = GitFlavors.OrderByDescending(f => f.Depth).ToList();
-        }
-    }
-
     [DebuggerDisplay("{Name}")]
     public class GitFlavor
     {

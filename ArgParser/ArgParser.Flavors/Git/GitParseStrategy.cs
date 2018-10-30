@@ -70,7 +70,7 @@ namespace ArgParser.Flavors.Git
         }
 
         public IList<Func<object>> FactoryFunctions { get; set; }
-        public virtual IIterationInfoFactory IterationInfoFactory { get; set; } = new DefaultIterationInfoFactory();
+        public virtual IIterationInfoFactory IterationInfoFactory { get; set; } = new GitIterationInfoFactory();
         public virtual IList<IValidator> Validators { get; set; } = new List<IValidator>();
     }
 }

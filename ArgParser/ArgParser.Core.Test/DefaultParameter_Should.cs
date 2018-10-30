@@ -85,6 +85,7 @@ namespace ArgParser.Core.Test
             // assert
             isCanConsumeCalled.Should().BeTrue();
             isConsumeCalled.Should().BeTrue();
+            param.Reset();
         }
     }
 }
