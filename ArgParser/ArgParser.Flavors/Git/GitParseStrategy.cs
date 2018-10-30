@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using ArgParser.Core;
 using ArgParser.Core.Validation;
 
@@ -21,7 +22,23 @@ namespace ArgParser.Flavors.Git
             return CreateParseResult(results);
         }
 
-        protected virtual IParseResult CreateParseResult(List<object> results) => new GitParseResult(results);
+        protected virtual IParseResult CreateParseResult(List<object> results)
+        {
+            var agg = results.Aggregate(new HashSet<object>(), (set, o) =>
+            {
+                if (!set.Any())
+                {
+                    set.Add(o);
+                    return set;
+                }
+                var toBeRemoved = set.Where(x => x.GetType().GetTypeInfo().IsAssignableFrom(o.GetType().GetTypeInfo())).ToList();
+                set.ExceptWith(toBeRemoved);
+                if(toBeRemoved.Any())
+                    set.Add(o);
+                return set;
+            });
+            return new DefaultParseResult(agg.ToList());
+        }
 
         protected virtual List<object> ParseInstances(IEnumerable<IParser> parsers, string[] args)
         {
