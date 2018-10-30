@@ -71,7 +71,7 @@ namespace ArgParser.Flavors.Test
     public class Child0Child0Options : Child0Options
     {
         public string[] Child0Child0Positional0 { get; set; }
-        public string Child0Child0Switch0 { get; set; }
+        public string[] Child0Child0Switch0 { get; set; }
     }
 
     public class Child1Child0Options : Child1Options
@@ -352,7 +352,7 @@ namespace ArgParser.Flavors.Test
             
             var child0child0 = new GitFlavor();
             child0child0.Name = "child0child0";
-            child0child0.AddSingleValueSwitch('b', "B", (o, s) =>
+            child0child0.AddValueSwitch('b', "B", (o, s) =>
             {
                 if (o is Child0Child0Options c)
                     c.Child0Child0Switch0 = s;
@@ -383,7 +383,7 @@ namespace ArgParser.Flavors.Test
                 () => new Child0Options());
 
             // act
-            var result = baze.Parse("child0 child0child0 -a A --help p0 p1 -b B".Split(' '));
+            var result = baze.Parse("child0 child0child0 -a A --help p0 p1 -b B0 B1".Split(' '));
 
             // assert
             var optionsCount = 0;
@@ -415,7 +415,7 @@ namespace ArgParser.Flavors.Test
                 childchildCount++;
                 childchildRef = options;
                 options.Child0Child0Positional0.Should().BeEquivalentTo("p0 p1".Split(' '));
-                options.Child0Child0Switch0.Should().Be("B");
+                options.Child0Child0Switch0.Should().BeEquivalentTo("B0 B1".Split(' '));
                 options.Child0Switch0.Should().Be("A");
                 options.IsHelpRequested.Should().BeTrue();
             });
