@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using ArgParser.Core;
 using ArgParser.Flavors.Git;
 using FluentAssertions;
 using Xunit;
@@ -425,6 +427,28 @@ namespace ArgParser.Flavors.Test
             childCount.Should().Be(1);
             childchildCount.Should().Be(1);
             new[] { optionsRef, baseRef, childRef }.All(x => ReferenceEquals(x, childchildRef)).Should().BeTrue();
+        }
+
+        [Fact]
+        public void Validate_Required_Parameters_Were_Consumed()
+        {
+            // arrange
+            var flavor = new GitFlavor();
+            flavor.AddPositional((o, s) =>
+            {
+                if (o is BaseOptions b)
+                    b.BaseSwitch0 = s;
+            }, required: true);
+            flavor.AddFactoryMethods(() => new BaseOptions());
+            IParseResult result = null;
+            Action mightThrow = () => result = flavor.Parse("".Split(' '));
+
+            // act
+            // assert
+            mightThrow.Should().NotThrow();
+            int count = 0;
+            result.When<BaseOptions>(options => { count++; });
+            count.Should().Be(0);
         }
     }
 }

@@ -22,6 +22,7 @@ namespace ArgParser.Flavors.Git
             Parser = new GitParser(this);
         }
 
+        public IList<GitParameter> RequiredParameters { get; set; } = new List<GitParameter>();
         public void AddBooleanSwitch(char letter, string word, Action<object> consume)
         {
             var booleanSwitch = new BooleanSwitch
@@ -39,7 +40,7 @@ namespace ArgParser.Flavors.Git
             FactoryFunctions.AddRange(methods);
         }
 
-        public void AddPositional(Action<object, string> consume)
+        public void AddPositional(Action<object, string> consume, bool required = false)
         {
             var positional = new Positional
             {
@@ -49,6 +50,8 @@ namespace ArgParser.Flavors.Git
             };
             Positionals.Add(positional);
             Parser.AddParameter(positional);
+            if(required)
+                RequiredParameters.Add(positional);
         }
 
         public void AddPositionals(Action<object, string[]> consume, int min = 1, int max = int.MaxValue)
@@ -103,6 +106,14 @@ namespace ArgParser.Flavors.Git
                 return subCommandFlavor.Parse(args.Skip(1).ToArray(), factoryFunctions ?? FactoryFunctions);
             }
             var strat = new GitParseStrategy(factoryFunctions ?? FactoryFunctions);
+            if (RequiredParameters.Any())
+            {
+                var validators = RequiredParameters.Select(parameter => new RequiredParameterValidator(parameter));
+                foreach (var requiredParameterValidator in validators)
+                {
+                    strat.Validators.Add(requiredParameterValidator);
+                }
+            }
             var visitor = new AncestorAndDescendentVisitor();
             Accept(visitor);
             return strat.Parse(visitor.GitFlavors.Select(x => x.Parser), args);

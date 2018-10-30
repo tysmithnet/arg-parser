@@ -2,9 +2,9 @@
 
 namespace ArgParser.Flavors.Git
 {
-    public abstract class Switch : IParameter
+    public abstract class Switch : GitParameter
     {
-        public virtual bool CanConsume(object instance, IIterationInfo info)
+        public override bool CanConsume(object instance, IIterationInfo info)
         {
             var cur = info.Current.ToGitToken();
             if (cur.Letter != null && cur.Letter == Letter)
@@ -13,16 +13,7 @@ namespace ArgParser.Flavors.Git
                 return true;
             return false;
         }
-
-        /// <inheritdoc />
-        public abstract IIterationInfo Consume(object instance, IIterationInfo info);
-
-        /// <inheritdoc />
-        public void Reset()
-        {
-            
-        }
-
+        
         public char Letter { get; set; }
         public string Word { get; set; }
     }

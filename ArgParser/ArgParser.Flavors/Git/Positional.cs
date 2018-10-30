@@ -4,10 +4,10 @@ using ArgParser.Core;
 
 namespace ArgParser.Flavors.Git
 {
-    public class Positional : IParameter
+    public class Positional : GitParameter
     {
         /// <inheritdoc />
-        public bool CanConsume(object instance, IIterationInfo info)
+        public override bool CanConsume(object instance, IIterationInfo info)
         {
             if (IsConsumed)
                 return false;
@@ -16,7 +16,7 @@ namespace ArgParser.Flavors.Git
         }
 
         /// <inheritdoc />
-        public IIterationInfo Consume(object instance, IIterationInfo info)
+        public override IIterationInfo Consume(object instance, IIterationInfo info)
         {
             var tokens = info.FromNowOn().Select(x => x.ToGitToken()).TakeWhile(t => !t.IsAnyMatch).Take(Max).Select(t => t.Raw)
                 .ToArray();
@@ -27,11 +27,8 @@ namespace ArgParser.Flavors.Git
         }
 
         /// <inheritdoc />
-        public void Reset()
-        {
-            IsConsumed = false;
-        }
-
+        public override bool HasBeenConsumed { get; set; }
+        
         public bool IsConsumed { get; set; }
         public Action<object, string[]> ConsumeCallback { get; set; }
         public int Max { get; set; } = int.MaxValue;
