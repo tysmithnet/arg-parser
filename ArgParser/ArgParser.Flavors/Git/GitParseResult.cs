@@ -11,6 +11,7 @@ namespace ArgParser.Flavors.Git
         public GitParseResult(IList<object> parsedInstances)
         {
             ParsedInstances = parsedInstances ?? throw new ArgumentNullException(nameof(parsedInstances));
+            
         }
 
         /// <inheritdoc />

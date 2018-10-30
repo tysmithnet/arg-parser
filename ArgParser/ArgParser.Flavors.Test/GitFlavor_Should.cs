@@ -60,7 +60,7 @@ namespace ArgParser.Flavors.Test
 
     public class Child1Options : BaseOptions
     {
-
+        public string Child1Positional0 { get; set; }
     }
 
     public class Child0Child0Options : Child0Options
@@ -70,7 +70,17 @@ namespace ArgParser.Flavors.Test
 
     public class Child1Child0Options : Child1Options
     {
+        public string Child1Child1Positional0 { get; set; }
+    }
 
+    public class Child0Child1Options : Child0Options
+    {
+        public string[] Child0Child1Positional0 { get; set; }
+    }
+
+    public class Child1Child1Options : Child1Options
+    {
+        public string Child1Child1Positional0 { get; set; }
     }
 
     #endregion
@@ -79,7 +89,7 @@ namespace ArgParser.Flavors.Test
     public class GitFlavor_Should
     {
         [Fact]
-        public void Use_Base_Parsers_For_Positionals_Before_Sub_Parsers()
+        public void Parse_The_Most_Specific_SubCommands_Positionals_First()
         {
             // arrange
             var baze = new GitFlavor();
@@ -91,7 +101,7 @@ namespace ArgParser.Flavors.Test
             });
 
             var child0 = new GitFlavor();
-            baze.Name = "child";
+            child0.Name = "child0";
             child0.AddPositional((o, s) =>
             {
                 if (o is Child0Options c)
@@ -103,33 +113,80 @@ namespace ArgParser.Flavors.Test
                     c.Child0Positional1 = s;
             }, 2, 2);
 
-            var gchild0 = new GitFlavor();
-            gchild0.Name = "gchild";
-            child0.AddPositionals((o, s) =>
+
+            var child1 = new GitFlavor();
+            child1.Name = "child1";
+            child1.AddPositional((o, s) =>
+            {
+                if (o is Child1Options c)
+                    c.Child1Positional0 = s;
+            });
+
+            var child0child0 = new GitFlavor();
+            child0child0.Name = "child0child0";
+            child0child0.AddPositionals((o, s) =>
             {
                 if (o is Child0Child0Options c)
                     c.Child0Child0Positional0 = s;
+            }, 2,2);
+
+            var child0child1 = new GitFlavor();
+            child0child1.Name = "child0child1";
+            child0child1.AddPositionals((o, s) =>
+            {
+                if (o is Child0Child1Options c)
+                    c.Child0Child1Positional0 = s;
             });
 
-            baze.AddSubCommand("child", child0);
-            child0.AddSubCommand("gchild", gchild0);
-            baze.AddFactoryMethods(() => new Child0Child0Options());
+            var child1child0 = new GitFlavor();
+            child1child0.Name = "child1child0";
+            child1child0.AddPositional((o, s) =>
+            {
+                if (o is Child1Child0Options c)
+                    c.Child1Child1Positional0 = s;
+            });
+
+            var child1child1 = new GitFlavor();
+            child1child1.Name = "child1child1";
+            child1child1.AddPositional((o, s) =>
+            {
+                if (o is Child1Child1Options c)
+                    c.Child1Child1Positional0 = s;
+            });
+
+            baze.AddSubCommand("child0", child0);
+            baze.AddSubCommand("child1", child1);
+
+            child0.AddSubCommand("child0child0", child0child0);
+            child0.AddSubCommand("child0child1", child0child1);
+
+            child1.AddSubCommand("child1child0", child1child0);
+            child1.AddSubCommand("child1child1", child1child1);
+            baze.AddFactoryMethods(() => new Child0Child0Options(), () => new Child0Child1Options(), () => new Child0Options());
             
             // act
-            var result = baze.Parse("child gchild p0 p1 p2 p3 p4".Split(' '));
+            var result = baze.Parse("child0 child0child0 p0 p1 p2 p3 p4".Split(' '));
 
             // assert
-            int parseCount = 0;
+            int baseCount = 0;
+            int childCount = 0;
+            int childchildCount = 0;
+            result.When<BaseOptions>(options => { baseCount++; });
+            result.When<Child0Options>(options =>
+            {
+                childCount++;
+            });
             result.When<Child0Child0Options>(options =>
             {
-                parseCount++;
-                options.BasePositional0.Should().Be("p0");
-                options.Child0Positional0.Should().Be("p1");
-                options.Child0Positional1.Should().BeEquivalentTo(new[] {"p2", "p3"});
-                options.Child0Child0Positional0.Should().BeNull();
+                childchildCount++;
+                options.Child0Child0Positional0.Should().BeEquivalentTo(new[] {"p0", "p1"});
+                options.Child0Positional0.Should().Be("p2");
+                options.Child0Positional1.Should().BeEquivalentTo(new[] {"p3", "p4"});
             });
 
-            parseCount.Should().Be(1);
+            baseCount.Should().Be(0);
+            childCount.Should().Be(0);
+            childchildCount.Should().Be(1);
         }
 
         [Fact]
