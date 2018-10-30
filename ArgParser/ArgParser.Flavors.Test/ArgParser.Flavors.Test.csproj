@@ -75,6 +75,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AncestorAndDescendentVisitor_Should.cs" />
     <Compile Include="GitFlavor_Should.cs" />
     <Compile Include="GitToken_Should.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

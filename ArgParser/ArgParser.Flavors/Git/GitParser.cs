@@ -47,11 +47,7 @@ namespace ArgParser.Flavors.Git
         }
 
         /// <inheritdoc />
-        public IParser BaseParser
-        {
-            get => DefaultParser.BaseParser;
-            set => DefaultParser.BaseParser = value;
-        }
+        public IParser BaseParser => DefaultParser.BaseParser;
 
         /// <inheritdoc />
         public void Reset()
