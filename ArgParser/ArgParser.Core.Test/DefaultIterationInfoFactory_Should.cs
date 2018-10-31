@@ -9,7 +9,7 @@ namespace ArgParser.Core.Test
     {
         private class UppercaseLexer : ILexer
         {
-            /// <inheritdoc />
+                
             public IEnumerable<IToken> Lex(string[] args)
             {
                 return args.Select(x => x.ToUpper()).Select(x => new DefaultToken(x));

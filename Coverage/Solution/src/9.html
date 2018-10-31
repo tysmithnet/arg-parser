@@ -38,7 +38,7 @@ namespace ArgParser.Core
         /// &lt;/summary&gt;
         /// &lt;param name=&quot;raw&quot;&gt;The raw.&lt;/param&gt;
         /// &lt;exception cref=&quot;ArgumentNullException&quot;&gt;raw&lt;/exception&gt;
-        /// &lt;inheritdoc /&gt;
+            
         public DefaultToken(string raw)
         {
             Raw = raw ?? throw new ArgumentNullException(nameof(raw));
@@ -49,7 +49,7 @@ namespace ArgParser.Core
         /// &lt;/summary&gt;
         /// &lt;param name=&quot;other&quot;&gt;An object to compare with this object.&lt;/param&gt;
         /// &lt;returns&gt;true if the current object is equal to the &lt;paramref name=&quot;other&quot; /&gt; parameter; otherwise, false.&lt;/returns&gt;
-        /// &lt;inheritdoc /&gt;
+            
         public bool Equals(DefaultToken other)
         {
             if (ReferenceEquals(null, other)) return false;
@@ -62,7 +62,7 @@ namespace ArgParser.Core
         /// &lt;/summary&gt;
         /// &lt;param name=&quot;obj&quot;&gt;The object to compare with the current object.&lt;/param&gt;
         /// &lt;returns&gt;&lt;c&gt;true&lt;/c&gt; if the specified &lt;see cref=&quot;System.Object&quot; /&gt; is equal to this instance; otherwise, &lt;c&gt;false&lt;/c&gt;.&lt;/returns&gt;
-        /// &lt;inheritdoc /&gt;
+            
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
@@ -75,14 +75,14 @@ namespace ArgParser.Core
         ///     Returns a hash code for this instance.
         /// &lt;/summary&gt;
         /// &lt;returns&gt;A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.&lt;/returns&gt;
-        /// &lt;inheritdoc /&gt;
+            
         public override int GetHashCode() =&gt; Raw != null ? Raw.GetHashCode() : 0;
 
         /// &lt;summary&gt;
         ///     Gets the raw.
         /// &lt;/summary&gt;
         /// &lt;value&gt;The raw.&lt;/value&gt;
-        /// &lt;inheritdoc /&gt;
+            
         public string Raw { get; }
     }
 }

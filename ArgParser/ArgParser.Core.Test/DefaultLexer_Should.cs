@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using FluentAssertions;
 using Xunit;
 
@@ -9,9 +8,10 @@ namespace ArgParser.Core.Test
     {
         private class NumberToken : IToken
         {
-            /// <inheritdoc />
-            public string Raw => Number.ToString();
             public int Number { get; set; }
+
+                
+            public string Raw => Number.ToString();
         }
 
         [Fact]
@@ -30,10 +30,10 @@ namespace ArgParser.Core.Test
         public void Simply_Return_Basic_Tokens_Generic()
         {
             // arrange
-            var args = new[] { "arg1", "arg2", "arg3" };
-            var lexer = new DefaultLexer<NumberToken>(s => new NumberToken()
+            var args = new[] {"arg1", "arg2", "arg3"};
+            var lexer = new DefaultLexer<NumberToken>(s => new NumberToken
             {
-                 Number = 1
+                Number = 1
             });
 
             // act

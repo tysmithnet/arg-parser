@@ -39,8 +39,8 @@ namespace ArgParser.Core
         /// &lt;/summary&gt;
         /// &lt;param name=&quot;numTokens&quot;&gt;The number tokens.&lt;/param&gt;
         /// &lt;returns&gt;IIterationInfo.&lt;/returns&gt;
-        /// &lt;inheritdoc /&gt;
-        public IIterationInfo Consume(int numTokens) =&gt; SetIndex(Index + numTokens);
+            
+        public virtual IIterationInfo Consume(int numTokens) =&gt; SetIndex(Index + numTokens);
 
         /// &lt;summary&gt;
         ///     Sets the index.
@@ -83,70 +83,70 @@ namespace ArgParser.Core
         ///     Gets or sets the arguments.
         /// &lt;/summary&gt;
         /// &lt;value&gt;The arguments.&lt;/value&gt;
-        /// &lt;inheritdoc /&gt;
+            
         public string[] Args { get; set; }
 
         /// &lt;summary&gt;
         ///     Gets the current.
         /// &lt;/summary&gt;
         /// &lt;value&gt;The current.&lt;/value&gt;
-        /// &lt;inheritdoc /&gt;
+            
         public IToken Current =&gt; !IsComplete ? Tokens?[Index] : null;
 
-        /// &lt;inheritdoc /&gt;
+            
         public IToken First =&gt; Tokens?.FirstOrDefault();
 
         /// &lt;summary&gt;
         ///     Gets or sets the index.
         /// &lt;/summary&gt;
         /// &lt;value&gt;The index.&lt;/value&gt;
-        /// &lt;inheritdoc /&gt;
+            
         public int Index { get; set; }
 
         /// &lt;summary&gt;
         ///     Gets a value indicating whether this instance is complete.
         /// &lt;/summary&gt;
         /// &lt;value&gt;&lt;c&gt;true&lt;/c&gt; if this instance is complete; otherwise, &lt;c&gt;false&lt;/c&gt;.&lt;/value&gt;
-        /// &lt;inheritdoc /&gt;
+            
         public bool IsComplete =&gt; Index &gt;= Tokens?.Count;
 
-        /// &lt;inheritdoc /&gt;
+            
         public bool IsFirst =&gt; Index == 0;
 
-        /// &lt;inheritdoc /&gt;
+            
         public bool IsInternal =&gt; Index &gt; 0 &amp;&amp; Index &lt; Tokens?.Count - 1;
 
-        /// &lt;inheritdoc /&gt;
+            
         public bool IsLast =&gt; Index == Tokens?.Count - 1;
 
-        /// &lt;inheritdoc /&gt;
+            
         public IToken Last =&gt; Tokens?.LastOrDefault();
 
         /// &lt;summary&gt;
         ///     Gets the next.
         /// &lt;/summary&gt;
         /// &lt;value&gt;The next.&lt;/value&gt;
-        /// &lt;inheritdoc /&gt;
+            
         public IToken Next =&gt; Rest?.FirstOrDefault();
 
         /// &lt;summary&gt;
         ///     Gets the rest.
         /// &lt;/summary&gt;
         /// &lt;value&gt;The rest.&lt;/value&gt;
-        /// &lt;inheritdoc /&gt;
+            
         public IEnumerable&lt;IToken&gt; Rest =&gt; Tokens?.Skip(Index + 1);
 
         /// &lt;summary&gt;
         ///     Gets the tokens.
         /// &lt;/summary&gt;
         /// &lt;value&gt;The tokens.&lt;/value&gt;
-        /// &lt;inheritdoc /&gt;
+            
         public IReadOnlyList&lt;IToken&gt; Tokens { get; internal set; }
     }
 }
     </pre>
     <script type="text/javascript">
-      highlightRanges([[33,57,33,84,1],[41,9,41,10,1],[42,13,42,34,1],[42,34,42,48,1],[42,48,42,50,1],[42,13,42,50,1],[43,9,43,10,1],[51,9,51,10,1],[52,13,52,34,1],[52,34,52,64,1],[52,64,52,66,1],[52,13,52,66,1],[53,9,53,10,1],[61,9,61,10,1],[62,13,67,15,1],[68,13,68,41,1],[69,13,69,27,1],[70,9,70,10,1],[84,34,84,69,1],[87,32,87,56,1],[101,35,101,57,1],[104,32,104,42,1],[107,35,107,73,1],[110,31,110,57,1],[113,31,113,54,1],[120,31,120,53,1],[127,44,127,67,1]]);
+      highlightRanges([[33,65,33,92,1],[41,9,41,10,1],[42,13,42,34,1],[42,34,42,48,1],[42,48,42,50,1],[42,13,42,50,1],[43,9,43,10,1],[51,9,51,10,1],[52,13,52,34,1],[52,34,52,64,1],[52,64,52,66,1],[52,13,52,66,1],[53,9,53,10,1],[61,9,61,10,1],[62,13,67,15,1],[68,13,68,41,1],[69,13,69,27,1],[70,9,70,10,1],[84,34,84,69,1],[87,32,87,56,1],[101,35,101,57,1],[104,32,104,42,1],[107,35,107,73,1],[110,31,110,57,1],[113,31,113,54,1],[120,31,120,53,1],[127,44,127,67,1]]);
     </script>
   </body>
 </html>

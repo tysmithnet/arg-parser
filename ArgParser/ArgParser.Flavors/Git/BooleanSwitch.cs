@@ -12,7 +12,8 @@ namespace ArgParser.Flavors.Git
             return info.Consume(1);
         }
 
-        public override bool HasBeenConsumed { get; set; }
         public Action<object> ConsumeCallback { get; set; }
+
+        public override bool HasBeenConsumed { get; set; }
     }
 }

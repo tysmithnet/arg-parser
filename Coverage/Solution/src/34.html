@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\projects\arg-parser\ArgParser\ArgParser.Flavors\Git\RequiredParameterValidator.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using ArgParser.Core.Validation;
+
+namespace ArgParser.Flavors.Git
+{
+    public class RequiredParameterValidator : IValidator
+    {
+            
+        public RequiredParameterValidator(GitParameter parameter)
+        {
+            Parameter = parameter ?? throw new ArgumentNullException(nameof(parameter));
+        }
+
+            
+        public bool CanValidate(object instance) =&gt; true;
+
+            
+        public IValidationResult Validate(object instance)
+        {
+            if (!Parameter.HasBeenConsumed)
+                return new ValidationResult
+                {
+                    Instance = instance,
+                    Errors = new List&lt;ValidationError&gt;
+                    {
+                        new MissingRequiredParameterError
+                        {
+                            Message = $&quot;Required parameter not found: {Parameter}&quot;, // todo: implement ToString(),
+                            RequiredParameter = Parameter
+                        }
+                    },
+                    IsSuccess = false
+                };
+            return new ValidationResult
+            {
+                IsSuccess = true
+            };
+        }
+
+        public GitParameter Parameter { get; set; }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[10,9,10,66,1],[11,9,11,10,1],[12,13,12,89,1],[13,9,13,10,1],[16,53,16,57,1],[20,9,20,10,1],[21,13,21,44,1],[22,17,34,19,1],[35,13,38,15,1],[39,9,39,10,1]]);
+    </script>
+  </body>
+</html>

@@ -16,13 +16,13 @@ namespace ArgParser.Core
 {
     public class DefaultParseResult : IParseResult
     {
-        /// &lt;inheritdoc /&gt;
+            
         public DefaultParseResult(IList&lt;object&gt; parsedInstances)
         {
             ParsedInstances = parsedInstances ?? throw new ArgumentNullException(nameof(parsedInstances));
         }
 
-        /// &lt;inheritdoc /&gt;
+            
         public void When&lt;T&gt;(Action&lt;T&gt; handler)
         {
             foreach (var parsedInstance in ParsedInstances.OfType&lt;T&gt;()) handler(parsedInstance);

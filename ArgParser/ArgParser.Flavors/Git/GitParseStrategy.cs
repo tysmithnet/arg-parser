@@ -9,13 +9,13 @@ namespace ArgParser.Flavors.Git
 {
     public class GitParseStrategy : IParseStrategy
     {
-        /// <inheritdoc />
+            
         public GitParseStrategy(IEnumerable<Func<object>> factoryFuncs = null)
         {
             FactoryFunctions = factoryFuncs?.ToList() ?? new List<Func<object>>();
         }
 
-        /// <inheritdoc />
+            
         public virtual IParseResult Parse(IEnumerable<IParser> parsers, string[] args)
         {
             var results = ParseInstances(parsers, args);
@@ -31,9 +31,11 @@ namespace ArgParser.Flavors.Git
                     set.Add(o);
                     return set;
                 }
-                var toBeRemoved = set.Where(x => x.GetType().GetTypeInfo().IsAssignableFrom(o.GetType().GetTypeInfo())).ToList();
+
+                var toBeRemoved = set.Where(x => x.GetType().GetTypeInfo().IsAssignableFrom(o.GetType().GetTypeInfo()))
+                    .ToList();
                 set.ExceptWith(toBeRemoved);
-                if(toBeRemoved.Any())
+                if (toBeRemoved.Any())
                     set.Add(o);
                 return set;
             });
