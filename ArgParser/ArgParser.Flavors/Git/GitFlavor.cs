@@ -9,7 +9,6 @@ namespace ArgParser.Flavors.Git
     [DebuggerDisplay("{Name}")]
     public class GitFlavor
     {
-            
         public GitFlavor()
         {
             Parser = new GitParser(this);
@@ -30,7 +29,8 @@ namespace ArgParser.Flavors.Git
             };
             Switches.Add(booleanSwitch);
             Parser.AddParameter(booleanSwitch);
-            RequiredParameters.Add(booleanSwitch);
+            if (required)
+                RequiredParameters.Add(booleanSwitch);
         }
 
         public void AddFactoryMethods(params Func<object>[] methods)
@@ -52,7 +52,8 @@ namespace ArgParser.Flavors.Git
                 RequiredParameters.Add(positional);
         }
 
-        public void AddPositionals(Action<object, string[]> consume, int min = 1, int max = int.MaxValue)
+        public void AddPositionals(Action<object, string[]> consume, int min = 1, int max = int.MaxValue,
+            bool required = false)
         {
             var positional = new Positional
             {
@@ -62,9 +63,12 @@ namespace ArgParser.Flavors.Git
             };
             Positionals.Add(positional);
             Parser.AddParameter(positional);
+            if (required)
+                RequiredParameters.Add(positional);
         }
 
-        public void AddSingleValueSwitch(char letter, string word, Action<object, string> consume)
+        public void AddSingleValueSwitch(char letter, string word, Action<object, string> consume,
+            bool required = false)
         {
             var singleValueSwitch = new SingleValueSwitch
             {
@@ -74,6 +78,8 @@ namespace ArgParser.Flavors.Git
             };
             Switches.Add(singleValueSwitch);
             Parser.AddParameter(singleValueSwitch);
+            if (required)
+                RequiredParameters.Add(singleValueSwitch);
         }
 
         public void AddSubCommand(string command, GitFlavor flavor)
@@ -83,7 +89,7 @@ namespace ArgParser.Flavors.Git
             SubCommands.Add(command, flavor);
         }
 
-        public void AddValueSwitch(char letter, string word, Action<object, string[]> consume)
+        public void AddValueSwitch(char letter, string word, Action<object, string[]> consume, bool required = false)
         {
             var valuesSwitch = new ValuesSwitch
             {
@@ -93,6 +99,8 @@ namespace ArgParser.Flavors.Git
             };
             Switches.Add(valuesSwitch);
             Parser.AddParameter(valuesSwitch);
+            if (required)
+                RequiredParameters.Add(valuesSwitch);
         }
 
         public IParseResult Parse(string[] args, IEnumerable<Func<object>> factoryFunctions = null)
