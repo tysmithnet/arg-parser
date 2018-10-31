@@ -1,11 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using ArgParser.Core;
 using ArgParser.Core.Help;
 
 namespace ArgParser.Flavors.Git
 {
+    [DebuggerDisplay("{Name}")]
     public class GitParser : IParser
     {
+        public string Name => _flavor.Name;
+
         /// <inheritdoc />
         public GitParser(GitFlavor flavor)
         {
@@ -13,16 +19,16 @@ namespace ArgParser.Flavors.Git
         }
 
         private readonly GitFlavor _flavor;
-
+        private List<IParameter> AllParameters = new List<IParameter>();
         public virtual void AddParameter(IParameter parameter, IGenericHelp help = null)
         {
+            AllParameters.Add(parameter);
             DefaultParser.AddParameter(parameter, help);
         }
 
         /// <inheritdoc />
         public bool CanConsume(object instance, IIterationInfo info)
         {
-            if (info.Index == 0 && _flavor.SubCommands.ContainsKey(info.Current.Raw)) return true;
             var canSelf = DefaultParser.CanConsume(instance, info);
             var canBase = _flavor.BaseFlavor?.Parser.CanConsume(instance, info) ?? false;
             return canSelf || canBase;
@@ -31,7 +37,6 @@ namespace ArgParser.Flavors.Git
         /// <inheritdoc />
         public IIterationInfo Consume(object instance, IIterationInfo info)
         {
-            if (info.Index == 0 && _flavor.SubCommands.ContainsKey(info.Current.Raw)) return info.Consume(1);
             var canSelf = DefaultParser.CanConsume(instance, info);
             if (canSelf)
                 return DefaultParser.Consume(instance, info);
@@ -42,10 +47,15 @@ namespace ArgParser.Flavors.Git
         }
 
         /// <inheritdoc />
-        public IParser BaseParser
+        public IParser BaseParser => DefaultParser.BaseParser;
+
+        /// <inheritdoc />
+        public void Reset()
         {
-            get => DefaultParser.BaseParser;
-            set => DefaultParser.BaseParser = value;
+            foreach (var allParameter in AllParameters)
+            {
+                allParameter.Reset();
+            }
         }
 
         public DefaultParser DefaultParser { get; set; } = new DefaultParser();

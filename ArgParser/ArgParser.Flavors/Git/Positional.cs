@@ -4,25 +4,32 @@ using ArgParser.Core;
 
 namespace ArgParser.Flavors.Git
 {
-    public class Positional : IParameter
+    public class Positional : GitParameter
     {
         /// <inheritdoc />
-        public bool CanConsume(object instance, IIterationInfo info)
+        public override bool CanConsume(object instance, IIterationInfo info)
         {
-            var ar = info.Rest.Select(x => TokenExtensions.ToGitToken(x)).TakeWhile(t => !t.IsAnyMatch).ToArray();
-            return ar.Length >= Min && ar.Length < Max;
+            if (IsConsumed)
+                return false;
+            var ar = info.FromNowOn().Select(x => x.ToGitToken()).TakeWhile(t => !t.IsAnyMatch).ToArray();
+            return ar.Length >= Min;
         }
 
         /// <inheritdoc />
-        public IIterationInfo Consume(object instance, IIterationInfo info)
+        public override IIterationInfo Consume(object instance, IIterationInfo info)
         {
-            var tokens = info.Rest.Select(x => x.ToGitToken()).TakeWhile(t => !t.IsAnyMatch).Select(t => t.Raw)
+            var tokens = info.FromNowOn().Select(x => x.ToGitToken()).TakeWhile(t => !t.IsAnyMatch).Take(Max).Select(t => t.Raw)
                 .ToArray();
             // todo: check count
             ConsumeCallback(instance, tokens);
-            return info.Consume(1 + tokens.Length);
+            IsConsumed = true;
+            return info.Consume(tokens.Length);
         }
 
+        /// <inheritdoc />
+        public override bool HasBeenConsumed { get; set; }
+        
+        public bool IsConsumed { get; set; }
         public Action<object, string[]> ConsumeCallback { get; set; }
         public int Max { get; set; } = int.MaxValue;
         public int Min { get; set; } = 1;

@@ -161,6 +161,33 @@ namespace ArgParser.Core.Test
         }
 
         [Fact]
+        public void Only_Return_A_Single_Parsed_Instance_For_Any_Given_Type()
+        {
+            // arrange
+            var parser = new DefaultParser<BaseOptions>();
+            parser.AddParameter(new DefaultParameter<BaseOptions>(
+                (instance, info) => info.Current.Raw == "-h" || info.Current.Raw == "--help",
+                (instance, info) =>
+                {
+                    instance.HelpRequested = true;
+                    return info.Consume(1);
+                }));
+            var strat = new DefaultParseStrategy<BaseOptions>(new Func<BaseOptions>[] { () => new BaseOptions(), () => new BaseOptions(), () => new BaseOptions() });
+
+            // act
+            var result = strat.Parse(new[] { parser }, "--help".Split(' '));
+
+            // assert
+            var parseCount = 0;
+            result.When<BaseOptions>(options =>
+            {
+                options.HelpRequested.Should().BeTrue();
+                parseCount++;
+            });
+            parseCount.Should().Be(1);
+        }
+
+        [Fact]
         public void Parse_A_Single_Type()
         {
             // arrange

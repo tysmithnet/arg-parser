@@ -1,54 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using ArgParser.Core;
 
 namespace ArgParser.Flavors.Git
 {
+    [DebuggerDisplay("{Name}")]
     public class GitFlavor
     {
-        public GitParser Parser { get; set; }
-
-        public void AddBooleanSwitch(char letter, string word, Action<object> consume)
+        public void Accept(IGitFlavorVisitor visitor)
         {
-            Switches.Add(new BooleanSwitch
-            {
-                Letter = letter,
-                Word = word,
-                ConsumeCallback = consume
-            });
+            visitor.Visit(this);
         }
 
-        public void AddFactoryMethods(params Func<object>[] methods)
-        {
-            FactoryMethods.AddRange(methods);
-        }
-
-        public void AddSingleValueSwitch(char letter, string word, Action<object, string> consume)
-        {
-            Switches.Add(new SingleValueSwitch
-            {
-                ConsumeCallback = consume,
-                Letter = letter,
-                Word = word
-            });
-        }
-
-        public void AddSubCommand(string command, GitFlavor flavor)
-        {
-            flavor.BaseFlavor = this;
-            SubCommands.Add(command, flavor);
-        }
-
-        public void AddValueSwitch(char letter, string word, Action<object, string[]> consume)
-        {
-            Switches.Add(new ValuesSwitch
-            {
-                Letter = letter,
-                Word = word,
-                ConsumeCallback = consume
-            });
-        }
+        public int Depth { get; set; }
 
         /// <inheritdoc />
         public GitFlavor()
@@ -56,26 +22,110 @@ namespace ArgParser.Flavors.Git
             Parser = new GitParser(this);
         }
 
-        public IEnumerable<IParser> GetParsers()
+        public IList<GitParameter> RequiredParameters { get; set; } = new List<GitParameter>();
+        public void AddBooleanSwitch(char letter, string word, Action<object> consume, bool required = false)
         {
-            
-            foreach (var @switch in Switches) Parser.AddParameter(@switch);
-            foreach (var positional in Positionals) Parser.AddParameter(positional);
-
-            var others = SubCommands.Values.SelectMany(x => x.GetParsers());
-            return new[] { Parser }.Concat(others);
+            var booleanSwitch = new BooleanSwitch
+            {
+                Letter = letter,
+                Word = word,
+                ConsumeCallback = consume
+            };
+            Switches.Add(booleanSwitch);
+            Parser.AddParameter(booleanSwitch);
+            RequiredParameters.Add(booleanSwitch);
         }
 
-        public IParseResult Parse(string[] args)
+        public void AddFactoryMethods(params Func<object>[] methods)
         {
-            var strat = new GitParseStrategy(FactoryMethods);
-            return strat.Parse(GetParsers(), args);
+            FactoryFunctions.AddRange(methods);
+        }
+
+        public void AddPositional(Action<object, string> consume, bool required = false)
+        {
+            var positional = new Positional
+            {
+                ConsumeCallback = (o, strings) => consume(o, strings.First()),
+                Max = 1,
+                Min = 1
+            };
+            Positionals.Add(positional);
+            Parser.AddParameter(positional);
+            if(required)
+                RequiredParameters.Add(positional);
+        }
+
+        public void AddPositionals(Action<object, string[]> consume, int min = 1, int max = int.MaxValue)
+        {
+            var positional = new Positional
+            {
+                ConsumeCallback = consume,
+                Max = max,
+                Min = min
+            };
+            Positionals.Add(positional);
+            Parser.AddParameter(positional);
+        }
+
+        public void AddSingleValueSwitch(char letter, string word, Action<object, string> consume)
+        {
+            var singleValueSwitch = new SingleValueSwitch
+            {
+                ConsumeCallback = consume,
+                Letter = letter,
+                Word = word
+            };
+            Switches.Add(singleValueSwitch);
+            Parser.AddParameter(singleValueSwitch);
+        }
+
+        public void AddSubCommand(string command, GitFlavor flavor)
+        {
+            flavor.BaseFlavor = this;
+            flavor.Depth = Depth + 1;
+            SubCommands.Add(command, flavor);
+        }
+
+        public void AddValueSwitch(char letter, string word, Action<object, string[]> consume)
+        {
+            var valuesSwitch = new ValuesSwitch
+            {
+                Letter = letter,
+                Word = word,
+                ConsumeCallback = consume
+            };
+            Switches.Add(valuesSwitch);
+            Parser.AddParameter(valuesSwitch);
+        }
+
+        public IParseResult Parse(string[] args, IEnumerable<Func<object>> factoryFunctions = null)
+        {
+            var possibleSubCommand = args[0];
+            if (SubCommands.ContainsKey(possibleSubCommand))
+            {
+                var subCommandFlavor = SubCommands[possibleSubCommand];
+                return subCommandFlavor.Parse(args.Skip(1).ToArray(), factoryFunctions ?? FactoryFunctions);
+            }
+            var strat = new GitParseStrategy(factoryFunctions ?? FactoryFunctions);
+            if (RequiredParameters.Any())
+            {
+                var validators = RequiredParameters.Select(parameter => new RequiredParameterValidator(parameter));
+                foreach (var requiredParameterValidator in validators)
+                {
+                    strat.Validators.Add(requiredParameterValidator);
+                }
+            }
+            var visitor = new AncestorAndDescendentVisitor();
+            Accept(visitor);
+            return strat.Parse(visitor.GitFlavors.Select(x => x.Parser), args);
         }
 
         public GitFlavor BaseFlavor { get; set; }
-        public List<Func<object>> FactoryMethods { get; set; } = new List<Func<object>>();
+        public List<Func<object>> FactoryFunctions { get; set; } = new List<Func<object>>();
+        public GitParser Parser { get; set; }
         public List<Positional> Positionals { get; set; } = new List<Positional>();
         public Dictionary<string, GitFlavor> SubCommands { get; set; } = new Dictionary<string, GitFlavor>();
         public List<Switch> Switches { get; set; } = new List<Switch>();
+        public string Name { get; set; }
     }
 }

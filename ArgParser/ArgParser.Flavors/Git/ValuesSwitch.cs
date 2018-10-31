@@ -13,8 +13,12 @@ namespace ArgParser.Flavors.Git
                 .ToArray();
             // todo: check count
             ConsumeCallback(instance, tokens);
+            HasBeenConsumed = true;
             return info.Consume(1 + tokens.Length);
         }
+
+        /// <inheritdoc />
+        public override bool HasBeenConsumed { get; set; }
 
         public Action<object, string[]> ConsumeCallback { get; set; }
     }

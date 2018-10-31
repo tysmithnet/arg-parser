@@ -30,7 +30,7 @@ namespace ArgParser.Core
         /// <param name="numTokens">The number tokens.</param>
         /// <returns>IIterationInfo.</returns>
         /// <inheritdoc />
-        public IIterationInfo Consume(int numTokens) => SetIndex(Index + numTokens);
+        public virtual IIterationInfo Consume(int numTokens) => SetIndex(Index + numTokens);
 
         /// <summary>
         ///     Sets the index.
