@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\projects\arg-parser\ArgParser\ArgParser.Flavors\Git\GitParseStrategy.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using ArgParser.Core;
+using ArgParser.Core.Validation;
+
+namespace ArgParser.Flavors.Git
+{
+    public class GitParseStrategy : IParseStrategy
+    {
+            
+        public GitParseStrategy(IEnumerable&lt;Func&lt;object&gt;&gt; factoryFuncs = null)
+        {
+            FactoryFunctions = factoryFuncs?.ToList() ?? new List&lt;Func&lt;object&gt;&gt;();
+        }
+
+            
+        public virtual IParseResult Parse(IEnumerable&lt;IParser&gt; parsers, string[] args)
+        {
+            var results = ParseInstances(parsers, args);
+            return CreateParseResult(results);
+        }
+
+        protected virtual IParseResult CreateParseResult(List&lt;object&gt; results)
+        {
+            var agg = results.Aggregate(new HashSet&lt;object&gt;(), (set, o) =&gt;
+            {
+                if (!set.Any())
+                {
+                    set.Add(o);
+                    return set;
+                }
+
+                var toBeRemoved = set.Where(x =&gt; x.GetType().GetTypeInfo().IsAssignableFrom(o.GetType().GetTypeInfo()))
+                    .ToList();
+                set.ExceptWith(toBeRemoved);
+                if (toBeRemoved.Any())
+                    set.Add(o);
+                return set;
+            });
+            return new DefaultParseResult(agg.ToList());
+        }
+
+        protected virtual List&lt;object&gt; ParseInstances(IEnumerable&lt;IParser&gt; parsers, string[] args)
+        {
+            var results = new List&lt;object&gt;();
+            var list = parsers.ToList();
+            foreach (var factoryFunction in FactoryFunctions)
+            foreach (var parser in list)
+            {
+                parser.Reset();
+                var info = IterationInfoFactory.Create(args);
+                var instance = factoryFunction();
+                if (results.Any(r =&gt; r.GetType() == instance.GetType()))
+                    continue;
+                var hasFailed = false;
+                var last = 0;
+                while (!hasFailed &amp;&amp; !info.IsComplete &amp;&amp; parser.CanConsume(instance, info))
+                {
+                    info = parser.Consume(instance, info);
+                    if (info.Index &lt;= last)
+                        hasFailed = true;
+                }
+
+                var validationResults =
+                    Validators.Where(v =&gt; v.CanValidate(instance)).Select(v =&gt; v.Validate(instance));
+                var passedValidation = validationResults.All(r =&gt; r.IsSuccess);
+                if (!hasFailed &amp;&amp; info.IsComplete &amp;&amp; passedValidation) results.Add(instance);
+            }
+
+            return results;
+        }
+
+        public IList&lt;Func&lt;object&gt;&gt; FactoryFunctions { get; set; }
+        public virtual IIterationInfoFactory IterationInfoFactory { get; set; } = new GitIterationInfoFactory();
+        public virtual IList&lt;IValidator&gt; Validators { get; set; } = new List&lt;IValidator&gt;();
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[13,9,13,79,1],[14,9,14,10,1],[15,13,15,83,1],[16,9,16,10,1],[20,9,20,10,1],[21,13,21,57,1],[22,13,22,47,1],[23,9,23,10,1],[26,9,26,10,1],[27,13,28,13,1],[28,13,28,14,1],[28,14,29,17,1],[29,17,29,32,1],[29,32,30,17,1],[30,17,30,18,1],[30,18,31,21,1],[31,21,31,32,1],[31,32,32,21,1],[32,21,32,32,1],[32,32,35,17,1],[35,17,35,50,1],[35,50,35,119,1],[35,119,36,31,1],[35,17,36,31,1],[36,31,37,17,1],[37,17,37,45,1],[37,45,38,17,1],[38,17,38,39,1],[38,39,39,21,1],[39,21,39,32,1],[39,32,40,17,1],[40,17,40,28,1],[40,28,41,13,1],[41,13,41,14,1],[41,14,41,16,1],[27,13,41,16,1],[42,13,42,57,1],[43,9,43,10,1],[46,9,46,10,1],[47,13,47,46,1],[48,13,48,41,1],[49,13,49,20,1],[49,22,49,41,1],[49,42,49,44,1],[49,45,49,61,1],[50,13,50,20,1],[50,22,50,32,1],[50,33,50,35,1],[50,36,50,40,1],[51,13,51,14,1],[52,17,52,32,1],[53,17,53,62,1],[54,17,54,50,1],[55,17,55,38,1],[55,38,55,71,1],[55,71,55,73,1],[55,17,55,73,1],[56,21,56,30,1],[57,17,57,39,1],[58,17,58,30,1],[59,17,59,92,1],[60,17,60,18,1],[61,21,61,59,1],[62,21,62,44,1],[63,25,63,42,1],[64,17,64,18,1],[66,17,67,43,1],[67,43,67,66,1],[67,66,67,80,1],[67,80,67,100,1],[67,100,67,102,1],[66,17,67,102,1],[68,17,68,67,1],[68,67,68,78,1],[68,78,68,80,1],[68,17,68,80,1],[69,17,69,71,1],[69,72,69,94,1],[70,13,70,14,1],[72,13,72,28,1],[73,9,73,10,1],[76,83,76,112,1],[77,69,77,91,1]]);
+    </script>
+  </body>
+</html>

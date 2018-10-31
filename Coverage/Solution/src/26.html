@@ -2,30 +2,28 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>C:\projects\arg-parser\ArgParser\ArgParser.Core\Help\RootNode.cs</title>
+    <title>C:\projects\arg-parser\ArgParser\ArgParser.Flavors\Git\GitIterationInfoFactory.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
-using System.Collections.Generic;
+using ArgParser.Core;
 
-namespace ArgParser.Core.Help
+namespace ArgParser.Flavors.Git
 {
-    public class RootNode : IHelpNode
+    public class GitIterationInfoFactory : DefaultIterationInfoFactory
     {
             
-        public void Accept(IHelpNodeVisitor visitor)
+        public GitIterationInfoFactory()
         {
-            visitor.Visit(this);
+            Lexer = new GitLexer();
         }
-
-        public IReadOnlyList&lt;IHelpNode&gt; Children { get; protected internal set; }
     }
 }
     </pre>
     <script type="text/javascript">
-      highlightRanges([[9,9,9,10,1],[10,13,10,33,1],[11,9,11,10,1]]);
+      highlightRanges([[8,9,8,41,1],[9,9,9,10,1],[10,13,10,36,1],[11,9,11,10,1]]);
     </script>
   </body>
 </html>

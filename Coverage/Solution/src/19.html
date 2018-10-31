@@ -12,12 +12,12 @@ namespace ArgParser.Core.Help
 {
     public class TableDataNode : TextNode
     {
-        /// &lt;inheritdoc /&gt;
+            
         public TableDataNode(string text) : base(text)
         {
         }
 
-        /// &lt;inheritdoc /&gt;
+            
         public virtual void Accept(IHelpNodeVisitor visitor)
         {
             visitor.Visit(this);
