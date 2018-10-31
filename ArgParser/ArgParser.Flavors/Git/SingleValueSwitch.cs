@@ -13,9 +13,9 @@ namespace ArgParser.Flavors.Git
             return info.Consume(2);
         }
 
+        public Action<object, string> ConsumeCallback { get; set; }
+
         /// <inheritdoc />
         public override bool HasBeenConsumed { get; set; }
-
-        public Action<object, string> ConsumeCallback { get; set; }
     }
 }

@@ -5,12 +5,10 @@ namespace ArgParser.Flavors.Git
 {
     public class AncestorAndDescendentVisitor : IGitFlavorVisitor
     {
-        public IList<GitFlavor> GitFlavors { get; set; } = new List<GitFlavor>();
-
         /// <inheritdoc />
         public void Visit(GitFlavor gitFlavor)
         {
-            GitFlavor itr = gitFlavor.BaseFlavor;
+            var itr = gitFlavor.BaseFlavor;
             while (itr != null)
             {
                 GitFlavors.Add(itr);
@@ -24,13 +22,12 @@ namespace ArgParser.Flavors.Git
             {
                 var first = queue.Dequeue();
                 GitFlavors.Insert(0, first);
-                foreach (var sc in first.SubCommands)
-                {
-                    queue.Enqueue(sc.Value);
-                }
+                foreach (var sc in first.SubCommands) queue.Enqueue(sc.Value);
             }
 
             GitFlavors = GitFlavors.OrderByDescending(f => f.Depth).ToList();
         }
+
+        public IList<GitFlavor> GitFlavors { get; set; } = new List<GitFlavor>();
     }
 }

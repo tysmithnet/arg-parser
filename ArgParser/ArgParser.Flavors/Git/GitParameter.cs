@@ -10,12 +10,12 @@ namespace ArgParser.Flavors.Git
         /// <inheritdoc />
         public abstract IIterationInfo Consume(object instance, IIterationInfo info);
 
-        public abstract bool HasBeenConsumed { get; set; }
-
         /// <inheritdoc />
         public virtual void Reset()
         {
             HasBeenConsumed = false;
         }
+
+        public abstract bool HasBeenConsumed { get; set; }
     }
 }

@@ -9,20 +9,17 @@ namespace ArgParser.Flavors.Git
     [DebuggerDisplay("{Name}")]
     public class GitFlavor
     {
-        public void Accept(IGitFlavorVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
-
-        public int Depth { get; set; }
-
         /// <inheritdoc />
         public GitFlavor()
         {
             Parser = new GitParser(this);
         }
 
-        public IList<GitParameter> RequiredParameters { get; set; } = new List<GitParameter>();
+        public void Accept(IGitFlavorVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+
         public void AddBooleanSwitch(char letter, string word, Action<object> consume, bool required = false)
         {
             var booleanSwitch = new BooleanSwitch
@@ -51,7 +48,7 @@ namespace ArgParser.Flavors.Git
             };
             Positionals.Add(positional);
             Parser.AddParameter(positional);
-            if(required)
+            if (required)
                 RequiredParameters.Add(positional);
         }
 
@@ -106,26 +103,29 @@ namespace ArgParser.Flavors.Git
                 var subCommandFlavor = SubCommands[possibleSubCommand];
                 return subCommandFlavor.Parse(args.Skip(1).ToArray(), factoryFunctions ?? FactoryFunctions);
             }
+
             var strat = new GitParseStrategy(factoryFunctions ?? FactoryFunctions);
             if (RequiredParameters.Any())
             {
                 var validators = RequiredParameters.Select(parameter => new RequiredParameterValidator(parameter));
-                foreach (var requiredParameterValidator in validators)
-                {
-                    strat.Validators.Add(requiredParameterValidator);
-                }
+                foreach (var requiredParameterValidator in validators) strat.Validators.Add(requiredParameterValidator);
             }
+
             var visitor = new AncestorAndDescendentVisitor();
             Accept(visitor);
             return strat.Parse(visitor.GitFlavors.Select(x => x.Parser), args);
         }
 
         public GitFlavor BaseFlavor { get; set; }
+
+        public int Depth { get; set; }
         public List<Func<object>> FactoryFunctions { get; set; } = new List<Func<object>>();
+        public string Name { get; set; }
         public GitParser Parser { get; set; }
         public List<Positional> Positionals { get; set; } = new List<Positional>();
+
+        public IList<GitParameter> RequiredParameters { get; set; } = new List<GitParameter>();
         public Dictionary<string, GitFlavor> SubCommands { get; set; } = new Dictionary<string, GitFlavor>();
         public List<Switch> Switches { get; set; } = new List<Switch>();
-        public string Name { get; set; }
     }
 }

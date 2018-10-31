@@ -96,6 +96,30 @@ namespace ArgParser.Flavors.Test
 
     public class GitFlavor_Should
     {
+        private class NullOptions
+        {
+        }
+
+        [Fact]
+        public void Fail_If_IterationInfo_Doesnt_Go_Forward()
+        {
+            // arrange
+            var parser = new Mock<IParser>();
+            parser.Setup(p => p.CanConsume(It.IsAny<object>(), It.IsAny<IIterationInfo>())).Returns(true);
+            parser.Setup(p => p.Consume(It.IsAny<object>(), It.IsAny<IIterationInfo>())).Returns(
+                new DefaultIterationInfo
+                {
+                    Args = new[] {"hi"},
+                    Index = -1
+                });
+            var strat = new GitParseStrategy();
+
+            // act
+            var result = strat.Parse(new[] {parser.Object}, "hi".Split(' '));
+
+            // assert
+        }
+
         [Fact]
         public void Parse_Boolean_Switches_In_A_Hierarchy()
         {
@@ -173,41 +197,103 @@ namespace ArgParser.Flavors.Test
         }
 
         [Fact]
-        public void Parse_Value_Switches_In_A_Hierarchy()
+        public void Parse_Multiple_SubCommands()
         {
             // arrange
-            var git = new GitFlavor();
-            git.AddSingleValueSwitch('C', null, (o, s) =>
+            var baze = new GitFlavor();
+            baze.Name = "base";
+            baze.AddBooleanSwitch('h', "help", o =>
             {
-                if (o is GitOptions casted)
-                    casted.CurrentWorkingPaths.Add(s);
+                if (o is BaseOptions b)
+                    b.IsHelpRequested = true;
+            }, true);
+
+            var child0 = new GitFlavor();
+            child0.Name = "child0";
+            child0.AddSingleValueSwitch('a', "child0switch0", (o, s) =>
+            {
+                if (o is Child0Options c)
+                    c.Child0Switch0 = s;
             });
 
-            var commit = new GitFlavor();
-            commit.AddSingleValueSwitch('m', "message", (o, s) =>
-            {
-                if (o is CommitOptions casted)
-                    casted.Message = s;
-            });
+            var child1 = new GitFlavor();
+            child1.Name = "child1";
 
-            git.AddSubCommand("commit", commit);
-            git.AddFactoryMethods(() => new GitOptions(), () => new CommitOptions());
+            var child0child0 = new GitFlavor();
+            child0child0.Name = "child0child0";
+            child0child0.AddValueSwitch('b', "B", (o, s) =>
+            {
+                if (o is Child0Child0Options c)
+                    c.Child0Child0Switch0 = s;
+            });
+            child0child0.AddPositionals((o, s) =>
+            {
+                if (o is Child0Child0Options c)
+                    c.Child0Child0Positional0 = s;
+            });
+            var child0child1 = new GitFlavor();
+            child0child1.Name = "child0child1";
+
+            var child1child0 = new GitFlavor();
+            child1child0.Name = "child1child0";
+
+            var child1child1 = new GitFlavor();
+            child1child1.Name = "child1child1";
+
+            baze.AddSubCommand("child0", child0);
+            baze.AddSubCommand("child1", child1);
+
+            child0.AddSubCommand("child0child0", child0child0);
+            child0.AddSubCommand("child0child1", child0child1);
+
+            child1.AddSubCommand("child1child0", child1child0);
+            child1.AddSubCommand("child1child1", child1child1);
+            baze.AddFactoryMethods(() => new Child0Child0Options(), () => new Child0Child1Options(),
+                () => new Child0Options());
 
             // act
-            var result = git.Parse("commit -C path1 -C path2 -m something".Split(' '));
+            var result = baze.Parse("child0 child0child0 -a A --help p0 p1 -b B0 B1".Split(' '));
 
             // assert
-            var optionsParsedCount = 0;
-            var commitParsedCount = 0;
-            result.When<GitOptions>(options => { optionsParsedCount++; });
-            result.When<CommitOptions>(options =>
+            var optionsCount = 0;
+            object optionsRef = null;
+            var baseCount = 0;
+            object baseRef = null;
+            var childCount = 0;
+            object childRef = null;
+            var childchildCount = 0;
+            object childchildRef = null;
+
+            result.When<IOptions>(options =>
             {
-                commitParsedCount++;
-                options.CurrentWorkingPaths.Should().BeEquivalentTo("path1", "path2");
-                options.Message.Should().Be("something");
+                optionsCount++;
+                optionsRef = options;
             });
-            optionsParsedCount.Should().Be(1);
-            commitParsedCount.Should().Be(1);
+            result.When<BaseOptions>(options =>
+            {
+                baseCount++;
+                baseRef = options;
+            });
+            result.When<Child0Options>(options =>
+            {
+                childCount++;
+                childRef = options;
+            });
+            result.When<Child0Child0Options>(options =>
+            {
+                childchildCount++;
+                childchildRef = options;
+                options.Child0Child0Positional0.Should().BeEquivalentTo("p0 p1".Split(' '));
+                options.Child0Child0Switch0.Should().BeEquivalentTo("B0 B1".Split(' '));
+                options.Child0Switch0.Should().Be("A");
+                options.IsHelpRequested.Should().BeTrue();
+            });
+
+            optionsCount.Should().Be(1);
+            baseCount.Should().Be(1);
+            childCount.Should().Be(1);
+            childchildCount.Should().Be(1);
+            new[] {optionsRef, baseRef, childRef}.All(x => ReferenceEquals(x, childchildRef)).Should().BeTrue();
         }
 
         [Fact]
@@ -331,103 +417,41 @@ namespace ArgParser.Flavors.Test
         }
 
         [Fact]
-        public void Parse_Multiple_SubCommands()
+        public void Parse_Value_Switches_In_A_Hierarchy()
         {
             // arrange
-            var baze = new GitFlavor();
-            baze.Name = "base";
-            baze.AddBooleanSwitch('h', "help", o =>
+            var git = new GitFlavor();
+            git.AddSingleValueSwitch('C', null, (o, s) =>
             {
-                if (o is BaseOptions b)
-                    b.IsHelpRequested = true;
-            }, required: true);
-
-            var child0 = new GitFlavor();
-            child0.Name = "child0";
-            child0.AddSingleValueSwitch('a', "child0switch0", (o, s) =>
-            {
-                if (o is Child0Options c)
-                    c.Child0Switch0 = s;
+                if (o is GitOptions casted)
+                    casted.CurrentWorkingPaths.Add(s);
             });
 
-            var child1 = new GitFlavor();
-            child1.Name = "child1";
-            
-            var child0child0 = new GitFlavor();
-            child0child0.Name = "child0child0";
-            child0child0.AddValueSwitch('b', "B", (o, s) =>
+            var commit = new GitFlavor();
+            commit.AddSingleValueSwitch('m', "message", (o, s) =>
             {
-                if (o is Child0Child0Options c)
-                    c.Child0Child0Switch0 = s;
+                if (o is CommitOptions casted)
+                    casted.Message = s;
             });
-            child0child0.AddPositionals((o, s) =>
-            {
-                if (o is Child0Child0Options c)
-                    c.Child0Child0Positional0 = s;
-            });
-            var child0child1 = new GitFlavor();
-            child0child1.Name = "child0child1";
-            
-            var child1child0 = new GitFlavor();
-            child1child0.Name = "child1child0";
-            
-            var child1child1 = new GitFlavor();
-            child1child1.Name = "child1child1";
-            
-            baze.AddSubCommand("child0", child0);
-            baze.AddSubCommand("child1", child1);
 
-            child0.AddSubCommand("child0child0", child0child0);
-            child0.AddSubCommand("child0child1", child0child1);
-
-            child1.AddSubCommand("child1child0", child1child0);
-            child1.AddSubCommand("child1child1", child1child1);
-            baze.AddFactoryMethods(() => new Child0Child0Options(), () => new Child0Child1Options(),
-                () => new Child0Options());
+            git.AddSubCommand("commit", commit);
+            git.AddFactoryMethods(() => new GitOptions(), () => new CommitOptions());
 
             // act
-            var result = baze.Parse("child0 child0child0 -a A --help p0 p1 -b B0 B1".Split(' '));
+            var result = git.Parse("commit -C path1 -C path2 -m something".Split(' '));
 
             // assert
-            var optionsCount = 0;
-            object optionsRef = null;
-            var baseCount = 0;
-            object baseRef = null;
-            var childCount = 0;
-            object childRef = null;
-            var childchildCount = 0;
-            object childchildRef = null;
-
-            result.When<IOptions>(options =>
+            var optionsParsedCount = 0;
+            var commitParsedCount = 0;
+            result.When<GitOptions>(options => { optionsParsedCount++; });
+            result.When<CommitOptions>(options =>
             {
-                optionsCount++;
-                optionsRef = options;
+                commitParsedCount++;
+                options.CurrentWorkingPaths.Should().BeEquivalentTo("path1", "path2");
+                options.Message.Should().Be("something");
             });
-            result.When<BaseOptions>(options =>
-            {
-                baseCount++;
-                baseRef = options;
-            });
-            result.When<Child0Options>(options =>
-            {
-                childCount++;
-                childRef = options;
-            });
-            result.When<Child0Child0Options>(options =>
-            {
-                childchildCount++;
-                childchildRef = options;
-                options.Child0Child0Positional0.Should().BeEquivalentTo("p0 p1".Split(' '));
-                options.Child0Child0Switch0.Should().BeEquivalentTo("B0 B1".Split(' '));
-                options.Child0Switch0.Should().Be("A");
-                options.IsHelpRequested.Should().BeTrue();
-            });
-
-            optionsCount.Should().Be(1);
-            baseCount.Should().Be(1);
-            childCount.Should().Be(1);
-            childchildCount.Should().Be(1);
-            new[] { optionsRef, baseRef, childRef }.All(x => ReferenceEquals(x, childchildRef)).Should().BeTrue();
+            optionsParsedCount.Should().Be(1);
+            commitParsedCount.Should().Be(1);
         }
 
         [Fact]
@@ -439,7 +463,7 @@ namespace ArgParser.Flavors.Test
             {
                 if (o is BaseOptions b)
                     b.BaseSwitch0 = s;
-            }, required: true);
+            }, true);
             flavor.AddFactoryMethods(() => new BaseOptions());
             IParseResult result = null;
             Action mightThrow = () => result = flavor.Parse("".Split(' '));
@@ -447,32 +471,9 @@ namespace ArgParser.Flavors.Test
             // act
             // assert
             mightThrow.Should().NotThrow();
-            int count = 0;
+            var count = 0;
             result.When<BaseOptions>(options => { count++; });
             count.Should().Be(0);
-        }
-        private class NullOptions { }
-
-        [Fact]
-        public void Fail_If_IterationInfo_Doesnt_Go_Forward()
-        {
-            // arrange
-            var parser = new Mock<IParser>();
-            parser.Setup(p => p.CanConsume(It.IsAny<object>(), It.IsAny<IIterationInfo>())).Returns(true);
-            parser.Setup(p => p.Consume(It.IsAny<object>(), It.IsAny<IIterationInfo>())).Returns(
-                new DefaultIterationInfo()
-                {
-                    Args = new[] {"hi"},
-                    Index = -1
-                });
-            var strat = new GitParseStrategy();
-
-
-            // act
-            var result = strat.Parse(new[] { parser.Object }, "hi".Split(' '));
-
-            // assert
-
         }
     }
 }

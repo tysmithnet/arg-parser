@@ -15,9 +15,12 @@ namespace ArgParser.Flavors.Git
             GroupMatch = Regex.Match(Raw, @"^-(?<k>\S+)$");
             WordEqualMatch = Regex.Match(Raw, @"^--(?<k>[^-]+)=(?<v>\S+)$");
         }
+
         public Match GroupMatch { get; set; }
+
         public bool IsAnyMatch =>
             WordMatch.Success || LetterMatch.Success || WordEqualMatch.Success || GroupMatch.Success;
+
         public string Key => (WordEqualMatch?.Success ?? false) ? WordEqualMatch?.Groups["k"].Value : null;
         public char? Letter => (LetterMatch?.Success ?? false) ? LetterMatch?.Groups["k"].Value[0] : null;
         public Match LetterMatch { get; set; }

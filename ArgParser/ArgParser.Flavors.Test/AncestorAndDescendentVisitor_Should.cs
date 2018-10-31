@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ArgParser.Flavors.Git;
+﻿using ArgParser.Flavors.Git;
 using FluentAssertions;
 using Xunit;
 
@@ -30,7 +25,7 @@ namespace ArgParser.Flavors.Test
             aa.Accept(visitor);
 
             // assert
-            visitor.GitFlavors.Should().BeEquivalentTo(new[] {a, aa, aaa});
+            visitor.GitFlavors.Should().BeEquivalentTo(a, aa, aaa);
         }
     }
 }

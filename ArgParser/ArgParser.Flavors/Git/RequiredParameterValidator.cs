@@ -12,24 +12,19 @@ namespace ArgParser.Flavors.Git
             Parameter = parameter ?? throw new ArgumentNullException(nameof(parameter));
         }
 
-        public GitParameter Parameter { get; set; }
-
         /// <inheritdoc />
-        public bool CanValidate(object instance)
-        {
-            return true;
-        }
+        public bool CanValidate(object instance) => true;
 
         /// <inheritdoc />
         public IValidationResult Validate(object instance)
         {
-            if(!Parameter.HasBeenConsumed)
-                return new ValidationResult()
+            if (!Parameter.HasBeenConsumed)
+                return new ValidationResult
                 {
                     Instance = instance,
-                    Errors = new List<ValidationError>()
+                    Errors = new List<ValidationError>
                     {
-                        new MissingRequiredParameterError()
+                        new MissingRequiredParameterError
                         {
                             Message = $"Required parameter not found: {Parameter}", // todo: implement ToString(),
                             RequiredParameter = Parameter
@@ -37,10 +32,12 @@ namespace ArgParser.Flavors.Git
                     },
                     IsSuccess = false
                 };
-            return new ValidationResult()
+            return new ValidationResult
             {
                 IsSuccess = true
             };
         }
+
+        public GitParameter Parameter { get; set; }
     }
 }

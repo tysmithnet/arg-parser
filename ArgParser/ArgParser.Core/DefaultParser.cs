@@ -69,13 +69,13 @@ namespace ArgParser.Core
             return result;
         }
 
-        public IParser BaseParser { get; set; }
-
         /// <inheritdoc />
         public void Reset()
         {
             ;
         }
+
+        public IParser BaseParser { get; set; }
 
         /// <inheritdoc />
         public IGenericHelp Help { get; protected internal set; }

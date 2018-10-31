@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using ArgParser.Core;
 using ArgParser.Core.Help;
 
@@ -10,8 +9,6 @@ namespace ArgParser.Flavors.Git
     [DebuggerDisplay("{Name}")]
     public class GitParser : IParser
     {
-        public string Name => _flavor.Name;
-
         /// <inheritdoc />
         public GitParser(GitFlavor flavor)
         {
@@ -19,7 +16,8 @@ namespace ArgParser.Flavors.Git
         }
 
         private readonly GitFlavor _flavor;
-        private List<IParameter> AllParameters = new List<IParameter>();
+        private readonly List<IParameter> AllParameters = new List<IParameter>();
+
         public virtual void AddParameter(IParameter parameter, IGenericHelp help = null)
         {
             AllParameters.Add(parameter);
@@ -47,20 +45,19 @@ namespace ArgParser.Flavors.Git
         }
 
         /// <inheritdoc />
-        public IParser BaseParser => DefaultParser.BaseParser;
-
-        /// <inheritdoc />
         public void Reset()
         {
-            foreach (var allParameter in AllParameters)
-            {
-                allParameter.Reset();
-            }
+            foreach (var allParameter in AllParameters) allParameter.Reset();
         }
+
+        /// <inheritdoc />
+        public IParser BaseParser => DefaultParser.BaseParser;
 
         public DefaultParser DefaultParser { get; set; } = new DefaultParser();
 
         /// <inheritdoc />
         public IGenericHelp Help => DefaultParser.Help;
+
+        public string Name => _flavor.Name;
     }
 }

@@ -31,9 +31,11 @@ namespace ArgParser.Flavors.Git
                     set.Add(o);
                     return set;
                 }
-                var toBeRemoved = set.Where(x => x.GetType().GetTypeInfo().IsAssignableFrom(o.GetType().GetTypeInfo())).ToList();
+
+                var toBeRemoved = set.Where(x => x.GetType().GetTypeInfo().IsAssignableFrom(o.GetType().GetTypeInfo()))
+                    .ToList();
                 set.ExceptWith(toBeRemoved);
-                if(toBeRemoved.Any())
+                if (toBeRemoved.Any())
                     set.Add(o);
                 return set;
             });

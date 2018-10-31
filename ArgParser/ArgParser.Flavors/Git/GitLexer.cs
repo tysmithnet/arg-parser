@@ -9,7 +9,7 @@ namespace ArgParser.Flavors.Git
         /// <inheritdoc />
         public IEnumerable<IToken> Lex(string[] args)
         {
-            return DefaultLexer.Lex(args).Select(x => TokenExtensions.ToGitToken(x));
+            return DefaultLexer.Lex(args).Select(x => x.ToGitToken());
         }
 
         public DefaultLexer DefaultLexer { get; set; } = new DefaultLexer();

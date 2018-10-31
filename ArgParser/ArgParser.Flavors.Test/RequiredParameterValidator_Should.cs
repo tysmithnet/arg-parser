@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using ArgParser.Flavors.Git;
 using FluentAssertions;
 using Xunit;
@@ -21,7 +16,7 @@ namespace ArgParser.Flavors.Test
         public void Return_Success_If_The_Validation_Succeeds()
         {
             // arrange
-            var gitParameter = new Positional()
+            var gitParameter = new Positional
             {
                 ConsumeCallback = (o, strings) =>
                 {
@@ -33,7 +28,7 @@ namespace ArgParser.Flavors.Test
             };
             var validator = new RequiredParameterValidator(gitParameter);
             validator.Parameter = gitParameter;
-             
+
             // act
             var result = validator.Validate(new BasicOptions());
 

@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security;
-using System.Text;
-using System.Threading.Tasks;
 using ArgParser.Core;
 using ArgParser.Flavors.Git;
 using FluentAssertions;
@@ -17,22 +12,16 @@ namespace ArgParser.Flavors.Test
         public class BadInfo : DefaultIterationInfo
         {
             /// <inheritdoc />
-            public override IIterationInfo Consume(int numTokens)
-            {
-                return base.Consume(-1);
-            }
+            public override IIterationInfo Consume(int numTokens) => base.Consume(-1);
         }
 
         public class BadFactory : DefaultIterationInfoFactory
         {
             /// <inheritdoc />
-            public override IIterationInfo Create(string[] args)
+            public override IIterationInfo Create(string[] args) => new BadInfo
             {
-                return new BadInfo()
-                {
-                    Args = args
-                };
-            }
+                Args = args
+            };
         }
 
         [Fact]
@@ -43,7 +32,7 @@ namespace ArgParser.Flavors.Test
             strat.FactoryFunctions.Add(() => new BaseOptions());
             var parser = new Mock<IParser>();
             parser.Setup(p => p.CanConsume(It.IsAny<object>(), It.IsAny<IIterationInfo>())).Returns(true);
-            parser.Setup(p => p.Consume(It.IsAny<object>(), It.IsAny<IIterationInfo>())).Returns(new BadInfo()
+            parser.Setup(p => p.Consume(It.IsAny<object>(), It.IsAny<IIterationInfo>())).Returns(new BadInfo
             {
                 Args = "whatever".Split(),
                 Index = -1
