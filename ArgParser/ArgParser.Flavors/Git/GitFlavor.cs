@@ -19,7 +19,8 @@ namespace ArgParser.Flavors.Git
             visitor.Visit(this);
         }
 
-        public void AddBooleanSwitch(char letter, string word, Action<object> consume, bool required = false)
+        public void AddBooleanSwitch(char letter, string word, Action<object> consume, bool required = false,
+            bool isGroupable = false)
         {
             var booleanSwitch = new BooleanSwitch
             {
@@ -31,6 +32,8 @@ namespace ArgParser.Flavors.Git
             Parser.AddParameter(booleanSwitch);
             if (required)
                 RequiredParameters.Add(booleanSwitch);
+            if (isGroupable)
+                GroupableSwitches.Add(booleanSwitch);
         }
 
         public void AddFactoryMethods(params Func<object>[] methods)
@@ -68,7 +71,7 @@ namespace ArgParser.Flavors.Git
         }
 
         public void AddSingleValueSwitch(char letter, string word, Action<object, string> consume,
-            bool required = false)
+            bool required = false, bool isGroupable = false)
         {
             var singleValueSwitch = new SingleValueSwitch
             {
@@ -80,6 +83,8 @@ namespace ArgParser.Flavors.Git
             Parser.AddParameter(singleValueSwitch);
             if (required)
                 RequiredParameters.Add(singleValueSwitch);
+            if (isGroupable)
+                GroupableSwitches.Add(singleValueSwitch);
         }
 
         public void AddSubCommand(string command, GitFlavor flavor)
@@ -89,7 +94,8 @@ namespace ArgParser.Flavors.Git
             SubCommands.Add(command, flavor);
         }
 
-        public void AddValueSwitch(char letter, string word, Action<object, string[]> consume, bool required = false)
+        public void AddValueSwitch(char letter, string word, Action<object, string[]> consume, bool required = false,
+            bool isGroupable = false)
         {
             var valuesSwitch = new ValuesSwitch
             {
@@ -101,6 +107,8 @@ namespace ArgParser.Flavors.Git
             Parser.AddParameter(valuesSwitch);
             if (required)
                 RequiredParameters.Add(valuesSwitch);
+            if (isGroupable)
+                GroupableSwitches.Add(valuesSwitch);
         }
 
         public IParseResult Parse(string[] args, IEnumerable<Func<object>> factoryFunctions = null)
@@ -125,13 +133,13 @@ namespace ArgParser.Flavors.Git
         }
 
         public GitFlavor BaseFlavor { get; set; }
-
         public int Depth { get; set; }
         public List<Func<object>> FactoryFunctions { get; set; } = new List<Func<object>>();
+
+        public List<Switch> GroupableSwitches { get; set; } = new List<Switch>();
         public string Name { get; set; }
         public GitParser Parser { get; set; }
         public List<Positional> Positionals { get; set; } = new List<Positional>();
-
         public IList<GitParameter> RequiredParameters { get; set; } = new List<GitParameter>();
         public Dictionary<string, GitFlavor> SubCommands { get; set; } = new Dictionary<string, GitFlavor>();
         public List<Switch> Switches { get; set; } = new List<Switch>();
