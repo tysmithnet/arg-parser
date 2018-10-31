@@ -4,6 +4,7 @@ using System.Linq;
 using ArgParser.Core;
 using ArgParser.Flavors.Git;
 using FluentAssertions;
+using Moq;
 using Xunit;
 
 namespace ArgParser.Flavors.Test
@@ -339,7 +340,7 @@ namespace ArgParser.Flavors.Test
             {
                 if (o is BaseOptions b)
                     b.IsHelpRequested = true;
-            });
+            }, required: true);
 
             var child0 = new GitFlavor();
             child0.Name = "child0";
@@ -449,6 +450,29 @@ namespace ArgParser.Flavors.Test
             int count = 0;
             result.When<BaseOptions>(options => { count++; });
             count.Should().Be(0);
+        }
+        private class NullOptions { }
+
+        [Fact]
+        public void Fail_If_IterationInfo_Doesnt_Go_Forward()
+        {
+            // arrange
+            var parser = new Mock<IParser>();
+            parser.Setup(p => p.CanConsume(It.IsAny<object>(), It.IsAny<IIterationInfo>())).Returns(true);
+            parser.Setup(p => p.Consume(It.IsAny<object>(), It.IsAny<IIterationInfo>())).Returns(
+                new DefaultIterationInfo()
+                {
+                    Args = new[] {"hi"},
+                    Index = -1
+                });
+            var strat = new GitParseStrategy();
+
+
+            // act
+            var result = strat.Parse(new[] { parser.Object }, "hi".Split(' '));
+
+            // assert
+
         }
     }
 }

@@ -23,7 +23,7 @@ namespace ArgParser.Flavors.Git
         }
 
         public IList<GitParameter> RequiredParameters { get; set; } = new List<GitParameter>();
-        public void AddBooleanSwitch(char letter, string word, Action<object> consume)
+        public void AddBooleanSwitch(char letter, string word, Action<object> consume, bool required = false)
         {
             var booleanSwitch = new BooleanSwitch
             {
@@ -33,6 +33,7 @@ namespace ArgParser.Flavors.Git
             };
             Switches.Add(booleanSwitch);
             Parser.AddParameter(booleanSwitch);
+            RequiredParameters.Add(booleanSwitch);
         }
 
         public void AddFactoryMethods(params Func<object>[] methods)
