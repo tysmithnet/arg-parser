@@ -10,7 +10,7 @@ namespace ArgParser.Core.Test
         {
             public int Number { get; set; }
 
-            /// <inheritdoc />
+                
             public string Raw => Number.ToString();
         }
 

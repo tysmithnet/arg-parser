@@ -6,7 +6,7 @@ namespace ArgParser.Flavors.Git
 {
     public class ValuesSwitch : Switch
     {
-        /// <inheritdoc />
+            
         public override IIterationInfo Consume(object instance, IIterationInfo info)
         {
             var tokens = info.Rest.Select(x => x.ToGitToken()).TakeWhile(t => !t.IsAnyMatch).Select(t => t.Raw)
@@ -19,7 +19,7 @@ namespace ArgParser.Flavors.Git
 
         public Action<object, string[]> ConsumeCallback { get; set; }
 
-        /// <inheritdoc />
+            
         public override bool HasBeenConsumed { get; set; }
     }
 }

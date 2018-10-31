@@ -24,7 +24,7 @@ namespace ArgParser.Core.Help
             return this;
         }
 
-        /// <inheritdoc />
+            
         public IHelpNode Build()
         {
             var header = BuildHeader();

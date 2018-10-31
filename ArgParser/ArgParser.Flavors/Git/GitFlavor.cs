@@ -9,7 +9,7 @@ namespace ArgParser.Flavors.Git
     [DebuggerDisplay("{Name}")]
     public class GitFlavor
     {
-        /// <inheritdoc />
+            
         public GitFlavor()
         {
             Parser = new GitParser(this);

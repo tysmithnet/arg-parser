@@ -4,7 +4,7 @@ namespace ArgParser.Core.Help
 {
     public class RootNode : IHelpNode
     {
-        /// <inheritdoc />
+            
         public void Accept(IHelpNodeVisitor visitor)
         {
             visitor.Visit(this);

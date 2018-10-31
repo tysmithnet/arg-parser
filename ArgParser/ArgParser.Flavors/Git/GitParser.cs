@@ -9,7 +9,7 @@ namespace ArgParser.Flavors.Git
     [DebuggerDisplay("{Name}")]
     public class GitParser : IParser
     {
-        /// <inheritdoc />
+            
         public GitParser(GitFlavor flavor)
         {
             _flavor = flavor ?? throw new ArgumentNullException(nameof(flavor));
@@ -24,7 +24,7 @@ namespace ArgParser.Flavors.Git
             DefaultParser.AddParameter(parameter, help);
         }
 
-        /// <inheritdoc />
+            
         public bool CanConsume(object instance, IIterationInfo info)
         {
             var canSelf = DefaultParser.CanConsume(instance, info);
@@ -32,7 +32,7 @@ namespace ArgParser.Flavors.Git
             return canSelf || canBase;
         }
 
-        /// <inheritdoc />
+            
         public IIterationInfo Consume(object instance, IIterationInfo info)
         {
             var canSelf = DefaultParser.CanConsume(instance, info);
@@ -44,18 +44,18 @@ namespace ArgParser.Flavors.Git
             throw new InvalidOperationException(""); // todo: fix
         }
 
-        /// <inheritdoc />
+            
         public void Reset()
         {
             foreach (var allParameter in AllParameters) allParameter.Reset();
         }
 
-        /// <inheritdoc />
+            
         public IParser BaseParser => DefaultParser.BaseParser;
 
         public DefaultParser DefaultParser { get; set; } = new DefaultParser();
 
-        /// <inheritdoc />
+            
         public IGenericHelp Help => DefaultParser.Help;
 
         public string Name => _flavor.Name;

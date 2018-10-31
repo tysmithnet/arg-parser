@@ -6,16 +6,16 @@ namespace ArgParser.Flavors.Git
 {
     public class RequiredParameterValidator : IValidator
     {
-        /// <inheritdoc />
+            
         public RequiredParameterValidator(GitParameter parameter)
         {
             Parameter = parameter ?? throw new ArgumentNullException(nameof(parameter));
         }
 
-        /// <inheritdoc />
+            
         public bool CanValidate(object instance) => true;
 
-        /// <inheritdoc />
+            
         public IValidationResult Validate(object instance)
         {
             if (!Parameter.HasBeenConsumed)

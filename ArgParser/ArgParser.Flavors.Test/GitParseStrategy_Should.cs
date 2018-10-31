@@ -11,13 +11,13 @@ namespace ArgParser.Flavors.Test
     {
         public class BadInfo : DefaultIterationInfo
         {
-            /// <inheritdoc />
+                
             public override IIterationInfo Consume(int numTokens) => base.Consume(-1);
         }
 
         public class BadFactory : DefaultIterationInfoFactory
         {
-            /// <inheritdoc />
+                
             public override IIterationInfo Create(string[] args) => new BadInfo
             {
                 Args = args

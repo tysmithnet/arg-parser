@@ -9,13 +9,13 @@ namespace ArgParser.Flavors.Git
 {
     public class GitParseStrategy : IParseStrategy
     {
-        /// <inheritdoc />
+            
         public GitParseStrategy(IEnumerable<Func<object>> factoryFuncs = null)
         {
             FactoryFunctions = factoryFuncs?.ToList() ?? new List<Func<object>>();
         }
 
-        /// <inheritdoc />
+            
         public virtual IParseResult Parse(IEnumerable<IParser> parsers, string[] args)
         {
             var results = ParseInstances(parsers, args);

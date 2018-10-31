@@ -4,45 +4,45 @@ namespace ArgParser.Core.Help
 {
     public class DefaultHelpNodeVisitor : IHelpNodeVisitor
     {
-        /// <inheritdoc />
+            
         public void Visit(TextNode node)
         {
             TextNode?.Invoke(node);
         }
 
-        /// <inheritdoc />
+            
         public void Visit(CodeNode node)
         {
             CodeNode?.Invoke(node);
         }
 
-        /// <inheritdoc />
+            
         public void Visit(HeadingNode node)
         {
             HeadingNode?.Invoke(node);
         }
 
-        /// <inheritdoc />
+            
         public void Visit(TableNode node)
         {
             TableNode?.Invoke(node);
             foreach (var tableRowNode in node.Rows) tableRowNode.Accept(this);
         }
 
-        /// <inheritdoc />
+            
         public void Visit(TableRowNode node)
         {
             TableRowNode?.Invoke(node);
             foreach (var dataNode in node.TableDataNodes) dataNode.Accept(this);
         }
 
-        /// <inheritdoc />
+            
         public void Visit(TableDataNode node)
         {
             TableDataNode?.Invoke(node);
         }
 
-        /// <inheritdoc />
+            
         public void Visit(RootNode node)
         {
             RootNode?.Invoke(node);

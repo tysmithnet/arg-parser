@@ -6,7 +6,7 @@ namespace ArgParser.Flavors.Git
 {
     public class GitLexer : ILexer
     {
-        /// <inheritdoc />
+            
         public IEnumerable<IToken> Lex(string[] args)
         {
             return DefaultLexer.Lex(args).Select(x => x.ToGitToken());

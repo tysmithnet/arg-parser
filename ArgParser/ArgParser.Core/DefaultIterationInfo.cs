@@ -29,7 +29,7 @@ namespace ArgParser.Core
         /// </summary>
         /// <param name="numTokens">The number tokens.</param>
         /// <returns>IIterationInfo.</returns>
-        /// <inheritdoc />
+            
         public virtual IIterationInfo Consume(int numTokens) => SetIndex(Index + numTokens);
 
         /// <summary>
@@ -73,64 +73,64 @@ namespace ArgParser.Core
         ///     Gets or sets the arguments.
         /// </summary>
         /// <value>The arguments.</value>
-        /// <inheritdoc />
+            
         public string[] Args { get; set; }
 
         /// <summary>
         ///     Gets the current.
         /// </summary>
         /// <value>The current.</value>
-        /// <inheritdoc />
+            
         public IToken Current => !IsComplete ? Tokens?[Index] : null;
 
-        /// <inheritdoc />
+            
         public IToken First => Tokens?.FirstOrDefault();
 
         /// <summary>
         ///     Gets or sets the index.
         /// </summary>
         /// <value>The index.</value>
-        /// <inheritdoc />
+            
         public int Index { get; set; }
 
         /// <summary>
         ///     Gets a value indicating whether this instance is complete.
         /// </summary>
         /// <value><c>true</c> if this instance is complete; otherwise, <c>false</c>.</value>
-        /// <inheritdoc />
+            
         public bool IsComplete => Index >= Tokens?.Count;
 
-        /// <inheritdoc />
+            
         public bool IsFirst => Index == 0;
 
-        /// <inheritdoc />
+            
         public bool IsInternal => Index > 0 && Index < Tokens?.Count - 1;
 
-        /// <inheritdoc />
+            
         public bool IsLast => Index == Tokens?.Count - 1;
 
-        /// <inheritdoc />
+            
         public IToken Last => Tokens?.LastOrDefault();
 
         /// <summary>
         ///     Gets the next.
         /// </summary>
         /// <value>The next.</value>
-        /// <inheritdoc />
+            
         public IToken Next => Rest?.FirstOrDefault();
 
         /// <summary>
         ///     Gets the rest.
         /// </summary>
         /// <value>The rest.</value>
-        /// <inheritdoc />
+            
         public IEnumerable<IToken> Rest => Tokens?.Skip(Index + 1);
 
         /// <summary>
         ///     Gets the tokens.
         /// </summary>
         /// <value>The tokens.</value>
-        /// <inheritdoc />
+            
         public IReadOnlyList<IToken> Tokens { get; internal set; }
     }
 }
