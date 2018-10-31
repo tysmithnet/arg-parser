@@ -78,6 +78,7 @@
     <Compile Include="AncestorAndDescendentVisitor_Should.cs" />
     <Compile Include="GitFlavor_Should.cs" />
     <Compile Include="GitParser_Should.cs" />
+    <Compile Include="GitParseStrategy_Should.cs" />
     <Compile Include="GitToken_Should.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequiredParameterValidator_Should.cs" />

@@ -57,7 +57,8 @@ namespace ArgParser.Flavors.Git
                 while (!hasFailed && !info.IsComplete && parser.CanConsume(instance, info))
                 {
                     info = parser.Consume(instance, info);
-                    if (info.Index <= last) hasFailed = true;
+                    if (info.Index <= last)
+                        hasFailed = true;
                 }
 
                 var validationResults =
