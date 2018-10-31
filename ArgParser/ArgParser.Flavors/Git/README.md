@@ -1,6 +1,15 @@
 # ArgParser.Flavors.Git
 This flavor is similar to how git parses command line arguments.
 
+### Features
+- [x] Sub commands
+  - [x] Nested sub commands
+- [x] Single tick switches
+- [x] Double tick switches
+- [x] Positional parameters
+- [x] Required parameters
+- [ ] Groupable single tick switches e.g. `git commit -am message`
+
 ### Glossary
 |Term               |Definition|
 |-------------------|----------|
