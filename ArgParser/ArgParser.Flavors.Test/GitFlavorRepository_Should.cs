@@ -16,7 +16,7 @@ namespace ArgParser.Flavors.Test
         public void Throw_If_Attempting_To_Create_Duplicate_Flavor_Names()
         {
             // arrange
-            var repo = new GitFlavorRepository();
+            var repo = new GitParserRepository();
             Action mightThrow0 = () => repo.Create("a");
             Action mightThrow1 = () => repo.Create("a");
 
@@ -30,7 +30,7 @@ namespace ArgParser.Flavors.Test
         public void Throw_If_Cant_Find_Parent_Or_Child_When_Creating_Relationships()
         {
             // arrange
-            var repo = new GitFlavorRepository();
+            var repo = new GitParserRepository();
             repo.Create("parent");
             //repo.Create("child");
             Action mightThrow0 = () => repo.EstablishParentChildRelationship("parent", "child");
@@ -46,7 +46,7 @@ namespace ArgParser.Flavors.Test
         public void Throw_If_Cant_Find_Parent_Or_Child_When_Getting_Parent()
         {
             // arrange
-            var repo = new GitFlavorRepository();
+            var repo = new GitParserRepository();
             //repo.Create("child");
             Action mightThrow0 = () => repo.GetParent("parent");
 
@@ -59,7 +59,7 @@ namespace ArgParser.Flavors.Test
         public void Throw_If_Cant_Find_Parent_Or_Child_When_Getting_Ancestors()
         {
             // arrange
-            var repo = new GitFlavorRepository();
+            var repo = new GitParserRepository();
             //repo.Create("child");
             Action mightThrow0 = () => repo.GetAncestors("parent");
 
@@ -72,7 +72,7 @@ namespace ArgParser.Flavors.Test
         public void Throw_If_Cant_Find_Parent_Or_Child_When_Getting_Children()
         {
             // arrange
-            var repo = new GitFlavorRepository();
+            var repo = new GitParserRepository();
             //repo.Create("child");
             Action mightThrow0 = () => repo.GetChildren("parent", false);
 
@@ -85,7 +85,7 @@ namespace ArgParser.Flavors.Test
         public void Throw_If_Asking_For_A_Flavor_That_Doesnt_Exist()
         {
             // arrange
-            var repo = new GitFlavorRepository();
+            var repo = new GitParserRepository();
             Action mightThrow = () => repo.Get("doesntexist");
             
             // act
@@ -97,7 +97,7 @@ namespace ArgParser.Flavors.Test
         public void Throw_If_Asking_For_A_Parent_But_The_Child_Doesnt_Exist()
         {
             // arrange
-            var repo = new GitFlavorRepository();
+            var repo = new GitParserRepository();
             Action mightThrow = () => repo.GetParent("doesntexist");
 
             // act
@@ -109,7 +109,7 @@ namespace ArgParser.Flavors.Test
         public void Return_The_Correct_Flavor_When_Asked_For_By_Name()
         {
             // arrange
-            var repo = new GitFlavorRepository();
+            var repo = new GitParserRepository();
             
             // act
             var a = repo.Create("a");
@@ -123,7 +123,7 @@ namespace ArgParser.Flavors.Test
         public void Correctly_Establish_Parent_Child_Relationships()
         {
             // arrange
-            var repo = new GitFlavorRepository();
+            var repo = new GitParserRepository();
             var a = repo.Create("a");
             var b = repo.Create("b");
             var c = repo.Create("c");
@@ -148,7 +148,7 @@ namespace ArgParser.Flavors.Test
         public void Gracefully_Exit_If_Adding_The_Same_Relationship_Multiple_Times()
         {
             // arrange
-            var repo = new GitFlavorRepository();
+            var repo = new GitParserRepository();
             repo.Create("a");
             repo.Create("b");
             Action add = () => repo.EstablishParentChildRelationship("a", "b");

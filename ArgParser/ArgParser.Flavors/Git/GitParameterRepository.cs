@@ -28,7 +28,7 @@ namespace ArgParser.Flavors.Git
                 throw new ArgumentNullException(nameof(parserName));
             if (Parameters.ContainsKey(parserName))
                 return Parameters[parserName].ToList();
-            throw new ArgumentOutOfRangeException($"Could not find a registered flavor with name={parserName}");
+            throw new ArgumentOutOfRangeException($"Could not find a registered parser with name={parserName}");
         }
 
         public virtual IEnumerable<Positional> GetPositionals(string parserName) =>

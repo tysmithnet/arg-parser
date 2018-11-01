@@ -8,7 +8,7 @@ namespace ArgParser.Flavors.Git
         void EstablishParentChildRelationship(string parent, string child);
         GitParser Get(string name);
         IEnumerable<GitParser> GetAncestors(string name);
-        IEnumerable<GitParser> GetChildren(string flavor, bool recursive);
-        GitParser GetParent(string flavor);
+        IEnumerable<GitParser> GetChildren(string parser, bool recursive);
+        GitParser GetParent(string parser);
     }
 }

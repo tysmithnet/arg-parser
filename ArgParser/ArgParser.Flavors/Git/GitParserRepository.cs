@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ArgParser.Flavors.Git
 {
-    public class GitFlavorRepository : IGitFlavorRepository
+    public class GitParserRepository : IGitFlavorRepository
     {
         protected internal Dictionary<string, List<string>> ParentChildRelationships =
             new Dictionary<string, List<string>>();
@@ -14,7 +14,7 @@ namespace ArgParser.Flavors.Git
         {
             if (Nodes.ContainsKey(name))
                 throw new ArgumentException(
-                    $"There is already a GitFlavor with name={name}. Please choose another name");
+                    $"There is already a parser with name={name}. Please choose another name");
             var newGuy = new GitParser(name);
             var node = new Node(name, newGuy);
             Nodes.Add(name, node);
@@ -39,14 +39,14 @@ namespace ArgParser.Flavors.Git
         public GitParser Get(string name)
         {
             if (!Nodes.ContainsKey(name))
-                throw new KeyNotFoundException($"Cannot find GitFlavor with name={name}, are you sure it's added?");
+                throw new KeyNotFoundException($"Cannot find parser with name={name}, are you sure it's added?");
             return Nodes[name].Parser;
         }
 
         public IEnumerable<GitParser> GetAncestors(string name)
         {
             if (!Nodes.ContainsKey(name))
-                throw new KeyNotFoundException($"Cannot find GitFlavor with name={name}, are you sure it's added?");
+                throw new KeyNotFoundException($"Cannot find parser with name={name}, are you sure it's added?");
             var node = Nodes[name].Parent;
             var results = new List<GitParser>();
             while (node != null)
@@ -81,7 +81,7 @@ namespace ArgParser.Flavors.Git
         public GitParser GetParent(string name)
         {
             if (!Nodes.ContainsKey(name))
-                throw new KeyNotFoundException($"Cannot find GitFlavor with name={name}, are you sure it's added?");
+                throw new KeyNotFoundException($"Cannot find parser with name={name}, are you sure it's added?");
             var node = Nodes[name];
             return node.Parent?.Parser;
         }

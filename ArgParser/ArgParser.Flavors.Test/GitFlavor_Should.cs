@@ -444,15 +444,15 @@ namespace ArgParser.Flavors.Test
         public void Validate_Required_Parameters_Were_Consumed()
         {
             // arrange
-            var flavor = new GitParser("base");
-            flavor.AddPositional((o, s) =>
+            var parser = new GitParser("base");
+            parser.AddPositional((o, s) =>
             {
                 if (o is BaseOptions b)
                     b.BaseSwitch0 = s;
             }, true);
-            flavor.AddFactoryMethods(() => new BaseOptions());
+            parser.AddFactoryMethods(() => new BaseOptions());
             IParseResult result = null;
-            Action mightThrow = () => result = flavor.Parse("".Split(' '));
+            Action mightThrow = () => result = parser.Parse("".Split(' '));
 
             // act
             // assert
