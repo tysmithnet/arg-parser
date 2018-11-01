@@ -6,7 +6,6 @@ namespace ArgParser.Flavors.Git
 {
     public class GitToken : IToken
     {
-            
         public GitToken(string raw)
         {
             Raw = raw ?? throw new ArgumentNullException(nameof(raw));

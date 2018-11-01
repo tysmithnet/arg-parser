@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Composition;
 using System.Diagnostics;
 using ArgParser.Core;
 using ArgParser.Core.Help;
@@ -11,12 +12,10 @@ namespace ArgParser.Flavors.Git
     {
         public GitParser(string flavorName)
         {
-            var name = flavorName ?? throw new ArgumentNullException(nameof(flavorName));
-            _flavor = GitFlavorRepository.Get(name);
+            Name = flavorName ?? throw new ArgumentNullException(nameof(flavorName));
         }
 
         private readonly List<IParameter> _allParameters = new List<IParameter>();
-        private readonly GitFlavor _flavor;
 
         public virtual void AddParameter(IParameter parameter, IGenericHelp help = null)
         {
@@ -27,7 +26,7 @@ namespace ArgParser.Flavors.Git
         public bool CanConsume(object instance, IIterationInfo info)
         {
             var canSelf = DefaultParser.CanConsume(instance, info);
-            var canBase = _flavor.BaseFlavor?.Parser.CanConsume(instance, info) ?? false;
+            var canBase = GitFlavorRepository.GetParent(Name)?.CanConsume(instance, info) ?? false;
             return canSelf || canBase;
         }
 
@@ -36,11 +35,11 @@ namespace ArgParser.Flavors.Git
             var canSelf = DefaultParser.CanConsume(instance, info);
             if (canSelf)
                 return DefaultParser.Consume(instance, info);
-            var ancestors = GitFlavorRepository.GetAncestors(_flavor.Name);
+            var ancestors = GitFlavorRepository.GetAncestors(Name);
             foreach (var gitFlavor in ancestors)
                 if (gitFlavor.CanConsume(instance, info))
                     return gitFlavor.Consume(instance, info);
-            throw new InvalidOperationException(""); // todo: fix
+            throw new InvalidOperationException($"Consume was called on {Name}, but it, nor its ancestors are able to consume. Was CanConsume called before this invocation?");
         }
 
         public void Reset()
@@ -48,10 +47,13 @@ namespace ArgParser.Flavors.Git
             foreach (var allParameter in _allParameters) allParameter.Reset();
         }
 
-        public IParser BaseParser => GitFlavorRepository.GetParent(_flavor.Name)?.Parser;
+        public IParser BaseParser => GitFlavorRepository.GetParent(Name)?.Parser;
         public DefaultParser DefaultParser { get; set; } = new DefaultParser();
+
+        [Import]
         public IGitFlavorRepository GitFlavorRepository { get; set; }
+
         public IGenericHelp Help => DefaultParser.Help;
-        public string Name => $"{_flavor.Name}_parser";
+        public string Name { get; set; }
     }
 }
