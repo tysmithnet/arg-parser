@@ -116,9 +116,9 @@ namespace ArgParser.Flavors.Git
                 foreach (var requiredParameterValidator in validators) strat.Validators.Add(requiredParameterValidator);
             }
 
-            var ancestors = GitFlavorRepository.GetAncestors(Name).ToList();
+            var ancestors = GitParserRepository.GetAncestors(Name).ToList();
             ancestors.Insert(0, this);
-            var children = GitFlavorRepository.GetChildren(Name, true);
+            var children = GitParserRepository.GetChildren(Name, true);
             return strat.Parse(ancestors.Concat(children), args);
         }
 
@@ -133,7 +133,7 @@ namespace ArgParser.Flavors.Git
         public bool CanConsume(object instance, IIterationInfo info)
         {
             var canSelf = DefaultParser.CanConsume(instance, info);
-            var canBase = GitFlavorRepository.GetParent(Name)?.CanConsume(instance, info) ?? false;
+            var canBase = GitParserRepository.GetParent(Name)?.CanConsume(instance, info) ?? false;
             return canSelf || canBase;
         }
 
@@ -142,7 +142,7 @@ namespace ArgParser.Flavors.Git
             var canSelf = DefaultParser.CanConsume(instance, info);
             if (canSelf)
                 return DefaultParser.Consume(instance, info);
-            var ancestors = GitFlavorRepository.GetAncestors(Name);
+            var ancestors = GitParserRepository.GetAncestors(Name);
             foreach (var gitFlavor in ancestors)
                 if (gitFlavor.CanConsume(instance, info))
                     return gitFlavor.Consume(instance, info);
@@ -155,10 +155,10 @@ namespace ArgParser.Flavors.Git
             foreach (var allParameter in _allParameters) allParameter.Reset();
         }
 
-        public IParser BaseParser => GitFlavorRepository.GetParent(Name);
+        public IParser BaseParser => GitParserRepository.GetParent(Name);
         public DefaultParser DefaultParser { get; set; } = new DefaultParser();
 
-        public IGitFlavorRepository GitFlavorRepository { get; set; }
+        public IGitParserRepository GitParserRepository { get; set; }
 
         public IGenericHelp Help => DefaultParser.Help;
         public string Name { get; set; }

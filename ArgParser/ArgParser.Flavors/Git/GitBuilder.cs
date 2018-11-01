@@ -6,7 +6,7 @@ namespace ArgParser.Flavors.Git
 {
     public class GitBuilder
     {
-        public IGitFlavorRepository GitFlavorRepository { get; set; } = new GitParserRepository();
+        public IGitParserRepository GitParserRepository { get; set; } = new GitParserRepository();
         public IGitParameterRepository GitParameterRepository { get; set; } = new GitParameterRepository();
         public IGitValidatorRepository GitValidatorRepository { get; set; } = new GitValidatorRepository();
     }

@@ -2,7 +2,7 @@
 
 namespace ArgParser.Flavors.Git
 {
-    public interface IGitFlavorRepository
+    public interface IGitParserRepository
     {
         GitParser Create(string name);
         void EstablishParentChildRelationship(string parent, string child);

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ArgParser.Flavors.Git
 {
-    public class GitParserRepository : IGitFlavorRepository
+    public class GitParserRepository : IGitParserRepository
     {
         protected internal Dictionary<string, List<string>> ParentChildRelationships =
             new Dictionary<string, List<string>>();
@@ -90,7 +90,6 @@ namespace ArgParser.Flavors.Git
 
         protected internal class Node
         {
-            /// <inheritdoc />
             public Node(string name, GitParser parser)
             {
                 Name = name ?? throw new ArgumentNullException(nameof(name));
