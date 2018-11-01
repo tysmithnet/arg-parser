@@ -14,12 +14,7 @@ namespace ArgParser.Flavors.Git
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
         }
-
-        public void Accept(IGitFlavorVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
-
+        
         public void AddBooleanSwitch(char letter, string word, Action<object> consume, bool required = false,
             bool isGroupable = false)
         {
@@ -86,8 +81,6 @@ namespace ArgParser.Flavors.Git
 
         public void AddSubCommand(string command, GitParser parser)
         {
-            parser.BaseFlavor = this;
-            parser.Depth = Depth + 1;
             SubCommands.Add(command, parser);
         }
 
@@ -170,7 +163,6 @@ namespace ArgParser.Flavors.Git
         public IGenericHelp Help => DefaultParser.Help;
         public string Name { get; set; }
 
-        public int Depth { get; set; }
         public List<Func<object>> FactoryFunctions { get; set; } = new List<Func<object>>();
         public IGitValidatorRepository GitValidatorRepository { get; set; }
 
