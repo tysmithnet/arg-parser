@@ -54,13 +54,25 @@ namespace ArgParser.Core
                     if (info.Index <= last) hasFailed = true;
                 }
 
-                var validationResults =
-                    Validators.Where(v => v.CanValidate(instance)).Select(v => v.Validate(instance));
-                var passedValidation = validationResults.All(r => r.IsSuccess);
-                if (!hasFailed && info.IsComplete && passedValidation) results.Add(instance);
+                var validationResults = ValidateResults(instance);
+                var passedValidation = HasPassedValidation(validationResults);
+                if (!hasFailed && info.IsComplete && passedValidation)
+                    results.Add(instance);
             }
 
             return results;
+        }
+
+        protected virtual bool HasPassedValidation(IEnumerable<IValidationResult> validationResults)
+        {
+            return validationResults.All(r => r.IsSuccess);
+        }
+
+        protected virtual IEnumerable<IValidationResult> ValidateResults(object instance)
+        {
+            var validationResults =
+                Validators.Where(v => v.CanValidate(instance)).Select(v => v.Validate(instance));
+            return validationResults;
         }
 
         public IList<Func<object>> FactoryFunctions { get; set; } = new List<Func<object>>();
