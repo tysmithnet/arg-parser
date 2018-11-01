@@ -12,7 +12,7 @@ namespace ArgParser.Flavors.Test
         public void Throw_If_There_Is_No_Way_To_Consume()
         {
             // arrange
-            var flavor = new GitFlavor();
+            var flavor = new GitFlavor("base");
             var parser = new GitParser(flavor); // todo: need abstraction
             Action mightThrow = () => parser.Consume(new object(), new DefaultIterationInfo());
 

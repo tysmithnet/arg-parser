@@ -9,12 +9,13 @@ namespace ArgParser.Flavors.Git
     [DebuggerDisplay("{Name}")]
     public class GitFlavor
     {
-        public IGitHierarchyFacade GitHierarchyFacade { get; set; }
+        public IGitFlavorRepository GitFlavorRepository { get; set; }
         public IGitParameterRepository ParameterRepository { get; set; }
         public IGitValidatorRepository GitValidatorRepository { get; set; }
 
-        public GitFlavor()
+        public GitFlavor(string name)
         {
+            Name = name ?? throw new ArgumentNullException(nameof(name));
             Parser = new GitParser(this);
         }
 
