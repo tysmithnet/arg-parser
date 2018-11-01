@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Composition;
 using System.Linq;
 using System.Reflection;
 using ArgParser.Core;
-using ArgParser.Core.Validation;
 
 namespace ArgParser.Flavors.Git
 {
@@ -14,7 +12,7 @@ namespace ArgParser.Flavors.Git
         {
             FactoryFunctions = factoryFuncs?.ToList() ?? new List<Func<object>>();
         }
-            
+
         public override IParseResult Parse(IEnumerable<IParser> parsers, string[] args)
         {
             var results = ParseInstances(parsers, args);
@@ -41,12 +39,8 @@ namespace ArgParser.Flavors.Git
             return new DefaultParseResult(agg.ToList());
         }
 
-
-
-        [Import]
-        public override IIterationInfoFactory IterationInfoFactory { get; set; }
-
-        [Import]
         public IGitValidatorRepository GitValidatorRepository { get; set; }
+
+        public override IIterationInfoFactory IterationInfoFactory { get; set; }
     }
 }
