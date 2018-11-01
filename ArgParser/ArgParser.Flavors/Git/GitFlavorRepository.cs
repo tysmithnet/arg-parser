@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ArgParser.Flavors.Git
 {
@@ -10,7 +11,7 @@ namespace ArgParser.Flavors.Git
             public string Name { get; set; }
             public GitFlavor Flavor { get; set; }
             public Node Parent { get; set; }
-            public IList<Node> Children { get; set; }
+            public IList<Node> Children { get; set; } = new List<Node>();
 
             /// <inheritdoc />
             public Node(string name, GitFlavor flavor)
@@ -43,7 +44,7 @@ namespace ArgParser.Flavors.Git
             return Nodes[name].Flavor;
         }
 
-        public GitFlavor GetParent(string name, bool recursive)
+        public GitFlavor GetParent(string name)
         {
             if (!Nodes.ContainsKey(name))
                 throw new KeyNotFoundException($"Cannot find GitFlavor with name={name}, are you sure it's added?");
@@ -51,16 +52,52 @@ namespace ArgParser.Flavors.Git
             return node.Parent?.Flavor;
         }
 
-        public IEnumerable<GitFlavor> GetChildren(string name, bool recursive)
+        public IEnumerable<GitFlavor> GetAncestors(string name)
         {
-            return null;
+            if (!Nodes.ContainsKey(name))
+                throw new KeyNotFoundException($"Cannot find GitFlavor with name={name}, are you sure it's added?");
+            var node = Nodes[name].Parent;
+            var results = new List<GitFlavor>();
+            while (node != null)
+            {
+                results.Add(node.Flavor);
+                node = node.Parent;
+            }
+
+            return results;
+        }
+
+        public IEnumerable<GitFlavor> GetChildren(string parent, bool recursive)
+        {
+            if(!Nodes.ContainsKey(parent))
+                throw new KeyNotFoundException($"Cannot find parent by name={parent}, are you sure it exists?");
+            var node = Nodes[parent];
+            if (!recursive)
+                return node.Children.Select(x => x.Flavor);
+            List<GitFlavor> results = new List<GitFlavor>();
+            var queue = new Queue<Node>();
+            foreach (var nodeChild in node.Children)
+            {
+                queue.Enqueue(nodeChild);
+            }
+            while (queue.Any())
+            {
+                var first = queue.Dequeue();
+                foreach (var firstChild in first.Children)
+                {
+                    queue.Enqueue(firstChild);
+                }
+                results.Add(first.Flavor);
+            }
+
+            return results;
         }
 
         public void EstablishParentChildRelationship(string parent, string child)
         {
             if(!Nodes.ContainsKey(parent))
                 throw new KeyNotFoundException($"Cannot find parent by name={parent}, are you sure it exists?");
-            if(!Nodes.ContainsKey(child))
+            if (!Nodes.ContainsKey(child))
                 throw new KeyNotFoundException($"Cannot find child by name={child}, are you sure it exists?");
             var parentNode = Nodes[parent];
             var childNode = Nodes[child];
