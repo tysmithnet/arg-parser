@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Composition;
 using System.Diagnostics;
 using ArgParser.Core;
 using ArgParser.Core.Help;

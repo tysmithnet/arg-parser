@@ -7,27 +7,43 @@ namespace ArgParser.Flavors.Git
 {
     public class GitParameterRepository : IGitParameterRepository
     {
-        internal List<GitParameter> GitParameters { get; set; }  = new List<GitParameter>();
-
-
-        public void AddParameter(GitParameter parameter)
+        private Dictionary<string, IList<GitParameter>> Parameters { get; set; } = new Dictionary<string, IList<GitParameter>>();
+        
+        public virtual void AddParameter(string flavorName, GitParameter parameter)
         {
-            GitParameters.Add(parameter);
+            if(flavorName == null)
+                throw new ArgumentNullException(nameof(flavorName));
+
+            if(parameter == null)
+                throw new ArgumentNullException(nameof(parameter));
+
+            if(!Parameters.ContainsKey(flavorName))
+                Parameters.Add(flavorName, new List<GitParameter>());
+            Parameters[flavorName].Add(parameter);
         }
 
-        public IEnumerable<Positional> GetPositionals()
+        public virtual IEnumerable<Positional> GetPositionals(string flavorName)
         {
-            return GitParameters.OfType<Positional>();
+            return GetParameters(flavorName).OfType<Positional>();
         }
 
-        public IEnumerable<Switch> GetSwitches()
+        public virtual IEnumerable<Switch> GetSwitches(string flavorName)
         {
-            return GitParameters.OfType<Switch>();
+            return GetParameters(flavorName).OfType<Switch>();
         }
 
-        public IEnumerable<BooleanSwitch> GetBooleanSwitches()
+        public virtual IEnumerable<BooleanSwitch> GetBooleanSwitches(string flavorName)
         {
-            return GetSwitches().OfType<BooleanSwitch>();
+            return GetParameters(flavorName).OfType<BooleanSwitch>();
+        }
+
+        public IEnumerable<GitParameter> GetParameters(string flavorName)
+        {
+            if (flavorName == null)
+                throw new ArgumentNullException(nameof(flavorName));
+            if (Parameters.ContainsKey(flavorName))
+                return Parameters[flavorName].ToList();
+            throw new ArgumentOutOfRangeException($"Could not find a registered flavor with name={flavorName}");
         }
     }
 }
