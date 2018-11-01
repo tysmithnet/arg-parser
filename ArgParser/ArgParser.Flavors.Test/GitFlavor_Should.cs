@@ -124,13 +124,13 @@ namespace ArgParser.Flavors.Test
         public void Parse_Boolean_Switches_In_A_Hierarchy()
         {
             // arrange
-            var git = new GitFlavor("git");
+            var git = new GitParser("git");
             git.AddBooleanSwitch('h', "help", o =>
             {
                 if (o is GitOptions go) go.IsHelpRequested = true;
             });
 
-            var commit = new GitFlavor("commit");
+            var commit = new GitParser("commit");
             git.AddBooleanSwitch('a', "all", o =>
             {
                 if (o is CommitOptions co) co.IsAddAll = true;
@@ -163,9 +163,9 @@ namespace ArgParser.Flavors.Test
         public void Parse_Multiple_Positionals()
         {
             // arrange
-            var git = new GitFlavor("git");
+            var git = new GitParser("git");
 
-            var push = new GitFlavor("push");
+            var push = new GitParser("push");
             push.AddPositional((o, s) =>
             {
                 if (o is PushOptions po)
@@ -200,23 +200,23 @@ namespace ArgParser.Flavors.Test
         public void Parse_Multiple_SubCommands()
         {
             // arrange
-            var baze = new GitFlavor("base");
+            var baze = new GitParser("base");
             baze.AddBooleanSwitch('h', "help", o =>
             {
                 if (o is BaseOptions b)
                     b.IsHelpRequested = true;
             }, true);
 
-            var child0 = new GitFlavor("child0");
+            var child0 = new GitParser("child0");
             child0.AddSingleValueSwitch('a', "child0switch0", (o, s) =>
             {
                 if (o is Child0Options c)
                     c.Child0Switch0 = s;
             });
 
-            var child1 = new GitFlavor("child1");
+            var child1 = new GitParser("child1");
 
-            var child0child0 = new GitFlavor("child0child0");
+            var child0child0 = new GitParser("child0child0");
             child0child0.AddValueSwitch('b', "B", (o, s) =>
             {
                 if (o is Child0Child0Options c)
@@ -227,11 +227,11 @@ namespace ArgParser.Flavors.Test
                 if (o is Child0Child0Options c)
                     c.Child0Child0Positional0 = s;
             });
-            var child0child1 = new GitFlavor("child0child1");
+            var child0child1 = new GitParser("child0child1");
 
-            var child1child0 = new GitFlavor("child1child0");
+            var child1child0 = new GitParser("child1child0");
 
-            var child1child1 = new GitFlavor("child1child1");
+            var child1child1 = new GitParser("child1child1");
 
             baze.AddSubCommand("child0", child0);
             baze.AddSubCommand("child1", child1);
@@ -293,14 +293,14 @@ namespace ArgParser.Flavors.Test
         public void Parse_The_Most_Specific_SubCommands_Positionals_First()
         {
             // arrange
-            var baze = new GitFlavor("base");
+            var baze = new GitParser("base");
             baze.AddPositional((o, s) =>
             {
                 if (o is BaseOptions b)
                     b.BasePositional0 = s;
             });
 
-            var child0 = new GitFlavor("child0");
+            var child0 = new GitParser("child0");
             child0.AddPositional((o, s) =>
             {
                 if (o is Child0Options c)
@@ -312,35 +312,35 @@ namespace ArgParser.Flavors.Test
                     c.Child0Positional1 = s;
             }, 2, 2);
 
-            var child1 = new GitFlavor("child1");
+            var child1 = new GitParser("child1");
             child1.AddPositional((o, s) =>
             {
                 if (o is Child1Options c)
                     c.Child1Positional0 = s;
             });
 
-            var child0child0 = new GitFlavor("child0child0");
+            var child0child0 = new GitParser("child0child0");
             child0child0.AddPositionals((o, s) =>
             {
                 if (o is Child0Child0Options c)
                     c.Child0Child0Positional0 = s;
             }, 2, 2);
 
-            var child0child1 = new GitFlavor("child0child1");
+            var child0child1 = new GitParser("child0child1");
             child0child1.AddPositionals((o, s) =>
             {
                 if (o is Child0Child1Options c)
                     c.Child0Child1Positional0 = s;
             });
 
-            var child1child0 = new GitFlavor("child1child0");
+            var child1child0 = new GitParser("child1child0");
             child1child0.AddPositional((o, s) =>
             {
                 if (o is Child1Child0Options c)
                     c.Child1Child1Positional0 = s;
             });
 
-            var child1child1 = new GitFlavor("child1child1");
+            var child1child1 = new GitParser("child1child1");
             child1child1.AddPositional((o, s) =>
             {
                 if (o is Child1Child1Options c)
@@ -406,14 +406,14 @@ namespace ArgParser.Flavors.Test
         public void Parse_Value_Switches_In_A_Hierarchy()
         {
             // arrange
-            var git = new GitFlavor("git");
+            var git = new GitParser("git");
             git.AddSingleValueSwitch('C', null, (o, s) =>
             {
                 if (o is GitOptions casted)
                     casted.CurrentWorkingPaths.Add(s);
             });
 
-            var commit = new GitFlavor("commit");
+            var commit = new GitParser("commit");
             commit.AddSingleValueSwitch('m', "message", (o, s) =>
             {
                 if (o is CommitOptions casted)
@@ -444,7 +444,7 @@ namespace ArgParser.Flavors.Test
         public void Validate_Required_Parameters_Were_Consumed()
         {
             // arrange
-            var flavor = new GitFlavor("base");
+            var flavor = new GitParser("base");
             flavor.AddPositional((o, s) =>
             {
                 if (o is BaseOptions b)

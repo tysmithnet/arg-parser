@@ -10,11 +10,11 @@ namespace ArgParser.Flavors.Test
         public void Find_All_Correct_Values()
         {
             // arrange
-            var a = new GitFlavor("a");
-            var b = new GitFlavor("b");
-            var aa = new GitFlavor("aa");
-            var ab = new GitFlavor("ab");
-            var aaa = new GitFlavor("aaa");
+            var a = new GitParser("a");
+            var b = new GitParser("b");
+            var aa = new GitParser("aa");
+            var ab = new GitParser("ab");
+            var aaa = new GitParser("aaa");
             a.AddSubCommand("b", b);
             a.AddSubCommand("aa", aa);
             a.AddSubCommand("ab", ab);

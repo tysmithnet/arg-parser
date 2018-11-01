@@ -2,6 +2,6 @@
 {
     public interface IGitFlavorVisitor
     {
-        void Visit(GitFlavor gitFlavor);
+        void Visit(GitParser gitParser);
     }
 }

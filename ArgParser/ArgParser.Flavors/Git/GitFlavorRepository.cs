@@ -10,12 +10,12 @@ namespace ArgParser.Flavors.Git
             new Dictionary<string, List<string>>();
 
         /// <inheritdoc />
-        public GitFlavor Create(string name)
+        public GitParser Create(string name)
         {
             if (Nodes.ContainsKey(name))
                 throw new ArgumentException(
                     $"There is already a GitFlavor with name={name}. Please choose another name");
-            var newGuy = new GitFlavor(name);
+            var newGuy = new GitParser(name);
             var node = new Node(name, newGuy);
             Nodes.Add(name, node);
             return newGuy;
@@ -36,54 +36,54 @@ namespace ArgParser.Flavors.Git
         }
 
         /// <inheritdoc />
-        public GitFlavor Get(string name)
+        public GitParser Get(string name)
         {
             if (!Nodes.ContainsKey(name))
                 throw new KeyNotFoundException($"Cannot find GitFlavor with name={name}, are you sure it's added?");
-            return Nodes[name].Flavor;
+            return Nodes[name].Parser;
         }
 
-        public IEnumerable<GitFlavor> GetAncestors(string name)
+        public IEnumerable<GitParser> GetAncestors(string name)
         {
             if (!Nodes.ContainsKey(name))
                 throw new KeyNotFoundException($"Cannot find GitFlavor with name={name}, are you sure it's added?");
             var node = Nodes[name].Parent;
-            var results = new List<GitFlavor>();
+            var results = new List<GitParser>();
             while (node != null)
             {
-                results.Add(node.Flavor);
+                results.Add(node.Parser);
                 node = node.Parent;
             }
 
             return results;
         }
 
-        public IEnumerable<GitFlavor> GetChildren(string parent, bool recursive)
+        public IEnumerable<GitParser> GetChildren(string parent, bool recursive)
         {
             if (!Nodes.ContainsKey(parent))
                 throw new KeyNotFoundException($"Cannot find parent by name={parent}, are you sure it exists?");
             var node = Nodes[parent];
             if (!recursive)
-                return node.Children.Select(x => x.Flavor);
-            var results = new List<GitFlavor>();
+                return node.Children.Select(x => x.Parser);
+            var results = new List<GitParser>();
             var queue = new Queue<Node>();
             foreach (var nodeChild in node.Children) queue.Enqueue(nodeChild);
             while (queue.Any())
             {
                 var first = queue.Dequeue();
                 foreach (var firstChild in first.Children) queue.Enqueue(firstChild);
-                results.Add(first.Flavor);
+                results.Add(first.Parser);
             }
 
             return results;
         }
 
-        public GitFlavor GetParent(string name)
+        public GitParser GetParent(string name)
         {
             if (!Nodes.ContainsKey(name))
                 throw new KeyNotFoundException($"Cannot find GitFlavor with name={name}, are you sure it's added?");
             var node = Nodes[name];
-            return node.Parent?.Flavor;
+            return node.Parent?.Parser;
         }
 
         protected internal Dictionary<string, Node> Nodes { get; set; } = new Dictionary<string, Node>();
@@ -91,14 +91,14 @@ namespace ArgParser.Flavors.Git
         protected internal class Node
         {
             /// <inheritdoc />
-            public Node(string name, GitFlavor flavor)
+            public Node(string name, GitParser parser)
             {
                 Name = name ?? throw new ArgumentNullException(nameof(name));
-                Flavor = flavor ?? throw new ArgumentNullException(nameof(flavor));
+                Parser = parser ?? throw new ArgumentNullException(nameof(parser));
             }
 
             public IList<Node> Children { get; set; } = new List<Node>();
-            public GitFlavor Flavor { get; set; }
+            public GitParser Parser { get; set; }
             public string Name { get; set; }
             public Node Parent { get; set; }
         }
