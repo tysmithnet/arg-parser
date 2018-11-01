@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using ArgParser.Core;
+using ArgParser.Core.Help;
 
 namespace ArgParser.Flavors.Git
 {
@@ -16,7 +17,7 @@ namespace ArgParser.Flavors.Git
         public GitFlavor(string name)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
-            Parser = new GitParser(this);
+            Parser = new GitParser(name);
         }
 
         public void Accept(IGitFlavorVisitor visitor)
@@ -150,5 +151,17 @@ namespace ArgParser.Flavors.Git
         public IList<GitParameter> RequiredParameters { get; set; } = new List<GitParameter>();
         public Dictionary<string, GitFlavor> SubCommands { get; set; } = new Dictionary<string, GitFlavor>();
         public List<Switch> Switches { get; set; } = new List<Switch>();
+        
+        /// <inheritdoc />
+        public bool CanConsume(object instance, IIterationInfo info)
+        {
+            return Parser.CanConsume(instance, info);
+        }
+
+        /// <inheritdoc />
+        public IIterationInfo Consume(object instance, IIterationInfo info)
+        {
+            return Parser.Consume(instance, info);
+        }
     }
 }
