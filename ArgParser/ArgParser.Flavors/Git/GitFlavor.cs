@@ -7,7 +7,7 @@ using ArgParser.Core;
 namespace ArgParser.Flavors.Git
 {
     [DebuggerDisplay("{Name}")]
-    public class GitFlavor
+    public class GitFlavor // todo: rename
     {
         public GitFlavor(string name)
         {
@@ -112,10 +112,8 @@ namespace ArgParser.Flavors.Git
                 GroupableSwitches.Add(valuesSwitch);
         }
 
-        /// <inheritdoc />
         public bool CanConsume(object instance, IIterationInfo info) => Parser.CanConsume(instance, info);
 
-        /// <inheritdoc />
         public IIterationInfo Consume(object instance, IIterationInfo info) => Parser.Consume(instance, info);
 
         public IParseResult Parse(string[] args, IEnumerable<Func<object>> factoryFunctions = null)
