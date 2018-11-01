@@ -9,7 +9,7 @@ namespace ArgParser.Flavors.Git
     [DebuggerDisplay("{Name}")]
     public class GitParser : IParser
     {
-            
+        
         public GitParser(GitFlavor flavor)
         {
             _flavor = flavor ?? throw new ArgumentNullException(nameof(flavor));

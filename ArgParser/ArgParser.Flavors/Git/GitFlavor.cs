@@ -9,6 +9,10 @@ namespace ArgParser.Flavors.Git
     [DebuggerDisplay("{Name}")]
     public class GitFlavor
     {
+        public IGitHierarchyFacade GitHierarchyFacade { get; set; }
+        public IGitParameterRepository ParameterRepository { get; set; }
+        public IGitValidatorRepository GitValidatorRepository { get; set; }
+
         public GitFlavor()
         {
             Parser = new GitParser(this);
@@ -131,6 +135,8 @@ namespace ArgParser.Flavors.Git
             Accept(visitor);
             return strat.Parse(visitor.GitFlavors.Select(x => x.Parser), args);
         }
+
+        
 
         public GitFlavor BaseFlavor { get; set; }
         public int Depth { get; set; }
