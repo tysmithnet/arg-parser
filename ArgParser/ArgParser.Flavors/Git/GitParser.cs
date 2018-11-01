@@ -50,7 +50,6 @@ namespace ArgParser.Flavors.Git
         public IParser BaseParser => GitFlavorRepository.GetParent(Name)?.Parser;
         public DefaultParser DefaultParser { get; set; } = new DefaultParser();
 
-        [Import]
         public IGitFlavorRepository GitFlavorRepository { get; set; }
 
         public IGenericHelp Help => DefaultParser.Help;
