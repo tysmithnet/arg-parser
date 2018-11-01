@@ -6,7 +6,6 @@ namespace ArgParser.Flavors.Git
 {
     public class Positional : GitParameter
     {
-            
         public override bool CanConsume(object instance, IIterationInfo info)
         {
             if (IsConsumed)
@@ -15,7 +14,6 @@ namespace ArgParser.Flavors.Git
             return ar.Length >= Min;
         }
 
-            
         public override IIterationInfo Consume(object instance, IIterationInfo info)
         {
             var tokens = info.FromNowOn().Select(x => x.ToGitToken()).TakeWhile(t => !t.IsAnyMatch).Take(Max)
@@ -29,7 +27,6 @@ namespace ArgParser.Flavors.Git
 
         public Action<object, string[]> ConsumeCallback { get; set; }
 
-            
         public override bool HasBeenConsumed { get; set; }
 
         public bool IsConsumed { get; set; }

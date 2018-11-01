@@ -3,16 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using ArgParser.Core;
-using ArgParser.Core.Help;
 
 namespace ArgParser.Flavors.Git
 {
     [DebuggerDisplay("{Name}")]
     public class GitFlavor
     {
-        public IGitFlavorRepository GitFlavorRepository { get; set; }
-        public IGitValidatorRepository GitValidatorRepository { get; set; }
-
         public GitFlavor(string name)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
@@ -116,6 +112,12 @@ namespace ArgParser.Flavors.Git
                 GroupableSwitches.Add(valuesSwitch);
         }
 
+        /// <inheritdoc />
+        public bool CanConsume(object instance, IIterationInfo info) => Parser.CanConsume(instance, info);
+
+        /// <inheritdoc />
+        public IIterationInfo Consume(object instance, IIterationInfo info) => Parser.Consume(instance, info);
+
         public IParseResult Parse(string[] args, IEnumerable<Func<object>> factoryFunctions = null)
         {
             var possibleSubCommand = args[0];
@@ -137,11 +139,11 @@ namespace ArgParser.Flavors.Git
             return strat.Parse(visitor.GitFlavors.Select(x => x.Parser), args);
         }
 
-        
-
         public GitFlavor BaseFlavor { get; set; }
         public int Depth { get; set; }
         public List<Func<object>> FactoryFunctions { get; set; } = new List<Func<object>>();
+        public IGitFlavorRepository GitFlavorRepository { get; set; }
+        public IGitValidatorRepository GitValidatorRepository { get; set; }
 
         public List<Switch> GroupableSwitches { get; set; } = new List<Switch>();
         public string Name { get; set; }
@@ -150,17 +152,5 @@ namespace ArgParser.Flavors.Git
         public IList<GitParameter> RequiredParameters { get; set; } = new List<GitParameter>();
         public Dictionary<string, GitFlavor> SubCommands { get; set; } = new Dictionary<string, GitFlavor>();
         public List<Switch> Switches { get; set; } = new List<Switch>();
-        
-        /// <inheritdoc />
-        public bool CanConsume(object instance, IIterationInfo info)
-        {
-            return Parser.CanConsume(instance, info);
-        }
-
-        /// <inheritdoc />
-        public IIterationInfo Consume(object instance, IIterationInfo info)
-        {
-            return Parser.Consume(instance, info);
-        }
     }
 }

@@ -38,7 +38,8 @@ namespace ArgParser.Flavors.Git
             foreach (var gitFlavor in ancestors)
                 if (gitFlavor.CanConsume(instance, info))
                     return gitFlavor.Consume(instance, info);
-            throw new InvalidOperationException($"Consume was called on {Name}, but it, nor its ancestors are able to consume. Was CanConsume called before this invocation?");
+            throw new InvalidOperationException(
+                $"Consume was called on {Name}, but it, nor its ancestors are able to consume. Was CanConsume called before this invocation?");
         }
 
         public void Reset()

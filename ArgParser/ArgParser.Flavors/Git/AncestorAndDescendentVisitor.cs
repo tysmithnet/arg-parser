@@ -5,7 +5,6 @@ namespace ArgParser.Flavors.Git
 {
     public class AncestorAndDescendentVisitor : IGitFlavorVisitor
     {
-            
         public void Visit(GitFlavor gitFlavor)
         {
             var itr = gitFlavor.BaseFlavor;
