@@ -12,6 +12,14 @@ namespace ArgParser.Flavors.Git
             return new ParserBuilder(name, this, Context);
         }
 
+        public ParserBuilder AddParser<T>(string name)
+        {
+            name.ThrowIfArgumentNull(nameof(name));
+            var parser = Context.ParserRepository.Create(name);
+            parser.Context = Context;
+            return new ParserBuilder<T>(name, this, Context);
+        }
+
         public GitBuilder AddSubCommand(string parent, string child)
         {
             parent.ThrowIfArgumentNull(nameof(parent));
