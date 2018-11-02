@@ -7,7 +7,6 @@ namespace ArgParser.Flavors.Git
 {
     public class GitFactoryFunctionRepository : IGitFactoryFunctionRepository
     {
-        /// <inheritdoc />
         public void AddFactoryFunction(string parserName, Func<object> facFunc)
         {
             parserName.ThrowIfArgumentNull(nameof(parserName));
@@ -19,7 +18,6 @@ namespace ArgParser.Flavors.Git
                 FactoryFunctions[parserName].Add(facFunc);
         }
 
-        /// <inheritdoc />
         public IEnumerable<Func<object>> GetFactoryFunctions(string parserName)
         {
             parserName.ThrowIfArgumentNull(nameof(parserName));

@@ -20,7 +20,7 @@ namespace ArgParser.Flavors.Git
         {
             if (info.Next == null)
                 throw new IndexOutOfRangeException($"Single value switch trying to consume, but cannot get next token");
-            ConsumeCallback(instance, info.Next.Raw); // todo: check
+            ConsumeCallback(instance, info.Next.Raw);
             HasBeenConsumed = true;
             return info.Consume(2);
         }
