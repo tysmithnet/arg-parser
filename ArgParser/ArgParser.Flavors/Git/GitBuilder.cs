@@ -4,7 +4,12 @@ namespace ArgParser.Flavors.Git
 {
     public class GitBuilder
     {
-        public ParserBuilder AddParser(string name) => new ParserBuilder(name, this, Context);
+        public ParserBuilder AddParser(string name)
+        {
+            var parser = Context.ParserRepository.Create(name);
+            parser.Context = Context;
+            return new ParserBuilder(name, this, Context);
+        }
 
         public GitBuilder AddSubCommand(string parent, string child)
         {

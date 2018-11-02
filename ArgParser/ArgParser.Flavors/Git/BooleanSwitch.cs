@@ -8,8 +8,8 @@ namespace ArgParser.Flavors.Git
         public BooleanSwitch(char letter, string word, Action<object> consumeCallback)
         {
             Letter = letter;
-            Word = word;
-            ConsumeCallback = consumeCallback;
+            Word = word.ThrowIfArgumentNull(nameof(word));
+            ConsumeCallback = consumeCallback.ThrowIfArgumentNull(nameof(consumeCallback));
         }
 
         internal BooleanSwitch()

@@ -9,5 +9,6 @@ namespace ArgParser.Flavors.Git
         IEnumerable<GitParameter> GetParameters(string parserName);
         IEnumerable<Positional> GetPositionals(string parserName);
         IEnumerable<Switch> GetSwitches(string parserName);
+        bool Contains(string name);
     }
 }

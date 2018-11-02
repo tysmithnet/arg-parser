@@ -12,5 +12,6 @@ namespace ArgParser.Flavors.Git
         GitParser GetParent(string parser);
         GitParser GetSubCommand(string parserName, string subCommand);
         bool IsSubCommand(string parserName, string potentialSubCommand);
+        bool Contains(string name);
     }
 }

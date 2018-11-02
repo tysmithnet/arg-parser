@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ArgParser.Core;
 
 namespace ArgParser.Flavors.Git
 {
@@ -96,14 +97,20 @@ namespace ArgParser.Flavors.Git
             return children.Any(x => x.Name == potentialSubCommand);
         }
 
+        /// <inheritdoc />
+        public bool Contains(string name)
+        {
+            return Nodes.ContainsKey(name);
+        }
+
         protected internal Dictionary<string, Node> Nodes { get; set; } = new Dictionary<string, Node>();
 
         protected internal class Node
         {
             public Node(string name, GitParser parser)
             {
-                Name = name ?? throw new ArgumentNullException(nameof(name));
-                Parser = parser ?? throw new ArgumentNullException(nameof(parser));
+                Name = name.ThrowIfArgumentNull(nameof(name));
+                Parser = parser.ThrowIfArgumentNull(nameof(parser));
             }
 
             public IList<Node> Children { get; set; } = new List<Node>();

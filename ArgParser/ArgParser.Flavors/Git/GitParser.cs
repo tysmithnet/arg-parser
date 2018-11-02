@@ -54,6 +54,8 @@ namespace ArgParser.Flavors.Git
         public void Reset()
         {
             DefaultParser = new DefaultParser();
+            if (!Context.ParameterRepository.Contains(Name))
+                return;
             var parameters = Context.ParameterRepository.GetParameters(Name).ToList();
             foreach (var parameter in parameters)
             {

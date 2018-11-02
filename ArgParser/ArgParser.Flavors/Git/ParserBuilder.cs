@@ -1,4 +1,5 @@
 ﻿using System;
+using ArgParser.Core;
 using ArgParser.Core.Validation;
 
 namespace ArgParser.Flavors.Git
@@ -8,10 +9,12 @@ namespace ArgParser.Flavors.Git
         /// <inheritdoc />
         public ParserBuilder(string parserName, GitBuilder parent, IGitContext context)
         {
-            Name = parserName ?? throw new ArgumentNullException(nameof(parserName));
-            Break = parent ?? throw new ArgumentNullException(nameof(parent));
-            Context = context ?? throw new ArgumentNullException(nameof(context));
+            Name = parserName.ThrowIfArgumentNull(nameof(parserName));
+            Parent = parent.ThrowIfArgumentNull(nameof(parent));
+            Context = context.ThrowIfArgumentNull(nameof(context));
         }
+
+        public GitBuilder Parent { get; set; }
 
         public ParserBuilder WithBooleanCommand(char letter, string word, Action<object> consumeCallback)
         {
@@ -53,10 +56,14 @@ namespace ArgParser.Flavors.Git
             return this;
         }
 
-        public GitBuilder Break { get; }
-
         public IGitContext Context { get; set; }
 
         public string Name { get; }
+
+        /// <inheritdoc />
+        public GitBuilder Build()
+        {
+            return Parent;
+        }
     }
 }

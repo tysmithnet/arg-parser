@@ -2,6 +2,7 @@
 using ArgParser.Core;
 using ArgParser.Flavors.Git;
 using FluentAssertions;
+using Moq;
 using Xunit;
 
 namespace ArgParser.Flavors.Test
@@ -12,7 +13,11 @@ namespace ArgParser.Flavors.Test
         public void Throw_If_There_Is_No_Way_To_Consume()
         {
             // arrange
-            var parser = new GitParser("base");
+            var context = new GitContext();
+            var parser = context.ParserRepository.Create("base");
+            parser.Context = context;
+            parser.Reset();
+
             // *no parameters added*
             Action mightThrow = () => parser.Consume(new object(), new DefaultIterationInfo());
 

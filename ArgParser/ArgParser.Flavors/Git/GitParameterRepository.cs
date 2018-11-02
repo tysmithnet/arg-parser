@@ -36,6 +36,12 @@ namespace ArgParser.Flavors.Git
 
         public virtual IEnumerable<Switch> GetSwitches(string parserName) => GetParameters(parserName).OfType<Switch>();
 
+        /// <inheritdoc />
+        public bool Contains(string name)
+        {
+            return Parameters.ContainsKey(name);
+        }
+
         private Dictionary<string, IList<GitParameter>> Parameters { get; } =
             new Dictionary<string, IList<GitParameter>>();
     }
