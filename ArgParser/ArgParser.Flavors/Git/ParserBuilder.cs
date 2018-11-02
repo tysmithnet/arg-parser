@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using ArgParser.Core;
 using ArgParser.Core.Validation;
 
@@ -25,9 +26,23 @@ namespace ArgParser.Flavors.Git
             return this;
         }
 
-        public ParserBuilder<T> WithPositionals(Action<T, string[]> consumeCallback)
+        public ParserBuilder<T> WithPositional(Action<T, string> consumeCallback)
         {
-            Context.ParameterRepository.AddParameter(Name, new Positional<T>(consumeCallback));
+            void Convert(T instance, string[] strings)
+            {
+                consumeCallback(instance, strings.First());
+            }
+
+            return WithPositionals(Convert, 1, 1);
+        }
+
+        public ParserBuilder<T> WithPositionals(Action<T, string[]> consumeCallback, int min = 1, int max = int.MaxValue)
+        {
+            Context.ParameterRepository.AddParameter(Name, new Positional<T>(consumeCallback)
+            {
+                Min = min,
+                Max = max
+            });
             return this;
         }
 
@@ -70,9 +85,24 @@ namespace ArgParser.Flavors.Git
             return this;
         }
 
-        public ParserBuilder WithPositional(Action<object, string[]> consumeCallback)
+        public ParserBuilder WithPositional(Action<object, string> consumeCallback)
         {
-            Context.ParameterRepository.AddParameter(Name, new Positional(consumeCallback));
+
+            void Convert(object instance, string[] strings)
+            {
+                consumeCallback(instance, strings.First());
+            }
+
+            return WithPositionals(Convert, 1, 1);
+        }
+
+        public ParserBuilder WithPositionals(Action<object, string[]> consumeCallback, int min = 1, int max = int.MaxValue)
+        {
+            Context.ParameterRepository.AddParameter(Name, new Positional(consumeCallback)
+            {
+                Min = min,
+                Max = max
+            });
             return this;
         }
 
