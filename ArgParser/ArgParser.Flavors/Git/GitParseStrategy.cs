@@ -6,20 +6,22 @@ using ArgParser.Core;
 
 namespace ArgParser.Flavors.Git
 {
-    public class GitParseStrategy : DefaultParseStrategy
+    public class GitParseStrategy : IParseStrategy
     {
-        public GitParseStrategy(IEnumerable<Func<object>> factoryFuncs = null)
+        public IGitContext Context { get; set; }    
+        public GitParseStrategy(IGitContext context)
         {
-            FactoryFunctions = factoryFuncs?.ToList() ?? new List<Func<object>>();
+            Context = context.ThrowIfArgumentNull(nameof(context));
         }
 
-        public override IParseResult Parse(IEnumerable<IParser> parsers, string[] args)
+        public IParseResult Parse(IEnumerable<IParser> parsers, IEnumerable<Func<object>> factoryFunctions, string[] args)
         {
-            var results = ParseInstances(parsers, args);
+            var strategy = new DefaultParseStrategy(factoryFunctions);
+            var results = strategy.ParseInstances(parsers, args);
             return CreateParseResult(results);
         }
 
-        protected override IParseResult CreateParseResult(List<object> results)
+        protected IParseResult CreateParseResult(List<object> results)
         {
             var agg = results.Aggregate(new HashSet<object>(), (set, o) =>
             {
@@ -39,8 +41,9 @@ namespace ArgParser.Flavors.Git
             return new DefaultParseResult(agg.ToList());
         }
 
-        public IGitValidatorRepository GitValidatorRepository { get; set; }
-
-        public override IIterationInfoFactory IterationInfoFactory { get; set; }
+        public IParseResult Parse(IEnumerable<IParser> parsers, string[] args)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ArgParser.Core;
 
 namespace ArgParser.Flavors.Git
 {
@@ -84,6 +85,19 @@ namespace ArgParser.Flavors.Git
                 throw new KeyNotFoundException($"Cannot find parser with name={name}, are you sure it's added?");
             var node = Nodes[name];
             return node.Parent?.Parser;
+        }
+
+        public bool IsSubCommand(string parserName, string potentialSubCommand)
+        {
+            var children = GetChildren(parserName, false);
+            return children.Any(x => x.Name == potentialSubCommand);
+        }
+
+        /// <inheritdoc />
+        public GitParser GetSubCommand(string parserName, string subCommand)
+        {
+            var children = GetChildren(parserName, false);
+            return children.First(x => x.Name == subCommand);
         }
 
         protected internal Dictionary<string, Node> Nodes { get; set; } = new Dictionary<string, Node>();

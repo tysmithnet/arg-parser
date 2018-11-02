@@ -2,9 +2,9 @@
 {
     public interface IGitContext
     {
-        IGitParserRepository GitParserRepository { get; }
-        IGitParameterRepository GitParameterRepository { get; }
-        IGitValidatorRepository GitValidatorRepository { get; }
-        IGitFactoryFunctionRepository GitFactoryFunctionRepository { get; }
+        IGitParserRepository ParserRepository { get; }
+        IGitParameterRepository ParameterRepository { get; }
+        IGitValidatorRepository ValidatorRepository { get; }
+        IGitFactoryFunctionRepository FactoryFunctionRepository { get; }
     }
 }

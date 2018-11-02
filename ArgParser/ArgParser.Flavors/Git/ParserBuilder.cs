@@ -19,25 +19,25 @@ namespace ArgParser.Flavors.Git
 
         public ParserBuilder WithBooleanCommand(char letter, string word, Action<object> consumeCallback)
         {
-            Context.GitParameterRepository.AddParameter(Name, new BooleanSwitch(letter, word, consumeCallback));
+            Context.ParameterRepository.AddParameter(Name, new BooleanSwitch(letter, word, consumeCallback));
             return this;
         }
 
         public ParserBuilder WithSingleValueSwitch(char letter, string word, Action<object, string> consumeCallback)
         {
-            Context.GitParameterRepository.AddParameter(Name, new SingleValueSwitch(letter, word, consumeCallback));
+            Context.ParameterRepository.AddParameter(Name, new SingleValueSwitch(letter, word, consumeCallback));
             return this;
         }
 
         public ParserBuilder WithValueSwitch(char letter, string word, Action<object, string[]> consumeCallback)
         {
-            Context.GitParameterRepository.AddParameter(Name, new ValuesSwitch(letter, word, consumeCallback));
+            Context.ParameterRepository.AddParameter(Name, new ValuesSwitch(letter, word, consumeCallback));
             return this;
         }
 
         public ParserBuilder WithPositional(Action<object, string[]> consumeCallback)
         {
-            Context.GitParameterRepository.AddParameter(Name, new Positional(consumeCallback));
+            Context.ParameterRepository.AddParameter(Name, new Positional(consumeCallback));
             return this;
         }
 
@@ -48,14 +48,15 @@ namespace ArgParser.Flavors.Git
 
             foreach (var factoryFunction in factoryFunctions)
             {
-                Context.GitFactoryFunctionRepository.AddFactoryFunction(Name, factoryFunction);
+                Context.FactoryFunctionRepository.AddFactoryFunction(Name, factoryFunction);
             }
             return this;
         }
 
         public ParserBuilder WithValidation(IValidator validator)
         {
-            Context.GitValidatorRepository.AddValidator(Name, validator);
+            Context.ValidatorRepository.AddValidator(Name, validator);
+            return this;
         }
 
         public GitBuilder Break { get; }

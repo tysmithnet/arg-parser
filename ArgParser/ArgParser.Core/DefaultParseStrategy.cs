@@ -32,9 +32,9 @@ namespace ArgParser.Core
             return CreateParseResult(results);
         }
 
-        protected virtual IParseResult CreateParseResult(List<object> results) => new DefaultParseResult(results);
+        protected internal virtual IParseResult CreateParseResult(List<object> results) => new DefaultParseResult(results);
 
-        protected virtual List<object> ParseInstances(IEnumerable<IParser> parsers, string[] args)
+        public virtual List<object> ParseInstances(IEnumerable<IParser> parsers, string[] args)
         {
             var results = new List<object>();
             var list = parsers.ToList();

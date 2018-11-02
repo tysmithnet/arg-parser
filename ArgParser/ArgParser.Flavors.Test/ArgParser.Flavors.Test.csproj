@@ -76,7 +76,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GitFlavorRepository_Should.cs" />
-    <Compile Include="GitFlavor_Should.cs" />
     <Compile Include="GitParameterRepository_Should.cs" />
     <Compile Include="GitParser_Should.cs" />
     <Compile Include="GitParseStrategy_Should.cs" />

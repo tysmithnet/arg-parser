@@ -23,25 +23,5 @@ namespace ArgParser.Flavors.Test
                 Args = args
             };
         }
-
-        [Fact]
-        public void Not_Add_An_Instance_As_Parsed_If_IterationInfo_Does_Not_Progress()
-        {
-            // arrange
-            var strat = new GitParseStrategy();
-            strat.FactoryFunctions.Add(() => new BaseOptions());
-            var parser = new Mock<IParser>();
-            parser.Setup(p => p.CanConsume(It.IsAny<object>(), It.IsAny<IIterationInfo>())).Returns(true);
-            parser.Setup(p => p.Consume(It.IsAny<object>(), It.IsAny<IIterationInfo>())).Returns(new BadInfo
-            {
-                Args = "whatever".Split(),
-                Index = -1
-            });
-            Action mightThrow = () => strat.Parse(new[] {parser.Object}, "whatever".Split());
-
-            // act
-            // assert
-            mightThrow.Should().NotThrow();
-        }
     }
 }
