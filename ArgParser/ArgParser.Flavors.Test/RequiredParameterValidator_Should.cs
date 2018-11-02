@@ -23,8 +23,7 @@ namespace ArgParser.Flavors.Test
                     if (o is BasicOptions b)
                         b.File = strings.First();
                 },
-                IsConsumed = true,
-                HasBeenConsumed = true // todo: looooooooolllll htf does this happen?
+                HasBeenConsumed = true
             };
             var validator = new RequiredParameterValidator(gitParameter);
             validator.Parameter = gitParameter;

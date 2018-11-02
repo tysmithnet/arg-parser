@@ -10,7 +10,7 @@ using Xunit.Sdk;
 
 namespace ArgParser.Flavors.Test
 {
-    public class GitFlavorRepository_Should
+    public class GitParserRepository_Should
     {
         [Fact]
         public void Throw_If_Attempting_To_Create_Duplicate_Flavor_Names()
@@ -159,6 +159,22 @@ namespace ArgParser.Flavors.Test
             {
                 add.Should().NotThrow();
             }
+        }
+
+        [Fact]
+        public void Provide_The_Ability_To_Get_SubCommands()
+        {
+            // arrange
+            var repo = new GitParserRepository();
+            repo.Create("a");
+            repo.Create("b");
+            repo.EstablishParentChildRelationship("a", "b");
+
+            // act
+            // assert
+            repo.IsSubCommand("a", "b").Should().BeTrue();
+            repo.IsSubCommand("a", "c").Should().BeFalse();
+            repo.GetSubCommand("a", "b").Should().BeSameAs(repo.Get("b"));
         }
     }
 }

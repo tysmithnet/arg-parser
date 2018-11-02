@@ -17,5 +17,26 @@ namespace ArgParser.Flavors.Test
             token.Key.Should().Be("something");
             token.Value.Should().Be("other");
         }
+
+        [Fact]
+        public void Return_The_Correct_Values()
+        {
+            // arrange
+            var singleChar = new GitToken("-C");
+            var word = new GitToken("--thing");
+            var group = new GitToken("-abc");
+
+            // act
+            // assert
+            singleChar.Raw.Should().Be("-C");
+            singleChar.IsAnyMatch.Should().BeTrue();
+            singleChar.Letter.Should().Be('C');
+
+            word.Raw.Should().Be("--thing");
+            word.IsAnyMatch.Should().BeTrue();
+            word.Letter.Should().BeNull();
+            word.Word.Should().Be("thing");
+            word.Value.Should().BeNull();
+        }
     }
 }

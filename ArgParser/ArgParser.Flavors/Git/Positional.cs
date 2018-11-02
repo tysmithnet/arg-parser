@@ -17,7 +17,7 @@ namespace ArgParser.Flavors.Git
 
         public override bool CanConsume(object instance, IIterationInfo info)
         {
-            if (IsConsumed)
+            if (HasBeenConsumed)
                 return false;
             var ar = info.FromNowOn().Select(x => x.ToGitToken()).TakeWhile(t => !t.IsAnyMatch).ToArray();
             return ar.Length >= Min;
@@ -30,7 +30,7 @@ namespace ArgParser.Flavors.Git
                 .ToArray();
             // todo: check count
             ConsumeCallback(instance, tokens);
-            IsConsumed = true;
+            HasBeenConsumed = true;
             return info.Consume(tokens.Length);
         }
 
@@ -38,7 +38,6 @@ namespace ArgParser.Flavors.Git
 
         public override bool HasBeenConsumed { get; set; }
 
-        public bool IsConsumed { get; set; }
         public int Max { get; set; } = int.MaxValue;
         public int Min { get; set; } = 1;
     }
