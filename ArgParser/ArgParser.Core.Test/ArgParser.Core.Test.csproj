@@ -75,6 +75,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BasicExtensions_Should.cs" />
     <Compile Include="DefaultHelpBuilder_Should.cs" />
     <Compile Include="DefaultHelpNodeVisitor_Should.cs" />
     <Compile Include="DefaultIterationInfoFactory_Should.cs" />
