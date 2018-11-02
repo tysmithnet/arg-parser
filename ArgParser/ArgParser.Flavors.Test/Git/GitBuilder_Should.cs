@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using ArgParser.Flavors.Git;
 using FluentAssertions;
 using Xunit;
@@ -22,6 +23,19 @@ namespace ArgParser.Flavors.Test.Git
             // act
             // assert
             builder.Context.ParserRepository.IsSubCommand("base", "child").Should().BeTrue();
+        }
+
+        [Fact]
+        public void Offer_Generic_Counterparts()
+        {
+            // arrange
+            var builder = new GitBuilder();
+
+            // act
+            var result = builder.AddParser<StringBuilder>("base");
+
+            // assert
+            result.Should().BeOfType<ParserBuilder<StringBuilder>>();
         }
 
         [Fact]
