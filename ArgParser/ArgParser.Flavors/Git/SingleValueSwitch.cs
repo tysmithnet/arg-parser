@@ -8,8 +8,8 @@ namespace ArgParser.Flavors.Git
         public SingleValueSwitch(char letter, string word, Action<object, string> consumeCallback)
         {
             Letter = letter;
-            Word = word;
-            ConsumeCallback = consumeCallback;
+            Word = word.ThrowIfArgumentNull(nameof(word));
+            ConsumeCallback = consumeCallback.ThrowIfArgumentNull(nameof(consumeCallback));
         }
 
         internal SingleValueSwitch()
