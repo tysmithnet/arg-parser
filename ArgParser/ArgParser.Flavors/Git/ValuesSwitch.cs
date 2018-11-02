@@ -9,8 +9,8 @@ namespace ArgParser.Flavors.Git
         public ValuesSwitch(char letter, string word, Action<object, string[]> consumeCallback)
         {
             Letter = letter;
-            Word = word;
-            ConsumeCallback = consumeCallback; // todo: null check this and others like it
+            Word = word.ThrowIfArgumentNull(nameof(word));
+            ConsumeCallback = consumeCallback.ThrowIfArgumentNull(nameof(consumeCallback));
         }
 
         internal ValuesSwitch()

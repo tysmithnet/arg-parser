@@ -9,15 +9,15 @@ using Xunit;
 
 namespace ArgParser.Flavors.Test.Git
 {
-    public class SingleValueSwitch_Should
+    public class ValueSwitch_Should
     {
         [Fact]
         public void Throw_If_Given_Bad_Values()
         {
             // arrange
-            Action mightThrow0 = () => new SingleValueSwitch('v', null, null);
-            Action mightThrow1 = () => new SingleValueSwitch('v', "value", null);
-            Action mightThrow2 = () => new SingleValueSwitch('v', null, (o, s) => { });
+            Action mightThrow0 = () => new ValuesSwitch('v', null, null);
+            Action mightThrow1 = () => new ValuesSwitch('v', "value", null);
+            Action mightThrow2 = () => new ValuesSwitch('v', null, (o, s) => { });
 
             // act
             // assert
@@ -27,14 +27,17 @@ namespace ArgParser.Flavors.Test.Git
         }
 
         [Fact]
-        public void Throw_If_No_Next_Token()
+        public void Throw_If_Given_Too_Few_Values()
         {
             // arrange
             var values = new List<string>();
-            var singleValueSwitch = new SingleValueSwitch('v', "value", (o, s) => { values.Add(s); });
+            var valuesSwitch = new ValuesSwitch('v', "value", (o, s) => { values.AddRange(s); })
+            {
+                Min = 100
+            };
             var fac = new GitIterationInfoFactory();
-            var info0 = fac.Create("-v".Split());
-            Action mightThrow = () => singleValueSwitch.Consume(new object(), info0);
+            var info0 = fac.Create("-v v0 v1".Split());
+            Action mightThrow = () => valuesSwitch.Consume(new object(), info0);
             
             // act
             // assert
@@ -42,18 +45,18 @@ namespace ArgParser.Flavors.Test.Git
         }
 
         [Fact]
-        public void Only_Consume_Two_Tokens()
+        public void Consume_One_Plus_The_Number_Of_Consumed_Tokens()
         {
             // arrange
             var values = new List<string>();
-            var singleValueSwitch = new SingleValueSwitch('v', "value", (o, s) => { values.Add(s); });
+            var valuesSwitch = new ValuesSwitch('v', "value", (o, s) => { values.AddRange(s); });
             var fac = new GitIterationInfoFactory();
-            var info0 = fac.Create("-v value".Split());
+            var info0 = fac.Create("-v v0 v1".Split());
 
             // act
             // assert
-            singleValueSwitch.Consume(new object(), info0).Index.Should().Be(2);
-            values.Should().BeEquivalentTo(new[] {"value"});
+            valuesSwitch.Consume(new object(), info0).Index.Should().Be(3);
+            values.Should().BeEquivalentTo("v0 v1".Split(' '));
         }
 
         [Fact]
@@ -61,15 +64,15 @@ namespace ArgParser.Flavors.Test.Git
         {
             // arrange
             var values = new List<string>();
-            var singleValueSwitch = new SingleValueSwitch('v', "value", (o, s) => { values.Add(s); });
+            var valuesSwitch = new ValuesSwitch('v', "value", (o, s) => { values.AddRange(s); });
             var fac = new GitIterationInfoFactory();
-            var info0 = fac.Create("-v value".Split());
-            var info1 = fac.Create("--value value".Split());
+            var info0 = fac.Create("-v v0 v1".Split());
+            var info1 = fac.Create("--value v0 v1".Split());
 
             // act
             // assert
-            singleValueSwitch.CanConsume(new object(), info0).Should().BeTrue();
-            singleValueSwitch.CanConsume(new object(), info1).Should().BeTrue();
+            valuesSwitch.CanConsume(new object(), info0).Should().BeTrue();
+            valuesSwitch.CanConsume(new object(), info1).Should().BeTrue();
         }
     }
 }
