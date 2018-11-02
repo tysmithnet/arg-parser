@@ -7,5 +7,6 @@ namespace ArgParser.Flavors.Git
     {
         void AddValidator(string parserName, IValidator validator);
         IEnumerable<IValidator> GetValidators(string parserName);
+        bool Contains(string name);
     }
 }
