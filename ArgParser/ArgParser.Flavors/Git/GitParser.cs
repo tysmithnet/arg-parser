@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using ArgParser.Core;
 using ArgParser.Core.Help;
 
@@ -9,55 +9,65 @@ namespace ArgParser.Flavors.Git
     [DebuggerDisplay("{Name}")]
     public class GitParser : IParser
     {
-            
-        public GitParser(GitFlavor flavor)
+        public GitParser(string name)
         {
-            _flavor = flavor ?? throw new ArgumentNullException(nameof(flavor));
+            Name = name.ThrowIfArgumentNull(nameof(name));
         }
 
-        private readonly GitFlavor _flavor;
-        private readonly List<IParameter> AllParameters = new List<IParameter>();
-
-        public virtual void AddParameter(IParameter parameter, IGenericHelp help = null)
-        {
-            AllParameters.Add(parameter);
-            DefaultParser.AddParameter(parameter, help);
-        }
-
-            
         public bool CanConsume(object instance, IIterationInfo info)
         {
             var canSelf = DefaultParser.CanConsume(instance, info);
-            var canBase = _flavor.BaseFlavor?.Parser.CanConsume(instance, info) ?? false;
+            var canBase = Context.ParserRepository.GetParent(Name)?.CanConsume(instance, info) ?? false;
             return canSelf || canBase;
         }
 
-            
         public IIterationInfo Consume(object instance, IIterationInfo info)
         {
             var canSelf = DefaultParser.CanConsume(instance, info);
             if (canSelf)
                 return DefaultParser.Consume(instance, info);
-            var canBase = _flavor.BaseFlavor?.Parser.CanConsume(instance, info) ?? false;
-            if (canBase)
-                return _flavor.BaseFlavor.Parser.Consume(instance, info);
-            throw new InvalidOperationException(""); // todo: fix
+            var ancestors = Context.ParserRepository.GetAncestors(Name);
+            foreach (var gitFlavor in ancestors)
+                if (gitFlavor.CanConsume(instance, info))
+                    return gitFlavor.Consume(instance, info);
+            throw new InvalidOperationException(
+                $"Consume was called on {Name}, but it, nor its ancestors are able to consume. Was CanConsume called before this invocation?");
         }
 
-            
+        public IParseResult Parse(string[] args)
+        {
+            args.ThrowIfArgumentNull(nameof(args));
+            var currentParser = Name;
+            while (args.Any() && Context.ParserRepository.IsSubCommand(currentParser, args[0]))
+            {
+                currentParser = Context.ParserRepository.GetSubCommand(currentParser, args[0]).Name;
+                args = args.Skip(1).ToArray();
+            }
+
+            var ancestors = Context.ParserRepository.GetAncestors(currentParser).ToList();
+            ancestors.Insert(0, this);
+            var funcs = ancestors.SelectMany(x => Context.FactoryFunctionRepository.GetFactoryFunctions(x.Name));
+            var strat = new GitParseStrategy(Context);
+            return strat.Parse(ancestors, funcs, args);
+        }
+
         public void Reset()
         {
-            foreach (var allParameter in AllParameters) allParameter.Reset();
+            DefaultParser = new DefaultParser();
+            if (!Context.ParameterRepository.Contains(Name))
+                return;
+            var parameters = Context.ParameterRepository.GetParameters(Name).ToList();
+            foreach (var parameter in parameters)
+            {
+                parameter.Reset();
+                DefaultParser.AddParameter(parameter);
+            }
         }
 
-            
-        public IParser BaseParser => DefaultParser.BaseParser;
-
+        public IParser BaseParser => Context.ParserRepository.GetParent(Name);
+        public IGitContext Context { get; set; }
         public DefaultParser DefaultParser { get; set; } = new DefaultParser();
-
-            
         public IGenericHelp Help => DefaultParser.Help;
-
-        public string Name => _flavor.Name;
+        public string Name { get; set; }
     }
 }
