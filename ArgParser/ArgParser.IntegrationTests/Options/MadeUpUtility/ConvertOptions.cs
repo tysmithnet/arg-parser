@@ -2,7 +2,7 @@
 {
     public class ConvertOptions : UtilityOptions
     {
-        public string Format { get; set; }
         public string[] FileNames { get; set; }
+        public string Format { get; set; }
     }
 }

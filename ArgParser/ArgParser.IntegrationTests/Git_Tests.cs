@@ -1,6 +1,5 @@
 ﻿using System;
 using ArgParser.Flavors.Git;
-using ArgParser.IntegrationTests.Options;
 using ArgParser.IntegrationTests.Options.MadeUpUtility;
 using ArgParser.IntegrationTests.Options.Trivial;
 using FluentAssertions;
@@ -99,7 +98,7 @@ namespace ArgParser.IntegrationTests
             var result = builder.Parse("base", "firewall block -p 8080 -m io firefox.exe".Split(' '));
 
             // assert
-            bool isParsed = false;
+            var isParsed = false;
             result.When<BlockProgramOptions>(options =>
             {
                 isParsed = true;

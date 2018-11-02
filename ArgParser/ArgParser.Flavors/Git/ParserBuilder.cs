@@ -36,7 +36,8 @@ namespace ArgParser.Flavors.Git
             return WithPositionals(Convert, 1, 1);
         }
 
-        public ParserBuilder<T> WithPositionals(Action<T, string[]> consumeCallback, int min = 1, int max = int.MaxValue)
+        public ParserBuilder<T> WithPositionals(Action<T, string[]> consumeCallback, int min = 1,
+            int max = int.MaxValue)
         {
             Context.ParameterRepository.AddParameter(Name, new Positional<T>(consumeCallback)
             {
@@ -87,7 +88,6 @@ namespace ArgParser.Flavors.Git
 
         public ParserBuilder WithPositional(Action<object, string> consumeCallback)
         {
-
             void Convert(object instance, string[] strings)
             {
                 consumeCallback(instance, strings.First());
@@ -96,7 +96,8 @@ namespace ArgParser.Flavors.Git
             return WithPositionals(Convert, 1, 1);
         }
 
-        public ParserBuilder WithPositionals(Action<object, string[]> consumeCallback, int min = 1, int max = int.MaxValue)
+        public ParserBuilder WithPositionals(Action<object, string[]> consumeCallback, int min = 1,
+            int max = int.MaxValue)
         {
             Context.ParameterRepository.AddParameter(Name, new Positional(consumeCallback)
             {
