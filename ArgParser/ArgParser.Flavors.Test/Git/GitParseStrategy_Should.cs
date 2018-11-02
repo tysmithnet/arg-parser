@@ -1,6 +1,6 @@
 ﻿using ArgParser.Core;
 
-namespace ArgParser.Flavors.Test
+namespace ArgParser.Flavors.Test.Git
 {
     public class GitParseStrategy_Should
     {

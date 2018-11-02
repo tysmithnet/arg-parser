@@ -4,7 +4,7 @@ using ArgParser.Flavors.Git;
 using FluentAssertions;
 using Xunit;
 
-namespace ArgParser.Flavors.Test
+namespace ArgParser.Flavors.Test.Git
 {
     public class GitParser_Should
     {

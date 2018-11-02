@@ -75,15 +75,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BooleanSwitch_Should.cs" />
-    <Compile Include="GitParserRepository_Should.cs" />
-    <Compile Include="GitParameterRepository_Should.cs" />
-    <Compile Include="GitParser_Should.cs" />
-    <Compile Include="GitParseStrategy_Should.cs" />
-    <Compile Include="GitToken_Should.cs" />
-    <Compile Include="GitValidatorRepository_Should.cs" />
+    <Compile Include="Git\BooleanSwitch_Should.cs" />
+    <Compile Include="Git\GitParserRepository_Should.cs" />
+    <Compile Include="Git\GitParameterRepository_Should.cs" />
+    <Compile Include="Git\GitParser_Should.cs" />
+    <Compile Include="Git\GitParseStrategy_Should.cs" />
+    <Compile Include="Git\GitToken_Should.cs" />
+    <Compile Include="Git\GitValidatorRepository_Should.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RequiredParameterValidator_Should.cs" />
+    <Compile Include="Git\RequiredParameterValidator_Should.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

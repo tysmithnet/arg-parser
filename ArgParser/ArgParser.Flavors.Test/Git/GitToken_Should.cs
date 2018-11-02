@@ -2,7 +2,7 @@
 using FluentAssertions;
 using Xunit;
 
-namespace ArgParser.Flavors.Test
+namespace ArgParser.Flavors.Test.Git
 {
     public class GitToken_Should
     {
