@@ -18,6 +18,8 @@ namespace ArgParser.Flavors.Git
                 FactoryFunctions[parserName].Add(facFunc);
         }
 
+        public bool Contains(string name) => FactoryFunctions.ContainsKey(name);
+
         public IEnumerable<Func<object>> GetFactoryFunctions(string parserName)
         {
             parserName.ThrowIfArgumentNull(nameof(parserName));

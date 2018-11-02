@@ -7,5 +7,6 @@ namespace ArgParser.Flavors.Git
     {
         void AddFactoryFunction(string parserName, Func<object> facFunc);
         IEnumerable<Func<object>> GetFactoryFunctions(string parserName);
+        bool Contains(string name);
     }
 }

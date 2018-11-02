@@ -18,6 +18,8 @@ namespace ArgParser.Flavors.Git
             Validators[parserName].Add(validator);
         }
 
+        public bool Contains(string name) => Validators.ContainsKey(name);
+
         public IEnumerable<IValidator> GetValidators(string parserName)
         {
             if (!Validators.ContainsKey(parserName))

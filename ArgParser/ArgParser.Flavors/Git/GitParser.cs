@@ -45,8 +45,10 @@ namespace ArgParser.Flavors.Git
             }
 
             var ancestors = Context.ParserRepository.GetAncestors(currentParser).ToList();
-            ancestors.Insert(0, this);
-            var funcs = ancestors.SelectMany(x => Context.FactoryFunctionRepository.GetFactoryFunctions(x.Name));
+            ancestors.Insert(0, Context.ParserRepository.Get(currentParser));
+            var funcs = ancestors
+                .Where(x => Context.FactoryFunctionRepository.Contains(x.Name))
+                .SelectMany(x => Context.FactoryFunctionRepository.GetFactoryFunctions(x.Name));
             var strat = new GitParseStrategy(Context);
             return strat.Parse(ancestors, funcs, args);
         }

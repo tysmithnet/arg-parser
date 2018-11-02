@@ -24,6 +24,18 @@ namespace ArgParser.Flavors.Test.Git
         }
 
         [Fact]
+        public void Return_True_If_The_Parser_Has_Been_Registered()
+        {
+            // arrange
+            var repo = new GitValidatorRepository();
+            repo.AddValidator("test", new RequiredParameterValidator(new BooleanSwitch()));
+
+            // act
+            // assert
+            repo.Contains("test").Should().BeTrue();
+        }
+
+        [Fact]
         public void Throw_If_Given_Null_Values()
         {
             // arrange
