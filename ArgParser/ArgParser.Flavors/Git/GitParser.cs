@@ -37,7 +37,7 @@ namespace ArgParser.Flavors.Git
         public IParseResult Parse(string[] args)
         {
             args.ThrowIfArgumentNull(nameof(args));
-            string currentParser = Name;
+            var currentParser = Name;
             while (args.Any() && Context.ParserRepository.IsSubCommand(currentParser, args[0]))
             {
                 currentParser = Context.ParserRepository.GetSubCommand(currentParser, args[0]).Name;
@@ -63,8 +63,8 @@ namespace ArgParser.Flavors.Git
         }
 
         public IParser BaseParser => Context.ParserRepository.GetParent(Name);
-        public DefaultParser DefaultParser { get; set; } = new DefaultParser();
         public IGitContext Context { get; set; }
+        public DefaultParser DefaultParser { get; set; } = new DefaultParser();
         public IGenericHelp Help => DefaultParser.Help;
         public string Name { get; set; }
     }

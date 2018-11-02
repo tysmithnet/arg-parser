@@ -2,6 +2,6 @@
 {
     public interface ISubBuilder
     {
-        GitBuilder Break { get; }    
+        GitBuilder Break { get; }
     }
 }

@@ -8,18 +8,20 @@ namespace ArgParser.Flavors.Git
 {
     public class GitParseStrategy : IParseStrategy
     {
-        public IGitContext Context { get; set; }    
         public GitParseStrategy(IGitContext context)
         {
             Context = context.ThrowIfArgumentNull(nameof(context));
         }
 
-        public IParseResult Parse(IEnumerable<IParser> parsers, IEnumerable<Func<object>> factoryFunctions, string[] args)
+        public IParseResult Parse(IEnumerable<IParser> parsers, IEnumerable<Func<object>> factoryFunctions,
+            string[] args)
         {
             var strategy = new DefaultParseStrategy(factoryFunctions);
             var results = strategy.ParseInstances(parsers, args);
             return CreateParseResult(results);
         }
+
+        public IParseResult Parse(IEnumerable<IParser> parsers, string[] args) => throw new NotImplementedException();
 
         protected IParseResult CreateParseResult(List<object> results)
         {
@@ -41,9 +43,6 @@ namespace ArgParser.Flavors.Git
             return new DefaultParseResult(agg.ToList());
         }
 
-        public IParseResult Parse(IEnumerable<IParser> parsers, string[] args)
-        {
-            throw new NotImplementedException();
-        }
+        public IGitContext Context { get; set; }
     }
 }

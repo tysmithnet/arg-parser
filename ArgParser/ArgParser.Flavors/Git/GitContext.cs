@@ -2,9 +2,11 @@
 {
     public class GitContext : IGitContext
     {
-        public IGitParserRepository ParserRepository { get; set; } = new GitParserRepository();
+        public IGitFactoryFunctionRepository FactoryFunctionRepository { get; set; } =
+            new GitFactoryFunctionRepository();
+
         public IGitParameterRepository ParameterRepository { get; set; } = new GitParameterRepository();
+        public IGitParserRepository ParserRepository { get; set; } = new GitParserRepository();
         public IGitValidatorRepository ValidatorRepository { get; set; } = new GitValidatorRepository();
-        public IGitFactoryFunctionRepository FactoryFunctionRepository { get; set; } = new GitFactoryFunctionRepository();
     }
 }

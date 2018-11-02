@@ -13,7 +13,6 @@ namespace ArgParser.Flavors.Git
 
         internal Positional()
         {
-
         }
 
         public override bool CanConsume(object instance, IIterationInfo info)

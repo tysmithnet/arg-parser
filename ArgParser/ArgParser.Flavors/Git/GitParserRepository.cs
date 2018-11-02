@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ArgParser.Core;
 
 namespace ArgParser.Flavors.Git
 {
@@ -10,7 +9,6 @@ namespace ArgParser.Flavors.Git
         protected internal Dictionary<string, List<string>> ParentChildRelationships =
             new Dictionary<string, List<string>>();
 
-        /// <inheritdoc />
         public GitParser Create(string name)
         {
             if (Nodes.ContainsKey(name))
@@ -36,7 +34,6 @@ namespace ArgParser.Flavors.Git
             parentNode.Children.Add(childNode);
         }
 
-        /// <inheritdoc />
         public GitParser Get(string name)
         {
             if (!Nodes.ContainsKey(name))
@@ -87,17 +84,16 @@ namespace ArgParser.Flavors.Git
             return node.Parent?.Parser;
         }
 
-        public bool IsSubCommand(string parserName, string potentialSubCommand)
-        {
-            var children = GetChildren(parserName, false);
-            return children.Any(x => x.Name == potentialSubCommand);
-        }
-
-        /// <inheritdoc />
         public GitParser GetSubCommand(string parserName, string subCommand)
         {
             var children = GetChildren(parserName, false);
             return children.First(x => x.Name == subCommand);
+        }
+
+        public bool IsSubCommand(string parserName, string potentialSubCommand)
+        {
+            var children = GetChildren(parserName, false);
+            return children.Any(x => x.Name == potentialSubCommand);
         }
 
         protected internal Dictionary<string, Node> Nodes { get; set; } = new Dictionary<string, Node>();
@@ -111,9 +107,9 @@ namespace ArgParser.Flavors.Git
             }
 
             public IList<Node> Children { get; set; } = new List<Node>();
-            public GitParser Parser { get; set; }
             public string Name { get; set; }
             public Node Parent { get; set; }
+            public GitParser Parser { get; set; }
         }
     }
 }

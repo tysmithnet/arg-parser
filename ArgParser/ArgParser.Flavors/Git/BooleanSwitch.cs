@@ -14,7 +14,6 @@ namespace ArgParser.Flavors.Git
 
         internal BooleanSwitch()
         {
-
         }
 
         public override IIterationInfo Consume(object instance, IIterationInfo info)

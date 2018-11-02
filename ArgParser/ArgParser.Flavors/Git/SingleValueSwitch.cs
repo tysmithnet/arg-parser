@@ -14,7 +14,6 @@ namespace ArgParser.Flavors.Git
 
         internal SingleValueSwitch()
         {
-
         }
 
         public override IIterationInfo Consume(object instance, IIterationInfo info)

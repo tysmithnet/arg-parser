@@ -13,25 +13,19 @@ namespace ArgParser.Flavors.Git
             Context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public IGitContext Context { get; set; }
-
-        public string Name { get; }
-
         public ParserBuilder WithBooleanCommand(char letter, string word, Action<object> consumeCallback)
         {
             Context.ParameterRepository.AddParameter(Name, new BooleanSwitch(letter, word, consumeCallback));
             return this;
         }
 
-        public ParserBuilder WithSingleValueSwitch(char letter, string word, Action<object, string> consumeCallback)
+        public ParserBuilder WithFactoryFunctions(params Func<object>[] factoryFunctions)
         {
-            Context.ParameterRepository.AddParameter(Name, new SingleValueSwitch(letter, word, consumeCallback));
-            return this;
-        }
+            if (factoryFunctions == null)
+                throw new ArgumentNullException(nameof(factoryFunctions));
 
-        public ParserBuilder WithValueSwitch(char letter, string word, Action<object, string[]> consumeCallback)
-        {
-            Context.ParameterRepository.AddParameter(Name, new ValuesSwitch(letter, word, consumeCallback));
+            foreach (var factoryFunction in factoryFunctions)
+                Context.FactoryFunctionRepository.AddFactoryFunction(Name, factoryFunction);
             return this;
         }
 
@@ -41,15 +35,9 @@ namespace ArgParser.Flavors.Git
             return this;
         }
 
-        public ParserBuilder WithFactoryFunctions(params Func<object>[] factoryFunctions)
+        public ParserBuilder WithSingleValueSwitch(char letter, string word, Action<object, string> consumeCallback)
         {
-            if(factoryFunctions == null)
-                throw new ArgumentNullException(nameof(factoryFunctions));
-
-            foreach (var factoryFunction in factoryFunctions)
-            {
-                Context.FactoryFunctionRepository.AddFactoryFunction(Name, factoryFunction);
-            }
+            Context.ParameterRepository.AddParameter(Name, new SingleValueSwitch(letter, word, consumeCallback));
             return this;
         }
 
@@ -59,6 +47,16 @@ namespace ArgParser.Flavors.Git
             return this;
         }
 
+        public ParserBuilder WithValueSwitch(char letter, string word, Action<object, string[]> consumeCallback)
+        {
+            Context.ParameterRepository.AddParameter(Name, new ValuesSwitch(letter, word, consumeCallback));
+            return this;
+        }
+
         public GitBuilder Break { get; }
+
+        public IGitContext Context { get; set; }
+
+        public string Name { get; }
     }
 }
