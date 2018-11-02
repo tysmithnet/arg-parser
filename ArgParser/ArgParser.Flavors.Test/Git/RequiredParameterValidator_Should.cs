@@ -13,7 +13,20 @@ namespace ArgParser.Flavors.Test.Git
         }
 
         [Fact]
-        public void Return_Success_If_The_Validation_Succeeds()
+        public void Always_Say_It_Can_Validate()
+        {
+            // arrange
+            var validator = new RequiredParameterValidator(new BooleanSwitch('h', "help", o=>{}));
+
+            // act
+            // assert
+            validator.CanValidate(null).Should().BeTrue();
+            validator.CanValidate(new object()).Should().BeTrue();
+            validator.CanValidate("").Should().BeTrue();
+        }
+
+        [Fact]
+        public void Return_Success_If_Parameter_Was_Consumed()
         {
             // arrange
             var gitParameter = new Positional
@@ -33,6 +46,29 @@ namespace ArgParser.Flavors.Test.Git
 
             // assert
             result.IsSuccess.Should().BeTrue();
+        }
+
+        [Fact]
+        public void Return_Error_If_Parameter_Was_Not_Consumed()
+        {
+            // arrange
+            var gitParameter = new Positional
+            {
+                ConsumeCallback = (o, strings) =>
+                {
+                    if (o is BasicOptions b)
+                        b.File = strings.First();
+                },
+                HasBeenConsumed = false
+            };
+            var validator = new RequiredParameterValidator(gitParameter);
+            validator.Parameter = gitParameter;
+
+            // act
+            var result = validator.Validate(new BasicOptions());
+
+            // assert
+            result.IsSuccess.Should().BeFalse();
         }
     }
 }

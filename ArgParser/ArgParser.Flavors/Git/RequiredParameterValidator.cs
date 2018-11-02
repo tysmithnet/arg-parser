@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ArgParser.Core;
 using ArgParser.Core.Validation;
 
 namespace ArgParser.Flavors.Git
@@ -8,7 +9,7 @@ namespace ArgParser.Flavors.Git
     {
         public RequiredParameterValidator(GitParameter parameter)
         {
-            Parameter = parameter ?? throw new ArgumentNullException(nameof(parameter));
+            Parameter = parameter.ThrowIfArgumentNull(nameof(parameter));
         }
 
         public bool CanValidate(object instance) => true;
