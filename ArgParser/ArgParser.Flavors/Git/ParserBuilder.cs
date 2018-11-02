@@ -6,7 +6,6 @@ namespace ArgParser.Flavors.Git
 {
     public class ParserBuilder<T> : ParserBuilder
     {
-        /// <inheritdoc />
         public ParserBuilder(string parserName, GitBuilder parent, IGitContext context) : base(parserName, parent,
             context)
         {

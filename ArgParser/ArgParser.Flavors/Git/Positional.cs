@@ -6,7 +6,6 @@ namespace ArgParser.Flavors.Git
 {
     public class Positional<T> : Positional
     {
-        /// <inheritdoc />
         public Positional(Action<T, string[]> consumeCallback) : base(consumeCallback.ToBaseCallback())
         {
         }
