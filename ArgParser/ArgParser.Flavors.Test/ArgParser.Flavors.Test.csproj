@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Git\BooleanSwitch_Should.cs" />
+    <Compile Include="Git\GitBuilder_Should.cs" />
     <Compile Include="Git\GitFactoryFunctionRepository_Should.cs" />
     <Compile Include="Git\GitParserRepository_Should.cs" />
     <Compile Include="Git\GitParameterRepository_Should.cs" />

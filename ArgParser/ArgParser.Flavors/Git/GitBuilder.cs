@@ -6,6 +6,7 @@ namespace ArgParser.Flavors.Git
     {
         public ParserBuilder AddParser(string name)
         {
+            name.ThrowIfArgumentNull(nameof(name));
             var parser = Context.ParserRepository.Create(name);
             parser.Context = Context;
             return new ParserBuilder(name, this, Context);
@@ -13,6 +14,8 @@ namespace ArgParser.Flavors.Git
 
         public GitBuilder AddSubCommand(string parent, string child)
         {
+            parent.ThrowIfArgumentNull(nameof(parent));
+            child.ThrowIfArgumentNull(nameof(child));
             Context.ParserRepository.EstablishParentChildRelationship(parent, child);
             return this;
         }
