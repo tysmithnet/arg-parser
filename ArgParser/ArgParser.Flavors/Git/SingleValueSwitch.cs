@@ -5,6 +5,18 @@ namespace ArgParser.Flavors.Git
 {
     public class SingleValueSwitch : Switch
     {
+        public SingleValueSwitch(char letter, string word, Action<object, string> consumeCallback)
+        {
+            Letter = letter;
+            Word = word;
+            ConsumeCallback = consumeCallback;
+        }
+
+        internal SingleValueSwitch()
+        {
+
+        }
+
         public override IIterationInfo Consume(object instance, IIterationInfo info)
         {
             ConsumeCallback(instance, info.Next.Raw); // todo: check

@@ -6,6 +6,16 @@ namespace ArgParser.Flavors.Git
 {
     public class Positional : GitParameter
     {
+        public Positional(Action<object, string[]> consumeCallback)
+        {
+            ConsumeCallback = consumeCallback ?? throw new ArgumentNullException(nameof(consumeCallback));
+        }
+
+        internal Positional()
+        {
+
+        }
+
         public override bool CanConsume(object instance, IIterationInfo info)
         {
             if (IsConsumed)

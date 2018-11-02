@@ -6,6 +6,18 @@ namespace ArgParser.Flavors.Git
 {
     public class ValuesSwitch : Switch
     {
+        public ValuesSwitch(char letter, string word, Action<object, string[]> consumeCallback)
+        {
+            Letter = letter;
+            Word = word;
+            ConsumeCallback = consumeCallback; // todo: null check this and others like it
+        }
+
+        internal ValuesSwitch()
+        {
+
+        }
+
         public override IIterationInfo Consume(object instance, IIterationInfo info)
         {
             var tokens = info.Rest.Select(x => x.ToGitToken()).TakeWhile(t => !t.IsAnyMatch).Select(t => t.Raw)
