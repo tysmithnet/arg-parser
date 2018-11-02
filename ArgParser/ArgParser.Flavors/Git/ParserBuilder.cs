@@ -1,4 +1,5 @@
 ﻿using System;
+using ArgParser.Core.Validation;
 
 namespace ArgParser.Flavors.Git
 {
@@ -50,6 +51,11 @@ namespace ArgParser.Flavors.Git
                 Context.GitFactoryFunctionRepository.AddFactoryFunction(Name, factoryFunction);
             }
             return this;
+        }
+
+        public ParserBuilder WithValidation(IValidator validator)
+        {
+            Context.GitValidatorRepository.AddValidator(Name, validator);
         }
 
         public GitBuilder Break { get; }

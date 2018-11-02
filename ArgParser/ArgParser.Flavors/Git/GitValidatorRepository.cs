@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ArgParser.Core.Validation;
 
@@ -6,14 +7,24 @@ namespace ArgParser.Flavors.Git
 {
     public class GitValidatorRepository : IGitValidatorRepository
     {
-        public void AddValidator(IValidator validator)
+        protected internal Dictionary<string, IList<IValidator>> Validators { get; set; }
+
+        public void AddValidator(string parserName, IValidator validator)
         {
-            Validators.Add(validator);
+            if(parserName == null)
+                throw new ArgumentNullException(nameof(parserName));
+            if(validator == null)
+                throw new ArgumentNullException(nameof(validator));
+            if(!Validators.ContainsKey(parserName))
+                Validators.Add(parserName, new List<IValidator>());
+            Validators[parserName].Add(validator);
         }
 
-        /// <inheritdoc />
-        public IEnumerable<IValidator> GetValidators() => Validators.ToList();
-
-        internal List<IValidator> Validators { get; set; } = new List<IValidator>();
+        public IEnumerable<IValidator> GetValidators(string parserName)
+        {
+            if (!Validators.ContainsKey(parserName))
+                throw new KeyNotFoundException($"Unable to find parser with name={parserName}, are you sure it was added?");
+            return Validators[parserName].ToList();
+        }
     }
 }

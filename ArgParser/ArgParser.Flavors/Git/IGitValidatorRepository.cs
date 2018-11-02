@@ -5,7 +5,7 @@ namespace ArgParser.Flavors.Git
 {
     public interface IGitValidatorRepository
     {
-        void AddValidator(IValidator validator);
-        IEnumerable<IValidator> GetValidators();
+        void AddValidator(string parserName, IValidator validator);
+        IEnumerable<IValidator> GetValidators(string parserName);
     }
 }
