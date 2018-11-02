@@ -34,6 +34,16 @@ namespace ArgParser.Flavors.Git
             Context.ParameterRepository.AddParameter(Name, new Positional<T>(consumeCallback));
             return this;
         }
+
+        public ParserBuilder<T> WithFactoryFunctions(params Func<T>[] factoryFuncs)
+        {
+            factoryFuncs.ThrowIfArgumentNull(nameof(factoryFuncs));
+            foreach (var factoryFunc in factoryFuncs)
+            {
+                Context.FactoryFunctionRepository.AddFactoryFunction(Name, factoryFunc.ToBaseFactoryFunction());
+            }
+            return this;
+        }
     }
 
     public class ParserBuilder : ISubBuilder

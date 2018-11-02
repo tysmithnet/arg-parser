@@ -115,10 +115,12 @@ namespace ArgParser.Flavors.Test.Git
             builder.WithSingleValueSwitch('s', "single", (options, s) => options.SingleSwitchValue = s);
             builder.WithValuesSwitch('m', "multi", (options, strings) => options.MultipleSwitchValues = strings);
             builder.WithPositionals((options, strings) => options.Postionals = strings);
+            builder.WithFactoryFunctions(() => new BaseOptions());
 
             // act
             // assert
             context.ParameterRepository.GetParameters("base").Should().HaveCount(4);
+            context.FactoryFunctionRepository.GetFactoryFunctions("base").Should().HaveCount(1);
         }
 
         private class BaseOptions

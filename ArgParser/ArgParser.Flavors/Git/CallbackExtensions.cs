@@ -30,5 +30,10 @@ namespace ArgParser.Flavors.Git
                     callback(casted, s);
             };
         }
+
+        public static Func<object> ToBaseFactoryFunction<T>(this Func<T> factoryFunction)
+        {
+            return () => factoryFunction();
+        }
     }
 }

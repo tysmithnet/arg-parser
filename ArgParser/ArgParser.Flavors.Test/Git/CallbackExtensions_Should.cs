@@ -34,5 +34,18 @@ namespace ArgParser.Flavors.Test.Git
             singleCount.Should().Be(1);
             multiCount.Should().Be(1);
         }
+
+        [Fact]
+        public void Convert_Factory_Functions_To_Functions_Of_Object()
+        {
+            // arrange
+            Func<string> s = () => "";
+
+            // act
+            Func<object> conv = s.ToBaseFactoryFunction();
+
+            // assert
+            conv().Should().Be("");
+        }
     }
 }
