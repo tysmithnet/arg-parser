@@ -11,15 +11,27 @@ namespace ArgParser.Flavors.Git
         {
         }
 
-        public ParserBuilder WithBooleanSwitch(char letter, string word, Action<T> consumeCallback)
+        public ParserBuilder<T> WithBooleanSwitch(char letter, string word, Action<T> consumeCallback)
         {
             Context.ParameterRepository.AddParameter(Name, new BooleanSwitch<T>(letter, word, consumeCallback));
             return this;
         }
 
-        public ParserBuilder WithSingleValueSwitch(char letter, string word, Action<T, string> consumeCallback)
+        public ParserBuilder<T> WithSingleValueSwitch(char letter, string word, Action<T, string> consumeCallback)
         {
-            Context.ParameterRepository.AddParameter(Name, new SingleValueSwitch<T>());
+            Context.ParameterRepository.AddParameter(Name, new SingleValueSwitch<T>(letter, word, consumeCallback));
+            return this;
+        }
+
+        public ParserBuilder<T> WithValuesSwitch(char letter, string word, Action<T, string[]> consumeCallback)
+        {
+            Context.ParameterRepository.AddParameter(Name, new ValuesSwitch<T>(letter, word, consumeCallback));
+            return this;
+        }
+
+        public ParserBuilder<T> WithPositionals(Action<T, string[]> consumeCallback)
+        {
+            Context.ParameterRepository.AddParameter(Name, new Positional<T>(consumeCallback));
             return this;
         }
     }

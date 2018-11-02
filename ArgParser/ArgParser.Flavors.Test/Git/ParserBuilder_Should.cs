@@ -103,5 +103,30 @@ namespace ArgParser.Flavors.Test.Git
             mightThrow2.Should().Throw<ArgumentNullException>();
             mightThrow3.Should().NotThrow();
         }
+
+        [Fact]
+        public void Offer_Generic_Counter_Parts()
+        {
+            // arrange
+            var parent = new GitBuilder();
+            var context = new GitContext();
+            var builder = new ParserBuilder<BaseOptions>("base", parent, context);
+            builder.WithBooleanSwitch('b', "boolean", options => options.BooleanValue = true);
+            builder.WithSingleValueSwitch('s', "single", (options, s) => options.SingleSwitchValue = s);
+            builder.WithValuesSwitch('m', "multi", (options, strings) => options.MultipleSwitchValues = strings);
+            builder.WithPositionals((options, strings) => options.Postionals = strings);
+
+            // act
+            // assert
+            context.ParameterRepository.GetParameters("base").Should().HaveCount(4);
+        }
+
+        private class BaseOptions
+        {
+            public bool BooleanValue { get; set; }
+            public string SingleSwitchValue { get; set; }
+            public string [] MultipleSwitchValues { get; set; }
+            public string[] Postionals { get; set; }
+        }
     }
 }
