@@ -3,6 +3,13 @@ using ArgParser.Core;
 
 namespace ArgParser.Flavors.Git
 {
+    public class SingleValueSwitch<T> : SingleValueSwitch
+    {
+        public SingleValueSwitch(char letter, string word, Action<T, string> consumeCallback) : base(letter, word, consumeCallback.ToBaseCallback())
+        {
+        }
+    }
+
     public class SingleValueSwitch : Switch
     {
         public SingleValueSwitch(char letter, string word, Action<object, string> consumeCallback)

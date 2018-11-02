@@ -3,6 +3,14 @@ using ArgParser.Core;
 
 namespace ArgParser.Flavors.Git
 {
+    public class BooleanSwitch<T> : BooleanSwitch
+    {
+        /// <inheritdoc />
+        public BooleanSwitch(char letter, string word, Action<T> consumeCallback) : base(letter, word, consumeCallback.ToBaseCallback())
+        {
+        }
+    }
+
     public class BooleanSwitch : Switch
     {
         public BooleanSwitch(char letter, string word, Action<object> consumeCallback)

@@ -4,6 +4,26 @@ using ArgParser.Core.Validation;
 
 namespace ArgParser.Flavors.Git
 {
+    public class ParserBuilder<T> : ParserBuilder
+    {
+        /// <inheritdoc />
+        public ParserBuilder(string parserName, GitBuilder parent, IGitContext context) : base(parserName, parent, context)
+        {
+        }
+
+        public ParserBuilder WithBooleanSwitch(char letter, string word, Action<T> consumeCallback)
+        {
+            Context.ParameterRepository.AddParameter(Name, new BooleanSwitch<T>(letter, word, consumeCallback));
+            return this;
+        }
+
+        public ParserBuilder WithSingleValueSwitch(char letter, string word, Action<T, string> consumeCallback)
+        {
+            Context.ParameterRepository.AddParameter(Name, new SingleValueSwitch<T>());
+            return this;
+        }
+    }
+
     public class ParserBuilder : ISubBuilder
     {
         public ParserBuilder(string parserName, GitBuilder parent, IGitContext context)
