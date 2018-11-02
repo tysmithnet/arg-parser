@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ArgParser.IntegrationTests.Options
+namespace ArgParser.IntegrationTests.Options.Trivial
 {
     public class TestOptions
     {

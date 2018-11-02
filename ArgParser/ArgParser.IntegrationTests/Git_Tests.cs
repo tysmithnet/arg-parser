@@ -1,5 +1,6 @@
 ﻿using ArgParser.Flavors.Git;
 using ArgParser.IntegrationTests.Options;
+using ArgParser.IntegrationTests.Options.Trivial;
 using FluentAssertions;
 using Xunit;
 

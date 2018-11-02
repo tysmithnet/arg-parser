@@ -1,4 +1,4 @@
-﻿namespace ArgParser.IntegrationTests.Options
+﻿namespace ArgParser.IntegrationTests.Options.Trivial
 {
     public class ExtraTestOptions : TestOptions
     {
