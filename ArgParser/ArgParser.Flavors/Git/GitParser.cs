@@ -14,126 +14,11 @@ namespace ArgParser.Flavors.Git
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
         }
-        
-        public void AddBooleanSwitch(char letter, string word, Action<object> consume, bool required = false,
-            bool isGroupable = false)
-        {
-            var booleanSwitch = new BooleanSwitch
-            {
-                Letter = letter,
-                Word = word,
-                ConsumeCallback = consume
-            };
-            Switches.Add(booleanSwitch);
-            if (required)
-                RequiredParameters.Add(booleanSwitch);
-            if (isGroupable)
-                GroupableSwitches.Add(booleanSwitch);
-        }
-
-        public void AddFactoryMethods(params Func<object>[] methods)
-        {
-            FactoryFunctions.AddRange(methods);
-        }
-
-        public void AddPositional(Action<object, string> consume, bool required = false)
-        {
-            var positional = new Positional
-            {
-                ConsumeCallback = (o, strings) => consume(o, strings.First()),
-                Max = 1,
-                Min = 1
-            };
-            Positionals.Add(positional);
-            if (required)
-                RequiredParameters.Add(positional);
-        }
-
-        public void AddPositionals(Action<object, string[]> consume, int min = 1, int max = int.MaxValue,
-            bool required = false)
-        {
-            var positional = new Positional
-            {
-                ConsumeCallback = consume,
-                Max = max,
-                Min = min
-            };
-            Positionals.Add(positional);
-            if (required)
-                RequiredParameters.Add(positional);
-        }
-
-        public void AddSingleValueSwitch(char letter, string word, Action<object, string> consume,
-            bool required = false, bool isGroupable = false)
-        {
-            var singleValueSwitch = new SingleValueSwitch
-            {
-                ConsumeCallback = consume,
-                Letter = letter,
-                Word = word
-            };
-            Switches.Add(singleValueSwitch);
-            if (required)
-                RequiredParameters.Add(singleValueSwitch);
-            if (isGroupable)
-                GroupableSwitches.Add(singleValueSwitch);
-        }
-
-        public void AddSubCommand(string command, GitParser parser)
-        {
-            SubCommands.Add(command, parser);
-        }
-
-        public void AddValueSwitch(char letter, string word, Action<object, string[]> consume, bool required = false,
-            bool isGroupable = false)
-        {
-            var valuesSwitch = new ValuesSwitch
-            {
-                Letter = letter,
-                Word = word,
-                ConsumeCallback = consume
-            };
-            Switches.Add(valuesSwitch);
-            if (required)
-                RequiredParameters.Add(valuesSwitch);
-            if (isGroupable)
-                GroupableSwitches.Add(valuesSwitch);
-        }
-
-        public IParseResult Parse(string[] args, IEnumerable<Func<object>> factoryFunctions = null)
-        {
-            var possibleSubCommand = args[0];
-            if (SubCommands.ContainsKey(possibleSubCommand))
-            {
-                var subCommandFlavor = SubCommands[possibleSubCommand];
-                return subCommandFlavor.Parse(args.Skip(1).ToArray(), factoryFunctions ?? FactoryFunctions);
-            }
-
-            var strat = new GitParseStrategy(factoryFunctions ?? FactoryFunctions);
-            if (RequiredParameters.Any())
-            {
-                var validators = RequiredParameters.Select(parameter => new RequiredParameterValidator(parameter));
-                foreach (var requiredParameterValidator in validators) strat.Validators.Add(requiredParameterValidator);
-            }
-
-            var ancestors = GitParserRepository.GetAncestors(Name).ToList();
-            ancestors.Insert(0, this);
-            var children = GitParserRepository.GetChildren(Name, true);
-            return strat.Parse(ancestors.Concat(children), args);
-        }
-
-        private readonly List<IParameter> _allParameters = new List<IParameter>();
-
-        public virtual void AddParameter(IParameter parameter, IGenericHelp help = null)
-        {
-            _allParameters.Add(parameter);
-            DefaultParser.AddParameter(parameter, help);
-        }
 
         public bool CanConsume(object instance, IIterationInfo info)
         {
             var canSelf = DefaultParser.CanConsume(instance, info);
-            var canBase = GitParserRepository.GetParent(Name)?.CanConsume(instance, info) ?? false;
+            var canBase = GitContext.GitParserRepository.GetParent(Name)?.CanConsume(instance, info) ?? false;
             return canSelf || canBase;
         }
 
@@ -142,7 +27,7 @@ namespace ArgParser.Flavors.Git
             var canSelf = DefaultParser.CanConsume(instance, info);
             if (canSelf)
                 return DefaultParser.Consume(instance, info);
-            var ancestors = GitParserRepository.GetAncestors(Name);
+            var ancestors = GitContext.GitParserRepository.GetAncestors(Name);
             foreach (var gitFlavor in ancestors)
                 if (gitFlavor.CanConsume(instance, info))
                     return gitFlavor.Consume(instance, info);
@@ -150,26 +35,26 @@ namespace ArgParser.Flavors.Git
                 $"Consume was called on {Name}, but it, nor its ancestors are able to consume. Was CanConsume called before this invocation?");
         }
 
-        public void Reset()
+        public IParseResult Parse(string[] args, IEnumerable<Func<object>> factoryFunctions = null)
         {
-            foreach (var allParameter in _allParameters) allParameter.Reset();
+            return null;
         }
 
-        public IParser BaseParser => GitParserRepository.GetParent(Name);
+        public void Reset()
+        {
+            DefaultParser = new DefaultParser();
+            var parameters = GitContext.GitParameterRepository.GetParameters(Name).ToList();
+            foreach (var parameter in parameters)
+            {
+                parameter.Reset();
+                DefaultParser.AddParameter(parameter);
+            }
+        }
+
+        public IParser BaseParser => GitContext.GitParserRepository.GetParent(Name);
         public DefaultParser DefaultParser { get; set; } = new DefaultParser();
-
-        public IGitParserRepository GitParserRepository { get; set; }
-
+        public IGitContext GitContext { get; set; }
         public IGenericHelp Help => DefaultParser.Help;
         public string Name { get; set; }
-
-        public List<Func<object>> FactoryFunctions { get; set; } = new List<Func<object>>();
-        public IGitValidatorRepository GitValidatorRepository { get; set; }
-
-        public List<Switch> GroupableSwitches { get; set; } = new List<Switch>();
-        public List<Positional> Positionals { get; set; } = new List<Positional>();
-        public IList<GitParameter> RequiredParameters { get; set; } = new List<GitParameter>();
-        public Dictionary<string, GitParser> SubCommands { get; set; } = new Dictionary<string, GitParser>();
-        public List<Switch> Switches { get; set; } = new List<Switch>();
     }
 }

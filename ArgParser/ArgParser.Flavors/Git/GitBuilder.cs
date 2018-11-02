@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using ArgParser.Core;
 
 namespace ArgParser.Flavors.Git
 {
@@ -16,6 +17,11 @@ namespace ArgParser.Flavors.Git
         {
             GitContext.GitParserRepository.EstablishParentChildRelationship(parent, child);
             return this;
+        }
+
+        public IParseResult Parse(string[] args)
+        {
+            
         }
     }
 }
