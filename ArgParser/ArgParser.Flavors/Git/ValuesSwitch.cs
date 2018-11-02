@@ -6,8 +6,8 @@ namespace ArgParser.Flavors.Git
 {
     public class ValuesSwitch<T> : ValuesSwitch
     {
-        /// <inheritdoc />
-        public ValuesSwitch(char letter, string word, Action<T, string[]> consumeCallback) : base(letter, word, consumeCallback.ToBaseCallback())
+        public ValuesSwitch(char letter, string word, Action<T, string[]> consumeCallback) : base(letter, word,
+            consumeCallback.ToBaseCallback())
         {
         }
     }
