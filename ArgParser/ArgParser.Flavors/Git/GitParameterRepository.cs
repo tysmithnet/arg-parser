@@ -19,6 +19,9 @@ namespace ArgParser.Flavors.Git
             Parameters[parserName].Add(parameter);
         }
 
+        /// <inheritdoc />
+        public bool Contains(string name) => Parameters.ContainsKey(name);
+
         public virtual IEnumerable<BooleanSwitch> GetBooleanSwitches(string parserName) =>
             GetParameters(parserName).OfType<BooleanSwitch>();
 
@@ -35,12 +38,6 @@ namespace ArgParser.Flavors.Git
             GetParameters(parserName).OfType<Positional>();
 
         public virtual IEnumerable<Switch> GetSwitches(string parserName) => GetParameters(parserName).OfType<Switch>();
-
-        /// <inheritdoc />
-        public bool Contains(string name)
-        {
-            return Parameters.ContainsKey(name);
-        }
 
         private Dictionary<string, IList<GitParameter>> Parameters { get; } =
             new Dictionary<string, IList<GitParameter>>();

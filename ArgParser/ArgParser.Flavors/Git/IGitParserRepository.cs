@@ -4,6 +4,7 @@ namespace ArgParser.Flavors.Git
 {
     public interface IGitParserRepository
     {
+        bool Contains(string name);
         GitParser Create(string name);
         void EstablishParentChildRelationship(string parent, string child);
         GitParser Get(string name);
@@ -12,6 +13,5 @@ namespace ArgParser.Flavors.Git
         GitParser GetParent(string parser);
         GitParser GetSubCommand(string parserName, string subCommand);
         bool IsSubCommand(string parserName, string potentialSubCommand);
-        bool Contains(string name);
     }
 }

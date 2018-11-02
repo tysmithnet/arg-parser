@@ -26,6 +26,7 @@ namespace ArgParser.Flavors.Git
             return Validators[parserName].ToList();
         }
 
-        protected internal Dictionary<string, IList<IValidator>> Validators { get; set; } = new Dictionary<string, IList<IValidator>>();
+        protected internal Dictionary<string, IList<IValidator>> Validators { get; set; } =
+            new Dictionary<string, IList<IValidator>>();
     }
 }

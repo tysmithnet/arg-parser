@@ -2,7 +2,6 @@
 using ArgParser.Core;
 using ArgParser.Flavors.Git;
 using FluentAssertions;
-using Moq;
 using Xunit;
 
 namespace ArgParser.Flavors.Test

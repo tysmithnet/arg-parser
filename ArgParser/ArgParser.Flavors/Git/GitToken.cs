@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using ArgParser.Core;
 
 namespace ArgParser.Flavors.Git
@@ -22,10 +21,10 @@ namespace ArgParser.Flavors.Git
 
         public string Key => (WordEqualMatch?.Success ?? false) ? WordEqualMatch?.Groups["k"].Value : null;
         public char? Letter => (LetterMatch?.Success ?? false) ? LetterMatch?.Groups["k"].Value[0] : null;
-        protected internal Match LetterMatch { get; set; }
         public string Raw { get; set; }
         public string Value => (WordEqualMatch?.Success ?? false) ? WordEqualMatch?.Groups["v"].Value : null;
         public string Word => (WordMatch?.Success ?? false) ? WordMatch?.Groups["k"].Value : null;
+        protected internal Match LetterMatch { get; set; }
         protected internal Match WordEqualMatch { get; set; }
         protected internal Match WordMatch { get; set; }
     }

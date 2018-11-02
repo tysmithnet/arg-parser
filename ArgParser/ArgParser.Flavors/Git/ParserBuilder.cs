@@ -14,7 +14,8 @@ namespace ArgParser.Flavors.Git
             Context = context.ThrowIfArgumentNull(nameof(context));
         }
 
-        public GitBuilder Parent { get; set; }
+        /// <inheritdoc />
+        public GitBuilder Build() => Parent;
 
         public ParserBuilder WithBooleanCommand(char letter, string word, Action<object> consumeCallback)
         {
@@ -60,10 +61,6 @@ namespace ArgParser.Flavors.Git
 
         public string Name { get; }
 
-        /// <inheritdoc />
-        public GitBuilder Build()
-        {
-            return Parent;
-        }
+        public GitBuilder Parent { get; set; }
     }
 }

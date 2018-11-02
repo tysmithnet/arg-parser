@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ArgParser.Flavors.Git;
 using FluentAssertions;
 using Xunit;
@@ -11,6 +8,21 @@ namespace ArgParser.Flavors.Test
 {
     public class GitValidatorRepository_Should
     {
+        [Fact]
+        public void Return_The_Correct_Validators()
+        {
+            // arrange
+            var validator = new RequiredParameterValidator(new BooleanSwitch());
+            var repo = new GitValidatorRepository();
+
+            // act
+            repo.AddValidator("test", validator);
+            var validators = repo.GetValidators("test");
+
+            // assert
+            validators.Should().BeEquivalentTo(validator);
+        }
+
         [Fact]
         public void Throw_If_Given_Null_Values()
         {
@@ -39,21 +51,6 @@ namespace ArgParser.Flavors.Test
             // act
             // assert
             mightThrow.Should().Throw<KeyNotFoundException>();
-        }
-
-        [Fact]
-        public void Return_The_Correct_Validators()
-        {
-            // arrange
-            var validator = new RequiredParameterValidator(new BooleanSwitch());
-            var repo = new GitValidatorRepository();
-
-            // act
-            repo.AddValidator("test", validator);
-            var validators = repo.GetValidators("test");
-
-            // assert
-            validators.Should().BeEquivalentTo(new[] {validator});
         }
     }
 }

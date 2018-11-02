@@ -18,7 +18,7 @@ namespace ArgParser.Flavors.Git
 
         public override IIterationInfo Consume(object instance, IIterationInfo info)
         {
-            if(info.Next == null)
+            if (info.Next == null)
                 throw new IndexOutOfRangeException($"Single value switch trying to consume, but cannot get next token");
             ConsumeCallback(instance, info.Next.Raw); // todo: check
             HasBeenConsumed = true;

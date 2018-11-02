@@ -10,6 +10,9 @@ namespace ArgParser.Flavors.Git
         protected internal Dictionary<string, List<string>> ParentChildRelationships =
             new Dictionary<string, List<string>>();
 
+        /// <inheritdoc />
+        public bool Contains(string name) => Nodes.ContainsKey(name);
+
         public GitParser Create(string name)
         {
             if (Nodes.ContainsKey(name))
@@ -95,12 +98,6 @@ namespace ArgParser.Flavors.Git
         {
             var children = GetChildren(parserName, false);
             return children.Any(x => x.Name == potentialSubCommand);
-        }
-
-        /// <inheritdoc />
-        public bool Contains(string name)
-        {
-            return Nodes.ContainsKey(name);
         }
 
         protected internal Dictionary<string, Node> Nodes { get; set; } = new Dictionary<string, Node>();
