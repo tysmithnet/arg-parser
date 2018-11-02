@@ -16,6 +16,9 @@ namespace ArgParser.Flavors.Git
         public IParseResult Parse(IEnumerable<IParser> parsers, IEnumerable<Func<object>> factoryFunctions,
             string[] args)
         {
+            parsers.ThrowIfArgumentNull(nameof(parsers));
+            factoryFunctions.ThrowIfArgumentNull(nameof(factoryFunctions));
+            args.ThrowIfArgumentNull(nameof(args));
             var strategy = new DefaultParseStrategy(factoryFunctions);
             var results = strategy.ParseInstances(parsers, args);
             return CreateParseResult(results);
@@ -23,7 +26,7 @@ namespace ArgParser.Flavors.Git
 
         public IParseResult Parse(IEnumerable<IParser> parsers, string[] args) => throw new NotImplementedException();
 
-        protected IParseResult CreateParseResult(List<object> results)
+        protected internal IParseResult CreateParseResult(List<object> results)
         {
             var agg = results.Aggregate(new HashSet<object>(), (set, o) =>
             {
