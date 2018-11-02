@@ -35,7 +35,10 @@ namespace ArgParser.Core
             foreach (var factoryFunction in FactoryFunctions)
             foreach (var parser in list)
             {
-                parser.Reset();
+                foreach (var p in list)
+                {
+                    p.Reset();
+                }
                 var info = IterationInfoFactory.Create(args);
                 var instance = factoryFunction();
                 if (results.Any(r => r.GetType() == instance.GetType()))

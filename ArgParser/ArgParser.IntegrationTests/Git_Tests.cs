@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ArgParser.Flavors.Git;
+﻿using ArgParser.Flavors.Git;
 using ArgParser.IntegrationTests.Options;
 using FluentAssertions;
 using Xunit;
@@ -26,18 +21,23 @@ namespace ArgParser.IntegrationTests
                 .AddParser<TestOptions>("test")
                 .WithSingleValueSwitch('c', "config", (options, s) => options.ConfigFile = s)
                 .WithPositionals((options, strings) => options.TestConfigurations.AddRange(strings))
-                .WithFactoryFunctions(() => new TestOptions())
                 .Build()
+                .AddParser<ExtraTestOptions>("extra")
+                .WithBooleanSwitch('s', "secret", options => options.TestSecretFiles = true)
+                .WithFactoryFunctions(() => new ExtraTestOptions())
+                .Build()
+                .AddSubCommand("test", "extra")
                 .AddSubCommand("base", "test");
 
             // assert
-            var result = builder.Parse("base", "test t0 t1 t2 -c betterconfig".Split(' '));
-            int parseCount = 0;
-            result.When<TestOptions>(options =>
+            var result = builder.Parse("base", "test extra t0 t1 t2 -s -c betterconfig".Split(' '));
+            var parseCount = 0;
+            result.When<ExtraTestOptions>(options =>
             {
                 parseCount++;
                 options.ConfigFile.Should().Be("betterconfig");
                 options.TestConfigurations.Should().BeEquivalentTo("t0 t1 t2".Split(' '));
+                options.TestSecretFiles.Should().BeTrue();
             });
             parseCount.Should().Be(1);
         }

@@ -19,7 +19,8 @@ namespace ArgParser.Flavors.Git
             parsers.ThrowIfArgumentNull(nameof(parsers));
             factoryFunctions.ThrowIfArgumentNull(nameof(factoryFunctions));
             args.ThrowIfArgumentNull(nameof(args));
-            var strategy = new DefaultParseStrategy(factoryFunctions);
+            var strategy = new DefaultParseStrategy();
+            strategy.FactoryFunctions = factoryFunctions.ToList();
             var results = strategy.ParseInstances(parsers, args);
             return CreateParseResult(results);
         }
