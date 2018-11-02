@@ -42,7 +42,7 @@ namespace ArgParser.Flavors.Test.Git
             Func<string> s = () => "";
 
             // act
-            Func<object> conv = s.ToBaseFactoryFunction();
+            var conv = s.ToBaseFactoryFunction();
 
             // assert
             conv().Should().Be("");

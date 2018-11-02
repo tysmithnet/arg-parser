@@ -5,7 +5,8 @@ namespace ArgParser.Flavors.Git
 {
     public class SingleValueSwitch<T> : SingleValueSwitch
     {
-        public SingleValueSwitch(char letter, string word, Action<T, string> consumeCallback) : base(letter, word, consumeCallback.ToBaseCallback())
+        public SingleValueSwitch(char letter, string word, Action<T, string> consumeCallback) : base(letter, word,
+            consumeCallback.ToBaseCallback())
         {
         }
     }

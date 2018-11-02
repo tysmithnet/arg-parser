@@ -7,6 +7,14 @@ namespace ArgParser.Flavors.Test.Git
 {
     public class ParserBuilder_Should
     {
+        private class BaseOptions
+        {
+            public bool BooleanValue { get; set; }
+            public string[] MultipleSwitchValues { get; set; }
+            public string[] Postionals { get; set; }
+            public string SingleSwitchValue { get; set; }
+        }
+
         [Fact]
         public void Add_Factory_Functions()
         {
@@ -71,6 +79,25 @@ namespace ArgParser.Flavors.Test.Git
         }
 
         [Fact]
+        public void Offer_Generic_Counter_Parts()
+        {
+            // arrange
+            var parent = new GitBuilder();
+            var context = new GitContext();
+            var builder = new ParserBuilder<BaseOptions>("base", parent, context);
+            builder.WithBooleanSwitch('b', "boolean", options => options.BooleanValue = true);
+            builder.WithSingleValueSwitch('s', "single", (options, s) => options.SingleSwitchValue = s);
+            builder.WithValuesSwitch('m', "multi", (options, strings) => options.MultipleSwitchValues = strings);
+            builder.WithPositionals((options, strings) => options.Postionals = strings);
+            builder.WithFactoryFunctions(() => new BaseOptions());
+
+            // act
+            // assert
+            context.ParameterRepository.GetParameters("base").Should().HaveCount(4);
+            context.FactoryFunctionRepository.GetFactoryFunctions("base").Should().HaveCount(1);
+        }
+
+        [Fact]
         public void Return_The_Parent_When_Building()
         {
             // arrange
@@ -102,33 +129,6 @@ namespace ArgParser.Flavors.Test.Git
             mightThrow1.Should().Throw<ArgumentNullException>();
             mightThrow2.Should().Throw<ArgumentNullException>();
             mightThrow3.Should().NotThrow();
-        }
-
-        [Fact]
-        public void Offer_Generic_Counter_Parts()
-        {
-            // arrange
-            var parent = new GitBuilder();
-            var context = new GitContext();
-            var builder = new ParserBuilder<BaseOptions>("base", parent, context);
-            builder.WithBooleanSwitch('b', "boolean", options => options.BooleanValue = true);
-            builder.WithSingleValueSwitch('s', "single", (options, s) => options.SingleSwitchValue = s);
-            builder.WithValuesSwitch('m', "multi", (options, strings) => options.MultipleSwitchValues = strings);
-            builder.WithPositionals((options, strings) => options.Postionals = strings);
-            builder.WithFactoryFunctions(() => new BaseOptions());
-
-            // act
-            // assert
-            context.ParameterRepository.GetParameters("base").Should().HaveCount(4);
-            context.FactoryFunctionRepository.GetFactoryFunctions("base").Should().HaveCount(1);
-        }
-
-        private class BaseOptions
-        {
-            public bool BooleanValue { get; set; }
-            public string SingleSwitchValue { get; set; }
-            public string [] MultipleSwitchValues { get; set; }
-            public string[] Postionals { get; set; }
         }
     }
 }

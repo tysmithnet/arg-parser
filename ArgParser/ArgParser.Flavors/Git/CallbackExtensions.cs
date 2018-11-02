@@ -15,7 +15,7 @@ namespace ArgParser.Flavors.Git
 
         public static Action<object, string> ToBaseCallback<T>(this Action<T, string> callback)
         {
-            return (o,s) =>
+            return (o, s) =>
             {
                 if (o is T casted)
                     callback(casted, s);
