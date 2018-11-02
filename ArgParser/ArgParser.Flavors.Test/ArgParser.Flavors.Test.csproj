@@ -83,6 +83,7 @@
     <Compile Include="Git\GitParseStrategy_Should.cs" />
     <Compile Include="Git\GitToken_Should.cs" />
     <Compile Include="Git\GitValidatorRepository_Should.cs" />
+    <Compile Include="Git\ParserBuilder_Should.cs" />
     <Compile Include="Git\Positional_Should.cs" />
     <Compile Include="Git\SingleValueSwitch_Should.cs" />
     <Compile Include="Git\ValueSwitch_Should.cs" />

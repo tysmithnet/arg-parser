@@ -17,7 +17,7 @@ namespace ArgParser.Flavors.Git
         /// <inheritdoc />
         public GitBuilder Build() => Parent;
 
-        public ParserBuilder WithBooleanCommand(char letter, string word, Action<object> consumeCallback)
+        public ParserBuilder WithBooleanSwitch(char letter, string word, Action<object> consumeCallback)
         {
             Context.ParameterRepository.AddParameter(Name, new BooleanSwitch(letter, word, consumeCallback));
             return this;
@@ -25,8 +25,7 @@ namespace ArgParser.Flavors.Git
 
         public ParserBuilder WithFactoryFunctions(params Func<object>[] factoryFunctions)
         {
-            if (factoryFunctions == null)
-                throw new ArgumentNullException(nameof(factoryFunctions));
+            factoryFunctions.ThrowIfArgumentNull(nameof(factoryFunctions));
 
             foreach (var factoryFunction in factoryFunctions)
                 Context.FactoryFunctionRepository.AddFactoryFunction(Name, factoryFunction);
