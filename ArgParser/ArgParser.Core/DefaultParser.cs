@@ -69,7 +69,6 @@ namespace ArgParser.Core
             return result;
         }
 
-            
         public void Reset()
         {
             ;
@@ -77,7 +76,6 @@ namespace ArgParser.Core
 
         public IParser BaseParser { get; set; }
 
-            
         public IGenericHelp Help { get; protected internal set; }
 
         public DefaultHelpBuilder HelpBuilder { get; set; } = new DefaultHelpBuilder();

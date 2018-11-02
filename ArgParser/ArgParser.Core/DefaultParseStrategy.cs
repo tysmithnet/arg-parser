@@ -7,32 +7,26 @@ namespace ArgParser.Core
 {
     public class DefaultParseStrategy<T> : DefaultParseStrategy, IParseStrategy<T>
     {
-            
         // ReSharper disable once SuspiciousTypeConversion.Global
         public DefaultParseStrategy(IEnumerable<Func<T>> factoryFuncs = null) : base(factoryFuncs?.Cast<Func<object>>())
         {
         }
 
-            
         public IParseResult Parse(IEnumerable<IParser<T>> parsers, string[] args) => base.Parse(parsers, args);
     }
 
     public class DefaultParseStrategy : IParseStrategy
     {
-            
         public DefaultParseStrategy(IEnumerable<Func<object>> factoryFuncs = null)
         {
             foreach (var factoryFunc in factoryFuncs ?? new Func<object>[0]) FactoryFunctions.Add(factoryFunc);
         }
 
-            
         public virtual IParseResult Parse(IEnumerable<IParser> parsers, string[] args)
         {
             var results = ParseInstances(parsers, args);
             return CreateParseResult(results);
         }
-
-        protected internal virtual IParseResult CreateParseResult(List<object> results) => new DefaultParseResult(results);
 
         public virtual List<object> ParseInstances(IEnumerable<IParser> parsers, string[] args)
         {
@@ -62,6 +56,9 @@ namespace ArgParser.Core
 
             return results;
         }
+
+        protected internal virtual IParseResult CreateParseResult(List<object> results) =>
+            new DefaultParseResult(results);
 
         protected virtual bool HasPassedValidation(IEnumerable<IValidationResult> validationResults)
         {

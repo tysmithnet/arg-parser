@@ -6,7 +6,6 @@ namespace ArgParser.Flavors.Git
 {
     public class ParserBuilder : ISubBuilder
     {
-        /// <inheritdoc />
         public ParserBuilder(string parserName, GitBuilder parent, IGitContext context)
         {
             Name = parserName.ThrowIfArgumentNull(nameof(parserName));
@@ -14,7 +13,6 @@ namespace ArgParser.Flavors.Git
             Context = context.ThrowIfArgumentNull(nameof(context));
         }
 
-        /// <inheritdoc />
         public GitBuilder Build() => Parent;
 
         public ParserBuilder WithBooleanSwitch(char letter, string word, Action<object> consumeCallback)

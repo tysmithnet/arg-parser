@@ -22,7 +22,7 @@ namespace ArgParser.Core
         {
             if (thing != null)
                 return thing;
-            if(message != null)
+            if (message != null)
                 throw new ArgumentNullException(parameterName, message);
             throw new ArgumentNullException(parameterName);
         }

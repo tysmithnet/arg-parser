@@ -29,7 +29,6 @@ namespace ArgParser.Core
         /// </summary>
         /// <param name="numTokens">The number tokens.</param>
         /// <returns>IIterationInfo.</returns>
-            
         public virtual IIterationInfo Consume(int numTokens) => SetIndex(Index + numTokens);
 
         /// <summary>
@@ -73,64 +72,59 @@ namespace ArgParser.Core
         ///     Gets or sets the arguments.
         /// </summary>
         /// <value>The arguments.</value>
-            
+
         public string[] Args { get; set; }
 
         /// <summary>
         ///     Gets the current.
         /// </summary>
         /// <value>The current.</value>
-            
+
         public IToken Current => !IsComplete ? Tokens?[Index] : null;
 
-            
         public IToken First => Tokens?.FirstOrDefault();
 
         /// <summary>
         ///     Gets or sets the index.
         /// </summary>
         /// <value>The index.</value>
-            
+
         public int Index { get; set; }
 
         /// <summary>
         ///     Gets a value indicating whether this instance is complete.
         /// </summary>
         /// <value><c>true</c> if this instance is complete; otherwise, <c>false</c>.</value>
-            
+
         public bool IsComplete => Index >= Tokens?.Count;
 
-            
         public bool IsFirst => Index == 0;
 
-            
         public bool IsInternal => Index > 0 && Index < Tokens?.Count - 1;
 
-            
         public bool IsLast => Index == Tokens?.Count - 1;
 
-            
         public IToken Last => Tokens?.LastOrDefault();
 
         /// <summary>
         ///     Gets the next.
         /// </summary>
         /// <value>The next.</value>
-            
+
         public IToken Next => Rest?.FirstOrDefault();
 
         /// <summary>
         ///     Gets the rest.
         /// </summary>
         /// <value>The rest.</value>
-            
+
         public IEnumerable<IToken> Rest => Tokens?.Skip(Index + 1);
 
         /// <summary>
         ///     Gets the tokens.
         /// </summary>
         /// <value>The tokens.</value>
-            
+
         public IReadOnlyList<IToken> Tokens { get; internal set; }
     }
 }

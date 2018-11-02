@@ -19,7 +19,6 @@ namespace ArgParser.Flavors.Git
             Parameters[parserName].Add(parameter);
         }
 
-        /// <inheritdoc />
         public bool Contains(string name) => Parameters.ContainsKey(name);
 
         public virtual IEnumerable<BooleanSwitch> GetBooleanSwitches(string parserName) =>

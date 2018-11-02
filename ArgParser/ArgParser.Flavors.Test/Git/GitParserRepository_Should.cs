@@ -49,6 +49,19 @@ namespace ArgParser.Flavors.Test.Git
         }
 
         [Fact]
+        public void Indicate_It_Contains_Parser_When_Something_Has_Been_Created_With_That_Name()
+        {
+            // arrange
+            var repo = new GitParserRepository();
+            repo.Create("a");
+
+            // act
+            // assert
+            repo.Contains("a").Should().BeTrue();
+            repo.Contains("b").Should().BeFalse();
+        }
+
+        [Fact]
         public void Provide_The_Ability_To_Get_SubCommands()
         {
             // arrange
@@ -100,19 +113,6 @@ namespace ArgParser.Flavors.Test.Git
             // act
             // assert
             mightThrow.Should().Throw<KeyNotFoundException>();
-        }
-
-        [Fact]
-        public void Indicate_It_Contains_Parser_When_Something_Has_Been_Created_With_That_Name()
-        {
-            // arrange
-            var repo = new GitParserRepository();
-            repo.Create("a");
-
-            // act
-            // assert
-            repo.Contains("a").Should().BeTrue();
-            repo.Contains("b").Should().BeFalse();
         }
 
         [Fact]

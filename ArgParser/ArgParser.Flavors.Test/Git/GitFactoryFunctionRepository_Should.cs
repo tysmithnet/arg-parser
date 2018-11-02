@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ArgParser.Flavors.Git;
 using FluentAssertions;
 using Xunit;
@@ -11,6 +8,20 @@ namespace ArgParser.Flavors.Test.Git
 {
     public class GitFactoryFunctionRepository_Should
     {
+        [Fact]
+        public void Return_All_Registered_Factory_Functions()
+        {
+            // arrange
+            var repo = new GitFactoryFunctionRepository();
+
+            // act
+            repo.AddFactoryFunction("a", () => "");
+            repo.AddFactoryFunction("a", () => 42);
+
+            // assert
+            repo.GetFactoryFunctions("a").Should().HaveCount(2);
+        }
+
         [Fact]
         public void Throw_If_Given_Bad_Values()
         {
@@ -25,20 +36,6 @@ namespace ArgParser.Flavors.Test.Git
             mightThrow0.Should().Throw<ArgumentNullException>();
             mightThrow1.Should().Throw<ArgumentNullException>();
             mightThrow2.Should().Throw<ArgumentNullException>();
-        }
-
-        [Fact]
-        public void Return_All_Registered_Factory_Functions()
-        {
-            // arrange
-            var repo = new GitFactoryFunctionRepository();
-
-            // act
-            repo.AddFactoryFunction("a", () => "");
-            repo.AddFactoryFunction("a", () => 42);
-
-            // assert
-            repo.GetFactoryFunctions("a").Should().HaveCount(2);
         }
 
         [Fact]

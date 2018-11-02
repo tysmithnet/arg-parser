@@ -28,7 +28,7 @@ namespace ArgParser.Flavors.Git
             var tokens = info.FromNowOn().Select(x => x.ToGitToken()).TakeWhile(t => !t.IsAnyMatch).Take(Max)
                 .Select(t => t.Raw)
                 .ToArray();
-            if(tokens.Length < Min)
+            if (tokens.Length < Min)
                 throw new IndexOutOfRangeException($"Positional expected at least {Min} but found {tokens.Length}");
             ConsumeCallback(instance, tokens);
             HasBeenConsumed = true;

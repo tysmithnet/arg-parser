@@ -9,30 +9,13 @@ namespace ArgParser.Flavors.Test.Git
     public class GitParser_Should
     {
         [Fact]
-        public void Throw_If_There_Is_No_Way_To_Consume()
-        {
-            // arrange
-            var context = new GitContext();
-            var parser = context.ParserRepository.Create("base");
-            parser.Context = context;
-            parser.Reset();
-
-            // *no parameters added*
-            Action mightThrow = () => parser.Consume(new object(), new DefaultIterationInfo());
-
-            // act
-            // assert
-            mightThrow.Should().Throw<InvalidOperationException>();
-        }
-
-        [Fact]
         public void Indicate_It_Can_Consume_If_It_Or_Its_Base_Parser_Can_Consume()
         {
             // arrange
             var context = new GitContext();
             var baseParser = context.ParserRepository.Create("base");
             baseParser.Context = context;
-            context.ParameterRepository.AddParameter("base", new BooleanSwitch('h', "help", o => {}));
+            context.ParameterRepository.AddParameter("base", new BooleanSwitch('h', "help", o => { }));
             var childParser = context.ParserRepository.Create("child");
             childParser.Context = context;
             context.ParameterRepository.AddParameter("child", new BooleanSwitch('v', "verbose", o => { }));
@@ -50,44 +33,19 @@ namespace ArgParser.Flavors.Test.Git
         }
 
         [Fact]
-        public void Use_Base_Parsers_To_Consume_If_Necessary()
-        {
-            // arrange
-            var context = new GitContext();
-            var baseParser = context.ParserRepository.Create("base");
-            baseParser.Context = context;
-            bool isHelp = false;
-            bool isVerbose = true;
-            context.ParameterRepository.AddParameter("base", new BooleanSwitch('h', "help", o => { isHelp = true; }));
-            var childParser = context.ParserRepository.Create("child");
-            childParser.Context = context;
-            context.ParameterRepository.AddParameter("child", new BooleanSwitch('v', "verbose", o => { isVerbose = true;}));
-            context.ParserRepository.EstablishParentChildRelationship("base", "child");
-            baseParser.Reset();
-            childParser.Reset();
-            var fac = new GitIterationInfoFactory();
-            var info0 = fac.Create("-h -v".Split(' '));
-
-            // act
-            // assert
-            childParser.Consume(new object(), info0);
-            isHelp.Should().BeTrue();
-            isVerbose.Should().BeTrue();
-        }
-
-        [Fact]
         public void Parse_Args_Correctly()
         {
             // arrange
             var context = new GitContext();
             var baseParser = context.ParserRepository.Create("base");
             baseParser.Context = context;
-            bool isHelp = false;
-            bool isVerbose = true;
+            var isHelp = false;
+            var isVerbose = true;
             context.ParameterRepository.AddParameter("base", new BooleanSwitch('h', "help", o => { isHelp = true; }));
             var childParser = context.ParserRepository.Create("child");
             childParser.Context = context;
-            context.ParameterRepository.AddParameter("child", new BooleanSwitch('v', "verbose", o => { isVerbose = true; }));
+            context.ParameterRepository.AddParameter("child",
+                new BooleanSwitch('v', "verbose", o => { isVerbose = true; }));
             context.ParserRepository.EstablishParentChildRelationship("base", "child");
             baseParser.Reset();
             childParser.Reset();
@@ -108,12 +66,13 @@ namespace ArgParser.Flavors.Test.Git
             var context = new GitContext();
             var baseParser = context.ParserRepository.Create("base");
             baseParser.Context = context;
-            bool isHelp = false;
-            bool isVerbose = true;
+            var isHelp = false;
+            var isVerbose = true;
             context.ParameterRepository.AddParameter("base", new BooleanSwitch('h', "help", o => { isHelp = true; }));
             var childParser = context.ParserRepository.Create("child");
             childParser.Context = context;
-            context.ParameterRepository.AddParameter("child", new BooleanSwitch('v', "verbose", o => { isVerbose = true; }));
+            context.ParameterRepository.AddParameter("child",
+                new BooleanSwitch('v', "verbose", o => { isVerbose = true; }));
             context.ParserRepository.EstablishParentChildRelationship("base", "child");
             baseParser.Reset();
             childParser.Reset();
@@ -134,12 +93,13 @@ namespace ArgParser.Flavors.Test.Git
             var context = new GitContext();
             var baseParser = context.ParserRepository.Create("base");
             baseParser.Context = context;
-            bool isHelp = false;
-            bool isVerbose = true;
+            var isHelp = false;
+            var isVerbose = true;
             context.ParameterRepository.AddParameter("base", new BooleanSwitch('h', "help", o => { isHelp = true; }));
             var childParser = context.ParserRepository.Create("child");
             childParser.Context = context;
-            context.ParameterRepository.AddParameter("child", new BooleanSwitch('v', "verbose", o => { isVerbose = true; }));
+            context.ParameterRepository.AddParameter("child",
+                new BooleanSwitch('v', "verbose", o => { isVerbose = true; }));
             context.ParserRepository.EstablishParentChildRelationship("base", "child");
             baseParser.Reset();
             childParser.Reset();
@@ -161,6 +121,50 @@ namespace ArgParser.Flavors.Test.Git
             // act
             // assert
             parser.Help.Should().BeNull();
+        }
+
+        [Fact]
+        public void Throw_If_There_Is_No_Way_To_Consume()
+        {
+            // arrange
+            var context = new GitContext();
+            var parser = context.ParserRepository.Create("base");
+            parser.Context = context;
+            parser.Reset();
+
+            // *no parameters added*
+            Action mightThrow = () => parser.Consume(new object(), new DefaultIterationInfo());
+
+            // act
+            // assert
+            mightThrow.Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void Use_Base_Parsers_To_Consume_If_Necessary()
+        {
+            // arrange
+            var context = new GitContext();
+            var baseParser = context.ParserRepository.Create("base");
+            baseParser.Context = context;
+            var isHelp = false;
+            var isVerbose = true;
+            context.ParameterRepository.AddParameter("base", new BooleanSwitch('h', "help", o => { isHelp = true; }));
+            var childParser = context.ParserRepository.Create("child");
+            childParser.Context = context;
+            context.ParameterRepository.AddParameter("child",
+                new BooleanSwitch('v', "verbose", o => { isVerbose = true; }));
+            context.ParserRepository.EstablishParentChildRelationship("base", "child");
+            baseParser.Reset();
+            childParser.Reset();
+            var fac = new GitIterationInfoFactory();
+            var info0 = fac.Create("-h -v".Split(' '));
+
+            // act
+            // assert
+            childParser.Consume(new object(), info0);
+            isHelp.Should().BeTrue();
+            isVerbose.Should().BeTrue();
         }
     }
 }
