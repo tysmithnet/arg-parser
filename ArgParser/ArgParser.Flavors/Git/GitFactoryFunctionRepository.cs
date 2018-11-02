@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ArgParser.Core;
 
 namespace ArgParser.Flavors.Git
 {
@@ -9,10 +10,8 @@ namespace ArgParser.Flavors.Git
         /// <inheritdoc />
         public void AddFactoryFunction(string parserName, Func<object> facFunc)
         {
-            if (parserName == null)
-                throw new ArgumentNullException(nameof(parserName));
-            if (facFunc == null)
-                throw new ArgumentNullException(nameof(facFunc));
+            parserName.ThrowIfArgumentNull(nameof(parserName));
+            facFunc.ThrowIfArgumentNull(nameof(facFunc));
 
             if (!FactoryFunctions.ContainsKey(parserName))
                 FactoryFunctions.Add(parserName, new List<Func<object>>());
@@ -23,8 +22,7 @@ namespace ArgParser.Flavors.Git
         /// <inheritdoc />
         public IEnumerable<Func<object>> GetFactoryFunctions(string parserName)
         {
-            if (parserName == null)
-                throw new ArgumentNullException(nameof(parserName));
+            parserName.ThrowIfArgumentNull(nameof(parserName));
             if (!FactoryFunctions.ContainsKey(parserName))
                 throw new KeyNotFoundException(
                     $"Could not find parser with name={parserName}, are you sure it was added?");

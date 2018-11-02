@@ -103,6 +103,19 @@ namespace ArgParser.Flavors.Test.Git
         }
 
         [Fact]
+        public void Indicate_It_Contains_Parser_When_Something_Has_Been_Created_With_That_Name()
+        {
+            // arrange
+            var repo = new GitParserRepository();
+            repo.Create("a");
+
+            // act
+            // assert
+            repo.Contains("a").Should().BeTrue();
+            repo.Contains("b").Should().BeFalse();
+        }
+
+        [Fact]
         public void Throw_If_Attempting_To_Create_Duplicate_Flavor_Names()
         {
             // arrange
