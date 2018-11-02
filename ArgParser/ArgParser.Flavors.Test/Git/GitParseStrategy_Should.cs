@@ -25,39 +25,20 @@ namespace ArgParser.Flavors.Test.Git
         }
 
         [Fact]
-        public void Throw_If_Bad_Values_Provided()
-        {
-            // arrange
-            var context = new GitContext();
-            var strat = new GitParseStrategy(context);
-            Action mightThrow0 = () => new GitParseStrategy(null);
-            Action mightThrow1 = () => strat.Parse(null, null, null);
-            Action mightThrow2 = () => strat.Parse(new IParser[0], null, null);
-            Action mightThrow3 = () => strat.Parse(new IParser[0], new List<Func<object>>(), null);
-
-            // act
-            // assert
-            mightThrow0.Should().Throw<ArgumentNullException>();
-            mightThrow1.Should().Throw<ArgumentNullException>();
-            mightThrow2.Should().Throw<ArgumentNullException>();
-            mightThrow3.Should().Throw<ArgumentNullException>();
-        }
-
-        [Fact]
         public void Only_Return_The_Most_Derived_Types()
         {
             // arrange
             var toFind = new FileNotFoundException();
-            var results = new object[] {new Exception(), new IOException(), toFind,};
+            var results = new object[] {new Exception(), new IOException(), toFind};
             var strat = new GitParseStrategy(new GitContext());
 
             // act
             var result = strat.CreateParseResult(results.ToList());
 
             // assert
-            int exceptionCount = 0;
-            int ioCount = 0;
-            int fileNotFoundCount = 0;
+            var exceptionCount = 0;
+            var ioCount = 0;
+            var fileNotFoundCount = 0;
             result.When<Exception>(exception =>
             {
                 exceptionCount++;
@@ -76,6 +57,25 @@ namespace ArgParser.Flavors.Test.Git
             exceptionCount.Should().Be(1);
             ioCount.Should().Be(1);
             fileNotFoundCount.Should().Be(1);
+        }
+
+        [Fact]
+        public void Throw_If_Bad_Values_Provided()
+        {
+            // arrange
+            var context = new GitContext();
+            var strat = new GitParseStrategy(context);
+            Action mightThrow0 = () => new GitParseStrategy(null);
+            Action mightThrow1 = () => strat.Parse(null, null, null);
+            Action mightThrow2 = () => strat.Parse(new IParser[0], null, null);
+            Action mightThrow3 = () => strat.Parse(new IParser[0], new List<Func<object>>(), null);
+
+            // act
+            // assert
+            mightThrow0.Should().Throw<ArgumentNullException>();
+            mightThrow1.Should().Throw<ArgumentNullException>();
+            mightThrow2.Should().Throw<ArgumentNullException>();
+            mightThrow3.Should().Throw<ArgumentNullException>();
         }
 
         // todo: this is bad, change IParser

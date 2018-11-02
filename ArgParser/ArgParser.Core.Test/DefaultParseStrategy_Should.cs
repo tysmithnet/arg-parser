@@ -25,7 +25,6 @@ namespace ArgParser.Core.Test
 
         private class BaseOptionsNoHelpValidator : IValidator<BaseOptions>
         {
-                
             public bool CanValidate(object instance)
             {
                 if (instance is BaseOptions casted)
@@ -33,10 +32,8 @@ namespace ArgParser.Core.Test
                 return false;
             }
 
-                
             public bool CanValidate(BaseOptions instance) => true;
 
-                
             public IValidationResult Validate(object instance)
             {
                 if (instance is BaseOptions casted)
@@ -44,7 +41,6 @@ namespace ArgParser.Core.Test
                 throw new InvalidOperationException();
             }
 
-                
             public IValidationResult Validate(BaseOptions instance)
             {
                 if (instance.HelpRequested)

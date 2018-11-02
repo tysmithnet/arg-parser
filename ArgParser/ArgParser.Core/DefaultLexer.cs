@@ -29,7 +29,6 @@ namespace ArgParser.Core
         /// </summary>
         /// <param name="args">The arguments.</param>
         /// <returns>IEnumerable&lt;IToken&gt;.</returns>
-            
         public IEnumerable<IToken> Lex(string[] args)
         {
             return args?.Select(a => new DefaultToken(a)).ToList().PreventNull();
@@ -38,7 +37,6 @@ namespace ArgParser.Core
 
     public class DefaultLexer<T> : DefaultLexer, ILexer<T> where T : IToken
     {
-            
         public DefaultLexer(Func<string, T> factoryFunc)
         {
             FactoryFunc = factoryFunc ?? throw new ArgumentNullException(nameof(factoryFunc));

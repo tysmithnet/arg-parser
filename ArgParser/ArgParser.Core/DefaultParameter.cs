@@ -29,15 +29,12 @@ namespace ArgParser.Core
         {
         }
 
-            
         public bool CanConsume(object instance, IIterationInfo info) =>
             CanConsumeCallback?.Invoke(instance, info) ?? false;
 
-            
         public IIterationInfo Consume(object instance, IIterationInfo info) =>
             ConsumeCallback?.Invoke(instance, info) ?? info;
 
-            
         public void Reset()
         {
             ;
@@ -49,7 +46,6 @@ namespace ArgParser.Core
 
     public class DefaultParameter<T> : DefaultParameter, IParameter<T>
     {
-            
         public DefaultParameter(
             Func<T, IIterationInfo, bool> canConsumeCallback,
             Func<T, IIterationInfo, IIterationInfo> consumeCallback)
@@ -72,10 +68,8 @@ namespace ArgParser.Core
             };
         }
 
-            
         public bool CanConsume(T instance, IIterationInfo info) => CanConsumeCallback(instance, info);
 
-            
         public IIterationInfo Consume(T instance, IIterationInfo info) => ConsumeCallback(instance, info);
     }
 }

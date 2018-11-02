@@ -27,7 +27,6 @@ namespace ArgParser.Core
         /// </summary>
         /// <param name="args">The arguments.</param>
         /// <returns>IIterationInfo.</returns>
-            
         public virtual IIterationInfo Create(string[] args)
         {
             var tokens = Lexer.Lex(args);
