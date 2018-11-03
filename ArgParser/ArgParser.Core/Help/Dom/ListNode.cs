@@ -4,12 +4,24 @@ using System.Text;
 
 namespace ArgParser.Core.Help.Dom
 {
-    public class ListNode : HelpNode
+    public abstract class ListNode : HelpNode
     {
-        public override T Accept<T>(IHelpNodeVisitor<T> visitor)
+        
+    }
+
+    public class OrderedListNode : ListNode
+    {
+        public override void Accept(IHelpNodeVisitor visitor)
         {
-            return visitor.Visit(this);
+            visitor.Visit(this);
         }
     }
 
+    public class UnOrderedListNode : ListNode
+    {
+        public override void Accept(IHelpNodeVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+    }
 }

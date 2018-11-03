@@ -4,16 +4,18 @@ namespace ArgParser.Core.Help.Dom
 {
     public class TextNode : HelpNode
     {
+            
         public TextNode(string text)
         {
             Text = text ?? throw new ArgumentNullException(nameof(text));
         }
 
-        public string Text { get; set; }
-
-        public override T Accept<T>(IHelpNodeVisitor<T> visitor)
+            
+        public override void Accept(IHelpNodeVisitor visitor)
         {
-            return visitor.Visit(this);
+            visitor.Visit(this);
         }
+
+        public string Text { get; set; }
     }
 }

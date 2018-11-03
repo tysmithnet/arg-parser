@@ -7,7 +7,11 @@
         {
         }
 
-
+            
+        public override void Accept(IHelpNodeVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
 
         public int Size { get; set; }
     }
