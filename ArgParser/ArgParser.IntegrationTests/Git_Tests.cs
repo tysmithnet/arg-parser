@@ -48,6 +48,71 @@ namespace ArgParser.IntegrationTests
         public void Intermediate_Hiearchy_Parsing()
         {
             // arrange
+            var builder = CreateUtilBuilder();
+
+            // act
+            var result = builder.Parse("base", "firewall block -p 8080 -m io firefox.exe".Split(' '));
+
+            // assert
+            var isParsed = false;
+            result.When<BlockProgramOptions>(options =>
+            {
+                isParsed = true;
+                options.Port.Should().Be(8080);
+                options.IsInbound.Should().BeTrue();
+                options.IsOutbound.Should().BeTrue();
+            });
+            isParsed.Should().BeTrue();
+        }
+
+        [Fact]
+        public void Repeated_Hierarchy_Parsing()
+        {
+            // arrange
+            var builder = CreateUtilBuilder();
+
+            // act
+            // assert
+            {
+                int parseCount = 0;
+                for (int i = 0; i < 3; i++)
+                {
+                    var result = builder.Parse("base", "clip sort -o".Split(' '));
+                    result.When<SortOptions>(options =>
+                    {
+                        parseCount++;
+                        options.OverWriteClipboard.Should().BeTrue();
+                    });
+                }
+
+                parseCount.Should().Be(3);
+            }
+            {
+                int parseCount = 0;
+                var result = builder.Parse("base", "convert -f png file0.jpg file1.jpg".Split(' '));
+                result.When<ConvertOptions>(options =>
+                {
+                    parseCount++;
+                    options.Format.Should().Be("png");
+                    options.FileNames.Should().BeEquivalentTo("file0.jpg file1.jpg".Split(' '));
+                });
+                parseCount.Should().Be(1);
+            }
+            {
+                int parseCount = 0;
+                var result = builder.Parse("base", "clip zip file.zip *.jpg *.png".Split(' '));
+                result.When<ZipOptions>(options =>
+                {
+                    parseCount++;
+                    options.ZipFileName.Should().Be("file.zip");
+                    options.FilterGlobs.Should().BeEquivalentTo("*.jpg *.png".Split(' '));
+                });
+                parseCount.Should().Be(1);
+            }
+        }
+
+        private static GitBuilder CreateUtilBuilder()
+        {
             var builder = new GitBuilder();
             builder.AddParser<UtilityOptions>("base")
                 .WithBooleanSwitch('h', "help", options => options.IsHelpRequested = true)
@@ -93,20 +158,7 @@ namespace ArgParser.IntegrationTests
                 .AddSubCommand("clip", "zip")
                 .AddSubCommand("firewall", "block")
                 .AddSubCommand("firewall", "unblock");
-
-            // act
-            var result = builder.Parse("base", "firewall block -p 8080 -m io firefox.exe".Split(' '));
-
-            // assert
-            var isParsed = false;
-            result.When<BlockProgramOptions>(options =>
-            {
-                isParsed = true;
-                options.Port.Should().Be(8080);
-                options.IsInbound.Should().BeTrue();
-                options.IsOutbound.Should().BeTrue();
-            });
-            isParsed.Should().BeTrue();
+            return builder;
         }
     }
 }
