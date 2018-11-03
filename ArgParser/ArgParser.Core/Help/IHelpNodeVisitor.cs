@@ -16,19 +16,4 @@ namespace ArgParser.Core.Help
         void Visit(UnOrderedListNode node);
         void Visit(OrderedListNode node);
     }
-
-    public interface IHelpNodeVisitor<out T>
-    {
-        T Visit(TextNode node);
-        T Visit(CodeNode node);
-        T Visit(HeadingNode node);
-        T Visit(TableNode node);
-        T Visit(TableRowNode node);
-        T Visit(TableDataNode node);
-        T Visit(RootNode node);
-        T Visit(HelpNode node);
-        T Visit(ListNode node);
-        T Visit(UnOrderedListNode node);
-        T Visit(OrderedListNode node);
-    }
 }
