@@ -1,4 +1,6 @@
-﻿using ArgParser.Core.Help.Dom;
+﻿using System.Collections.Generic;
+using System.Linq;
+using ArgParser.Core.Help.Dom;
 
 namespace ArgParser.Core.Help
 {
@@ -9,5 +11,24 @@ namespace ArgParser.Core.Help
         {
         }
 
+    }
+
+    public class GridNode : HelpNode
+    {
+        public int Columns { get; set; }
+        public override T Accept<T>(IHelpNodeVisitor<T> visitor)
+        {
+            return visitor.Visit(this);
+        }
+
+        public new IEnumerable<GridCell> Children => base.Children.Cast<GridCell>();
+    }
+
+    public class GridCell : HelpNode
+    {
+        public override T Accept<T>(IHelpNodeVisitor<T> visitor)
+        {
+            return visitor.Visit(this);
+        }
     }
 }
