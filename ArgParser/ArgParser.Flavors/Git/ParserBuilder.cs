@@ -12,9 +12,12 @@ namespace ArgParser.Flavors.Git
         {
         }
 
-        public ParserBuilder<T> WithBooleanSwitch(char? letter, string word, Action<T> consumeCallback)
+        public ParserBuilder<T> WithBooleanSwitch(char? letter, string word, Action<T> consumeCallback, bool isRequired = false)
         {
-            Context.ParameterRepository.AddParameter(Name, new BooleanSwitch<T>(letter, word, consumeCallback));
+            var booleanSwitch = new BooleanSwitch<T>(letter, word, consumeCallback);
+            Context.ParameterRepository.AddParameter(Name, booleanSwitch);
+            if(isRequired)
+                Context.ValidatorRepository.AddValidator(Name, new RequiredParameterValidator(booleanSwitch));
             return this;
         }
 
@@ -26,36 +29,45 @@ namespace ArgParser.Flavors.Git
             return this;
         }
 
-        public ParserBuilder<T> WithPositional(Action<T, string> consumeCallback)
+        public ParserBuilder<T> WithPositional(Action<T, string> consumeCallback, bool isRequired = false)
         {
             void Convert(T instance, string[] strings)
             {
                 consumeCallback(instance, strings.First());
             }
 
-            return WithPositionals(Convert, 1, 1);
+            return WithPositionals(Convert, 1, 1, isRequired);
         }
 
         public ParserBuilder<T> WithPositionals(Action<T, string[]> consumeCallback, int min = 1,
-            int max = int.MaxValue)
+            int max = int.MaxValue, bool isRequired = false)
         {
-            Context.ParameterRepository.AddParameter(Name, new Positional<T>(consumeCallback)
+            var newGuy = new Positional<T>(consumeCallback)
             {
                 Min = min,
                 Max = max
-            });
+            };
+            Context.ParameterRepository.AddParameter(Name, newGuy);
+            if(isRequired)
+                Context.ValidatorRepository.AddValidator(Name, new RequiredParameterValidator(newGuy));
             return this;
         }
 
-        public ParserBuilder<T> WithSingleValueSwitch(char? letter, string word, Action<T, string> consumeCallback)
+        public ParserBuilder<T> WithSingleValueSwitch(char? letter, string word, Action<T, string> consumeCallback, bool isRequired = false)
         {
-            Context.ParameterRepository.AddParameter(Name, new SingleValueSwitch<T>(letter, word, consumeCallback));
+            var singleValueSwitch = new SingleValueSwitch<T>(letter, word, consumeCallback);
+            Context.ParameterRepository.AddParameter(Name, singleValueSwitch);
+            if(isRequired)
+                Context.ValidatorRepository.AddValidator(Name, new RequiredParameterValidator(singleValueSwitch));
             return this;
         }
 
-        public ParserBuilder<T> WithValuesSwitch(char? letter, string word, Action<T, string[]> consumeCallback)
+        public ParserBuilder<T> WithValuesSwitch(char? letter, string word, Action<T, string[]> consumeCallback, bool isRequired = false)
         {
-            Context.ParameterRepository.AddParameter(Name, new ValuesSwitch<T>(letter, word, consumeCallback));
+            var valuesSwitch = new ValuesSwitch<T>(letter, word, consumeCallback);
+            Context.ParameterRepository.AddParameter(Name, valuesSwitch);
+            if(isRequired)
+                Context.ValidatorRepository.AddValidator(Name, new RequiredParameterValidator(valuesSwitch));
             return this;
         }
     }

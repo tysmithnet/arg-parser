@@ -99,17 +99,17 @@ namespace ArgParser.TestConsole
                     .WithFactoryFunctions(() => new SortOptions())
                     .Build()
                     .AddParser<ZipOptions>("zip")
-                    .WithPositional((o, s) => o.ZipFile = s)
+                    .WithPositional((o, s) => o.ZipFile = s, isRequired:true)
                     .WithPositionals((options, strings) => options.Globs = strings)
                     .WithFactoryFunctions(() => new ZipOptions())
                     .Build()
                     .AddParser<ConvertOptions>("convert")
-                    .WithValuesSwitch('i', "input", (options, strings) => options.InputFiles = strings)
-                    .WithSingleValueSwitch('f', "format", (options, s) => options.Format = s)
+                    .WithValuesSwitch('i', "input", (options, strings) => options.InputFiles = strings, isRequired: true)
+                    .WithSingleValueSwitch('f', "format", (options, s) => options.Format = s, isRequired: true)
                     .WithFactoryFunctions(() => new ConvertOptions())
                     .Build()
                     .AddParser<FireWallOptions>("firewall")
-                    .WithSingleValueSwitch('p', "port", (options, s) => options.Port = Convert.ToInt32(s))
+                    .WithSingleValueSwitch('p', "port", (options, s) => options.Port = Convert.ToInt32(s), isRequired: true)
                     .WithSingleValueSwitch('m', "mode", (options, s) =>
                     {
                         options.IsInbound = s.Contains("i");
@@ -137,6 +137,13 @@ namespace ArgParser.TestConsole
                         Console.WriteLine($"Parsed: {options.GetType().FullName}");
                         var json = JsonConvert.SerializeObject(options, Formatting.Indented);
                         Console.WriteLine(json);
+                    })
+                    .OnError(errors =>
+                    {
+                        foreach (var parseError in errors)
+                        {
+                            Console.Error.WriteLine(parseError.Message);
+                        }
                     });
             }
         }

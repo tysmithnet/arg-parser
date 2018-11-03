@@ -6,14 +6,28 @@ namespace ArgParser.Core
 {
     public class DefaultParseResult : IParseResult
     {
-        public DefaultParseResult(IList<object> parsedInstances)
+        public DefaultParseResult(IList<object> parsedInstances, IEnumerable<ParseError> errors = null)
         {
-            ParsedInstances = parsedInstances ?? throw new ArgumentNullException(nameof(parsedInstances));
+            ParsedInstances = parsedInstances.ThrowIfArgumentNull(nameof(parsedInstances));
+            ParseErrors = errors?.ToList();
         }
 
-        public void When<T>(Action<T> handler)
+        public IList<ParseError> ParseErrors { get; set; }
+
+        public IParseResult When<T>(Action<T> callback)
         {
-            foreach (var parsedInstance in ParsedInstances.OfType<T>()) handler(parsedInstance);
+            foreach (var parsedInstance in ParsedInstances.OfType<T>()) callback(parsedInstance);
+            return this;
+        }
+
+        public IParseResult OnError(Action<IEnumerable<ParseError>> callback)
+        {
+            if (ParseErrors != null)
+            {
+                callback(ParseErrors.ToList());
+            }
+
+            return this;
         }
 
         public IList<object> ParsedInstances { get; set; }
