@@ -17,8 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgParser.IntegrationTests"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgParser.ColoredHelpWriter", "ArgParser.ColoredHelpWriter\ArgParser.ColoredHelpWriter.csproj", "{C6F6FF1D-011B-4F0A-B36B-FBFD224AC592}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{65699234-58C2-4FE2-BB54-9B6A74C8330B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,12 +54,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{0D1B2C1C-DD60-4AAE-879C-04628D173C81} = {65699234-58C2-4FE2-BB54-9B6A74C8330B}
-		{FCCC41E9-E7C0-4BF5-A420-84490D98D599} = {65699234-58C2-4FE2-BB54-9B6A74C8330B}
-		{1D266D9A-E432-4DB4-AA24-196EC7992466} = {65699234-58C2-4FE2-BB54-9B6A74C8330B}
-		{61ABF389-7AC1-405B-8D26-2D8CEF5DA2E7} = {65699234-58C2-4FE2-BB54-9B6A74C8330B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A6632CB7-6A85-448D-B4D0-9087C50C5758}
