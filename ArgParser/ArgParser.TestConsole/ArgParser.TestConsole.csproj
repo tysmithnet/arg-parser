@@ -2,6 +2,7 @@
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{FCCC41E9-E7C0-4BF5-A420-84490D98D599}</ProjectGuid>
@@ -49,6 +50,16 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ArgParser.ColoredConsole\ArgParser.ColoredConsole.csproj">
+      <Project>{3B141031-82BE-470B-AA48-A4E5A24BDB26}</Project>
+      <Name>ArgParser.ColoredConsole</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ArgParser.Core\ArgParser.Core.csproj">
+      <Project>{1E5FD54F-B5A9-4638-A216-2292F6393664}</Project>
+      <Name>ArgParser.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

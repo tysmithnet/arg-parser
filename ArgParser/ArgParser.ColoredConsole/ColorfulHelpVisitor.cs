@@ -75,4 +75,13 @@ namespace ArgParser.ColoredConsole
             return node.Children.Select(x => x.Accept(this));
         }
     }
+
+    public static class Extensions
+    {
+        public static void PrintHelp(this RootNode root)
+        {
+            var visitor = new ColorfulHelpVisitor();
+            ConsoleRenderer.RenderDocument(visitor.Create(root));
+        }
+    }
 }
