@@ -60,5 +60,11 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ArgParser.Core\ArgParser.Core.csproj">
+      <Project>{1E5FD54F-B5A9-4638-A216-2292F6393664}</Project>
+      <Name>ArgParser.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

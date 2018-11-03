@@ -22,7 +22,7 @@ namespace ArgParser.Core.Help.Dom
             ChildrenInternal.Add(child);
         }
 
-        protected internal List<IHelpNode> ChildrenInternal { get; set; }
+        protected internal List<IHelpNode> ChildrenInternal { get; set; } = new List<IHelpNode>();
         
     }
 }
