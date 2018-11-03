@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Alba.CsConsoleFormat;
 
 namespace ArgParser.ColoredConsole
 {
@@ -10,7 +11,8 @@ namespace ArgParser.ColoredConsole
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("helo");
+            var doc = new Document(new Span("hello"){Color = ConsoleColor.Red});
+            ConsoleRenderer.RenderDocument(doc);
             Console.ReadKey();
         }
     }
