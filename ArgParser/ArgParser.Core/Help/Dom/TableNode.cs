@@ -2,10 +2,9 @@
 
 namespace ArgParser.Core.Help.Dom
 {
-    public class TableNode : IHelpNode
+    public class TableNode : HelpNode
     {
-            
-        public virtual void Accept(IHelpNodeVisitor visitor)
+        public override void Accept(IHelpNodeVisitor visitor)
         {
             visitor.Visit(this);
         }

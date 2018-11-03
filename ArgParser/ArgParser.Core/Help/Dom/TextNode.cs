@@ -2,7 +2,7 @@
 
 namespace ArgParser.Core.Help.Dom
 {
-    public class TextNode : IHelpNode
+    public class TextNode : HelpNode
     {
             
         public TextNode(string text)
@@ -11,7 +11,7 @@ namespace ArgParser.Core.Help.Dom
         }
 
             
-        public virtual void Accept(IHelpNodeVisitor visitor)
+        public override void Accept(IHelpNodeVisitor visitor)
         {
             visitor.Visit(this);
         }

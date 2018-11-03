@@ -2,14 +2,11 @@
 
 namespace ArgParser.Core.Help.Dom
 {
-    public class RootNode : IHelpNode
+    public class RootNode : HelpNode
     {
-            
-        public void Accept(IHelpNodeVisitor visitor)
+        public override void Accept(IHelpNodeVisitor visitor)
         {
             visitor.Visit(this);
         }
-
-        public IReadOnlyList<IHelpNode> Children { get; protected internal set; }
     }
 }
