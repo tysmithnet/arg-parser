@@ -9,5 +9,6 @@ namespace ArgParser.Core.Help
         T Visit(HeadingNode node);
         T Visit(RootNode node);
         T Visit(GridNode node);
+        T Visit(GridCellNode node);
     }
 }

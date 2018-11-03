@@ -64,6 +64,13 @@ namespace ArgParser.ColoredConsole
             };
         }
 
+        /// <inheritdoc />
+        public Element Visit(GridCellNode node)
+        {
+            var children = GetChildren(node);
+            return new Cell(children);
+        }
+
         protected internal IEnumerable<Element> GetChildren(IHelpNode node)
         {
             return node.Children.Select(x => x.Accept(this));

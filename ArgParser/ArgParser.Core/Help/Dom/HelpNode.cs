@@ -10,7 +10,7 @@ namespace ArgParser.Core.Help.Dom
         public IEnumerable<IHelpNode> Children => ChildrenInternal.ToList();
 
         /// <inheritdoc />
-        public void Add(IHelpNode child)
+        public virtual void Add(IHelpNode child)
         {
             ChildrenInternal.Add(child);
         }

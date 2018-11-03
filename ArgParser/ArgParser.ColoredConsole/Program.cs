@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Alba.CsConsoleFormat;
+using ArgParser.Core.Help;
 using ArgParser.Core.Help.Dom;
 
 namespace ArgParser.ColoredConsole
@@ -13,6 +14,13 @@ namespace ArgParser.ColoredConsole
         {
             var root = new RootNode();
             root.Add(new HeadingNode("hello"));
+            var grid = new GridNode();
+            grid.NumColumns = 2;
+            grid.Add(new TextNode("d0"));
+            grid.Add(new CodeNode("d1"));
+            grid.Add(new TextNode("d2"));
+            grid.Add(new CodeNode("d3"));
+            root.Add(grid);
             var visitor = new ColorfulHelpVisitor();
             var doc = (Document)root.Accept(visitor);
             ConsoleRenderer.RenderDocument(doc);
