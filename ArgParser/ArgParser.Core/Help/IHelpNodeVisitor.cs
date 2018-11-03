@@ -10,8 +10,5 @@ namespace ArgParser.Core.Help
         T Visit(RootNode node);
         T Visit(HelpNode node);
         T Visit(ListNode node);
-        T Visit(GridNode node);
-        T Visit(GridCellNode node);
-        T Visit(BlockNode node);
     }
 }

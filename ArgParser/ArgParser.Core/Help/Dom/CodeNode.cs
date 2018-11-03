@@ -21,10 +21,10 @@ namespace ArgParser.Core.Help
             return visitor.Visit(this);
         }
 
-        public new IEnumerable<GridCellNode> Children => base.Children.Cast<GridCellNode>();
+        public new IEnumerable<GridCell> Children => base.Children.Cast<GridCell>();
     }
 
-    public class GridCellNode : HelpNode
+    public class GridCell : HelpNode
     {
         public override T Accept<T>(IHelpNodeVisitor<T> visitor)
         {
