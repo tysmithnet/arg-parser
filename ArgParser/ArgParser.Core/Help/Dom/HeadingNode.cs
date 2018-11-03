@@ -7,12 +7,12 @@
         {
         }
 
-            
-        public override void Accept(IHelpNodeVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
-
+     
         public int Size { get; set; }
+
+        public override T Accept<T>(IHelpNodeVisitor<T> visitor)
+        {
+            return visitor.Visit(this);
+        }
     }
 }
