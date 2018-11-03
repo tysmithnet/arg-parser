@@ -1,4 +1,4 @@
-﻿namespace ArgParser.Core.Help
+﻿namespace ArgParser.Core.Help.Dom
 {
     public class TableDataNode : TextNode
     {

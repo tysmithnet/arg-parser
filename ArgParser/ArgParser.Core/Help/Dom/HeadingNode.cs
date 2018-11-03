@@ -1,9 +1,9 @@
-﻿namespace ArgParser.Core.Help
+﻿namespace ArgParser.Core.Help.Dom
 {
-    public class CodeNode : TextNode
+    public class HeadingNode : TextNode
     {
             
-        public CodeNode(string text) : base(text)
+        public HeadingNode(string text) : base(text)
         {
         }
 
@@ -12,5 +12,7 @@
         {
             visitor.Visit(this);
         }
+
+        public int Size { get; set; }
     }
 }

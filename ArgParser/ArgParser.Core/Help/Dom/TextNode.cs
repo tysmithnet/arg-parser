@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ArgParser.Core.Help
+namespace ArgParser.Core.Help.Dom
 {
     public class TextNode : IHelpNode
     {

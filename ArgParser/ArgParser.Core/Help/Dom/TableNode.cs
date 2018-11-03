@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace ArgParser.Core.Help
+namespace ArgParser.Core.Help.Dom
 {
-    public class TableRowNode : IHelpNode
+    public class TableNode : IHelpNode
     {
             
         public virtual void Accept(IHelpNodeVisitor visitor)
@@ -10,6 +10,6 @@ namespace ArgParser.Core.Help
             visitor.Visit(this);
         }
 
-        public IList<TableDataNode> TableDataNodes { get; set; } = new List<TableDataNode>();
+        public IReadOnlyList<TableRowNode> Rows { get; set; }
     }
 }
