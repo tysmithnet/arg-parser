@@ -9,6 +9,12 @@ namespace ArgParser.Core.Help.Dom
             visitor.Visit(this);
         }
 
-        public IReadOnlyList<TableRowNode> Rows { get; set; }
+        public override T Accept<T>(IHelpNodeVisitor<T> visitor)
+        {
+            return visitor.Visit(this);
+        }
+
+        public int NumColumns { get; set; }
+        public new 
     }
 }
