@@ -5,11 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Alba.CsConsoleFormat.ColorfulConsole" Version="1.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\ArgParser.Core\ArgParser.Core.csproj" />
+    <PackageReference Include="Alba.CsConsoleFormat.ColorfulConsole-NoXaml" Version="1.0.0" />
   </ItemGroup>
 
 </Project>
