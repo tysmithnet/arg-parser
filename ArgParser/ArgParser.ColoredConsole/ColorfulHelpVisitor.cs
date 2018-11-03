@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Alba.CsConsoleFormat;
 using Alba.CsConsoleFormat.ColorfulConsole;
@@ -49,8 +50,23 @@ namespace ArgParser.ColoredConsole
         /// <inheritdoc />
         public Element Visit(RootNode node)
         {
-            var children = node.Children.Select(x => x.Accept(this));
+            var children = GetChildren(node);
             return new Document(children);
+        }
+
+        /// <inheritdoc />
+        public Element Visit(GridNode node)
+        {
+            var children = GetChildren(node);
+            return new Grid(children)
+            {
+                Columns = { Enumerable.Range(0, node.NumColumns).Select(x => GridLength.Auto).ToArray()}
+            };
+        }
+
+        protected internal IEnumerable<Element> GetChildren(IHelpNode node)
+        {
+            return node.Children.Select(x => x.Accept(this));
         }
     }
 }
