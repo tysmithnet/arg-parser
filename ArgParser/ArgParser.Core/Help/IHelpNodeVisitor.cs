@@ -11,5 +11,6 @@ namespace ArgParser.Core.Help
         void Visit(TableRowNode node);
         void Visit(TableDataNode node);
         void Visit(RootNode node);
+        void Visit(HelpNode node);
     }
 }
