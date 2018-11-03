@@ -26,6 +26,20 @@ namespace ArgParser.Flavors.Test.Git
         }
 
         [Fact]
+        public void Allow_For_Required_Parameters()
+        {
+            // arrange
+            var builder = new GitBuilder();
+            builder
+                .AddParser("base")
+                .WithBooleanSwitch()
+
+            // act
+
+            // assert
+        }
+
+        [Fact]
         public void Offer_Generic_Counterparts()
         {
             // arrange

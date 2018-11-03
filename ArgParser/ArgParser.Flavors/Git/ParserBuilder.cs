@@ -83,9 +83,12 @@ namespace ArgParser.Flavors.Git
 
         public GitBuilder Build() => Parent;
 
-        public ParserBuilder WithBooleanSwitch(char? letter, string word, Action<object> consumeCallback)
+        public ParserBuilder WithBooleanSwitch(char? letter, string word, Action<object> consumeCallback, bool isRequired = false)
         {
-            Context.ParameterRepository.AddParameter(Name, new BooleanSwitch(letter, word, consumeCallback));
+            var booleanSwitch = new BooleanSwitch(letter, word, consumeCallback);
+            Context.ParameterRepository.AddParameter(Name, booleanSwitch);
+            if(isRequired)
+                Context.ValidatorRepository.AddValidator(Name, new RequiredParameterValidator(booleanSwitch)); // todo: lot of duplicate code here
             return this;
         }
 
@@ -98,30 +101,36 @@ namespace ArgParser.Flavors.Git
             return this;
         }
 
-        public ParserBuilder WithPositional(Action<object, string> consumeCallback)
+        public ParserBuilder WithPositional(Action<object, string> consumeCallback, bool isRequired = false)
         {
             void Convert(object instance, string[] strings)
             {
                 consumeCallback(instance, strings.First());
             }
 
-            return WithPositionals(Convert, 1, 1);
+            return WithPositionals(Convert, 1, 1, isRequired);
         }
 
         public ParserBuilder WithPositionals(Action<object, string[]> consumeCallback, int min = 1,
-            int max = int.MaxValue)
+            int max = int.MaxValue, bool isRequired = false)
         {
-            Context.ParameterRepository.AddParameter(Name, new Positional(consumeCallback)
+            var positional = new Positional(consumeCallback)
             {
                 Min = min,
                 Max = max
-            });
+            };
+            Context.ParameterRepository.AddParameter(Name, positional);
+            if(isRequired)
+                Context.ValidatorRepository.AddValidator(Name, new RequiredParameterValidator(positional));
             return this;
         }
 
-        public ParserBuilder WithSingleValueSwitch(char? letter, string word, Action<object, string> consumeCallback)
+        public ParserBuilder WithSingleValueSwitch(char? letter, string word, Action<object, string> consumeCallback, bool isRequired = false)
         {
-            Context.ParameterRepository.AddParameter(Name, new SingleValueSwitch(letter, word, consumeCallback));
+            var singleValueSwitch = new SingleValueSwitch(letter, word, consumeCallback);
+            Context.ParameterRepository.AddParameter(Name, singleValueSwitch);
+            if(isRequired)
+                Context.ValidatorRepository.AddValidator(Name, new RequiredParameterValidator(singleValueSwitch));
             return this;
         }
 
@@ -131,9 +140,12 @@ namespace ArgParser.Flavors.Git
             return this;
         }
 
-        public ParserBuilder WithValueSwitch(char? letter, string word, Action<object, string[]> consumeCallback)
+        public ParserBuilder WithValueSwitch(char? letter, string word, Action<object, string[]> consumeCallback, bool isRequired = false)
         {
-            Context.ParameterRepository.AddParameter(Name, new ValuesSwitch(letter, word, consumeCallback));
+            var valuesSwitch = new ValuesSwitch(letter, word, consumeCallback);
+            Context.ParameterRepository.AddParameter(Name, valuesSwitch);
+            if(isRequired)
+                Context.ValidatorRepository.AddValidator(Name, new RequiredParameterValidator(valuesSwitch));
             return this;
         }
 
