@@ -23,6 +23,21 @@ namespace ArgParser.Flavors.Test.Git
         }
 
         [Fact]
+        public void Allow_Null_For_The_Letter()
+        {
+            // arrange
+            var consumeCount = 0;
+            var booleanSwitch = new BooleanSwitch(null, "version", o => { consumeCount++; });
+            var fac = new GitIterationInfoFactory();
+            var info0 = fac.Create("--version".Split());
+
+            // act
+            // assert
+            booleanSwitch.Consume(new object(), info0).Index.Should().Be(1);
+            consumeCount.Should().Be(1);
+        }
+
+        [Fact]
         public void Return_True_If_The_Letter_Or_Word_Matches()
         {
             // arrange

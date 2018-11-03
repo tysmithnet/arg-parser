@@ -9,10 +9,9 @@ namespace ArgParser.Core.Help
         {
         }
 
-            
-        public override void Accept(IHelpNodeVisitor visitor)
+        public override T Accept<T>(IHelpNodeVisitor<T> visitor)
         {
-            visitor.Visit(this);
+            return visitor.Visit(this);
         }
     }
 }
