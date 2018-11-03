@@ -22,7 +22,7 @@ namespace ArgParser.Core.Test
 
             var help = new RootNode
             {
-                ChildrenInternal = new IHelpNode[]
+                Children = new IHelpNode[]
                 {
                     new TextNode("hi"),
                     new CodeNode("blah"),
