@@ -23,7 +23,9 @@ namespace ArgParser.ColoredConsole
             root.Add(grid);
             var visitor = new ColorfulHelpVisitor();
             var doc = (Document)root.Accept(visitor);
-            ConsoleRenderer.RenderDocument(doc);
+            string text = ConsoleRenderer.RenderDocumentToText(doc, new TextRenderTarget(),
+                new Rect(0, 0, Console.WindowWidth, Size.Infinity));
+            
             Console.ReadKey();
         }
     }
