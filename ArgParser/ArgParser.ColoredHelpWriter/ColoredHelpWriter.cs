@@ -42,7 +42,6 @@ namespace ArgParser.ColoredHelpWriter
             };
         }
 
-        /// <inheritdoc />
         public Element Visit(HeadingNode node)
         {
             return new FigletDiv()
@@ -50,54 +49,20 @@ namespace ArgParser.ColoredHelpWriter
                 Text = node.Text,
             };
         }
-
-        /// <inheritdoc />
-        public Element Visit(TableNode node)
-        {
-            var children = node.Children.Select(x => x.Accept(this));
-            return new Grid(children);
-        }
-
-        /// <inheritdoc />
-        public Element Visit(TableRowNode node)
-        {
-            return null;
-        }
-
-        /// <inheritdoc />
-        public Element Visit(TableDataNode node)
-        {
-            
-        }
-
-        /// <inheritdoc />
         public Element Visit(RootNode node)
         {
             throw new NotImplementedException();
         }
 
-        /// <inheritdoc />
         public Element Visit(HelpNode node)
         {
             throw new NotImplementedException();
         }
 
-        /// <inheritdoc />
         public Element Visit(ListNode node)
         {
             throw new NotImplementedException();
         }
 
-        /// <inheritdoc />
-        public Element Visit(UnOrderedListNode node)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public Element Visit(OrderedListNode node)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -5,7 +5,6 @@ namespace ArgParser.Core.Help.Dom
 {
     public interface IHelpNode
     {
-        void Accept(IHelpNodeVisitor visitor);
         T Accept<T>(IHelpNodeVisitor<T> visitor);
         IEnumerable<IHelpNode> Children { get; }
         void Add(IHelpNode node);
@@ -15,8 +14,6 @@ namespace ArgParser.Core.Help.Dom
     public abstract class HelpNode : IHelpNode
     {
         protected internal IList<IHelpNode> ChildrenInternal { get; set; } = new List<IHelpNode>();
-
-        public abstract void Accept(IHelpNodeVisitor visitor);
 
         public abstract T Accept<T>(IHelpNodeVisitor<T> visitor);
 
