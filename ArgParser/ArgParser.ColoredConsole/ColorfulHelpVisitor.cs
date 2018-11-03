@@ -76,6 +76,7 @@ namespace ArgParser.ColoredConsole
         }
     }
 
+
     public static class Extensions
     {
         public static void PrintHelp(this RootNode root)

@@ -14,7 +14,7 @@ namespace ArgParser.Flavors.Git
             return false;
         }
 
-        public char Letter { get; set; }
+        public char? Letter { get; set; }
         public string Word { get; set; }
     }
 }

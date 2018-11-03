@@ -12,7 +12,7 @@ namespace ArgParser.Flavors.Git
         {
         }
 
-        public ParserBuilder<T> WithBooleanSwitch(char letter, string word, Action<T> consumeCallback)
+        public ParserBuilder<T> WithBooleanSwitch(char? letter, string word, Action<T> consumeCallback)
         {
             Context.ParameterRepository.AddParameter(Name, new BooleanSwitch<T>(letter, word, consumeCallback));
             return this;
@@ -47,13 +47,13 @@ namespace ArgParser.Flavors.Git
             return this;
         }
 
-        public ParserBuilder<T> WithSingleValueSwitch(char letter, string word, Action<T, string> consumeCallback)
+        public ParserBuilder<T> WithSingleValueSwitch(char? letter, string word, Action<T, string> consumeCallback)
         {
             Context.ParameterRepository.AddParameter(Name, new SingleValueSwitch<T>(letter, word, consumeCallback));
             return this;
         }
 
-        public ParserBuilder<T> WithValuesSwitch(char letter, string word, Action<T, string[]> consumeCallback)
+        public ParserBuilder<T> WithValuesSwitch(char? letter, string word, Action<T, string[]> consumeCallback)
         {
             Context.ParameterRepository.AddParameter(Name, new ValuesSwitch<T>(letter, word, consumeCallback));
             return this;
@@ -71,7 +71,7 @@ namespace ArgParser.Flavors.Git
 
         public GitBuilder Build() => Parent;
 
-        public ParserBuilder WithBooleanSwitch(char letter, string word, Action<object> consumeCallback)
+        public ParserBuilder WithBooleanSwitch(char? letter, string word, Action<object> consumeCallback)
         {
             Context.ParameterRepository.AddParameter(Name, new BooleanSwitch(letter, word, consumeCallback));
             return this;
@@ -107,7 +107,7 @@ namespace ArgParser.Flavors.Git
             return this;
         }
 
-        public ParserBuilder WithSingleValueSwitch(char letter, string word, Action<object, string> consumeCallback)
+        public ParserBuilder WithSingleValueSwitch(char? letter, string word, Action<object, string> consumeCallback)
         {
             Context.ParameterRepository.AddParameter(Name, new SingleValueSwitch(letter, word, consumeCallback));
             return this;
@@ -119,7 +119,7 @@ namespace ArgParser.Flavors.Git
             return this;
         }
 
-        public ParserBuilder WithValueSwitch(char letter, string word, Action<object, string[]> consumeCallback)
+        public ParserBuilder WithValueSwitch(char? letter, string word, Action<object, string[]> consumeCallback)
         {
             Context.ParameterRepository.AddParameter(Name, new ValuesSwitch(letter, word, consumeCallback));
             return this;

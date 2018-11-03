@@ -6,7 +6,7 @@ namespace ArgParser.Flavors.Git
     public class BooleanSwitch<T> : BooleanSwitch
     {
         /// <inheritdoc />
-        public BooleanSwitch(char letter, string word, Action<T> consumeCallback) : base(letter, word,
+        public BooleanSwitch(char? letter, string word, Action<T> consumeCallback) : base(letter, word,
             consumeCallback.ToBaseCallback())
         {
         }
@@ -14,7 +14,7 @@ namespace ArgParser.Flavors.Git
 
     public class BooleanSwitch : Switch
     {
-        public BooleanSwitch(char letter, string word, Action<object> consumeCallback)
+        public BooleanSwitch(char? letter, string word, Action<object> consumeCallback)
         {
             Letter = letter;
             Word = word.ThrowIfArgumentNull(nameof(word));

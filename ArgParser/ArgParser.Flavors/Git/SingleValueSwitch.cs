@@ -5,7 +5,7 @@ namespace ArgParser.Flavors.Git
 {
     public class SingleValueSwitch<T> : SingleValueSwitch
     {
-        public SingleValueSwitch(char letter, string word, Action<T, string> consumeCallback) : base(letter, word,
+        public SingleValueSwitch(char? letter, string word, Action<T, string> consumeCallback) : base(letter, word,
             consumeCallback.ToBaseCallback())
         {
         }
@@ -13,7 +13,7 @@ namespace ArgParser.Flavors.Git
 
     public class SingleValueSwitch : Switch
     {
-        public SingleValueSwitch(char letter, string word, Action<object, string> consumeCallback)
+        public SingleValueSwitch(char? letter, string word, Action<object, string> consumeCallback)
         {
             Letter = letter;
             Word = word.ThrowIfArgumentNull(nameof(word));
