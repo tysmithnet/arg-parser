@@ -5,7 +5,6 @@ namespace ArgParser.Flavors.Git
 {
     public class GitIterationInfoFactory : IIterationInfoFactory
     {
-        /// <inheritdoc />
         public IIterationInfo Create(string[] args)
         {
             var lexer = new GitLexer();

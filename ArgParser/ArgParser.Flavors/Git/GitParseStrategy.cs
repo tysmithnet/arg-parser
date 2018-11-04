@@ -8,7 +8,9 @@ namespace ArgParser.Flavors.Git
 {
     public class GitParseStrategy<T> : GitParseStrategy, IParseStrategy<T>
     {
-      
+        public GitParseStrategy(IGitContext context) : base(context)
+        {
+        }
 
         public IParseResult Parse(IEnumerable<IParser<T>> parsers, string[] args) => base.Parse(parsers, args);
     }
@@ -17,12 +19,12 @@ namespace ArgParser.Flavors.Git
     {
         protected internal Dictionary<object, List<ParseError>> ParseErrors { get; set; } = new Dictionary<object, List<ParseError>>();
 
-        public GitParseStrategy(GitContext context)
+        public GitParseStrategy(IGitContext context)
         {
             Context = context.ThrowIfArgumentNull(nameof(context));
         }
 
-        public GitContext Context { get; set; }
+        public IGitContext Context { get; set; }
 
         public virtual IParseResult Parse(IEnumerable<IParser> parsers, string[] args)
         {
@@ -48,7 +50,7 @@ namespace ArgParser.Flavors.Git
                 {
                     p.Reset();
                 }
-                var info = IterationInfoFactory.Create(args);
+                var info = IterationInfoFactory.Create(args).ToGitIterationInfo();
                 var instance = factoryFunction();
                 if (results.Any(r => r.GetType() == instance.GetType()))
                     continue;
@@ -56,7 +58,7 @@ namespace ArgParser.Flavors.Git
                 var last = 0;
                 while (!hasFailed && !info.IsComplete && parser.CanConsume(instance, info))
                 {
-                    info = parser.Consume(instance, info);
+                    info = parser.Consume(instance, info).ToGitIterationInfo();
                     if (info.Index <= last) hasFailed = true;
                 }
             }

@@ -28,11 +28,12 @@ namespace ArgParser.Flavors.Git
 
         public override IIterationInfo Consume(object instance, IIterationInfo info)
         {
-            if (info.Next == null)
+            var casted = info.ToGitIterationInfo();
+            if (casted.Next == null)
                 throw new IndexOutOfRangeException($"Single value switch trying to consume, but cannot get next token");
-            ConsumeCallback(instance, info.Next.Raw);
+            ConsumeCallback(instance, casted.Next.Raw);
             HasBeenConsumed = true;
-            return info.Consume(2);
+            return casted.Consume(2);
         }
 
         public Action<object, string> ConsumeCallback { get; set; }
