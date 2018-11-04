@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using ArgParser.Core;
 using ArgParser.Flavors.Git;
 using FluentAssertions;
@@ -138,6 +139,29 @@ namespace ArgParser.Flavors.Test.Git
             // act
             // assert
             mightThrow.Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void Allow_For_Required_Parameters()
+        {
+            // arrange
+            var builder = new GitBuilder()
+                .AddParser("base")
+                .WithBooleanSwitch('v', "verbose", o => { }, true)
+                .WithFactoryFunctions(() => new object())
+                .Build();
+
+            // act
+            var result = builder.Parse("base", "".Split(' '));
+
+            // assert
+            bool isParsed = false;
+            result.OnError(errors =>
+            {
+                isParsed = true;
+                errors.Single().Should().BeOfType<MissingRequiredParameterError>();
+            });
+            isParsed.Should().BeTrue();
         }
 
         [Fact]

@@ -22,6 +22,9 @@ namespace ArgParser.Core
 
         public IParseResult OnError(Action<IEnumerable<ParseError>> callback)
         {
+            if (ParsedInstances.Any())
+                return this;
+
             if (ParseErrors != null)
             {
                 callback(ParseErrors.ToList());

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ArgParser.Core;
 using ArgParser.Core.Validation;
 
 namespace ArgParser.Flavors.Git
@@ -18,6 +19,14 @@ namespace ArgParser.Flavors.Git
             Validators[parserName].Add(validator);
         }
 
+        public void AddGlobalValidator(IValidator validator)
+        {
+            validator.ThrowIfArgumentNull(nameof(validator));
+            if (GlobalValidators.Contains(validator))
+                return;
+            GlobalValidators.Add(validator);
+        }
+
         public bool Contains(string name) => Validators.ContainsKey(name);
 
         public IEnumerable<IValidator> GetValidators(string parserName)
@@ -28,6 +37,8 @@ namespace ArgParser.Flavors.Git
             return Validators[parserName].ToList();
         }
 
+        protected internal IList<IValidator> GlobalValidators { get; set; } = new List<IValidator>();
+        
         protected internal Dictionary<string, IList<IValidator>> Validators { get; set; } =
             new Dictionary<string, IList<IValidator>>();
     }
