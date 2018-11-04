@@ -32,11 +32,17 @@ namespace ArgParser.Flavors.Test.Git
             var builder = new GitBuilder();
             builder
                 .AddParser("base")
-                .WithBooleanSwitch()
+                .WithBooleanSwitch('v', "verbose", o => { }, isRequired:true);
 
             // act
-
             // assert
+            bool isParsed = false;
+            builder.Parse("base", "".Split(' '))
+                .OnError(errors => {
+                    errors.Should().HaveCount(1);
+                    isParsed = true;
+                });
+            isParsed.Should().BeTrue();
         }
 
         [Fact]
