@@ -3,55 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2016
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArgParser.Core", "ArgParser.Core\ArgParser.Core.csproj", "{1E5FD54F-B5A9-4638-A216-2292F6393664}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgParser.Core.Test", "ArgParser.Core.Test\ArgParser.Core.Test.csproj", "{0D1B2C1C-DD60-4AAE-879C-04628D173C81}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgParser.TestConsole", "ArgParser.TestConsole\ArgParser.TestConsole.csproj", "{FCCC41E9-E7C0-4BF5-A420-84490D98D599}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArgParser.Flavors", "ArgParser.Flavors\ArgParser.Flavors.csproj", "{F9C0843B-4F42-4E82-B4BC-8BE2168109A1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgParser.Flavors.Test", "ArgParser.Flavors.Test\ArgParser.Flavors.Test.csproj", "{1D266D9A-E432-4DB4-AA24-196EC7992466}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgParser.IntegrationTests", "ArgParser.IntegrationTests\ArgParser.IntegrationTests.csproj", "{61ABF389-7AC1-405B-8D26-2D8CEF5DA2E7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgParser.ColoredConsole", "ArgParser.ColoredConsole\ArgParser.ColoredConsole.csproj", "{3B141031-82BE-470B-AA48-A4E5A24BDB26}"
-EndProject
 Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1E5FD54F-B5A9-4638-A216-2292F6393664}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1E5FD54F-B5A9-4638-A216-2292F6393664}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1E5FD54F-B5A9-4638-A216-2292F6393664}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1E5FD54F-B5A9-4638-A216-2292F6393664}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0D1B2C1C-DD60-4AAE-879C-04628D173C81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0D1B2C1C-DD60-4AAE-879C-04628D173C81}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0D1B2C1C-DD60-4AAE-879C-04628D173C81}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0D1B2C1C-DD60-4AAE-879C-04628D173C81}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FCCC41E9-E7C0-4BF5-A420-84490D98D599}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FCCC41E9-E7C0-4BF5-A420-84490D98D599}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FCCC41E9-E7C0-4BF5-A420-84490D98D599}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FCCC41E9-E7C0-4BF5-A420-84490D98D599}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F9C0843B-4F42-4E82-B4BC-8BE2168109A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F9C0843B-4F42-4E82-B4BC-8BE2168109A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F9C0843B-4F42-4E82-B4BC-8BE2168109A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F9C0843B-4F42-4E82-B4BC-8BE2168109A1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1D266D9A-E432-4DB4-AA24-196EC7992466}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1D266D9A-E432-4DB4-AA24-196EC7992466}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1D266D9A-E432-4DB4-AA24-196EC7992466}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1D266D9A-E432-4DB4-AA24-196EC7992466}.Release|Any CPU.Build.0 = Release|Any CPU
-		{61ABF389-7AC1-405B-8D26-2D8CEF5DA2E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{61ABF389-7AC1-405B-8D26-2D8CEF5DA2E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{61ABF389-7AC1-405B-8D26-2D8CEF5DA2E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{61ABF389-7AC1-405B-8D26-2D8CEF5DA2E7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3B141031-82BE-470B-AA48-A4E5A24BDB26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3B141031-82BE-470B-AA48-A4E5A24BDB26}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3B141031-82BE-470B-AA48-A4E5A24BDB26}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3B141031-82BE-470B-AA48-A4E5A24BDB26}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
