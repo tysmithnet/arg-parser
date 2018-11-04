@@ -32,12 +32,11 @@ namespace ArgParser.Styles.Default
                 var info = new IterationInfo(args, 0);
                 foreach (var parser in parsers)
                 {
-                    var potentialConsumptionResult = parser.CanConsume(instance, info);
-                    if (potentialConsumptionResult == info)
-                        continue;
                     
                 }
             }
+
+            return null;
         }
     }
 }

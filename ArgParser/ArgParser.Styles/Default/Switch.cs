@@ -36,11 +36,11 @@ namespace ArgParser.Styles.Default
             return Word != null && info.Current == $"--{Word}";
         }
 
-        public override IterationInfo CanConsume(object instance, IterationInfo info)
+        public override ConsumptionResult CanConsume(object instance, IterationInfo info)
         {
             if (IsLetterMatch(info) || IsWordMatch(info))
-                return info.Consume(MaxAllowed);
-            return info;
+                return new ConsumptionResult(info, MaxAllowed);
+            return new ConsumptionResult(info, 0);
         }
         
     }

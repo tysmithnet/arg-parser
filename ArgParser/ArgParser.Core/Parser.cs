@@ -16,14 +16,14 @@ namespace ArgParser.Core
             FactoryFunctionsInternal.Add(func);
         }
 
-        public virtual IterationInfo CanConsume(object instance, IterationInfo info)
+        public virtual ConsumptionResult CanConsume(object instance, IterationInfo info)
         {
-            return Parameters.Select(x => x.CanConsume(instance, info)).FirstOrDefault(x => x != info);
+            return Parameters.Select(x => x.CanConsume(instance, info)).FirstOrDefault(x => x.Info != info);
         }
 
-        public virtual IterationInfo Consume(object instance, ConsumptionRequest request)
+        public virtual ConsumptionResult Consume(object instance, ConsumptionRequest request)
         {
-            var parameter = Parameters.First(x => x.CanConsume(instance, request.Info) != request.Info);
+            var parameter = Parameters.First(x => x.CanConsume(instance, request.Info).Info != request.Info);
             return parameter.Consume(instance, request);
         }
 
