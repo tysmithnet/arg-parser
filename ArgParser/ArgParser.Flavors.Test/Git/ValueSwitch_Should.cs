@@ -24,6 +24,21 @@ namespace ArgParser.Flavors.Test.Git
         }
 
         [Fact]
+        public void Allow_Null_For_The_Letter()
+        {
+            // arrange
+            var values = new List<string>();
+            var valuesSwitch = new ValuesSwitch(null, "version", (o, s) => { values.AddRange(s); });
+            var fac = new GitIterationInfoFactory();
+            var info0 = fac.Create("--version v0 v1".Split());
+
+            // act
+            // assert
+            valuesSwitch.Consume(new object(), info0).Index.Should().Be(3);
+            values.Should().BeEquivalentTo("v0 v1".Split(' '));
+        }
+
+        [Fact]
         public void Return_True_If_The_Letter_Or_Word_Matches()
         {
             // arrange

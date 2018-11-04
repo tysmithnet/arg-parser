@@ -8,7 +8,8 @@ namespace ArgParser.Core
     public class DefaultParseStrategy<T> : DefaultParseStrategy, IParseStrategy<T>
     {
         // ReSharper disable once SuspiciousTypeConversion.Global
-        public DefaultParseStrategy(IEnumerable<Func<T>> factoryFuncs = null) : base(factoryFuncs?.Cast<Func<object>>())
+        /// <inheritdoc />
+        public DefaultParseStrategy(IEnumerable<Func<T>> factoryFuncs = null, IEnumerable<IValidator> validators = null) : base(factoryFuncs.Cast<Func<object>>(), validators)
         {
         }
 
@@ -17,9 +18,24 @@ namespace ArgParser.Core
 
     public class DefaultParseStrategy : IParseStrategy
     {
-        public DefaultParseStrategy(IEnumerable<Func<object>> factoryFuncs = null)
+        protected internal Dictionary<object, List<ParseError>> ParseErrors { get; set; } = new Dictionary<object, List<ParseError>>();
+
+        public DefaultParseStrategy(IEnumerable<Func<object>> factoryFuncs = null, IEnumerable<IValidator> validators = null)
         {
-            foreach (var factoryFunc in factoryFuncs ?? new Func<object>[0]) FactoryFunctions.Add(factoryFunc);
+            foreach (var factoryFunc in factoryFuncs.PreventNull())
+                AddFactoryFunction(factoryFunc);
+            foreach(var valiator in validators.PreventNull())
+                AddValidator(valiator);
+        }
+
+        private void AddValidator(IValidator valiator)
+        {
+            Validators.Add(valiator);
+        }
+
+        private void AddFactoryFunction(Func<object> factoryFunc)
+        {
+            FactoryFunctions.Add(factoryFunc);
         }
 
         public virtual IParseResult Parse(IEnumerable<IParser> parsers, string[] args)
@@ -51,8 +67,12 @@ namespace ArgParser.Core
                     if (info.Index <= last) hasFailed = true;
                 }
 
-                var validationResults = ValidateResults(instance);
+                var validationResults = ValidateResults(instance).ToList();
                 var passedValidation = HasPassedValidation(validationResults);
+                if (!passedValidation)
+                {
+                    ParseErrors.Add(instance, new List<ParseError>(validationResults.Where(x => x.Errors != null).SelectMany(x => x.Errors)));
+                }
                 if (!hasFailed && info.IsComplete && passedValidation)
                     results.Add(instance);
             }
@@ -61,7 +81,7 @@ namespace ArgParser.Core
         }
 
         protected internal virtual IParseResult CreateParseResult(List<object> results) =>
-            new DefaultParseResult(results);
+            new DefaultParseResult(results, ParseErrors.Values.SelectMany(x => x));
 
         protected virtual bool HasPassedValidation(IEnumerable<IValidationResult> validationResults)
         {

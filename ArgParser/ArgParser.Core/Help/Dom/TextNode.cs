@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace ArgParser.Core.Help
+namespace ArgParser.Core.Help.Dom
 {
-    public class TextNode : IHelpNode
+    public class TextNode : HelpNode
     {
             
         public TextNode(string text)
@@ -10,12 +10,13 @@ namespace ArgParser.Core.Help
             Text = text ?? throw new ArgumentNullException(nameof(text));
         }
 
-            
-        public virtual void Accept(IHelpNodeVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
 
         public string Text { get; set; }
+
+        /// <inheritdoc />
+        public override T Accept<T>(IHelpNodeVisitor<T> visitor)
+        {
+            return visitor.Visit(this);
+        }
     }
 }

@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ArgParser.Core;
+using ArgParser.Core.Validation;
 
 namespace ArgParser.Flavors.Git
 {
     public class ValuesSwitch<T> : ValuesSwitch
     {
-        public ValuesSwitch(char letter, string word, Action<T, string[]> consumeCallback) : base(letter, word,
+        public ValuesSwitch(char? letter, string word, Action<T, string[]> consumeCallback) : base(letter, word,
             consumeCallback.ToBaseCallback())
         {
         }
@@ -14,13 +16,14 @@ namespace ArgParser.Flavors.Git
 
     public class ValuesSwitch : Switch
     {
-        public ValuesSwitch(char letter, string word, Action<object, string[]> consumeCallback)
+        public ValuesSwitch(char? letter, string word, Action<object, string[]> consumeCallback)
         {
             Letter = letter;
             Word = word.ThrowIfArgumentNull(nameof(word));
             ConsumeCallback = consumeCallback.ThrowIfArgumentNull(nameof(consumeCallback));
         }
 
+        public Func<string[], IEnumerable<ParseError>> ValidityCallback { get; set; }
         internal ValuesSwitch()
         {
         }

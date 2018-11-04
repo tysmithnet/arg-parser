@@ -1,13 +1,14 @@
-﻿namespace ArgParser.Core.Help
+﻿using ArgParser.Core.Help.Dom;
+
+namespace ArgParser.Core.Help
 {
-    public interface IHelpNodeVisitor
+    public interface IHelpNodeVisitor<out T>
     {
-        void Visit(TextNode node);
-        void Visit(CodeNode node);
-        void Visit(HeadingNode node);
-        void Visit(TableNode node);
-        void Visit(TableRowNode node);
-        void Visit(TableDataNode node);
-        void Visit(RootNode node);
+        T Visit(TextNode node);
+        T Visit(CodeNode node);
+        T Visit(HeadingNode node);
+        T Visit(RootNode node);
+        T Visit(GridNode node);
+        T Visit(GridCellNode node);
     }
 }

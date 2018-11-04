@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ArgParser.Core;
+using ArgParser.Core.Validation;
 
 namespace ArgParser.Flavors.Git
 {
@@ -43,7 +45,7 @@ namespace ArgParser.Flavors.Git
         }
 
         public Action<object, string[]> ConsumeCallback { get; set; }
-
+        public Func<string[], IEnumerable<ParseError>> ValidityCallback { get; set; }
         public override bool HasBeenConsumed { get; set; }
 
         public int Max { get; set; } = int.MaxValue;

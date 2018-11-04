@@ -1,12 +1,15 @@
-﻿using ArgParser.Core;
+﻿using System.Linq;
+using ArgParser.Core;
 
 namespace ArgParser.Flavors.Git
 {
-    public class GitIterationInfoFactory : DefaultIterationInfoFactory
+    public class GitIterationInfoFactory : IIterationInfoFactory
     {
-        public GitIterationInfoFactory()
+        public IIterationInfo Create(string[] args)
         {
-            Lexer = new GitLexer();
+            var lexer = new GitLexer();
+            var tokens = lexer.Lex(args).Cast<GitToken>();
+            return new GitIterationInfo(args, tokens);
         }
     }
 }

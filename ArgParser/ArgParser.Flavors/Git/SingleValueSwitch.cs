@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using ArgParser.Core;
+using ArgParser.Core.Validation;
 
 namespace ArgParser.Flavors.Git
 {
     public class SingleValueSwitch<T> : SingleValueSwitch
     {
-        public SingleValueSwitch(char letter, string word, Action<T, string> consumeCallback) : base(letter, word,
+        public SingleValueSwitch(char? letter, string word, Action<T, string> consumeCallback) : base(letter, word,
             consumeCallback.ToBaseCallback())
         {
         }
@@ -13,7 +15,7 @@ namespace ArgParser.Flavors.Git
 
     public class SingleValueSwitch : Switch
     {
-        public SingleValueSwitch(char letter, string word, Action<object, string> consumeCallback)
+        public SingleValueSwitch(char? letter, string word, Action<object, string> consumeCallback)
         {
             Letter = letter;
             Word = word.ThrowIfArgumentNull(nameof(word));
@@ -26,15 +28,16 @@ namespace ArgParser.Flavors.Git
 
         public override IIterationInfo Consume(object instance, IIterationInfo info)
         {
-            if (info.Next == null)
+            var casted = info.ToGitIterationInfo();
+            if (casted.Next == null)
                 throw new IndexOutOfRangeException($"Single value switch trying to consume, but cannot get next token");
-            ConsumeCallback(instance, info.Next.Raw);
+            ConsumeCallback(instance, casted.Next.Raw);
             HasBeenConsumed = true;
-            return info.Consume(2);
+            return casted.Consume(2);
         }
 
         public Action<object, string> ConsumeCallback { get; set; }
-
         public override bool HasBeenConsumed { get; set; }
+        public Func<string, IEnumerable<ParseError>> ValidityCallback { get; set; }
     }
 }

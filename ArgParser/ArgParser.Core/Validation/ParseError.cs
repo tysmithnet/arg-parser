@@ -1,4 +1,4 @@
-﻿namespace ArgParser.Core
+﻿namespace ArgParser.Core.Validation
 {
     public abstract class ParseError
     {
