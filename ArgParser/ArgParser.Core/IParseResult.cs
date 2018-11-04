@@ -6,7 +6,7 @@ namespace ArgParser.Core
 {
     public interface IParseResult
     {
-        IParseResult When<T>(Action<T> callback);
+        IParseResult When<T>(Action<T> callback); // todo: maybe add error parameter to callback
         IParseResult OnError(Action<IEnumerable<ParseError>> callback);
     }
 }

@@ -27,13 +27,4 @@ namespace ArgParser.Core.Help.Dom
             base.Add(cell);
         }
     }
-
-    public class GridCellNode : HelpNode
-    {
-        /// <inheritdoc />
-        public override T Accept<T>(IHelpNodeVisitor<T> visitor)
-        {
-            return visitor.Visit(this);
-        }
-    }
 }

@@ -6,50 +6,6 @@ using Newtonsoft.Json;
 
 namespace ArgParser.TestConsole
 {
-    public abstract class UtilOptions
-    {
-        public bool IsHelpRequested { get; set; }
-        public bool IsVersionRequested { get; set; }
-    }
-
-    public abstract class ClipboardOptions : UtilOptions
-    {
-        public bool IsOverwriteClipboard { get; set; }
-    }
-
-    public class SortOptions : ClipboardOptions
-    {
-        public bool IsReversed { get; set; }
-    }
-
-    public class ZipOptions : ClipboardOptions
-    {
-        public string[] Globs { get; set; }
-        public string ZipFile { get; set; }
-    }
-
-    public class ConvertOptions : UtilOptions
-    {
-        public string Format { get; set; }
-        public string[] InputFiles { get; set; }
-    }
-
-    public abstract class FireWallOptions : UtilOptions
-    {
-        public bool IsInbound { get; set; }
-        public bool IsOutbound { get; set; }
-        public int Port { get; set; }
-        public string Program { get; set; }
-    }
-
-    public class BlockProgramOptions : FireWallOptions
-    {
-    }
-
-    public class UnblockProgramOptions : FireWallOptions
-    {
-    }
-
     internal class Program
     {
         public static string[] CommandLineToArgs(string commandLine)

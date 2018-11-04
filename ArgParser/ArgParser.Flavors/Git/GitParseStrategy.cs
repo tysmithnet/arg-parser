@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using ArgParser.Core;
@@ -33,12 +32,8 @@ namespace ArgParser.Flavors.Git
 
         public virtual List<object> ParseInstances(IEnumerable<IParser> parsers, string[] args)
         {
-            // ReSharper disable once PossibleMultipleEnumeration
-            parsers.ThrowIfArgumentNull(nameof(parsers));
-            // ReSharper disable once PossibleMultipleEnumeration
             args.ThrowIfArgumentNull(nameof(args));
-            // ReSharper disable once PossibleMultipleEnumeration
-            var parsersList = parsers.OfType<GitParser>().ToList();
+            var parsersList = parsers.ThrowIfArgumentNull(nameof(parsers)).OfType<GitParser>().ToList();
 
             var funcList = parsersList.Where(x => Context.FactoryFunctionRepository.Contains(x.Name))
                 .SelectMany(x => Context.FactoryFunctionRepository.GetFactoryFunctions(x.Name)).ToList();
@@ -90,32 +85,6 @@ namespace ArgParser.Flavors.Git
                 return set;
             });
             return new DefaultParseResult(agg.ToList(), ParseErrors.Values.SelectMany(x => x));
-        }
-    }
-
-    public class GitParseResult : IParseResult
-    {
-        public GitParseResult(IEnumerable<object> parsedInstances, Dictionary<object, IEnumerable<ParseError>> instanceErrors, IEnumerable<ParseError> globalErrors)
-        {
-            ParsedInstances = parsedInstances.PreventNull();
-            InstanceErrors = instanceErrors ?? new Dictionary<object, IEnumerable<ParseError>>();
-            GlobalErrors = globalErrors.PreventNull();
-        }
-
-        public IEnumerable<ParseError> GlobalErrors { get; set; }
-        public Dictionary<object, IEnumerable<ParseError>> InstanceErrors { get; set; }
-        public IEnumerable<object> ParsedInstances { get; set; }
-
-        /// <inheritdoc />
-        public IParseResult When<T>(Action<T> callback)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public IParseResult OnError(Action<IEnumerable<ParseError>> callback)
-        {
-            throw new NotImplementedException();
         }
     }
 }
