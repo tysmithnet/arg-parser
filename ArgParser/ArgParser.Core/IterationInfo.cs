@@ -6,7 +6,7 @@ namespace ArgParser.Core
     {
         public string[] Args { get; protected internal set; }
         public int Index { get; set; }
-
+        public string Current => Args[Index];
         public IterationInfo(string[] args, int index)
         {
             Args = args ?? throw new ArgumentNullException(nameof(args));
