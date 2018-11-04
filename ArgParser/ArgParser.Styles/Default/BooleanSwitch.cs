@@ -1,4 +1,5 @@
-﻿using ArgParser.Core;
+﻿using System;
+using ArgParser.Core;
 
 namespace ArgParser.Styles.Default
 {
@@ -14,15 +15,55 @@ namespace ArgParser.Styles.Default
 
         public override IterationInfo Consume(object instance, IterationInfo info)
         {
-            HasBeenConsumedInternal = true;
-            return info.Consume(1);
+
+            return base.Consume(instance, info).Consume(1);
         }
 
-        protected internal bool HasBeenConsumedInternal { get; set; }
+        public BooleanSwitch(char? letter, string word, Action<object> consumeCallback) : base(letter, word)
+        {
+            ConsumeCallback = consumeCallback.ThrowIfArgumentNull(nameof(consumeCallback));
+        }
 
-        public override bool HasBeenConsumed => HasBeenConsumedInternal;
+        public Action<object> ConsumeCallback { get; set; }
+    }
 
-        public BooleanSwitch(char? letter, string word) : base(letter, word)
+    public class SingleValueSwitch : Switch
+    {
+        public Action<object, string> ConsumeCallback { get; protected internal set; }
+        public SingleValueSwitch(char? letter, string word, Action<object, string> consumeCallback) : base(letter, word)
+        {
+            ConsumeCallback = consumeCallback.ThrowIfArgumentNull(nameof(consumeCallback));
+        }
+        
+        public override IterationInfo Consume(object instance, IterationInfo info)
+        {
+            if (!info.HasNext())
+                throw new MissingValueException($"Expected to find a value for {this}");
+            ConsumeCallback(instance, info.Next());
+            return base.Consume(instance, info).Consume(2);
+        }
+    }
+
+    public class ValuesSwitch : Switch
+    {
+
+        public Action<object, string[]> ConsumeCallback { get; protected internal set; }
+
+        public ValuesSwitch(char? letter, string word, Action<object, string[]> consumeCallback) : base(letter, word)
+        {
+            ConsumeCallback = consumeCallback.ThrowIfArgumentNull(nameof(consumeCallback));
+        }
+
+        public override IterationInfo Consume(object instance, IterationInfo info)
+        {
+            
+            return base.Consume(instance, info).
+        }
+    }
+
+    public class MissingValueException : ParseException
+    {
+        public MissingValueException(string message) : base(message)
         {
         }
     }

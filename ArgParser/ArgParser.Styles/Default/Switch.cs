@@ -17,5 +17,33 @@ namespace ArgParser.Styles.Default
             Letter = letter;
             Word = word;
         }
+
+        public override string ToString()
+        {
+            if (Letter != null && Word != null)
+                return $"-{Letter}, --{Word}";
+            return Letter.HasValue ? $"-{Letter}" : $"--{Word}";
+        }
+
+        public virtual bool IsLetterMatch(IterationInfo info)
+        {
+            return Letter.HasValue && info.Current == $"-{Letter}";
+        }
+
+        public virtual bool IsWordMatch(IterationInfo info)
+        {
+            return Word != null && info.Current == $"--{Word}";
+        }
+
+        public override bool CanConsume(object instance, IterationInfo info)
+        {
+            return IsLetterMatch(info) || IsWordMatch(info);
+        }
+
+        public override IterationInfo Consume(object instance, IterationInfo info)
+        {
+            HasBeenConsumed = true;
+            return info;
+        }
     }
 }

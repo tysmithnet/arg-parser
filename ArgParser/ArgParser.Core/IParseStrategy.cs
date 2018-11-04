@@ -2,6 +2,6 @@
 {
     public interface IParseStrategy
     {
-        IParseResult Parse(string[] args, IParserRepository context);
+        IParseResult Parse(string[] args, IParserRepository parserRepository);
     }
 }
