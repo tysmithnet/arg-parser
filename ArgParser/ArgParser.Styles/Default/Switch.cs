@@ -34,11 +34,18 @@ namespace ArgParser.Styles.Default
         {
             return Word != null && info.Current == $"--{Word}";
         }
-        
+
+        public override IterationInfo CanConsume(object instance, IterationInfo info)
+        {
+            if (IsLetterMatch(info) || IsWordMatch(info))
+                return info.Consume(MaxRequired);
+            return info;
+        }
+
         public override IterationInfo Consume(object instance, ConsumptionRequest request)
         {
             HasBeenConsumed = true;
-            return request.Info;
+            return request.Info.Consume(MaxRequired);
         }
     }
 }
