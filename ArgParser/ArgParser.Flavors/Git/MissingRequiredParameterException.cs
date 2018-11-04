@@ -2,7 +2,7 @@
 
 namespace ArgParser.Flavors.Git
 {
-    public class MissingRequiredParameterError : ValidationError
+    public class MissingRequiredParameterException : ValidationException
     {
         public GitParameter RequiredParameter { get; set; }
     }

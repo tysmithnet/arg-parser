@@ -1,8 +1,8 @@
 ﻿namespace ArgParser.Core.Validation
 {
-    public class NoFactoryFunctionError : ParseError
+    public class NoFactoryFunctionException : ParseException
     {
-        public NoFactoryFunctionError()
+        public NoFactoryFunctionException()
         {
             Message = "No factory functions were provided";
         }

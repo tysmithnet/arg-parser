@@ -31,13 +31,13 @@ namespace ArgParser.Flavors.Git
             return clone;
         }
 
-        private Dictionary<int, List<ParseError>> ParseErrors { get; set; } = new Dictionary<int, List<ParseError>>();
+        private Dictionary<int, List<ParseException>> ParseErrors { get; set; } = new Dictionary<int, List<ParseException>>();
         
-        public void AddErrors(params ParseError[] parseErrors)
+        public void AddErrors(params ParseException[] parseExceptions)
         {
             if(!ParseErrors.ContainsKey(Index))
-                ParseErrors.Add(Index, new List<ParseError>());
-            ParseErrors[Index].AddRange(parseErrors);
+                ParseErrors.Add(Index, new List<ParseException>());
+            ParseErrors[Index].AddRange(parseExceptions);
         }
 
         public string[] Args { get; }

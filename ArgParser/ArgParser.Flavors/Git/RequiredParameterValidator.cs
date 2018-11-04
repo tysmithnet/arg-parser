@@ -19,9 +19,9 @@ namespace ArgParser.Flavors.Git
                 return new ValidationResult
                 {
                     Instance = instance,
-                    Errors = new List<ValidationError>
+                    Errors = new List<ValidationException>
                     {
-                        new MissingRequiredParameterError
+                        new MissingRequiredParameterException
                         {
                             Message = $"Required parameter not found: {Parameter}", // todo: implement ToString(),
                             RequiredParameter = Parameter

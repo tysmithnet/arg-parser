@@ -32,7 +32,7 @@ namespace ArgParser.Flavors.Git
         }
 
         public ParserBuilder<T> WithPositional(Action<T, string> consumeCallback, bool isRequired = false,
-            Func<string, IEnumerable<ParseError>> isValid = null)
+            Func<string, IEnumerable<ParseException>> isValid = null)
         {
             void Convert(T instance, string[] strings)
             {
@@ -43,7 +43,7 @@ namespace ArgParser.Flavors.Git
         }
 
         public ParserBuilder<T> WithPositionals(Action<T, string[]> consumeCallback, int min = 1,
-            int max = int.MaxValue, bool isRequired = false, Func<string, IEnumerable<ParseError>> isValid = null)
+            int max = int.MaxValue, bool isRequired = false, Func<string, IEnumerable<ParseException>> isValid = null)
         {
             var newGuy = new Positional<T>(consumeCallback)
             {
@@ -57,7 +57,7 @@ namespace ArgParser.Flavors.Git
         }
 
         public ParserBuilder<T> WithSingleValueSwitch(char? letter, string word, Action<T, string> consumeCallback,
-            bool isRequired = false, Func<string, IEnumerable<ParseError>> isValid = null)
+            bool isRequired = false, Func<string, IEnumerable<ParseException>> isValid = null)
         {
             var singleValueSwitch = new SingleValueSwitch<T>(letter, word, consumeCallback);
             Context.ParameterRepository.AddParameter(Name, singleValueSwitch);
@@ -67,7 +67,7 @@ namespace ArgParser.Flavors.Git
         }
 
         public ParserBuilder<T> WithValuesSwitch(char? letter, string word, Action<T, string[]> consumeCallback,
-            bool isRequired = false, Func<string, IEnumerable<ParseError>> isValid = null)
+            bool isRequired = false, Func<string, IEnumerable<ParseException>> isValid = null)
         {
             var valuesSwitch = new ValuesSwitch<T>(letter, word, consumeCallback);
             Context.ParameterRepository.AddParameter(Name, valuesSwitch);
@@ -109,21 +109,21 @@ namespace ArgParser.Flavors.Git
         }
 
         public ParserBuilder WithPositional(Action<object, string> consumeCallback, bool isRequired = false,
-            Func<string, IEnumerable<ParseError>> isValid = null)
+            Func<string, IEnumerable<ParseException>> isValid = null)
         {
             void Convert(object instance, string[] strings)
             {
                 consumeCallback(instance, strings.First());
             }
 
-            IEnumerable<ParseError> ConvertValidityCheck(string[] validityCallback) =>
+            IEnumerable<ParseException> ConvertValidityCheck(string[] validityCallback) =>
                 isValid(validityCallback.Single());
 
             return WithPositionals(Convert, 1, 1, isRequired, ConvertValidityCheck);
         }
 
         public ParserBuilder WithPositionals(Action<object, string[]> consumeCallback, int min = 1,
-            int max = int.MaxValue, bool isRequired = false, Func<string[], IEnumerable<ParseError>> isValid = null)
+            int max = int.MaxValue, bool isRequired = false, Func<string[], IEnumerable<ParseException>> isValid = null)
         {
             var positional = new Positional(consumeCallback)
             {
@@ -138,7 +138,7 @@ namespace ArgParser.Flavors.Git
         }
 
         public ParserBuilder WithSingleValueSwitch(char? letter, string word, Action<object, string> consumeCallback,
-            bool isRequired = false, Func<string, IEnumerable<ParseError>> isValid = null)
+            bool isRequired = false, Func<string, IEnumerable<ParseException>> isValid = null)
         {
             var singleValueSwitch = new SingleValueSwitch(letter, word, consumeCallback)
             {
@@ -157,7 +157,7 @@ namespace ArgParser.Flavors.Git
         }
 
         public ParserBuilder WithValueSwitch(char? letter, string word, Action<object, string[]> consumeCallback,
-            bool isRequired = false, Func<string[], IEnumerable<ParseError>> isValid = null)
+            bool isRequired = false, Func<string[], IEnumerable<ParseException>> isValid = null)
         {
             var valuesSwitch = new ValuesSwitch(letter, word, consumeCallback)
             {

@@ -11,7 +11,7 @@ namespace ArgParser.Core.Validation
     public class ValidationResult : IValidationResult
     {
             
-        public IList<ValidationError> Errors { get; set; }
+        public IList<ValidationException> Errors { get; set; }
 
             
         public object Instance { get; set; }

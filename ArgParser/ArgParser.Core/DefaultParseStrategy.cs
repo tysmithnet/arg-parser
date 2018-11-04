@@ -18,7 +18,7 @@ namespace ArgParser.Core
 
     public class DefaultParseStrategy : IParseStrategy
     {
-        protected internal Dictionary<object, List<ParseError>> ParseErrors { get; set; } = new Dictionary<object, List<ParseError>>();
+        protected internal Dictionary<object, List<ParseException>> ParseErrors { get; set; } = new Dictionary<object, List<ParseException>>();
 
         public DefaultParseStrategy(IEnumerable<Func<object>> factoryFuncs = null, IEnumerable<IValidator> validators = null)
         {
@@ -71,7 +71,7 @@ namespace ArgParser.Core
                 var passedValidation = HasPassedValidation(validationResults);
                 if (!passedValidation)
                 {
-                    ParseErrors.Add(instance, new List<ParseError>(validationResults.Where(x => x.Errors != null).SelectMany(x => x.Errors)));
+                    ParseErrors.Add(instance, new List<ParseException>(validationResults.Where(x => x.Errors != null).SelectMany(x => x.Errors)));
                 }
                 if (!hasFailed && info.IsComplete && passedValidation)
                     results.Add(instance);

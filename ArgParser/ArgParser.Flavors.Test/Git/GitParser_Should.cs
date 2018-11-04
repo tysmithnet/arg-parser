@@ -159,7 +159,7 @@ namespace ArgParser.Flavors.Test.Git
             result.OnError(errors =>
             {
                 isParsed = true;
-                errors.Single().Should().BeOfType<MissingRequiredParameterError>();
+                errors.Single().Should().BeOfType<MissingRequiredParameterException>();
             });
             isParsed.Should().BeTrue();
         }

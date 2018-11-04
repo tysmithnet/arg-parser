@@ -17,7 +17,7 @@ namespace ArgParser.Flavors.Git
 
     public class GitParseStrategy : IParseStrategy
     {
-        protected internal Dictionary<object, List<ParseError>> ParseErrors { get; set; } = new Dictionary<object, List<ParseError>>();
+        protected internal Dictionary<object, List<ParseException>> ParseErrors { get; set; } = new Dictionary<object, List<ParseException>>();
 
         public GitParseStrategy(IGitContext context)
         {

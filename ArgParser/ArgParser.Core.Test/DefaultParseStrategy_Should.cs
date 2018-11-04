@@ -46,9 +46,9 @@ namespace ArgParser.Core.Test
                 if (instance.HelpRequested)
                     return new ValidationResult
                     {
-                        Errors = new List<ValidationError>
+                        Errors = new List<ValidationException>
                         {
-                            new ValidationError()
+                            new ValidationException()
                         },
                         IsSuccess = false,
                         Instance = instance

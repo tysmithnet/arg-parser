@@ -23,7 +23,7 @@ namespace ArgParser.Flavors.Git
             ConsumeCallback = consumeCallback.ThrowIfArgumentNull(nameof(consumeCallback));
         }
 
-        public Func<string[], IEnumerable<ParseError>> ValidityCallback { get; set; }
+        public Func<string[], IEnumerable<ParseException>> ValidityCallback { get; set; }
         internal ValuesSwitch()
         {
         }

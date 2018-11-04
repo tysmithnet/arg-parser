@@ -4,7 +4,7 @@ namespace ArgParser.Core.Validation
 {
     public interface IValidationResult
     {
-        IList<ValidationError> Errors { get; }
+        IList<ValidationException> Errors { get; }
         object Instance { get; }
         bool IsSuccess { get; }
     }

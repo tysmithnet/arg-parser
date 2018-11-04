@@ -38,6 +38,6 @@ namespace ArgParser.Flavors.Git
 
         public Action<object, string> ConsumeCallback { get; set; }
         public override bool HasBeenConsumed { get; set; }
-        public Func<string, IEnumerable<ParseError>> ValidityCallback { get; set; }
+        public Func<string, IEnumerable<ParseException>> ValidityCallback { get; set; }
     }
 }
