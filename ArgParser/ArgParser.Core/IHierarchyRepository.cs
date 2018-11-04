@@ -6,7 +6,6 @@ namespace ArgParser.Core
     {
         bool IsParent(string parentParserId, string childParserId);
         void EstablishParentChildRelationship(string parentParserId, string childParserId);
-        IEnumerable<Parser> GetAncestors(string parserId);
-        Parser Get(string parserId);
+        IEnumerable<string> GetAncestors(string parserId);
     }
 }
