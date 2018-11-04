@@ -42,24 +42,24 @@ namespace ArgParser.Flavors.Git
 
             var results = new List<object>();
             foreach (var factoryFunction in funcList)
-                foreach (var parser in parsersList)
+            foreach (var parser in parsersList)
+            {
+                foreach (var p in parsersList) // todo: maybe parsersList belies some abstraction?
                 {
-                    foreach (var p in parsersList)
-                    {
-                        p.Reset();
-                    }
-                    var info = IterationInfoFactory.Create(args);
-                    var instance = factoryFunction();
-                    if (results.Any(r => r.GetType() == instance.GetType()))
-                        continue;
-                    var hasFailed = false;
-                    var last = 0;
-                    while (!hasFailed && !info.IsComplete && parser.CanConsume(instance, info))
-                    {
-                        info = parser.Consume(instance, info);
-                        if (info.Index <= last) hasFailed = true;
-                    }
+                    p.Reset();
                 }
+                var info = IterationInfoFactory.Create(args);
+                var instance = factoryFunction();
+                if (results.Any(r => r.GetType() == instance.GetType()))
+                    continue;
+                var hasFailed = false;
+                var last = 0;
+                while (!hasFailed && !info.IsComplete && parser.CanConsume(instance, info))
+                {
+                    info = parser.Consume(instance, info);
+                    if (info.Index <= last) hasFailed = true;
+                }
+            }
 
             return results;
         }

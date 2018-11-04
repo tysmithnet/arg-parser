@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ArgParser.Core;
+using ArgParser.Core.Validation;
 
 namespace ArgParser.Flavors.Git
 {
@@ -21,6 +23,7 @@ namespace ArgParser.Flavors.Git
             ConsumeCallback = consumeCallback.ThrowIfArgumentNull(nameof(consumeCallback));
         }
 
+        public Func<string[], IEnumerable<ParseError>> ValidityCallback { get; set; }
         internal ValuesSwitch()
         {
         }
