@@ -5,44 +5,28 @@ namespace ArgParser.Styles.Default
 {
     public class BooleanSwitch : Switch
     {
-        public override IterationInfo Consume(object instance, ConsumptionRequest request)
+        public BooleanSwitch(char? letter, string word, Action<object> consumeCallback) : base(letter, word, consumeCallback.ToMultiValueAction())
         {
-            ConsumeCallback(instance);
-            return base.Consume(instance, request);
-        }
-
-        public BooleanSwitch(char? letter, string word, Action<object> consumeCallback) : base(letter, word)
-        {
-            ConsumeCallback = consumeCallback.ThrowIfArgumentNull(nameof(consumeCallback));
             MinRequired = 1;
-            MaxRequired = 1;
+            MaxAllowed = 1;
         }
-
-        public Action<object> ConsumeCallback { get; set; }
     }
 
     public class SingleValueSwitch : Switch
     {
-        public Action<object, string> ConsumeCallback { get; protected internal set; }
-        public SingleValueSwitch(char? letter, string word, Action<object, string> consumeCallback) : base(letter, word)
+        public SingleValueSwitch(char? letter, string word, Action<object, string> consumeCallback) : base(letter, word, consumeCallback.ToMultiValueAction())
         {
-            ConsumeCallback = consumeCallback.ThrowIfArgumentNull(nameof(consumeCallback));
             MinRequired = 2;
-            MaxRequired = 2;
-        }
-
-        public override IterationInfo Consume(object instance, ConsumptionRequest request)
-        {
-            ConsumeCallback(instance, request.Next());
-            return base.Consume(instance, request);
+            MaxAllowed = 2;
         }
     }
 
     public class ValuesSwitch : Switch
     {
-
-        public ValuesSwitch(char? letter, string word, Action<object, string[]> consumeCallback) : base(letter, word)
+        public ValuesSwitch(char? letter, string word, Action<object, string[]> consumeCallback, int min = 1, int max = int.MaxValue) : base(letter, word, consumeCallback)
         {
+            MinRequired = min;
+            MaxAllowed = max;
         }
     }
 

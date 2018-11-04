@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using ArgParser.Core;
 
 namespace ArgParser.Styles.Default
@@ -8,7 +9,7 @@ namespace ArgParser.Styles.Default
         public char? Letter { get; protected internal set; }
         public string Word { get; protected internal set; }
 
-        protected Switch(char? letter, string word)
+        protected Switch(char? letter, string word, Action<object, string[]> consumeCallback) : base(consumeCallback)
         {
             if (letter == null && word == null)
             {
@@ -38,14 +39,9 @@ namespace ArgParser.Styles.Default
         public override IterationInfo CanConsume(object instance, IterationInfo info)
         {
             if (IsLetterMatch(info) || IsWordMatch(info))
-                return info.Consume(MaxRequired);
+                return info.Consume(MaxAllowed);
             return info;
         }
-
-        public override IterationInfo Consume(object instance, ConsumptionRequest request)
-        {
-            HasBeenConsumed = true;
-            return request.Info.Consume(MaxRequired);
-        }
+        
     }
 }
