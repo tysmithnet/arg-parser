@@ -16,14 +16,15 @@ namespace ArgParser.Core
             FactoryFunctionsInternal.Add(func);
         }
 
-        public virtual bool CanConsume(object instance, IterationInfo info)
+        public virtual IterationInfo CanConsume(object instance, IterationInfo info)
         {
-            return ParametersInternal.Any(p => p.CanConsume(instance, info));
+            return Parameters.Select(x => x.CanConsume(instance, info)).FirstOrDefault(x => x != info);
         }
 
-        public virtual IterationInfo Consume(object instance, IterationInfo info)
+        public virtual IterationInfo Consume(object instance, ConsumptionRequest request)
         {
-            return ParametersInternal.First(p => p.CanConsume(instance, info)).Consume(instance, info);
+            var parameter = Parameters.First(x => x.CanConsume(instance, request.Info) != request.Info);
+            return parameter.Consume(instance, request);
         }
 
         public IEnumerable<Func<object>> FactoryFunctions => FactoryFunctionsInternal.ToList();
@@ -32,6 +33,4 @@ namespace ArgParser.Core
         public IEnumerable<Parameter> Parameters => ParametersInternal.ToList();
         protected internal IList<Parameter> ParametersInternal { get; set; } = new List<Parameter>();
     }
-
-
 }
