@@ -21,7 +21,7 @@ namespace ArgParser.Styles.Default
             return parser;
         }
 
-        public Parser GetParser(string id)
+        public Parser Get(string id)
         {
             if(!Parsers.ContainsKey(id))
                 throw new KeyNotFoundException($"Unable to find parser with id={id}, are you sure it was added and you are using the correct id?");

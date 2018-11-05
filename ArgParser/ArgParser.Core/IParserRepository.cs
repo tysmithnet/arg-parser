@@ -5,7 +5,7 @@ namespace ArgParser.Core
     public interface IParserRepository
     {
         Parser Create(string id);
-        Parser GetParser(string id);
+        Parser Get(string id);
         IEnumerable<Parser> GetAll();
     }
 }
