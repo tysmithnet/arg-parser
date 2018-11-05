@@ -8,7 +8,8 @@
             Info = originalInfo.Consume(numConsumed);
         }
 
-        public int NumConsumed { get; protected internal set; }
         public IterationInfo Info { get; protected internal set; }
+
+        public int NumConsumed { get; protected internal set; }
     }
 }

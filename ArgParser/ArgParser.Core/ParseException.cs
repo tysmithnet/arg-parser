@@ -6,7 +6,6 @@ namespace ArgParser.Core
     {
         public ParseException(string message) : base(message)
         {
-            
         }
     }
 }

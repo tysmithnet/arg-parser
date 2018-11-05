@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
 
@@ -51,29 +47,6 @@ namespace ArgParser.Core.Test
             req2.AllToBeConsumed().Should().BeEquivalentTo("-v".Split(' '));
             req3.AllToBeConsumed().Should().BeEquivalentTo("-v something".Split(' '));
             req4.AllToBeConsumed().Should().BeEquivalentTo("a b c".Split(' '));
-        }
-
-        [Fact]
-        public void Return_The_SubSequent_Items()
-        {
-            // arrange
-            var info0 = new IterationInfo("".Split(' '), 0);
-            var info1 = new IterationInfo("-h".Split(' '), 0);
-            var info2 = new IterationInfo("-v something".Split(' '), 0);
-            var info3 = new IterationInfo("a b c d e".Split(' '), 0);
-            var req0 = new ConsumptionRequest(info0, 1);
-            var req1 = new ConsumptionRequest(info1, 1);
-            var req2 = new ConsumptionRequest(info2, 1);
-            var req3 = new ConsumptionRequest(info2, 2);
-            var req4 = new ConsumptionRequest(info3, 3);
-
-            // act
-            // assert
-            req0.Rest().Should().BeEmpty();
-            req1.Rest().Should().BeEmpty();
-            req2.Rest().Should().BeEmpty();
-            req3.Rest().Should().BeEquivalentTo("something".Split(' '));
-            req4.Rest().Should().BeEquivalentTo("b c".Split(' '));
         }
 
         [Fact]
@@ -148,6 +121,29 @@ namespace ArgParser.Core.Test
             mightThrow2.Should().Throw<IndexOutOfRangeException>();
             req3.Next().Should().Be("something");
             req4.Next().Should().Be("b");
+        }
+
+        [Fact]
+        public void Return_The_SubSequent_Items()
+        {
+            // arrange
+            var info0 = new IterationInfo("".Split(' '), 0);
+            var info1 = new IterationInfo("-h".Split(' '), 0);
+            var info2 = new IterationInfo("-v something".Split(' '), 0);
+            var info3 = new IterationInfo("a b c d e".Split(' '), 0);
+            var req0 = new ConsumptionRequest(info0, 1);
+            var req1 = new ConsumptionRequest(info1, 1);
+            var req2 = new ConsumptionRequest(info2, 1);
+            var req3 = new ConsumptionRequest(info2, 2);
+            var req4 = new ConsumptionRequest(info3, 3);
+
+            // act
+            // assert
+            req0.Rest().Should().BeEmpty();
+            req1.Rest().Should().BeEmpty();
+            req2.Rest().Should().BeEmpty();
+            req3.Rest().Should().BeEquivalentTo("something".Split(' '));
+            req4.Rest().Should().BeEquivalentTo("b c".Split(' '));
         }
     }
 }

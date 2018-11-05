@@ -39,23 +39,6 @@ namespace ArgParser.Core.Test
         }
 
         [Fact]
-        public void Return_The_SubSequent_Items()
-        {
-            // arrange
-            var info0 = new IterationInfo(new string[0], 0);
-            var info1 = new IterationInfo("-h".Split(' '), 0);
-            var info2 = new IterationInfo("-v something".Split(' '), 0);
-            var info3 = new IterationInfo("a b c d e".Split(' '), 1);
-
-            // act
-            // assert
-            info0.Rest().Should().BeEmpty();
-            info1.Rest().Should().BeEmpty();
-            info2.Rest().Should().BeEquivalentTo("something".Split(' '));
-            info3.Rest().Should().BeEquivalentTo("c d e".Split(' '));
-        }
-
-        [Fact]
         public void Return_The_First_Item()
         {
             // arrange
@@ -108,6 +91,23 @@ namespace ArgParser.Core.Test
             mightThrow1.Should().Throw<IndexOutOfRangeException>();
             info2.Next().Should().Be("something");
             info3.Next().Should().Be("c");
+        }
+
+        [Fact]
+        public void Return_The_SubSequent_Items()
+        {
+            // arrange
+            var info0 = new IterationInfo(new string[0], 0);
+            var info1 = new IterationInfo("-h".Split(' '), 0);
+            var info2 = new IterationInfo("-v something".Split(' '), 0);
+            var info3 = new IterationInfo("a b c d e".Split(' '), 1);
+
+            // act
+            // assert
+            info0.Rest().Should().BeEmpty();
+            info1.Rest().Should().BeEmpty();
+            info2.Rest().Should().BeEquivalentTo("something".Split(' '));
+            info3.Rest().Should().BeEquivalentTo("c d e".Split(' '));
         }
     }
 }

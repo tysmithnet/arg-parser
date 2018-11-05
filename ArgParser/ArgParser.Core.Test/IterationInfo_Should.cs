@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
 
@@ -11,14 +7,36 @@ namespace ArgParser.Core.Test
     public class IterationInfo_Should
     {
         [Fact]
-        public void Return_The_Current_Arg()
+        public void Be_Comparable()
         {
             // arrange
-            var info = new IterationInfo("a b c".Split(' '), 0);
+            var abc = "a b c".Split(' ');
+            var a = new IterationInfo(abc, 0);
+            var b = new IterationInfo(abc, 1);
+            var c = new IterationInfo("def".Split(' '));
+            Action mightThrow0 = () =>
+            {
+                var x = a < c;
+            };
+            Action mightThrow1 = () =>
+            {
+                var x = a.CompareTo("");
+            };
 
             // act
             // assert
-            info.Current.Should().Be("a");
+            (a < b).Should().BeTrue();
+            (a <= b).Should().BeTrue();
+            (b > a).Should().BeTrue();
+            (b >= a).Should().BeTrue();
+            a.CompareTo(null).Should().Be(1);
+            a.CompareTo((object) null).Should().Be(1);
+            a.CompareTo(a).Should().Be(0);
+            a.CompareTo((object) a).Should().Be(0);
+            a.CompareTo(b).Should().Be(-1);
+            a.CompareTo((object) b).Should().Be(-1);
+            mightThrow0.Should().Throw<InvalidOperationException>();
+            mightThrow1.Should().Throw<ArgumentException>();
         }
 
         [Fact]
@@ -33,17 +51,17 @@ namespace ArgParser.Core.Test
             // act
             // assert
             a.GetHashCode().Should().Be(d.GetHashCode());
-            a.Equals((object) "").Should().BeFalse();
+            a.Equals("").Should().BeFalse();
             a.Equals(null).Should().BeFalse();
             a.Equals((object) null).Should().BeFalse();
             a.Equals(b).Should().BeFalse();
             a.Equals(c).Should().BeFalse();
             a.Equals(d).Should().BeTrue();
-            a.Equals((object)b).Should().BeFalse();
-            a.Equals((object)c).Should().BeFalse();
-            a.Equals((object)d).Should().BeTrue();
+            a.Equals((object) b).Should().BeFalse();
+            a.Equals((object) c).Should().BeFalse();
+            a.Equals((object) d).Should().BeTrue();
             a.Equals(a).Should().BeTrue();
-            a.Equals((object)a).Should().BeTrue();
+            a.Equals((object) a).Should().BeTrue();
             (a != b).Should().BeTrue();
             (a == d).Should().BeTrue();
             (b != a).Should().BeTrue();
@@ -51,33 +69,14 @@ namespace ArgParser.Core.Test
         }
 
         [Fact]
-        public void Be_Comparable()
+        public void Return_The_Current_Arg()
         {
             // arrange
-            var abc = "a b c".Split(' ');
-            var a = new IterationInfo(abc, 0);
-            var b = new IterationInfo(abc, 1);
-            var c = new IterationInfo("def".Split(' '));
-            Action mightThrow0 = () => { bool x = a < c; };
-            Action mightThrow1 = () =>
-            {
-                int x = a.CompareTo((object) "");
-            };
+            var info = new IterationInfo("a b c".Split(' '), 0);
+
             // act
             // assert
-            (a < b).Should().BeTrue();
-            (a <= b).Should().BeTrue();
-            (b > a).Should().BeTrue();
-            (b >= a).Should().BeTrue();
-            a.CompareTo(null).Should().Be(1);
-            a.CompareTo((object)null).Should().Be(1);
-            a.CompareTo(a).Should().Be(0);
-            a.CompareTo((object)a).Should().Be(0);
-            a.CompareTo(b).Should().Be(-1);
-            a.CompareTo((object)b).Should().Be(-1);
-            mightThrow0.Should().Throw<InvalidOperationException>();
-            mightThrow1.Should().Throw<ArgumentException>();
+            info.Current.Should().Be("a");
         }
     }
 }
-

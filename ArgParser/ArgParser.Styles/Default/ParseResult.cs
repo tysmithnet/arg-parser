@@ -7,9 +7,6 @@ namespace ArgParser.Styles.Default
 {
     public class ParseResult : IParseResult
     {
-        protected internal IList<object> ParsedInstances { get; set; }
-        protected internal IList<ParseException> ParseExceptions { get; set; }
-
         public ParseResult(IEnumerable<object> parsedInstances, IEnumerable<ParseException> parseExceptions)
         {
             ParsedInstances = parsedInstances.PreventNull().ToList();
@@ -18,10 +15,7 @@ namespace ArgParser.Styles.Default
 
         public void When<T>(Action<T> handler)
         {
-            foreach (var instance in ParsedInstances.OfType<T>())
-            {
-                handler(instance);
-            }
+            foreach (var instance in ParsedInstances.OfType<T>()) handler(instance);
         }
 
         public void WhenError(Action<IEnumerable<ParseException>> handler)
@@ -29,5 +23,8 @@ namespace ArgParser.Styles.Default
             if (ParseExceptions.Any())
                 handler(ParseExceptions);
         }
+
+        protected internal IList<object> ParsedInstances { get; set; }
+        protected internal IList<ParseException> ParseExceptions { get; set; }
     }
 }

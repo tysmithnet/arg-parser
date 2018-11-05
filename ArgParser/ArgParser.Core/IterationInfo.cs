@@ -6,11 +6,17 @@ namespace ArgParser.Core
 {
     public class IterationInfo : IEquatable<IterationInfo>, IComparable<IterationInfo>, IComparable
     {
+        public IterationInfo(string[] args, int index = 0)
+        {
+            Args = args ?? throw new ArgumentNullException(nameof(args));
+            Index = index;
+        }
+
         public int CompareTo(IterationInfo other)
         {
             if (ReferenceEquals(this, other)) return 0;
             if (ReferenceEquals(null, other)) return 1;
-            if(!Args.SequenceEqual(other.Args))
+            if (!Args.SequenceEqual(other.Args))
                 throw new InvalidOperationException($"Both IterationInfo instances must have the same args to compare");
             return Index.CompareTo(other.Index);
         }
@@ -21,20 +27,6 @@ namespace ArgParser.Core
             if (ReferenceEquals(this, obj)) return 0;
             if (!(obj is IterationInfo)) throw new ArgumentException($"Object must be of type {nameof(IterationInfo)}");
             return CompareTo((IterationInfo) obj);
-        }
-
-        public static bool operator <(IterationInfo left, IterationInfo right) => Comparer<IterationInfo>.Default.Compare(left, right) < 0;
-
-        public static bool operator >(IterationInfo left, IterationInfo right) => Comparer<IterationInfo>.Default.Compare(left, right) > 0;
-
-        public static bool operator <=(IterationInfo left, IterationInfo right) => Comparer<IterationInfo>.Default.Compare(left, right) <= 0;
-
-        public static bool operator >=(IterationInfo left, IterationInfo right) => Comparer<IterationInfo>.Default.Compare(left, right) >= 0;
-
-        public IterationInfo(string[] args, int index = 0)
-        {
-            Args = args ?? throw new ArgumentNullException(nameof(args));
-            Index = index;
         }
 
         public IterationInfo Consume(int num) => new IterationInfo(Args, Index + num);
@@ -58,7 +50,7 @@ namespace ArgParser.Core
         {
             unchecked
             {
-                int hashCode = (Index + 1) % 31337;
+                var hashCode = (Index + 1) % 31337;
                 hashCode = Args.Aggregate(hashCode, (i, s) => i ^= s.GetHashCode());
                 return hashCode;
             }
@@ -66,7 +58,20 @@ namespace ArgParser.Core
 
         public static bool operator ==(IterationInfo left, IterationInfo right) => Equals(left, right);
 
+        public static bool operator >(IterationInfo left, IterationInfo right) =>
+            Comparer<IterationInfo>.Default.Compare(left, right) > 0;
+
+        public static bool operator >=(IterationInfo left, IterationInfo right) =>
+            Comparer<IterationInfo>.Default.Compare(left, right) >= 0;
+
         public static bool operator !=(IterationInfo left, IterationInfo right) => !Equals(left, right);
+
+        public static bool operator <(IterationInfo left, IterationInfo right) =>
+            Comparer<IterationInfo>.Default.Compare(left, right) < 0;
+
+        public static bool operator <=(IterationInfo left, IterationInfo right) =>
+            Comparer<IterationInfo>.Default.Compare(left, right) <= 0;
+
         public string[] Args { get; protected internal set; }
 
         public string Current => Args[Index];

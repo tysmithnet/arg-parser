@@ -8,11 +8,6 @@ namespace ArgParser.Core
     {
         public static bool IsNullOrWhiteSpace(this string source) => string.IsNullOrWhiteSpace(source);
 
-        public static IEnumerable<T> ToEnumerableOfOne<T>(this T source)
-        {
-            return new[] {source};
-        }
-
         public static string Join(this IEnumerable<string> strings, string separator) =>
             string.Join(separator, strings);
 
@@ -31,5 +26,7 @@ namespace ArgParser.Core
                 throw new ArgumentNullException(parameterName, message);
             throw new ArgumentNullException(parameterName);
         }
+
+        public static IEnumerable<T> ToEnumerableOfOne<T>(this T source) => new[] {source};
     }
 }

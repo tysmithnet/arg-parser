@@ -11,7 +11,7 @@ namespace ArgParser.Styles.Test.Default
         {
             // arrange
             var builder = new ContextBuilder();
-            
+
             // act
             builder.AddParser("base");
 

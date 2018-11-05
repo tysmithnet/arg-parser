@@ -6,13 +6,9 @@ namespace ArgParser.Styles.Default
 {
     public class ParserRepository : IParserRepository
     {
-        protected internal Parser FirstAdded { get; set; }
-        
-        protected internal Dictionary<string, Parser> Parsers { get; set; } = new Dictionary<string, Parser>();
-
         public Parser Create(string id)
         {
-            if(Parsers.ContainsKey(id))
+            if (Parsers.ContainsKey(id))
                 throw new ArgumentException($"Parser already exists with id={id}");
             var parser = new Parser(id);
             if (FirstAdded == null)
@@ -23,14 +19,16 @@ namespace ArgParser.Styles.Default
 
         public Parser Get(string id)
         {
-            if(!Parsers.ContainsKey(id))
-                throw new KeyNotFoundException($"Unable to find parser with id={id}, are you sure it was added and you are using the correct id?");
+            if (!Parsers.ContainsKey(id))
+                throw new KeyNotFoundException(
+                    $"Unable to find parser with id={id}, are you sure it was added and you are using the correct id?");
             return Parsers[id];
         }
 
-        public IEnumerable<Parser> GetAll()
-        {
-            return Parsers.Values;
-        }
+        public IEnumerable<Parser> GetAll() => Parsers.Values;
+
+        protected internal Parser FirstAdded { get; set; }
+
+        protected internal Dictionary<string, Parser> Parsers { get; set; } = new Dictionary<string, Parser>();
     }
 }

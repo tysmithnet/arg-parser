@@ -5,20 +5,13 @@ namespace ArgParser.Styles.Default
 {
     public class ParserBuilder
     {
-        public ContextBuilder Parent { get; protected internal set; }
-        public Parser Parser { get; protected internal set; }
-
         public ParserBuilder(ContextBuilder parent, Parser parser)
         {
             Parent = parent.ThrowIfArgumentNull(nameof(parent));
             Parser = parser.ThrowIfArgumentNull(nameof(parser));
         }
 
-        public ParserBuilder WithFactoryFunction(Func<object> func)
-        {
-            Parser.FactoryFunction = func.ThrowIfArgumentNull(nameof(func));
-            return this;
-        }
+        public ContextBuilder Build() => Parent;
 
         public ParserBuilder WithBooleanSwitch(char? letter, string word, Action<object> consumeCallback)
         {
@@ -27,9 +20,13 @@ namespace ArgParser.Styles.Default
             return this;
         }
 
-        public ContextBuilder Build()
+        public ParserBuilder WithFactoryFunction(Func<object> func)
         {
-            return Parent;
+            Parser.FactoryFunction = func.ThrowIfArgumentNull(nameof(func));
+            return this;
         }
+
+        public ContextBuilder Parent { get; protected internal set; }
+        public Parser Parser { get; protected internal set; }
     }
 }

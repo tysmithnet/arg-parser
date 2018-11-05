@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
 
@@ -21,6 +18,15 @@ namespace ArgParser.Core.Test
             sNull.IsNullOrWhiteSpace().Should().BeTrue();
             "".IsNullOrWhiteSpace().Should().BeTrue();
             "\t".IsNullOrWhiteSpace().Should().BeTrue();
+        }
+
+        [Fact]
+        public void Join_All_Strings_Not_Null_Or_WhiteSpace()
+        {
+            // arrange
+            // act
+            // assert
+            new[] {null, "a", null, null, "b", "c"}.JoinNonNullOrWhiteSpace(",").Should().Be("a,b,c");
         }
 
         [Fact]
@@ -55,15 +61,6 @@ namespace ArgParser.Core.Test
             // assert
             mightThrow.Should().Throw<ArgumentNullException>();
             mightThrow1.Should().Throw<ArgumentNullException>();
-        }
-
-        [Fact]
-        public void Join_All_Strings_Not_Null_Or_WhiteSpace()
-        {
-            // arrange
-            // act
-            // assert
-            new string[] {null, "a", null, null, "b", "c"}.JoinNonNullOrWhiteSpace(",").Should().Be("a,b,c");
         }
     }
 }

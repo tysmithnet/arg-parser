@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ArgParser.Core
+﻿namespace ArgParser.Core
 {
     public class UnexpectedArgException : ParseException
     {

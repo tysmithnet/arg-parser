@@ -178,8 +178,6 @@ namespace ArgParser.Styles.Test.Default
         {
             // arrange
             var isHelp = false;
-            string value = null;
-            string[] values = null;
             var builder = new ContextBuilder()
                 .AddParser("base")
                 .Build()
