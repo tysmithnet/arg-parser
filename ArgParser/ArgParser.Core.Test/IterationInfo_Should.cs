@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,6 +48,35 @@ namespace ArgParser.Core.Test
             (a == d).Should().BeTrue();
             (b != a).Should().BeTrue();
             (d == a).Should().BeTrue();
+        }
+
+        [Fact]
+        public void Be_Comparable()
+        {
+            // arrange
+            var abc = "a b c".Split(' ');
+            var a = new IterationInfo(abc, 0);
+            var b = new IterationInfo(abc, 1);
+            var c = new IterationInfo("def".Split(' '));
+            Action mightThrow0 = () => { bool x = a < c; };
+            Action mightThrow1 = () =>
+            {
+                int x = a.CompareTo((object) "");
+            };
+            // act
+            // assert
+            (a < b).Should().BeTrue();
+            (a <= b).Should().BeTrue();
+            (b > a).Should().BeTrue();
+            (b >= a).Should().BeTrue();
+            a.CompareTo(null).Should().Be(1);
+            a.CompareTo((object)null).Should().Be(1);
+            a.CompareTo(a).Should().Be(0);
+            a.CompareTo((object)a).Should().Be(0);
+            a.CompareTo(b).Should().Be(-1);
+            a.CompareTo((object)b).Should().Be(-1);
+            mightThrow0.Should().Throw<InvalidOperationException>();
+            mightThrow1.Should().Throw<ArgumentException>();
         }
     }
 }
