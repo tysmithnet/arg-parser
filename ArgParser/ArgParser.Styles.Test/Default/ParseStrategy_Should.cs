@@ -9,6 +9,17 @@ namespace ArgParser.Styles.Test.Default
 {
     public class ParseStrategy_Should
     {
+        private class BackwardsParameter : Parameter
+        {
+            /// <inheritdoc />
+            public override ConsumptionResult CanConsume(object instance, IterationInfo info) =>
+                new ConsumptionResult(info, 1);
+
+            /// <inheritdoc />
+            public override ConsumptionResult Consume(object instance, ConsumptionRequest request) =>
+                new ConsumptionResult(request.Info, -1);
+        }
+
         [Fact]
         public void Allow_A_Switch_To_Be_Greedy_When_No_Conflicting_Switch_Values()
         {
@@ -83,12 +94,9 @@ namespace ArgParser.Styles.Test.Default
         }
 
         [Fact]
-        public void Parse_Options_Correctly()
+        public void Identify_When_Forward_Progress_Has_Been_Violated()
         {
             // arrange
-            bool isHelp = false;
-            string value = null;
-            string[] values = null;
             var builder = new ContextBuilder()
                 .AddParser("base")
                 .Build()
@@ -96,22 +104,26 @@ namespace ArgParser.Styles.Test.Default
                 .Build()
                 .AddParser("gchild")
                 .WithFactoryFunction(() => "")
-                .WithBooleanSwitch('h', "help", o => isHelp = true)
                 .Build()
                 .CreateParentChildRelationship("base", "child")
                 .CreateParentChildRelationship("child", "gchild");
 
             var context = builder.BuildContext();
+            var parser = builder.ParserRepository.Get("gchild");
+            parser.AddParameter(new BackwardsParameter());
             var strat = new ParseStrategy("base");
 
             // act
-            bool isParsed = false;
+            var parsed = false;
             var result = strat.Parse("child gchild -h".Split(' '), context);
-            result.When<string>(s => isParsed = true);
+            result.WhenError(exceptions =>
+            {
+                exceptions.Single().Should().BeOfType<ForwardProgressException>();
+                parsed = true;
+            });
 
             // assert
-            isParsed.Should().BeTrue();
-            isHelp.Should().BeTrue();
+            parsed.Should().BeTrue();
         }
 
         [Fact]
@@ -159,6 +171,38 @@ namespace ArgParser.Styles.Test.Default
             // assert
             mightThrow.Should().NotThrow();
             result.WhenError(exceptions => { exceptions.Single().Should().BeOfType<UnexpectedArgException>(); });
+        }
+
+        [Fact]
+        public void Parse_Options_Correctly()
+        {
+            // arrange
+            var isHelp = false;
+            string value = null;
+            string[] values = null;
+            var builder = new ContextBuilder()
+                .AddParser("base")
+                .Build()
+                .AddParser("child")
+                .Build()
+                .AddParser("gchild")
+                .WithFactoryFunction(() => "")
+                .WithBooleanSwitch('h', "help", o => isHelp = true)
+                .Build()
+                .CreateParentChildRelationship("base", "child")
+                .CreateParentChildRelationship("child", "gchild");
+
+            var context = builder.BuildContext();
+            var strat = new ParseStrategy("base");
+
+            // act
+            var isParsed = false;
+            var result = strat.Parse("child gchild -h".Split(' '), context);
+            result.When<string>(s => isParsed = true);
+
+            // assert
+            isParsed.Should().BeTrue();
+            isHelp.Should().BeTrue();
         }
 
         [Fact]

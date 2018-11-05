@@ -35,7 +35,7 @@ namespace ArgParser.Styles.Default
                     var request = CreateCanConsumeRequest(instance, chain, info, canConsumeResult);
                     var consumptionResult = firstWhoCanHandle.Consume(instance, request);
                     if (consumptionResult.Info <= info)
-                        throw new InvalidProgressException($"Consumption resuled in new index={consumptionResult.Info.Index} and provided index={info.Index}");
+                        throw new ForwardProgressException($"Consumption resuled in new index={consumptionResult.Info.Index} and provided index={info.Index}");
                     info = consumptionResult.Info;
                 }
                 return new ParseResult(instance.ToEnumerableOfOne(), null);
