@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using ArgParser.Core;
 using ArgParser.Styles.Default;
 using FluentAssertions;
@@ -19,13 +15,13 @@ namespace ArgParser.Styles.Test.Default
             var contextBuilder = new ContextBuilder();
             var parser = new Parser("base");
             var builder = new ParserBuilder(contextBuilder, parser);
-            int parseCount = 0;
+            var parseCount = 0;
 
             // act
             builder.WithBooleanSwitch('h', "help", o => parseCount++);
 
             // assert
-            var result = (BooleanSwitch)parser.Parameters.Single();
+            var result = (BooleanSwitch) parser.Parameters.Single();
             result.Letter.Should().Be('h');
             result.Word.Should().Be("help");
         }

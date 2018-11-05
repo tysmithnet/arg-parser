@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ArgParser.Styles.Default;
 using FluentAssertions;
 using Xunit;
@@ -11,6 +8,81 @@ namespace ArgParser.Styles.Test.Default
 {
     public class HierarchyRepository_Should
     {
+        [Fact]
+        public void Correctly_Create_And_Recall_Parent_Child_Relationships()
+        {
+            // arrange
+            var repo = new HierarchyRepository();
+
+            // act
+            repo.AddParser("base");
+            repo.AddParser("child");
+            repo.EstablishParentChildRelationship("base", "child");
+
+            // assert
+            repo.IsParent("base", "child").Should().BeTrue();
+            repo.IsParent("base", null).Should().BeFalse();
+            repo.IsParent("child", "base").Should().BeFalse();
+            repo.IsParent("base", "base").Should().BeFalse();
+            repo.IsParent(null, "base").Should().BeTrue();
+        }
+
+        [Fact]
+        public void Correctly_Get_A_Parsers_Ancestors()
+        {
+            // arrange
+            var repo = new HierarchyRepository();
+
+            // act
+            repo.AddParser("base");
+            repo.AddParser("child0");
+            repo.AddParser("child1");
+            repo.AddParser("child0child0");
+            repo.AddParser("child0child1");
+            repo.AddParser("child1child0");
+            repo.AddParser("child1child1");
+            repo.EstablishParentChildRelationship("base", "child0");
+            repo.EstablishParentChildRelationship("base", "child1");
+            repo.EstablishParentChildRelationship("child0", "child0child0");
+            repo.EstablishParentChildRelationship("child0", "child0child1");
+            repo.EstablishParentChildRelationship("child1", "child1child0");
+            repo.EstablishParentChildRelationship("child1", "child1child1");
+
+            // assert
+            repo.GetAncestors("child0").Should().BeEquivalentTo("base".Split(' '));
+            repo.GetAncestors("child1child1").Should().BeEquivalentTo("child1 base".Split(' '));
+        }
+
+        [Fact]
+        public void Only_Create_A_Parser_Once()
+        {
+            // arrange
+            var repo = new HierarchyRepository();
+
+            // act
+            repo.AddParser("base");
+            repo.AddParser("base");
+
+            // assert
+            repo.Nodes.Should().HaveCount(1);
+        }
+
+        [Fact]
+        public void Only_Create_A_Relationship_Once()
+        {
+            // arrange
+            var repo = new HierarchyRepository();
+
+            // act
+            repo.AddParser("base");
+            repo.AddParser("child");
+            repo.EstablishParentChildRelationship("base", "child");
+            repo.EstablishParentChildRelationship("base", "child");
+
+            // assert
+            repo.Nodes["base"].Children.Should().HaveCount(1);
+        }
+
         [Fact]
         public void Throw_If_Given_Bad_Values()
         {
@@ -54,81 +126,6 @@ namespace ArgParser.Styles.Test.Default
             mightThrow2.Should().NotThrow();
             mightThrow3.Should().Throw<KeyNotFoundException>();
             mightThrow4.Should().Throw<KeyNotFoundException>();
-        }
-
-        [Fact]
-        public void Correctly_Create_And_Recall_Parent_Child_Relationships()
-        {
-            // arrange
-            var repo = new HierarchyRepository();
-
-            // act
-            repo.AddParser("base");
-            repo.AddParser("child");
-            repo.EstablishParentChildRelationship("base", "child");
-
-            // assert
-            repo.IsParent("base", "child").Should().BeTrue();
-            repo.IsParent("base", null).Should().BeFalse();
-            repo.IsParent("child", "base").Should().BeFalse();
-            repo.IsParent("base", "base").Should().BeFalse();
-            repo.IsParent(null, "base").Should().BeTrue();
-        }
-
-        [Fact]
-        public void Only_Create_A_Relationship_Once()
-        {
-            // arrange
-            var repo = new HierarchyRepository();
-
-            // act
-            repo.AddParser("base");
-            repo.AddParser("child");
-            repo.EstablishParentChildRelationship("base", "child");
-            repo.EstablishParentChildRelationship("base", "child");
-
-            // assert
-            repo.Nodes["base"].Children.Should().HaveCount(1);
-        }
-
-        [Fact]
-        public void Only_Create_A_Parser_Once()
-        {
-            // arrange
-            var repo = new HierarchyRepository();
-
-            // act
-            repo.AddParser("base");
-            repo.AddParser("base");
-
-            // assert
-            repo.Nodes.Should().HaveCount(1);
-        }
-
-        [Fact]
-        public void Correctly_Get_A_Parsers_Ancestors()
-        {
-            // arrange
-            var repo = new HierarchyRepository();
-
-            // act
-            repo.AddParser("base");
-            repo.AddParser("child0");
-            repo.AddParser("child1");
-            repo.AddParser("child0child0");
-            repo.AddParser("child0child1");
-            repo.AddParser("child1child0");
-            repo.AddParser("child1child1");
-            repo.EstablishParentChildRelationship("base", "child0");
-            repo.EstablishParentChildRelationship("base", "child1");
-            repo.EstablishParentChildRelationship("child0", "child0child0");
-            repo.EstablishParentChildRelationship("child0", "child0child1");
-            repo.EstablishParentChildRelationship("child1", "child1child0");
-            repo.EstablishParentChildRelationship("child1", "child1child1");
-
-            // assert
-            repo.GetAncestors("child0").Should().BeEquivalentTo("base".Split(' '));
-            repo.GetAncestors("child1child1").Should().BeEquivalentTo("child1 base".Split(' '));
         }
     }
 }
