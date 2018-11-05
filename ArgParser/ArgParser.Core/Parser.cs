@@ -27,7 +27,7 @@ namespace ArgParser.Core
             return parameter.Consume(instance, request);
         }
 
-        public Func<object> FactoryFunction { get; protected internal set; }
+        public Func<object> FactoryFunction { get; set; }
         public string Id { get; protected internal set; }
         public IEnumerable<Parameter> Parameters => ParametersInternal.ToList();
         protected internal IList<Parameter> ParametersInternal { get; set; } = new List<Parameter>();

@@ -16,14 +16,16 @@ namespace ArgParser.Styles.Default
         public virtual IParseResult Parse(string[] args, IContext context)
         {
             var parser = IdentifyRelevantParser(args, context);
+            var subcommandSequence = GetCommandIdentifyingSubsequence(args, context);
             var instance = parser.FactoryFunction();
-            var info = new IterationInfo(args);
+            var info = new IterationInfo(args, subcommandSequence.Count);
             try
             {
                 while (!info.IsComplete())
                 {
                     var chain = GetParserFamily(context, parser);
-                    var firstWhoCanHandle = chain.FirstOrDefault(c => c.CanConsume(instance, info).Info > info);
+                    var canHandleMap = chain.ToDictionary(c => c, c => c.CanConsume(instance, info));
+                    var firstWhoCanHandle = chain.FirstOrDefault(c => c.CanConsume(instance, info).NumConsumed > 0);
                     if (firstWhoCanHandle == null)
                     {
                         throw new UnexpectedArgException($"Encountered an argument that could not be parsed. Argument={info.Current}, Parsers={chain.Select(p => p.Id).Join(", ")}");
@@ -34,6 +36,7 @@ namespace ArgParser.Styles.Default
                     var consumptionResult = firstWhoCanHandle.Consume(instance, request);
                     if (consumptionResult.Info <= info)
                         throw new InvalidProgressException($"Consumption resuled in new index={consumptionResult.Info.Index} and provided index={info.Index}");
+                    info = consumptionResult.Info;
                 }
                 return new ParseResult(instance.ToEnumerableOfOne(), null);
             }
@@ -67,7 +70,7 @@ namespace ArgParser.Styles.Default
             return chain;
         }
 
-        public virtual Parser IdentifyRelevantParser(string[] args, IContext context)
+        private IList<string> GetCommandIdentifyingSubsequence(string[] args, IContext context)
         {
             var ids = new List<string>();
             ids.Add(RootParserId);
@@ -81,6 +84,12 @@ namespace ArgParser.Styles.Default
                 }
             }
 
+            return ids;
+        }
+
+        public virtual Parser IdentifyRelevantParser(string[] args, IContext context)
+        {
+            var ids = GetCommandIdentifyingSubsequence(args, context);
             return context.ParserRepository.Get(ids.Last());
         }
     }

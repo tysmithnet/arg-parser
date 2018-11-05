@@ -14,6 +14,12 @@ namespace ArgParser.Styles.Default
             Parser = parser.ThrowIfArgumentNull(nameof(parser));
         }
 
+        public ParserBuilder WithFactoryFunction(Func<object> func)
+        {
+            Parser.FactoryFunction = func.ThrowIfArgumentNull(nameof(func));
+            return this;
+        }
+
         public ParserBuilder WithBooleanSwitch(char? letter, string word, Action<object> consumeCallback)
         {
             var sw = new BooleanSwitch(letter, word, consumeCallback);
