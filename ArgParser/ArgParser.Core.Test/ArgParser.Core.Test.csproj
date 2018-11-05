@@ -79,6 +79,7 @@
     <Compile Include="ConsumptionRequestExtensions_Should.cs" />
     <Compile Include="IterationInfoExtensions_Should.cs" />
     <Compile Include="IterationInfo_Should.cs" />
+    <Compile Include="ParseException_Should.cs" />
     <Compile Include="Parser_Should.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -94,6 +95,9 @@
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Help\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
