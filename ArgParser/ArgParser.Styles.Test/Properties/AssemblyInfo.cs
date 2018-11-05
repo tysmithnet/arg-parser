@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ArgParser.Core.Test")]
+[assembly: AssemblyTitle("ArgParser.Styles.Test")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ArgParser.Core.Test")]
+[assembly: AssemblyProduct("ArgParser.Styles.Test")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("d56631de-e221-4a1b-bc8b-22a8b3fae17f")]
+[assembly: Guid("69351204-b571-4af2-b6a7-002d82618e99")]
 
 // Version information for an assembly consists of the following four values:
 //

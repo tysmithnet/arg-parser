@@ -13,7 +13,7 @@ namespace ArgParser.Core
 
         public static string JoinNonNullOrWhiteSpace(this IEnumerable<string> strings, string separator)
         {
-            return string.Join(separator, strings.Where(x => !x.IsNullOrWhiteSpace()));
+            return string.Join(separator, strings.Where(x => !IsNullOrWhiteSpace(x)));
         }
 
         public static IEnumerable<T> PreventNull<T>(this IEnumerable<T> source) => source ?? new T[0];
@@ -26,5 +26,7 @@ namespace ArgParser.Core
                 throw new ArgumentNullException(parameterName, message);
             throw new ArgumentNullException(parameterName);
         }
+
+        public static IEnumerable<T> ToEnumerableOfOne<T>(this T source) => new[] {source};
     }
 }
