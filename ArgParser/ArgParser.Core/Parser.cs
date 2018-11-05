@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ArgParser.Core.Help;
 
 namespace ArgParser.Core
 {
     public class Parser : IConsumer
     {
-        public FullHelp Help { get; set; } = new FullHelp();
 
         public Parser(string id)
         {

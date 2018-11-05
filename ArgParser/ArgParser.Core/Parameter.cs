@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Linq;
-using ArgParser.Core.Help;
 
 namespace ArgParser.Core
 {
     public abstract class Parameter : IConsumer
     {
-        public FullHelp Help { get; set; } = new FullHelp();
 
         protected Parameter(Action<object, string[]> consumeCallback)
         {

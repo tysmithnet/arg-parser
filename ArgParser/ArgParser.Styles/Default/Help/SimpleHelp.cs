@@ -1,7 +1,4 @@
-﻿using System;
-using System.Text;
-
-namespace ArgParser.Core.Help
+﻿namespace ArgParser.Styles.Default.Help
 {
     public class SimpleHelp
     {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ArgParser.Styles.Default
+﻿namespace ArgParser.Styles.Default.Help
 {
     public class HelpBuilder
     {

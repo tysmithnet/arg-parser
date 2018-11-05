@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ArgParser.Core.Help
+namespace ArgParser.Styles.Default.Help
 {
     public class FullHelp : SimpleHelp
     {

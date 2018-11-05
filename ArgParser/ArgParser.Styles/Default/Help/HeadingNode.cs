@@ -1,4 +1,4 @@
-﻿namespace ArgParser.Core.Help
+﻿namespace ArgParser.Styles.Default.Help
 {
     public class HeadingNode : TextNode
     {

@@ -1,4 +1,6 @@
-﻿namespace ArgParser.Core.Help
+﻿using ArgParser.Core;
+
+namespace ArgParser.Styles.Default.Help
 {
     public abstract class TextNode : HelpNode
     {
