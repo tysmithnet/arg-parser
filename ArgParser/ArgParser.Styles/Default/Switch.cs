@@ -40,8 +40,7 @@ namespace ArgParser.Styles.Default
         {
             if (IsLetterMatch(info) || IsWordMatch(info))
                 return new ConsumptionResult(info, MaxAllowed);
-            return new ConsumptionResult(info, 0);
+            return new ConsumptionResult(info, MaxAllowed);
         }
-        
     }
 }

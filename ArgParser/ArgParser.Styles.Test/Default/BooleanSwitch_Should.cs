@@ -21,10 +21,11 @@ namespace ArgParser.Styles.Test.Default
             var info = new IterationInfo("-h -o other stuff".Split(' '), 0);
             
             // act
-            sw.Consume(new object(), new ConsumptionRequest(info));
+            var result = sw.Consume(new object(), new ConsumptionRequest(info));
 
             // assert
             parseCount.Should().Be(1);
+            result.NumConsumed.Should().Be(1);
         }
     }
 }
