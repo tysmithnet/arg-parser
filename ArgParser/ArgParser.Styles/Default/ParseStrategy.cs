@@ -21,7 +21,7 @@ namespace ArgParser.Styles.Default
                 if (!context.HierarchyRepository.IsParent(left, right))
                     break;
                 else
-                    parsers.Add(context.HierarchyRepository.Get(right));
+                    parsers.Add(context.ParserRepository.GetParser(right));
             }
 
             var factoryFuncs = parsers.SelectMany(x => x.FactoryFunctions);
