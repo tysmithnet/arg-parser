@@ -16,7 +16,7 @@ namespace ArgParser.Styles.Test.Default
             builder.AddParser("base");
 
             // assert
-            builder.ParserRepo.Parsers.Should().HaveCount(1);
+            builder.ParserRepository.Parsers.Should().HaveCount(1);
             builder.HierarchyRepository.Nodes.Should().HaveCount(1);
         }
     }

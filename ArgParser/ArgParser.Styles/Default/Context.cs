@@ -4,8 +4,8 @@ namespace ArgParser.Styles.Default
 {
     public class Context : IContext
     {
-        public IParserRepository ParserRepository { get; } = new ParserRepository();
+        public IParserRepository ParserRepository { get; protected internal set; } = new ParserRepository();
 
-        public IHierarchyRepository HierarchyRepository { get; } = new HierarchyRepository();
+        public IHierarchyRepository HierarchyRepository { get; protected internal set; } = new HierarchyRepository();
     }
 }

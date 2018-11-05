@@ -43,7 +43,7 @@ namespace ArgParser.Styles.Default
             }
         }
 
-        private ConsumptionRequest CreateCanConsumeRequest(object instance, List<Parser> chain, IterationInfo currentInfo, ConsumptionResult canConsumeResult)
+        protected internal ConsumptionRequest CreateCanConsumeRequest(object instance, List<Parser> chain, IterationInfo currentInfo, ConsumptionResult canConsumeResult)
         {
             var toBeConsumed = currentInfo.FromNowOn().Take(canConsumeResult.NumConsumed).ToList();
             for(int i = 1; i < toBeConsumed.Count; i++) // start at 1 because the current token will obviously be a valid token for a parser in the chain
