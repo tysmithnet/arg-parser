@@ -18,6 +18,8 @@ namespace ArgParser.Core
 
         public void AddFactoryFunction(Func<object> func)
         {
+            if (FactoryFunctionsInternal.Contains(func))
+                return;
             FactoryFunctionsInternal.Add(func);
         }
 

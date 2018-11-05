@@ -12,7 +12,6 @@ namespace ArgParser.Core
 
         protected Parameter()
         {
-            ConsumeCallback = (o, strings) => { };
         }
 
         public Action<object, string[]> ConsumeCallback { get; protected internal set; }
