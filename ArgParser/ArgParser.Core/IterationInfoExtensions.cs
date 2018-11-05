@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ArgParser.Core
 {
     public static class IterationInfoExtensions
     {
-        public static IEnumerable<string> FromNowOwn(this IterationInfo info)
+        public static IEnumerable<string> FromNowOn(this IterationInfo info)
         {
             return info.Args.Skip(info.Index);
         }
@@ -17,11 +18,15 @@ namespace ArgParser.Core
 
         public static string First(this IterationInfo info)
         {
+            if(info.Args.Length == 0)
+                throw new IndexOutOfRangeException($"Info does not have any args");
             return info.Args.First();
         }
 
         public static string Last(this IterationInfo info)
         {
+            if (info.Args.Length == 0)
+                throw new IndexOutOfRangeException($"Info does not have any args");
             return info.Args.Last();
         }
 
@@ -33,11 +38,6 @@ namespace ArgParser.Core
         public static bool HasNext(this IterationInfo info)
         {
             return info.Index + 1 < info.Args.Length;
-        }
-
-        public static string Current(this IterationInfo info)
-        {
-            return info.Args[info.Index];
         }
     }
 }

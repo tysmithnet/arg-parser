@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -48,24 +47,6 @@ namespace ArgParser.Core.Test
             (a == d).Should().BeTrue();
             (b != a).Should().BeTrue();
             (d == a).Should().BeTrue();
-        }
-    }
-
-    public class IterationInfoExtensions_Should
-    {
-        [Fact]
-        public void Identify_When_There_Is_A_Next_Arg()
-        {
-            // arrange
-            var info0 = new IterationInfo("".Split(' '), 0);
-            var info1 = new IterationInfo("-h".Split(' '), 0);
-            var info2 = new IterationInfo("-v something".Split(' '), 0);
-
-            // act
-            // assert
-            info0.HasNext().Should().BeFalse();
-            info1.HasNext().Should().BeFalse();
-            info2.HasNext().Should().BeTrue();
         }
     }
 }

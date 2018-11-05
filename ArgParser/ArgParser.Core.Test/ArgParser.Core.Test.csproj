@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasicExtensions_Should.cs" />
+    <Compile Include="IterationInfoExtensions_Should.cs" />
     <Compile Include="IterationInfo_Should.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
