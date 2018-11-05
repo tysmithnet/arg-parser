@@ -8,6 +8,11 @@ namespace ArgParser.Core
     {
         public static bool IsNullOrWhiteSpace(this string source) => string.IsNullOrWhiteSpace(source);
 
+        public static IEnumerable<T> ToEnumerableOfOne<T>(this T source)
+        {
+            return new[] {source};
+        }
+
         public static string Join(this IEnumerable<string> strings, string separator) =>
             string.Join(separator, strings);
 

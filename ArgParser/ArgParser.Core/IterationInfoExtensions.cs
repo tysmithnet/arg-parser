@@ -39,5 +39,10 @@ namespace ArgParser.Core
         {
             return info.Index + 1 < info.Args.Length;
         }
+
+        public static bool IsComplete(this IterationInfo info)
+        {
+            return info.Index >= info.Args.Length;
+        }
     }
 }
