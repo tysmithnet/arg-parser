@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgParser.Styles", "ArgPars
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgParser.Styles.Test", "ArgParser.Styles.Test\ArgParser.Styles.Test.csproj", "{69351204-B571-4AF2-B6A7-002D82618E99}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgParser.Core.Test", "ArgParser.Core.Test\ArgParser.Core.Test.csproj", "{D56631DE-E221-4A1B-BC8B-22A8B3FAE17F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{69351204-B571-4AF2-B6A7-002D82618E99}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69351204-B571-4AF2-B6A7-002D82618E99}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69351204-B571-4AF2-B6A7-002D82618E99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D56631DE-E221-4A1B-BC8B-22A8B3FAE17F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D56631DE-E221-4A1B-BC8B-22A8B3FAE17F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D56631DE-E221-4A1B-BC8B-22A8B3FAE17F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D56631DE-E221-4A1B-BC8B-22A8B3FAE17F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
