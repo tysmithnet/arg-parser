@@ -23,7 +23,7 @@ namespace ArgParser.Core
 
         public virtual ConsumptionResult CanConsume(object instance, IterationInfo info)
         {
-            return Parameters.Select(x => x.CanConsume(instance, info)).FirstOrDefault(x => x.Info != info);
+            return Parameters.Select(x => x.CanConsume(instance, info)).FirstOrDefault(x => x.Info != info) ?? new ConsumptionResult(info, 0);
         }
 
         public virtual ConsumptionResult Consume(object instance, ConsumptionRequest request)

@@ -5,7 +5,7 @@ namespace ArgParser.Core
 {
     public class IterationInfo : IEquatable<IterationInfo>
     {
-        public IterationInfo(string[] args, int index)
+        public IterationInfo(string[] args, int index = 0)
         {
             Args = args ?? throw new ArgumentNullException(nameof(args));
             Index = index;

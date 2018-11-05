@@ -10,6 +10,11 @@ namespace ArgParser.Core
             ConsumeCallback = consumeCallback.ThrowIfArgumentNull(nameof(consumeCallback));
         }
 
+        protected Parameter()
+        {
+            ConsumeCallback = (o, strings) => { };
+        }
+
         public Action<object, string[]> ConsumeCallback { get; protected internal set; }
         public Parser Parent { get; protected internal set; }
         public abstract ConsumptionResult CanConsume(object instance, IterationInfo info);
