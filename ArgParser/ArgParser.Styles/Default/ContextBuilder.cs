@@ -10,6 +10,7 @@ namespace ArgParser.Styles.Default
         public ParserBuilder AddParser(string id)
         {
             var parser = ParserRepo.Create(id);
+            HierarchyRepository.AddParser(id);
             return new ParserBuilder(this, parser);
         }
     }
