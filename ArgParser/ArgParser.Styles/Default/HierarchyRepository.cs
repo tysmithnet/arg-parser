@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ArgParser.Core;
 
@@ -9,21 +10,38 @@ namespace ArgParser.Styles.Default
         protected internal class Node
         {
             public string Id { get; set; }
-            public Parser Parser { get; set; }
             public Node Parent { get; set; }
             public IList<Node> Children { get; set; } = new List<Node>();
+
+            public void Add(Node child)
+            {
+                Children.Add(child);
+                child.Parent = this;
+            }
+
+            /// <inheritdoc />
+            public Node(string id)
+            {
+                Id = id.ThrowIfArgumentNull(nameof(id));
+            }
         }
 
         protected internal Dictionary<string, Node> Nodes { get; set; } = new Dictionary<string, Node>();
 
         public bool IsParent(string parentParserId, string childParserId)
         {
-            if (parentParserId == null && Nodes.ContainsKey(childParserId))
-                return true;
-            parentParserId.ThrowIfArgumentNull(nameof(parentParserId));
-            if (!Nodes.ContainsKey(parentParserId))
+            if (childParserId == null)
                 return false;
-            return Nodes.ContainsKey(childParserId) && Nodes[parentParserId].Children.Any(x => x.Id == childParserId);
+            if (!Nodes.ContainsKey(childParserId))
+                return false;
+            return Nodes[childParserId].Parent?.Id == parentParserId;
+        }
+
+        public void AddParser(string parserId)
+        {
+            if(Nodes.ContainsKey(parserId))
+                return;
+            Nodes.Add(parserId, new Node(parserId));
         }
 
         public void EstablishParentChildRelationship(string parentParserId, string childParserId)
@@ -36,7 +54,7 @@ namespace ArgParser.Styles.Default
                 throw new KeyNotFoundException($"Unable to find child parser with id={childParserId}, are you sure it was added and you are using the correct id?");
             var parent = Nodes[parentParserId];
             if(parent.Children.All(x => x.Id != childParserId))
-                parent.Children.Add(Nodes[childParserId]);
+                parent.Add(Nodes[childParserId]);
         }
 
         public IEnumerable<string> GetAncestors(string parserId)

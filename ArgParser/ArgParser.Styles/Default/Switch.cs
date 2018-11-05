@@ -38,9 +38,12 @@ namespace ArgParser.Styles.Default
 
         public override ConsumptionResult CanConsume(object instance, IterationInfo info)
         {
-            if (IsLetterMatch(info) || IsWordMatch(info))
-                return new ConsumptionResult(info, MaxAllowed);
-            return new ConsumptionResult(info, MaxAllowed);
+            if (!IsLetterMatch(info) && !IsWordMatch(info)) return new ConsumptionResult(info, 0);
+            var canBeTaken = info.FromNowOn().ToList();
+            if(canBeTaken.Count < MinRequired)
+                return new ConsumptionResult(info, 0);
+            var actuallyTaken = canBeTaken.Take(MaxAllowed).ToList();
+            return new ConsumptionResult(info, actuallyTaken.Count);
         }
     }
 }

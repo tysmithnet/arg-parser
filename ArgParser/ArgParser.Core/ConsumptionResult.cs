@@ -2,10 +2,10 @@
 {
     public class ConsumptionResult
     {
-        public ConsumptionResult(IterationInfo info, int numConsumed)
+        public ConsumptionResult(IterationInfo originalInfo, int numConsumed)
         {
             NumConsumed = numConsumed;
-            Info = info.Consume(numConsumed);
+            Info = originalInfo.Consume(numConsumed);
         }
 
         public int NumConsumed { get; protected internal set; }
