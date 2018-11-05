@@ -15,14 +15,7 @@ namespace ArgParser.Core
         {
             ParametersInternal.Add(parameter);
         }
-
-        public void AddFactoryFunction(Func<object> func)
-        {
-            if (FactoryFunctionsInternal.Contains(func))
-                return;
-            FactoryFunctionsInternal.Add(func);
-        }
-
+        
         public virtual ConsumptionResult CanConsume(object instance, IterationInfo info)
         {
             return Parameters.Select(x => x.CanConsume(instance, info)).FirstOrDefault(x => x.Info != info) ?? new ConsumptionResult(info, 0);
@@ -34,8 +27,7 @@ namespace ArgParser.Core
             return parameter.Consume(instance, request);
         }
 
-        public IEnumerable<Func<object>> FactoryFunctions => FactoryFunctionsInternal.ToList();
-        public IList<Func<object>> FactoryFunctionsInternal { get; set; } = new List<Func<object>>();
+        public Func<object> FactoryFunction { get; protected internal set; }
         public string Id { get; protected internal set; }
         public IEnumerable<Parameter> Parameters => ParametersInternal.ToList();
         protected internal IList<Parameter> ParametersInternal { get; set; } = new List<Parameter>();

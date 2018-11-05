@@ -6,7 +6,7 @@ namespace ArgParser.Core
 {
     public static class ConsumptionRequestExtensions
     {
-        public static IEnumerable<string> FromNowOn(this ConsumptionRequest request)
+        public static IEnumerable<string> AllToBeConsumed(this ConsumptionRequest request)
         {
             return request.Info.Args.Skip(request.Info.Index).Take(request.Max);
         }
@@ -18,7 +18,7 @@ namespace ArgParser.Core
 
         public static string First(this ConsumptionRequest request)
         {
-            var from = request.FromNowOn().ToList();
+            var from = request.AllToBeConsumed().ToList();
             if(!from.Any())
                 throw new IndexOutOfRangeException();
             return from.First();
@@ -26,7 +26,7 @@ namespace ArgParser.Core
 
         public static string Last(this ConsumptionRequest request)
         {
-            var from = request.FromNowOn().ToList();
+            var from = request.AllToBeConsumed().ToList();
             if (!from.Any())
                 throw new IndexOutOfRangeException();
             return from.Last();

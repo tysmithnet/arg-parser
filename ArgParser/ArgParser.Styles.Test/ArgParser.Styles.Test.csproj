@@ -80,6 +80,7 @@
     <Compile Include="Default\HierarchyRepository_Should.cs" />
     <Compile Include="Default\ParserBuilder_Should.cs" />
     <Compile Include="Default\ParserRepository_Should.cs" />
+    <Compile Include="Default\ParseStrategy_Should.cs" />
     <Compile Include="Default\SingleValueSwitch_Should.cs" />
     <Compile Include="Default\Switch_Should.cs" />
     <Compile Include="Default\ValuesSwitch_Should.cs" />

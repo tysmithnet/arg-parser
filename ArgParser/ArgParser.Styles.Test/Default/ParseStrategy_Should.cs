@@ -14,7 +14,6 @@ namespace ArgParser.Styles.Test.Default
         public void Throw_If_Given_Bad_Values()
         {
             // arrange
-            var strat = new ParseStrategy();
 
             // act
 

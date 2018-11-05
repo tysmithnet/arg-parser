@@ -48,23 +48,5 @@ namespace ArgParser.Core.Test
             mock0.Verify(p => p.Consume(It.IsAny<object>(), It.IsAny<ConsumptionRequest>()), Times.Once);
             mock1.Verify(p => p.Consume(It.IsAny<object>(), It.IsAny<ConsumptionRequest>()), Times.Never);
         }
-
-        [Fact]
-        public void Not_Allow_The_Same_Factory_Funcion_To_Be_Added_More_Than_Once()
-        {
-            // arrange
-            var parser = new Parser("id");
-            Func<object> fac = () => "";
-
-            // act
-            parser.AddFactoryFunction(fac);
-            parser.AddFactoryFunction(fac);
-
-            // assert
-            parser.FactoryFunctionsInternal.Should().OnlyContain(func => func == fac);
-            parser.FactoryFunctionsInternal.Should().HaveCount(1);
-            parser.FactoryFunctions.Should().OnlyContain(func => func == fac);
-            parser.FactoryFunctions.Should().HaveCount(1);
-        }
     }
 }

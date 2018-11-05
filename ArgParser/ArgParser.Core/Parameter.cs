@@ -22,7 +22,7 @@ namespace ArgParser.Core
         public virtual ConsumptionResult Consume(object instance, ConsumptionRequest request)
         {
             HasBeenConsumed = true;
-            var values = request.FromNowOn().Take(MaxAllowed).ToArray();
+            var values = request.AllToBeConsumed().Take(MaxAllowed).ToArray();
             ConsumeCallback(instance, values);
             return new ConsumptionResult(request.Info, values.Length);
         }

@@ -46,11 +46,11 @@ namespace ArgParser.Core.Test
 
             // act
             // assert
-            req0.FromNowOn().Should().BeEquivalentTo("".Split(' '));
-            req1.FromNowOn().Should().BeEquivalentTo("-h".Split(' '));
-            req2.FromNowOn().Should().BeEquivalentTo("-v".Split(' '));
-            req3.FromNowOn().Should().BeEquivalentTo("-v something".Split(' '));
-            req4.FromNowOn().Should().BeEquivalentTo("a b c".Split(' '));
+            req0.AllToBeConsumed().Should().BeEquivalentTo("".Split(' '));
+            req1.AllToBeConsumed().Should().BeEquivalentTo("-h".Split(' '));
+            req2.AllToBeConsumed().Should().BeEquivalentTo("-v".Split(' '));
+            req3.AllToBeConsumed().Should().BeEquivalentTo("-v something".Split(' '));
+            req4.AllToBeConsumed().Should().BeEquivalentTo("a b c".Split(' '));
         }
 
         [Fact]

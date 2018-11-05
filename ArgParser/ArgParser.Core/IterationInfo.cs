@@ -1,10 +1,36 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ArgParser.Core
 {
-    public class IterationInfo : IEquatable<IterationInfo>
+    public class IterationInfo : IEquatable<IterationInfo>, IComparable<IterationInfo>, IComparable
     {
+        public int CompareTo(IterationInfo other)
+        {
+            if (ReferenceEquals(this, other)) return 0;
+            if (ReferenceEquals(null, other)) return 1;
+            if(!Args.SequenceEqual(other.Args))
+                throw new InvalidOperationException($"Both IterationInfo instances must have the same args to compare");
+            return Index.CompareTo(other.Index);
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return 1;
+            if (ReferenceEquals(this, obj)) return 0;
+            if (!(obj is IterationInfo)) throw new ArgumentException($"Object must be of type {nameof(IterationInfo)}");
+            return CompareTo((IterationInfo) obj);
+        }
+
+        public static bool operator <(IterationInfo left, IterationInfo right) => Comparer<IterationInfo>.Default.Compare(left, right) < 0;
+
+        public static bool operator >(IterationInfo left, IterationInfo right) => Comparer<IterationInfo>.Default.Compare(left, right) > 0;
+
+        public static bool operator <=(IterationInfo left, IterationInfo right) => Comparer<IterationInfo>.Default.Compare(left, right) <= 0;
+
+        public static bool operator >=(IterationInfo left, IterationInfo right) => Comparer<IterationInfo>.Default.Compare(left, right) >= 0;
+
         public IterationInfo(string[] args, int index = 0)
         {
             Args = args ?? throw new ArgumentNullException(nameof(args));
