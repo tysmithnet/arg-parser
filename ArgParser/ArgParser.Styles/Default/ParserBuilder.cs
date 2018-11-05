@@ -7,11 +7,9 @@ namespace ArgParser.Styles.Default
     {
         public ParserBuilder(ContextBuilder parent, Parser parser)
         {
-            Parent = parent.ThrowIfArgumentNull(nameof(parent));
+            Finish = parent.ThrowIfArgumentNull(nameof(parent));
             Parser = parser.ThrowIfArgumentNull(nameof(parser));
         }
-
-        public ContextBuilder Build() => Parent;
 
         public ParserBuilder WithBooleanSwitch(char? letter, string word, Action<object> consumeCallback)
         {
@@ -26,7 +24,19 @@ namespace ArgParser.Styles.Default
             return this;
         }
 
-        public ContextBuilder Parent { get; protected internal set; }
+        public ContextBuilder Finish { get; protected internal set; }
         public Parser Parser { get; protected internal set; }
+    }
+
+    public class ParameterBuilder
+    {
+        public ParameterBuilder(ParserBuilder parent, Parameter parameter)
+        {
+            Finish = parent.ThrowIfArgumentNull(nameof(parent));
+            Parameter = parameter.ThrowIfArgumentNull(nameof(parameter));
+        }
+
+        public ParserBuilder Finish { get; protected internal set; }
+        public Parameter Parameter { get; protected internal set; }
     }
 }

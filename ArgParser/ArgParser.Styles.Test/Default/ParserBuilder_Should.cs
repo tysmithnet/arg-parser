@@ -36,7 +36,7 @@ namespace ArgParser.Styles.Test.Default
 
             // act
             // assert
-            builder.Build().Should().BeSameAs(contextBuilder);
+            builder.Finish.Should().BeSameAs(contextBuilder);
         }
     }
 }

@@ -47,11 +47,11 @@ namespace ArgParser.Styles.Test.Default
             // arrange
             var builder = new ContextBuilder()
                 .AddParser("base")
-                .Build()
+                .Finish
                 .AddParser("child")
-                .Build()
+                .Finish
                 .AddParser("gchild")
-                .Build()
+                .Finish
                 .CreateParentChildRelationship("base", "child")
                 .CreateParentChildRelationship("child", "gchild");
 
@@ -74,11 +74,11 @@ namespace ArgParser.Styles.Test.Default
             // arrange
             var builder = new ContextBuilder()
                 .AddParser("base")
-                .Build()
+                .Finish
                 .AddParser("child")
-                .Build()
+                .Finish
                 .AddParser("gchild")
-                .Build()
+                .Finish
                 .CreateParentChildRelationship("base", "child")
                 .CreateParentChildRelationship("child", "gchild");
 
@@ -99,12 +99,12 @@ namespace ArgParser.Styles.Test.Default
             // arrange
             var builder = new ContextBuilder()
                 .AddParser("base")
-                .Build()
+                .Finish
                 .AddParser("child")
-                .Build()
+                .Finish
                 .AddParser("gchild")
                 .WithFactoryFunction(() => "")
-                .Build()
+                .Finish
                 .CreateParentChildRelationship("base", "child")
                 .CreateParentChildRelationship("child", "gchild");
 
@@ -153,12 +153,12 @@ namespace ArgParser.Styles.Test.Default
             // arrange
             var builder = new ContextBuilder()
                 .AddParser("base") // todo: should have AddBaseParser and remove parser name from strat
-                .Build()
+                .Finish
                 .AddParser("child")
-                .Build()
+                .Finish
                 .AddParser("gchild")
                 .WithFactoryFunction(() => "")
-                .Build()
+                .Finish
                 .CreateParentChildRelationship("base", "child")
                 .CreateParentChildRelationship("child", "gchild");
 
@@ -180,13 +180,13 @@ namespace ArgParser.Styles.Test.Default
             var isHelp = false;
             var builder = new ContextBuilder()
                 .AddParser("base")
-                .Build()
+                .Finish
                 .AddParser("child")
-                .Build()
+                .Finish
                 .AddParser("gchild")
                 .WithFactoryFunction(() => "")
                 .WithBooleanSwitch('h', "help", o => isHelp = true)
-                .Build()
+                .Finish
                 .CreateParentChildRelationship("base", "child")
                 .CreateParentChildRelationship("child", "gchild");
 
