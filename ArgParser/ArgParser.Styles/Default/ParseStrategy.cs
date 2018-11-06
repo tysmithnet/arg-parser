@@ -79,15 +79,16 @@ namespace ArgParser.Styles.Default
             return new ConsumptionRequest(currentInfo, canConsumeResult.NumConsumed);
         }
 
-        private IList<string> GetCommandIdentifyingSubsequence(string[] args, IContext context)
+        protected internal IList<string> GetCommandIdentifyingSubsequence(string[] args, IContext context)
         {
             var ids = new List<string>();
             ids.Add(RootParserId);
-            for (var i = 1; i < args.Length; i++)
+            for (var i = 0; i < args.Length; i++)
             {
                 var left = i == 0 ? RootParserId : args[i - 1];
                 var right = args[i];
                 if (context.HierarchyRepository.IsParent(left, right)) ids.Add(right);
+                else break;
             }
 
             return ids;

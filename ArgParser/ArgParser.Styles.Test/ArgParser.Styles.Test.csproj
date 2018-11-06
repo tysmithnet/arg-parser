@@ -103,6 +103,10 @@
       <Project>{5151703f-7881-485e-abf5-a52076bd4b5e}</Project>
       <Name>ArgParser.Styles</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ArgParser.Testing.Common\ArgParser.Testing.Common.csproj">
+      <Project>{5B73286C-5EDE-46A2-BA78-B7A1FD61C5A6}</Project>
+      <Name>ArgParser.Testing.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

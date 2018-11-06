@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using ArgParser.Styles.Default;
+using ArgParser.Testing.Common;
 using Newtonsoft.Json;
 
 namespace ArgParser.TestApp
@@ -51,9 +52,11 @@ namespace ArgParser.TestApp
                     .WithBooleanSwitch('o', "overwrite", o => o.IsOverwriteClipboard = true)
                     .Finish
                     .AddParser<SortOptions>("sort")
+                    .WithFactoryFunction(() => new SortOptions())
                     .WithBooleanSwitch('r', "reverse", o => o.IsReversed = true)
                     .Finish
                     .AddParser<ZipOptions>("zip")
+                    .WithFactoryFunction(() => new ZipOptions())
                     .WithPositional((o, s) => o.ZipFile = s)
                     .WithPositionals((o, s) => o.Globs = s)
                     .Finish
@@ -67,10 +70,13 @@ namespace ArgParser.TestApp
                     .WithPositional((o, s) => o.Program = s)
                     .Finish
                     .AddParser<BlockProgramOptions>("block")
+                    .WithFactoryFunction(() => new BlockProgramOptions())
                     .Finish
                     .AddParser<UnblockProgramOptions>("unblock")
+                    .WithFactoryFunction(() => new UnblockProgramOptions())
                     .Finish
                     .AddParser<ConvertOptions>("convert")
+                    .WithFactoryFunction(() => new ConvertOptions())
                     .WithSingleValueSwitch('f', "format", (o, s) => o.Format = s)
                     .WithPositionals((o, s) => o.InputFiles = s)
                     .Finish

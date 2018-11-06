@@ -1,4 +1,4 @@
-﻿namespace ArgParser.TestApp
+﻿namespace ArgParser.Testing.Common
 {
     public abstract class FireWallOptions : UtilOptions
     {
