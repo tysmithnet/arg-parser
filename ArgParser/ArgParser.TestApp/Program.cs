@@ -48,7 +48,17 @@ namespace ArgParser.TestApp
                 var line = Console.ReadLine();
                 args = CommandLineToArgs(line);
                 var builder = new ContextBuilder()
-                    .AddParser<UtilOptions>("base");
+                    .AddParser<UtilOptions>("base")
+                    .WithBooleanSwitch('h', "help", o => o.IsHelpRequested = true)
+                    .WithBooleanSwitch(null, "version", o => o.IsVersionRequested = true)
+                    .Finish
+                    .AddParser<ClipboardOptions>("clip")
+                    .WithBooleanSwitch('o', "overwrite", o => o.IsOverwriteClipboard = true)
+                    .Finish
+                    .AddParser<SortOptions>("sort")
+                    .WithBooleanSwitch('r', "reverse", o => o.IsReversed = true)
+                    .Finish
+                    .AddParser<ZipOptions>("zip");
             }
         }
     }

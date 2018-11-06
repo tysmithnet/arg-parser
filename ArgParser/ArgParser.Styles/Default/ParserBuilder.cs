@@ -36,14 +36,14 @@ namespace ArgParser.Styles.Default
             Parser = parser.ThrowIfArgumentNull(nameof(parser));
         }
 
-        public ParserBuilder WithBooleanSwitch(char? letter, string word, Action<T> consumeCallback)
+        public ParserBuilder<T> WithBooleanSwitch(char? letter, string word, Action<T> consumeCallback)
         {
             var sw = new BooleanSwitch<T>(letter, word, consumeCallback);
             Parser.AddParameter(sw);
             return this;
         }
 
-        public ParserBuilder WithFactoryFunction(Func<T> func)
+        public ParserBuilder<T> WithFactoryFunction(Func<T> func)
         {
             Parser.FactoryFunction = func.ThrowIfArgumentNull(nameof(func));
             return this;

@@ -9,11 +9,11 @@
             return new ParserBuilder(this, parser);
         }
 
-        public ParserBuilder AddParser<T>(string id)
+        public ParserBuilder<T> AddParser<T>(string id)
         {
             var parser = ParserRepository.Create<T>(id);
             HierarchyRepository.AddParser(id);
-            return new ParserBuilder(this, parser);
+            return new ParserBuilder<T>(this, parser);
         }
 
         public Context BuildContext() => new Context
