@@ -35,7 +35,7 @@ namespace ArgParser.Styles.Default
             Parsers.Add(id, parser);
             return parser;
         }
-
+        
         public Parser<T> Get<T>(string id)
         {
             var parser = Get(id);
