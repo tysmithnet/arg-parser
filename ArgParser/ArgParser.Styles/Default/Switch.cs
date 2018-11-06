@@ -38,4 +38,23 @@ namespace ArgParser.Styles.Default
         public char? Letter { get; protected internal set; }
         public string Word { get; protected internal set; }
     }
+
+    public abstract class Switch<T> : Switch
+    {
+        private static Action<object, string[]> Convert(Action<T, string[]> action)
+        {
+            return (instance, s) =>
+            {
+                if (instance is T casted)
+                    action(casted, s);
+                else
+                    throw new ArgumentException(
+                        $"Expected to find object of type={typeof(T).FullName}, but found type={instance.GetType().FullName}");
+            };
+        }
+
+        protected Switch(char? letter, string word, Action<T, string[]> consumeCallback) : base(letter, word, Convert(consumeCallback))
+        {
+        }
+    }
 }
