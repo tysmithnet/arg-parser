@@ -6,7 +6,6 @@ namespace ArgParser.Core
 {
     public class Parser : IConsumer
     {
-
         public Parser(string id)
         {
             Id = id;

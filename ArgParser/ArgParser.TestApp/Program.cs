@@ -48,7 +48,7 @@ namespace ArgParser.TestApp
                 var line = Console.ReadLine();
                 args = CommandLineToArgs(line);
                 var builder = new ContextBuilder()
-                    .AddParser("base");
+                    .AddParser<UtilOptions>("base");
             }
         }
     }
