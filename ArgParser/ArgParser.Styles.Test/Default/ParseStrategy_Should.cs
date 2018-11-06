@@ -2,6 +2,7 @@
 using System.Linq;
 using ArgParser.Core;
 using ArgParser.Styles.Default;
+using ArgParser.Testing.Common;
 using FluentAssertions;
 using Xunit;
 
@@ -13,11 +14,11 @@ namespace ArgParser.Styles.Test.Default
         {
             /// <inheritdoc />
             public override ConsumptionResult CanConsume(object instance, IterationInfo info) =>
-                new ConsumptionResult(info, 1);
+                new ConsumptionResult(info, 1, this);
 
             /// <inheritdoc />
             public override ConsumptionResult Consume(object instance, ConsumptionRequest request) =>
-                new ConsumptionResult(request.Info, -1);
+                new ConsumptionResult(request.Info, -1, this);
         }
 
         [Fact]
@@ -29,9 +30,10 @@ namespace ArgParser.Styles.Test.Default
             var parser = context.ParserRepository.Create("base");
             parser.AddParameter(new BooleanSwitch(null, "help", o => { }));
             parser.AddParameter(new BooleanSwitch(null, "verbose", o => { }));
-            parser.AddParameter(new ValuesSwitch('d', "data", (o, strings) => { }));
+            var valuesSwitch = new ValuesSwitch('d', "data", (o, strings) => { });
+            parser.AddParameter(valuesSwitch);
             var info = new IterationInfo("-d d0 d1 d2 d3 -v -h".Split(' '));
-            var result = new ConsumptionResult(info, 7);
+            var result = new ConsumptionResult(info, 7, valuesSwitch);
 
             // act
             var request = strat.CreateCanConsumeRequest("", parser.ToEnumerableOfOne().ToList(), info, result);
@@ -135,9 +137,10 @@ namespace ArgParser.Styles.Test.Default
             var parser = context.ParserRepository.Create("base");
             parser.AddParameter(new BooleanSwitch('h', "help", o => { }));
             parser.AddParameter(new BooleanSwitch('v', "verbose", o => { }));
-            parser.AddParameter(new ValuesSwitch('d', "data", (o, strings) => { }));
+            var valuesSwitch = new ValuesSwitch('d', "data", (o, strings) => { });
+            parser.AddParameter(valuesSwitch);
             var info = new IterationInfo("-d d0 d1 d2 d3 -v -h".Split(' '));
-            var result = new ConsumptionResult(info, 7);
+            var result = new ConsumptionResult(info, 7, valuesSwitch);
 
             // act
             var request = strat.CreateCanConsumeRequest("", parser.ToEnumerableOfOne().ToList(), info, result);
@@ -171,6 +174,69 @@ namespace ArgParser.Styles.Test.Default
             // assert
             mightThrow.Should().NotThrow();
             result.WhenError(exceptions => { exceptions.Single().Should().BeOfType<UnexpectedArgException>(); });
+        }
+
+        [Fact]
+        public void Parse_A_Complex_Hierarchy()
+        {
+            // arrange
+            var args = "firewall block -p 8080 -m io firefox.exe".Split(' ');
+            var builder = CreateDefaultBuilder();
+            var strat = new ParseStrategy("base");
+            
+            // act
+            var ids = strat.GetCommandIdentifyingSubsequence(args, builder.BuildContext());
+
+            // assert
+            ids.Should().BeEquivalentTo("firewall block".Split(' '));
+        }
+
+        private ContextBuilder CreateDefaultBuilder()
+        {
+            return new ContextBuilder()
+                .AddParser<UtilOptions>("base")
+                .WithBooleanSwitch('h', "help", o => o.IsHelpRequested = true)
+                .WithBooleanSwitch(null, "version", o => o.IsVersionRequested = true)
+                .Finish
+                .AddParser<ClipboardOptions>("clip")
+                .WithBooleanSwitch('o', "overwrite", o => o.IsOverwriteClipboard = true)
+                .Finish
+                .AddParser<SortOptions>("sort")
+                .WithFactoryFunction(() => new SortOptions())
+                .WithBooleanSwitch('r', "reverse", o => o.IsReversed = true)
+                .Finish
+                .AddParser<ZipOptions>("zip")
+                .WithFactoryFunction(() => new ZipOptions())
+                .WithPositional((o, s) => o.ZipFile = s)
+                .WithPositionals((o, s) => o.Globs = s)
+                .Finish
+                .AddParser<FireWallOptions>("firewall")
+                .WithSingleValueSwitch('p', "port", (o, s) => o.Port = Convert.ToInt32(s))
+                .WithSingleValueSwitch('m', "mode", (o, s) =>
+                {
+                    o.IsInbound = s.Contains("i");
+                    o.IsOutbound = s.Contains("o");
+                })
+                .WithPositional((o, s) => o.Program = s)
+                .Finish
+                .AddParser<BlockProgramOptions>("block")
+                .WithFactoryFunction(() => new BlockProgramOptions())
+                .Finish
+                .AddParser<UnblockProgramOptions>("unblock")
+                .WithFactoryFunction(() => new UnblockProgramOptions())
+                .Finish
+                .AddParser<ConvertOptions>("convert")
+                .WithFactoryFunction(() => new ConvertOptions())
+                .WithSingleValueSwitch('f', "format", (o, s) => o.Format = s)
+                .WithPositionals((o, s) => o.InputFiles = s)
+                .Finish
+                .CreateParentChildRelationship("base", "clip")
+                .CreateParentChildRelationship("base", "firewall")
+                .CreateParentChildRelationship("base", "convert")
+                .CreateParentChildRelationship("clip", "sort")
+                .CreateParentChildRelationship("clip", "zip")
+                .CreateParentChildRelationship("firewall", "block")
+                .CreateParentChildRelationship("firewall", "unblock");
         }
 
         [Fact]
@@ -212,6 +278,72 @@ namespace ArgParser.Styles.Test.Default
             // act
             // assert
             mightThrow.Should().Throw<ArgumentNullException>();
+        }
+
+        [Fact]
+        public void Throw_If_No_Factory_Function()
+        {
+            // arrange
+            var isHelp = false;
+            var builder = new ContextBuilder()
+                .AddParser("base")
+                .Finish
+                .AddParser("child")
+                .Finish
+                .AddParser("gchild")
+                .WithBooleanSwitch('h', "help", o => isHelp = true)
+                .Finish
+                .CreateParentChildRelationship("base", "child")
+                .CreateParentChildRelationship("child", "gchild");
+
+            var context = builder.BuildContext();
+            var strat = new ParseStrategy("base");
+            Action mightThrow = () => strat.Parse("child gchild -h".Split(' '), context);
+
+            // act
+            // assert
+            isHelp.Should().BeFalse();
+            mightThrow.Should().Throw<NoFactoryFunctionException>();
+        }
+
+        [Fact]
+        public void Parse_Values_Irrespective_Of_Order()
+        {
+            // arrange
+            var builder = CreateDefaultBuilder();
+
+            // act
+            int parseCount = 0;
+            var res0 = builder.Parse("base", "firewall block -p 8080 -m io firefox.exe".Split(' '));
+            var res1 = builder.Parse("base", "firewall block -m io firefox.exe -p 8080".Split(' '));
+            var res2 = builder.Parse("base", "firewall block firefox.exe -m io -p 8080".Split(' '));
+
+            // assert
+            res0.When<BlockProgramOptions>(options =>
+            {
+                parseCount++;
+                options.Port.Should().Be(8080);
+                options.IsInbound.Should().BeTrue();
+                options.IsOutbound.Should().BeTrue();
+                options.Program.Should().Be("firefox.exe");
+            });
+            res1.When<BlockProgramOptions>(options =>
+            {
+                parseCount++;
+                options.Port.Should().Be(8080);
+                options.IsInbound.Should().BeTrue();
+                options.IsOutbound.Should().BeTrue();
+                options.Program.Should().Be("firefox.exe");
+            });
+            res2.When<BlockProgramOptions>(options =>
+            {
+                parseCount++;
+                options.Port.Should().Be(8080);
+                options.IsInbound.Should().BeTrue();
+                options.IsOutbound.Should().BeTrue();
+                options.Program.Should().Be("firefox.exe");
+            });
+            parseCount.Should().Be(3);
         }
     }
 }

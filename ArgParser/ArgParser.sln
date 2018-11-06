@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArgParser.Styles.ColorHelpW
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgParser.TestApp", "ArgParser.TestApp\ArgParser.TestApp.csproj", "{30888984-3A5B-4AD8-84AD-8C55A3696273}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgParser.Testing.Common", "ArgParser.Testing.Common\ArgParser.Testing.Common.csproj", "{5B73286C-5EDE-46A2-BA78-B7A1FD61C5A6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{30888984-3A5B-4AD8-84AD-8C55A3696273}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30888984-3A5B-4AD8-84AD-8C55A3696273}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30888984-3A5B-4AD8-84AD-8C55A3696273}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B73286C-5EDE-46A2-BA78-B7A1FD61C5A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B73286C-5EDE-46A2-BA78-B7A1FD61C5A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B73286C-5EDE-46A2-BA78-B7A1FD61C5A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B73286C-5EDE-46A2-BA78-B7A1FD61C5A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

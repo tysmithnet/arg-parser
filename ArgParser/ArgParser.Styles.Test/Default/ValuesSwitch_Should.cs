@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ArgParser.Core;
 using ArgParser.Styles.Default;
 using FluentAssertions;
@@ -42,6 +43,24 @@ namespace ArgParser.Styles.Test.Default
             list.Should().HaveCount(1);
             list[0].Should().BeEquivalentTo("v0 v1".Split(' '));
             result.NumConsumed.Should().Be(3);
+        }
+
+        [Fact]
+        public void Throw_If_Not_Given_Enough_Args_To_Consume()
+        {
+            // arrange
+            var list = new List<string[]>();
+            var sw = new ValuesSwitch('v', "values", (o, strings) => list.Add(strings))
+            {
+                MinRequired = 5
+            };
+            var info = new IterationInfo("-v v0 v1 v2 v3 -s".Split(' '), 0);
+            var request = new ConsumptionRequest(info, 3);
+            Action mightThrow = () => sw.Consume(new object(), request);
+
+            // act
+            // assert
+            mightThrow.Should().Throw<MissingValueException>();
         }
     }
 }

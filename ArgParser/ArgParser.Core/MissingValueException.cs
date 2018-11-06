@@ -1,6 +1,4 @@
-﻿using ArgParser.Core;
-
-namespace ArgParser.Styles.Default
+﻿namespace ArgParser.Core
 {
     public class MissingValueException : ParseException
     {

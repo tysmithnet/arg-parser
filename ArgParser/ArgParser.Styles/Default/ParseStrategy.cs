@@ -28,15 +28,16 @@ namespace ArgParser.Styles.Default
         public virtual IParseResult Parse(string[] args, IContext context)
         {
             var parser = IdentifyRelevantParser(args, context);
+            var chain = GetParserFamily(context, parser);
             var subcommandSequence = GetCommandIdentifyingSubsequence(args, context);
+            if(parser.FactoryFunction == null)
+                throw new NoFactoryFunctionException($"No factory function on parser={parser.Id}");
             var instance = parser.FactoryFunction();
             var info = new IterationInfo(args, subcommandSequence.Count);
             try
             {
                 while (!info.IsComplete())
                 {
-                    var chain = GetParserFamily(context, parser);
-                    var canHandleMap = chain.ToDictionary(c => c, c => c.CanConsume(instance, info));
                     var firstWhoCanHandle = chain.FirstOrDefault(c => c.CanConsume(instance, info).NumConsumed > 0);
                     if (firstWhoCanHandle == null)
                         throw new UnexpectedArgException(
@@ -57,6 +58,10 @@ namespace ArgParser.Styles.Default
             {
                 return new ParseResult(null, e.ToEnumerableOfOne());
             }
+            finally
+            {
+                chain.ForEach(c => c.Reset());
+            }
         }
 
         protected internal ConsumptionRequest CreateCanConsumeRequest(object instance, List<Parser> chain,
@@ -65,27 +70,27 @@ namespace ArgParser.Styles.Default
             var toBeConsumed = currentInfo.FromNowOn().Take(canConsumeResult.NumConsumed).ToList();
             for (var i = 1;
                 i < toBeConsumed.Count;
-                i++) // start at 1 because the current token will obviously be a valid token for a parser in the chain
+                i++) 
                 foreach (var parser in chain)
                 {
                     var info = currentInfo.Consume(i);
                     var res = parser.CanConsume(instance, info);
-                    if (res.Info > info)
+                    if (res.Info > info && res.ConsumingParameter != null && res.ConsumingParameter is Switch)
                         return new ConsumptionRequest(currentInfo, i);
                 }
 
             return new ConsumptionRequest(currentInfo, canConsumeResult.NumConsumed);
         }
 
-        private IList<string> GetCommandIdentifyingSubsequence(string[] args, IContext context)
+        protected internal IList<string> GetCommandIdentifyingSubsequence(string[] args, IContext context)
         {
             var ids = new List<string>();
-            ids.Add(RootParserId);
-            for (var i = 1; i < args.Length; i++)
+            for (var i = 0; i < args.Length; i++)
             {
                 var left = i == 0 ? RootParserId : args[i - 1];
                 var right = args[i];
                 if (context.HierarchyRepository.IsParent(left, right)) ids.Add(right);
+                else break;
             }
 
             return ids;

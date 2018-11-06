@@ -28,5 +28,31 @@ namespace ArgParser.Core
         }
 
         public static IEnumerable<T> ToEnumerableOfOne<T>(this T source) => new[] {source};
+
+        public static Action<object, string[]> ToNonGenericAction<T>(this Action<T, string[]> action)
+        {
+            return (instance, s) =>
+            {
+                if (instance is T casted)
+                    action(casted, s);
+                else
+                    throw new ArgumentException(
+                        $"Expected to find object of type={typeof(T).FullName}, but found type={instance.GetType().FullName}");
+            };
+        }
+
+        public static Action<object> ToNonGenericAction<T>(this Action<T> toConvert)
+        {
+            // todo: does this belong here?
+            toConvert.ThrowIfArgumentNull(nameof(toConvert));
+            return instance =>
+            {
+                instance.ThrowIfArgumentNull(nameof(instance));
+                if (instance is T casted)
+                    toConvert(casted);
+                else
+                    throw new ArgumentException($"Expected to find object of type={typeof(T).FullName}, but found type={instance.GetType().FullName}");
+            };
+        }
     }
 }

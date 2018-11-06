@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 
 namespace ArgParser.Core
 {
     public abstract class Parameter : IConsumer
     {
-
         protected Parameter(Action<object, string[]> consumeCallback)
         {
             ConsumeCallback = consumeCallback.ThrowIfArgumentNull(nameof(consumeCallback));
@@ -19,10 +19,17 @@ namespace ArgParser.Core
 
         public virtual ConsumptionResult Consume(object instance, ConsumptionRequest request)
         {
+            if (request.Max < MinRequired)
+                throw new MissingValueException($"Switch {this} expected to have at least {MinRequired} values, but was told it can only have {request.Max}. Are you sure you passed enough values to satisfy the switch?");
             HasBeenConsumed = true;
             var values = request.AllToBeConsumed().Take(MaxAllowed).ToArray();
             ConsumeCallback(instance, values);
-            return new ConsumptionResult(request.Info, values.Length);
+            return new ConsumptionResult(request.Info, values.Length, this);
+        }
+
+        public void Reset()
+        {
+            HasBeenConsumed = false;
         }
 
         public Action<object, string[]> ConsumeCallback { get; protected internal set; }
@@ -30,26 +37,5 @@ namespace ArgParser.Core
         public int MaxAllowed { get; protected internal set; } = int.MaxValue;
         public int MinRequired { get; protected internal set; } = 1;
         public Parser Parent { get; protected internal set; }
-    }
-
-    public abstract class Parameter<T> : Parameter
-    {
-        private static Action<object, string[]> Convert(Action<T, string[]> toConvert)
-        {
-            // todo: does this belong here?
-            toConvert.ThrowIfArgumentNull(nameof(toConvert));
-            return (instance, strings) =>
-            {
-                instance.ThrowIfArgumentNull(nameof(instance));
-                if (instance is T casted)
-                    toConvert(casted, strings);
-                else
-                    throw new ArgumentException($"Expected to find object of type={typeof(T).FullName}, but found type={instance.GetType().FullName}");
-            };
-        }
-
-        protected Parameter(Action<T, string[]> consumeCallback) : base(Convert(consumeCallback))
-        {
-        }
     }
 }
