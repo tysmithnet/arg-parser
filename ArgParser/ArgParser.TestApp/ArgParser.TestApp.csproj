@@ -2,6 +2,7 @@
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{30888984-3A5B-4AD8-84AD-8C55A3696273}</ProjectGuid>
@@ -56,6 +57,25 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ArgParser.Core\ArgParser.Core.csproj">
+      <Project>{3388c6b5-010d-427e-b0b2-17bed051ae9c}</Project>
+      <Name>ArgParser.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ArgParser.Styles.ColorHelpWriter\ArgParser.Styles.ColorHelpWriter.csproj">
+      <Project>{7303b149-3374-4ff4-b2ac-2d03e9d1270a}</Project>
+      <Name>ArgParser.Styles.ColorHelpWriter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ArgParser.Styles\ArgParser.Styles.csproj">
+      <Project>{5151703f-7881-485e-abf5-a52076bd4b5e}</Project>
+      <Name>ArgParser.Styles</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>11.0.2</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
