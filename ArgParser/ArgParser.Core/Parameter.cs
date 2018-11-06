@@ -19,6 +19,8 @@ namespace ArgParser.Core
 
         public virtual ConsumptionResult Consume(object instance, ConsumptionRequest request)
         {
+            if (request.Max < MinRequired)
+                throw new MissingValueException($"Switch {this} expected to have at least {MinRequired} values, but was told it can only have {request.Max}. Are you sure you passed enough values to satisfy the switch?");
             HasBeenConsumed = true;
             var values = request.AllToBeConsumed().Take(MaxAllowed).ToArray();
             ConsumeCallback(instance, values);
