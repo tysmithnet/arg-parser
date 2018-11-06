@@ -24,6 +24,27 @@ namespace ArgParser.Styles.Default
             return this;
         }
 
+        public ParserBuilder WithSingleValueSwitch(char? letter, string word, Action<object, string> consumeCallback)
+        {
+            var sw = new SingleValueSwitch(letter, word, consumeCallback);
+            Parser.AddParameter(sw);
+            return this;
+        }
+
+        public ParserBuilder WithValuesSwitch(char? letter, string word, Action<object, string[]> consumeCallback)
+        {
+            var sw = new ValuesSwitch(letter, word, consumeCallback);
+            Parser.AddParameter(sw);
+            return this;
+        }
+
+        public ParserBuilder WithPositional(Action<object, string[]> consumeCallback, int min = 1, int max = int.MaxValue)
+        {
+            var sw = new Positional(consumeCallback, min, max);
+            Parser.AddParameter(sw);
+            return this;
+        }
+
         public ContextBuilder Finish { get; protected internal set; }
         public Parser Parser { get; protected internal set; }
     }
@@ -46,6 +67,27 @@ namespace ArgParser.Styles.Default
         public ParserBuilder<T> WithFactoryFunction(Func<T> func)
         {
             Parser.FactoryFunction = func.ThrowIfArgumentNull(nameof(func));
+            return this;
+        }
+
+        public ParserBuilder<T> WithSingleValueSwitch(char? letter, string word, Action<T, string> consumeCallback)
+        {
+            var sw = new SingleValueSwitch<T>(letter, word, consumeCallback);
+            Parser.AddParameter(sw);
+            return this;
+        }
+
+        public ParserBuilder<T> WithValuesSwitch(char? letter, string word, Action<T, string[]> consumeCallback)
+        {
+            var sw = new ValuesSwitch<T>(letter, word, consumeCallback);
+            Parser.AddParameter(sw);
+            return this;
+        }
+
+        public ParserBuilder<T> WithPositional(Action<T, string[]> consumeCallback, int min = 1, int max = int.MaxValue)
+        {
+            var sw = new Positional<T>(consumeCallback, min, max);
+            Parser.AddParameter(sw);
             return this;
         }
 

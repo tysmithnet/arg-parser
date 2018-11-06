@@ -8,8 +8,10 @@ namespace ArgParser.Styles.Default
 {
     public class Positional : Parameter
     {
-        public Positional(Action<object, string[]> consumeCallback) : base(consumeCallback)
+        public Positional(Action<object, string[]> consumeCallback, int min = 1, int max = int.MaxValue) : base(consumeCallback)
         {
+            MinRequired = min;
+            MaxAllowed = max;
         }
 
         public override ConsumptionResult CanConsume(object instance, IterationInfo info)
@@ -35,7 +37,7 @@ namespace ArgParser.Styles.Default
             };
         }
 
-        public Positional(Action<T, string[]> consumeCallback) : base(Convert(consumeCallback))
+        public Positional(Action<T, string[]> consumeCallback, int min = 1, int max = int.MaxValue) : base(Convert(consumeCallback), min, max)
         {
 
         }
