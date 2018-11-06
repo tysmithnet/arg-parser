@@ -34,4 +34,27 @@ namespace ArgParser.Core
         public IEnumerable<Parameter> Parameters => ParametersInternal.ToList();
         protected internal IList<Parameter> ParametersInternal { get; set; } = new List<Parameter>();
     }
+
+    public class Parser<T> : Parser
+    {
+        public Parser(string id) : base(id)
+        {
+        }
+
+        public virtual ConsumptionResult CanConsume(T instance, IterationInfo info)
+        {
+            return base.CanConsume(instance, info);
+        }
+
+        public virtual ConsumptionResult Consume(T instance, ConsumptionRequest request)
+        {
+            return base.Consume(instance, request);
+        }
+
+        public new Func<T> FactoryFunction
+        {
+            get => base.FactoryFunction as Func<T>;
+            set => base.FactoryFunction = () => value();
+        }
+    }
 }

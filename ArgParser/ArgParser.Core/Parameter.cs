@@ -31,4 +31,25 @@ namespace ArgParser.Core
         public int MinRequired { get; protected internal set; } = 1;
         public Parser Parent { get; protected internal set; }
     }
+
+    public abstract class Parameter<T> : Parameter
+    {
+        private static Action<object, string[]> Convert(Action<T, string[]> toConvert)
+        {
+            // todo: does this belong here?
+            toConvert.ThrowIfArgumentNull(nameof(toConvert));
+            return (instance, strings) =>
+            {
+                instance.ThrowIfArgumentNull(nameof(instance));
+                if (instance is T casted)
+                    toConvert(casted, strings);
+                else
+                    throw new ArgumentException($"Expected to find object of type={typeof(T).FullName}, but found type={instance.GetType().FullName}");
+            };
+        }
+
+        protected Parameter(Action<T, string[]> consumeCallback) : base(Convert(consumeCallback))
+        {
+        }
+    }
 }
