@@ -25,6 +25,11 @@ namespace ArgParser.Core
             return new ConsumptionResult(request.Info, values.Length, this);
         }
 
+        public void Reset()
+        {
+            HasBeenConsumed = false;
+        }
+
         public Action<object, string[]> ConsumeCallback { get; protected internal set; }
         public bool HasBeenConsumed { get; protected internal set; }
         public int MaxAllowed { get; protected internal set; } = int.MaxValue;

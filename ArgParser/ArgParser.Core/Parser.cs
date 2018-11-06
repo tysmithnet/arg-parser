@@ -30,6 +30,14 @@ namespace ArgParser.Core
             return parameter.Consume(instance, request);
         }
 
+        public void Reset()
+        {
+            foreach (var parameter in Parameters)
+            {
+                parameter.Reset();
+            }
+        }
+
         public Func<object> FactoryFunction { get; set; }
         public string Id { get; protected internal set; }
         public IEnumerable<Parameter> Parameters => ParametersInternal.ToList();

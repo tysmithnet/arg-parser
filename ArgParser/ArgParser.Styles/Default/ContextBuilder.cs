@@ -32,6 +32,7 @@ namespace ArgParser.Styles.Default
 
         public IParseResult Parse(string parser, string[] args)
         {
+            
             var strat = new ParseStrategy(parser);
             var context = BuildContext();
             return strat.Parse(args, context);

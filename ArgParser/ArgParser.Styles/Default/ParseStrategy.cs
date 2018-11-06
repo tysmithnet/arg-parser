@@ -28,6 +28,7 @@ namespace ArgParser.Styles.Default
         public virtual IParseResult Parse(string[] args, IContext context)
         {
             var parser = IdentifyRelevantParser(args, context);
+            var chain = GetParserFamily(context, parser);
             var subcommandSequence = GetCommandIdentifyingSubsequence(args, context);
             if(parser.FactoryFunction == null)
                 throw new NoFactoryFunctionException($"No factory function on parser={parser.Id}");
@@ -37,8 +38,6 @@ namespace ArgParser.Styles.Default
             {
                 while (!info.IsComplete())
                 {
-                    var chain = GetParserFamily(context, parser);
-                    var canHandleMap = chain.ToDictionary(c => c, c => c.CanConsume(instance, info));
                     var firstWhoCanHandle = chain.FirstOrDefault(c => c.CanConsume(instance, info).NumConsumed > 0);
                     if (firstWhoCanHandle == null)
                         throw new UnexpectedArgException(
@@ -58,6 +57,10 @@ namespace ArgParser.Styles.Default
             catch (ParseException e)
             {
                 return new ParseResult(null, e.ToEnumerableOfOne());
+            }
+            finally
+            {
+                chain.ForEach(c => c.Reset());
             }
         }
 

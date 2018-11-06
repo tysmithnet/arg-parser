@@ -181,7 +181,19 @@ namespace ArgParser.Styles.Test.Default
         {
             // arrange
             var args = "firewall block -p 8080 -m io firefox.exe".Split(' ');
-            var builder = new ContextBuilder()
+            var builder = CreateDefaultBuilder();
+            var strat = new ParseStrategy("base");
+            
+            // act
+            var ids = strat.GetCommandIdentifyingSubsequence(args, builder.BuildContext());
+
+            // assert
+            ids.Should().BeEquivalentTo("firewall block".Split(' '));
+        }
+
+        private ContextBuilder CreateDefaultBuilder()
+        {
+            return new ContextBuilder()
                 .AddParser<UtilOptions>("base")
                 .WithBooleanSwitch('h', "help", o => o.IsHelpRequested = true)
                 .WithBooleanSwitch(null, "version", o => o.IsVersionRequested = true)
@@ -225,13 +237,6 @@ namespace ArgParser.Styles.Test.Default
                 .CreateParentChildRelationship("clip", "zip")
                 .CreateParentChildRelationship("firewall", "block")
                 .CreateParentChildRelationship("firewall", "unblock");
-            var strat = new ParseStrategy("base");
-            
-            // act
-            var ids = strat.GetCommandIdentifyingSubsequence(args, builder.BuildContext());
-
-            // assert
-            ids.Should().BeEquivalentTo("firewall block".Split(' '));
         }
 
         [Fact]
@@ -299,6 +304,46 @@ namespace ArgParser.Styles.Test.Default
             // assert
             isHelp.Should().BeFalse();
             mightThrow.Should().Throw<NoFactoryFunctionException>();
+        }
+
+        [Fact]
+        public void Parse_Values_Irrespective_Of_Order()
+        {
+            // arrange
+            var builder = CreateDefaultBuilder();
+
+            // act
+            int parseCount = 0;
+            var res0 = builder.Parse("base", "firewall block -p 8080 -m io firefox.exe".Split(' '));
+            var res1 = builder.Parse("base", "firewall block -p 8080 -m io firefox.exe".Split(' '));
+            var res2 = builder.Parse("base", "firewall block -p 8080 -m io firefox.exe".Split(' '));
+
+            // assert
+            res0.When<BlockProgramOptions>(options =>
+            {
+                parseCount++;
+                options.Port.Should().Be(8080);
+                options.IsInbound.Should().BeTrue();
+                options.IsOutbound.Should().BeTrue();
+                options.Program.Should().Be("firefox.exe");
+            });
+            res1.When<BlockProgramOptions>(options =>
+            {
+                parseCount++;
+                options.Port.Should().Be(8080);
+                options.IsInbound.Should().BeTrue();
+                options.IsOutbound.Should().BeTrue();
+                options.Program.Should().Be("firefox.exe");
+            });
+            res2.When<BlockProgramOptions>(options =>
+            {
+                parseCount++;
+                options.Port.Should().Be(8080);
+                options.IsInbound.Should().BeTrue();
+                options.IsOutbound.Should().BeTrue();
+                options.Program.Should().Be("firefox.exe");
+            });
+            parseCount.Should().Be(3);
         }
     }
 }

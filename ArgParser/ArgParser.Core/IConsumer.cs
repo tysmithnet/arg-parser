@@ -4,6 +4,7 @@
     {
         ConsumptionResult CanConsume(object instance, IterationInfo info);
         ConsumptionResult Consume(object instance, ConsumptionRequest request);
+        void Reset();
     }
 
     public interface IConsumer<in T> : IConsumer
