@@ -67,12 +67,12 @@ namespace ArgParser.Styles.Default
             var toBeConsumed = currentInfo.FromNowOn().Take(canConsumeResult.NumConsumed).ToList();
             for (var i = 1;
                 i < toBeConsumed.Count;
-                i++) // start at 1 because the current token will obviously be a valid token for a parser in the chain
+                i++) 
                 foreach (var parser in chain)
                 {
                     var info = currentInfo.Consume(i);
                     var res = parser.CanConsume(instance, info);
-                    if (res.Info > info)
+                    if (res.Info > info && res.ConsumingParameter != null && res.ConsumingParameter is Switch)
                         return new ConsumptionRequest(currentInfo, i);
                 }
 
@@ -82,7 +82,6 @@ namespace ArgParser.Styles.Default
         protected internal IList<string> GetCommandIdentifyingSubsequence(string[] args, IContext context)
         {
             var ids = new List<string>();
-            ids.Add(RootParserId);
             for (var i = 0; i < args.Length; i++)
             {
                 var left = i == 0 ? RootParserId : args[i - 1];

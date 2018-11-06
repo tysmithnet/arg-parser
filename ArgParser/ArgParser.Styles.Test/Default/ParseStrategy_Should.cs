@@ -14,11 +14,11 @@ namespace ArgParser.Styles.Test.Default
         {
             /// <inheritdoc />
             public override ConsumptionResult CanConsume(object instance, IterationInfo info) =>
-                new ConsumptionResult(info, 1);
+                new ConsumptionResult(info, 1, this);
 
             /// <inheritdoc />
             public override ConsumptionResult Consume(object instance, ConsumptionRequest request) =>
-                new ConsumptionResult(request.Info, -1);
+                new ConsumptionResult(request.Info, -1, this);
         }
 
         [Fact]
@@ -30,9 +30,10 @@ namespace ArgParser.Styles.Test.Default
             var parser = context.ParserRepository.Create("base");
             parser.AddParameter(new BooleanSwitch(null, "help", o => { }));
             parser.AddParameter(new BooleanSwitch(null, "verbose", o => { }));
-            parser.AddParameter(new ValuesSwitch('d', "data", (o, strings) => { }));
+            var valuesSwitch = new ValuesSwitch('d', "data", (o, strings) => { });
+            parser.AddParameter(valuesSwitch);
             var info = new IterationInfo("-d d0 d1 d2 d3 -v -h".Split(' '));
-            var result = new ConsumptionResult(info, 7);
+            var result = new ConsumptionResult(info, 7, valuesSwitch);
 
             // act
             var request = strat.CreateCanConsumeRequest("", parser.ToEnumerableOfOne().ToList(), info, result);
@@ -136,9 +137,10 @@ namespace ArgParser.Styles.Test.Default
             var parser = context.ParserRepository.Create("base");
             parser.AddParameter(new BooleanSwitch('h', "help", o => { }));
             parser.AddParameter(new BooleanSwitch('v', "verbose", o => { }));
-            parser.AddParameter(new ValuesSwitch('d', "data", (o, strings) => { }));
+            var valuesSwitch = new ValuesSwitch('d', "data", (o, strings) => { });
+            parser.AddParameter(valuesSwitch);
             var info = new IterationInfo("-d d0 d1 d2 d3 -v -h".Split(' '));
-            var result = new ConsumptionResult(info, 7);
+            var result = new ConsumptionResult(info, 7, valuesSwitch);
 
             // act
             var request = strat.CreateCanConsumeRequest("", parser.ToEnumerableOfOne().ToList(), info, result);
@@ -229,7 +231,7 @@ namespace ArgParser.Styles.Test.Default
             var ids = strat.GetCommandIdentifyingSubsequence(args, builder.BuildContext());
 
             // assert
-            ids.Should().BeEquivalentTo("base firewall block".Split(' '));
+            ids.Should().BeEquivalentTo("firewall block".Split(' '));
         }
 
         [Fact]

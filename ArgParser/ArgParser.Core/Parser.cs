@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace ArgParser.Core
 {
+    [DebuggerDisplay("{Id}")]
     public class Parser : IConsumer
     {
         public Parser(string id)
@@ -19,7 +21,7 @@ namespace ArgParser.Core
         public virtual ConsumptionResult CanConsume(object instance, IterationInfo info)
         {
             return Parameters.Select(x => x.CanConsume(instance, info)).FirstOrDefault(x => x.Info != info) ??
-                   new ConsumptionResult(info, 0);
+                   new ConsumptionResult(info, 0, null);
         }
 
         public virtual ConsumptionResult Consume(object instance, ConsumptionRequest request)
@@ -34,6 +36,7 @@ namespace ArgParser.Core
         protected internal IList<Parameter> ParametersInternal { get; set; } = new List<Parameter>();
     }
 
+    [DebuggerDisplay("{Id}")]
     public class Parser<T> : Parser
     {
         public Parser(string id) : base(id)

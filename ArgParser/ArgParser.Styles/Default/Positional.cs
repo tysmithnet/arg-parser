@@ -17,9 +17,9 @@ namespace ArgParser.Styles.Default
         public override ConsumptionResult CanConsume(object instance, IterationInfo info)
         {
             if(HasBeenConsumed)
-                return new ConsumptionResult(info, 0);
+                return new ConsumptionResult(info, 0, null);
             var values = info.FromNowOn().Take(MaxAllowed).ToArray();
-            return new ConsumptionResult(info, values.Length);
+            return new ConsumptionResult(info, values.Length, this);
         }
     }
 

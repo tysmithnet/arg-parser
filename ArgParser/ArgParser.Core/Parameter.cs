@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 
 namespace ArgParser.Core
 {
     public abstract class Parameter : IConsumer
     {
-
         protected Parameter(Action<object, string[]> consumeCallback)
         {
             ConsumeCallback = consumeCallback.ThrowIfArgumentNull(nameof(consumeCallback));
@@ -22,7 +22,7 @@ namespace ArgParser.Core
             HasBeenConsumed = true;
             var values = request.AllToBeConsumed().Take(MaxAllowed).ToArray();
             ConsumeCallback(instance, values);
-            return new ConsumptionResult(request.Info, values.Length);
+            return new ConsumptionResult(request.Info, values.Length, this);
         }
 
         public Action<object, string[]> ConsumeCallback { get; protected internal set; }

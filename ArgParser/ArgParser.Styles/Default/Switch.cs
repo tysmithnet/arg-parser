@@ -16,12 +16,12 @@ namespace ArgParser.Styles.Default
 
         public override ConsumptionResult CanConsume(object instance, IterationInfo info)
         {
-            if (!IsLetterMatch(info) && !IsWordMatch(info)) return new ConsumptionResult(info, 0);
+            if (!IsLetterMatch(info) && !IsWordMatch(info)) return new ConsumptionResult(info, 0, null);
             var canBeTaken = info.FromNowOn().ToList();
             if (canBeTaken.Count < MinRequired)
-                return new ConsumptionResult(info, 0);
+                return new ConsumptionResult(info, 0, null);
             var actuallyTaken = canBeTaken.Take(MaxAllowed).ToList();
-            return new ConsumptionResult(info, actuallyTaken.Count);
+            return new ConsumptionResult(info, actuallyTaken.Count, this);
         }
 
         public virtual bool IsLetterMatch(IterationInfo info) => Letter.HasValue && info.Current == $"-{Letter}";
