@@ -6,6 +6,14 @@ namespace ArgParser.Styles.Default
 {
     public class ParserRepository : IParserRepository
     {
+        public Parser Get(string id)
+        {
+            if (!Parsers.ContainsKey(id))
+                throw new KeyNotFoundException(
+                    $"Unable to find parser with id={id}, are you sure it was added and you are using the correct id?");
+            return Parsers[id];
+        }
+
         public Parser Create(string id)
         {
             if (Parsers.ContainsKey(id))
@@ -17,12 +25,21 @@ namespace ArgParser.Styles.Default
             return parser;
         }
 
-        public Parser Get(string id)
+        public Parser<T> Create<T>(string id)
         {
-            if (!Parsers.ContainsKey(id))
-                throw new KeyNotFoundException(
-                    $"Unable to find parser with id={id}, are you sure it was added and you are using the correct id?");
-            return Parsers[id];
+            if (Parsers.ContainsKey(id)) // todo: duplicate code
+                throw new ArgumentException($"Parser already exists with id={id}");
+            var parser = new Parser<T>(id);
+            if (FirstAdded == null)
+                FirstAdded = parser;
+            Parsers.Add(id, parser);
+            return parser;
+        }
+
+        public Parser<T> Get<T>(string id)
+        {
+            var parser = Get(id);
+            return (Parser<T>) parser;
         }
 
         public IEnumerable<Parser> GetAll() => Parsers.Values;
