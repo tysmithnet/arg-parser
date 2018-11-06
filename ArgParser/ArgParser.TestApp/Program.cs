@@ -91,11 +91,13 @@ namespace ArgParser.TestApp
                 var result = builder.Parse("base", args);
                 result.When<UtilOptions>(options =>
                 {
+                    Console.WriteLine(options.GetType().FullName);
                     Console.WriteLine(JsonConvert.SerializeObject(options, Formatting.Indented));
                 });
 
                 result.WhenError(exceptions =>
                 {
+                    Console.Error.WriteLine("Error");
                     Console.WriteLine(JsonConvert.SerializeObject(exceptions, Formatting.Indented));
                 });
             }
