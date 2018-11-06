@@ -46,7 +46,7 @@ namespace ArgParser.Styles.Default
             return this;
         }
 
-        public ParserBuilder WithPositional(Action<object, string[]> consumeCallback, int min = 1, int max = int.MaxValue)
+        public ParserBuilder WithPositionals(Action<object, string[]> consumeCallback, int min = 1, int max = int.MaxValue)
         {
             var sw = new Positional(consumeCallback, min, max);
             Parser.AddParameter(sw);
