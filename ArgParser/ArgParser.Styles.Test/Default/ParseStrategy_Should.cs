@@ -213,5 +213,31 @@ namespace ArgParser.Styles.Test.Default
             // assert
             mightThrow.Should().Throw<ArgumentNullException>();
         }
+
+        [Fact]
+        public void Throw_If_No_Factory_Function()
+        {
+            // arrange
+            var isHelp = false;
+            var builder = new ContextBuilder()
+                .AddParser("base")
+                .Finish
+                .AddParser("child")
+                .Finish
+                .AddParser("gchild")
+                .WithBooleanSwitch('h', "help", o => isHelp = true)
+                .Finish
+                .CreateParentChildRelationship("base", "child")
+                .CreateParentChildRelationship("child", "gchild");
+
+            var context = builder.BuildContext();
+            var strat = new ParseStrategy("base");
+            Action mightThrow = () => strat.Parse("child gchild -h".Split(' '), context);
+
+            // act
+            // assert
+            isHelp.Should().BeFalse();
+            mightThrow.Should().Throw<NoFactoryFunctionException>();
+        }
     }
 }

@@ -29,6 +29,8 @@ namespace ArgParser.Styles.Default
         {
             var parser = IdentifyRelevantParser(args, context);
             var subcommandSequence = GetCommandIdentifyingSubsequence(args, context);
+            if(parser.FactoryFunction == null)
+                throw new NoFactoryFunctionException($"No factory function on parser={parser.Id}");
             var instance = parser.FactoryFunction();
             var info = new IterationInfo(args, subcommandSequence.Count);
             try
