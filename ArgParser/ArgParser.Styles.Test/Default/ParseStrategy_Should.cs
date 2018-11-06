@@ -315,8 +315,8 @@ namespace ArgParser.Styles.Test.Default
             // act
             int parseCount = 0;
             var res0 = builder.Parse("base", "firewall block -p 8080 -m io firefox.exe".Split(' '));
-            var res1 = builder.Parse("base", "firewall block -p 8080 -m io firefox.exe".Split(' '));
-            var res2 = builder.Parse("base", "firewall block -p 8080 -m io firefox.exe".Split(' '));
+            var res1 = builder.Parse("base", "firewall block -m io firefox.exe -p 8080".Split(' '));
+            var res2 = builder.Parse("base", "firewall block firefox.exe -m io -p 8080".Split(' '));
 
             // assert
             res0.When<BlockProgramOptions>(options =>
