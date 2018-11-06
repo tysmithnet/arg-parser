@@ -50,5 +50,17 @@ namespace ArgParser.Core.Test
             // assert
             parser.CanConsume(new object(), info).NumConsumed.Should().Be(1);
         }
+
+        [Fact]
+        public void Provide_A_Generic_Version()
+        {
+            // arrange
+            var p = new Parser<string>("base");
+            p.FactoryFunction = () => "";
+
+            // act
+            // assert
+            p.FactoryFunction().Should().Be("");
+        }
     }
 }
