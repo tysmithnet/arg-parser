@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using ArgParser.Core;
 
 namespace ArgParser.Styles.Default
@@ -34,6 +35,13 @@ namespace ArgParser.Styles.Default
         public ParserBuilder WithValuesSwitch(char? letter, string word, Action<object, string[]> consumeCallback)
         {
             var sw = new ValuesSwitch(letter, word, consumeCallback);
+            Parser.AddParameter(sw);
+            return this;
+        }
+
+        public ParserBuilder WithPositional(Action<object, string> consumeCallback)
+        {
+            var sw = new Positional((o, strings) => consumeCallback(o, strings.Single()), 1, 1);
             Parser.AddParameter(sw);
             return this;
         }
@@ -84,7 +92,14 @@ namespace ArgParser.Styles.Default
             return this;
         }
 
-        public ParserBuilder<T> WithPositional(Action<T, string[]> consumeCallback, int min = 1, int max = int.MaxValue)
+        public ParserBuilder<T> WithPositional(Action<T, string> consumeCallback)
+        {
+            var sw = new Positional<T>((o, strings) => consumeCallback(o, strings.Single()), 1, 1);
+            Parser.AddParameter(sw);
+            return this;
+        }
+
+        public ParserBuilder<T> WithPositionals(Action<T, string[]> consumeCallback, int min = 1, int max = int.MaxValue)
         {
             var sw = new Positional<T>(consumeCallback, min, max);
             Parser.AddParameter(sw);

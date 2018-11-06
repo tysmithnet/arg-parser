@@ -1,4 +1,6 @@
-﻿namespace ArgParser.Styles.Default
+﻿using ArgParser.Core;
+
+namespace ArgParser.Styles.Default
 {
     public class ContextBuilder
     {
@@ -26,6 +28,13 @@
         {
             HierarchyRepository.EstablishParentChildRelationship(parent, child);
             return this;
+        }
+
+        public IParseResult Parse(string parser, string[] args)
+        {
+            var strat = new ParseStrategy(parser);
+            var context = BuildContext();
+            return strat.Parse(args, context);
         }
 
         protected internal HierarchyRepository HierarchyRepository { get; set; } = new HierarchyRepository();
