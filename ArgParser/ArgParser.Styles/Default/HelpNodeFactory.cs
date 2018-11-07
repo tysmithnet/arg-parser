@@ -23,4 +23,6 @@ namespace ArgParser.Styles.Default
             return rootNode;
         }
     }
+
+    
 }

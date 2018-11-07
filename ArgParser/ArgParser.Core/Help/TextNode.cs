@@ -1,12 +1,19 @@
 ﻿namespace ArgParser.Core.Help
 {
-    public abstract class TextNode : HelpNode
+    public class TextNode : HelpNode
     {
-        protected internal TextNode(string text)
+        public TextNode(string text)
         {
             Text = text.ThrowIfArgumentNull(nameof(text));
         }
 
         public string Text { get; protected internal set; }
+    }
+
+    public class CodeNode : TextNode
+    {
+        public CodeNode(string text) : base(text)
+        {
+        }
     }
 }
