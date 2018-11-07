@@ -6,30 +6,31 @@ namespace ArgParser.Styles.Default
 {
     public class ContextBuilder
     {
-        public ParserBuilder AddParser(string id, Action<ParserHelp> helpSetupCallback = null)
+        public ParserBuilder AddParser(string id, Action<ParserHelpBuilder> helpSetupCallback = null)
         {
             var parser = ParserRepository.Create(id);
             HierarchyRepository.AddParser(id);
             if (helpSetupCallback != null)
             {
-                parser.Help = new ParserHelp();
-                helpSetupCallback(parser.Help);
+                var builder = new ParserHelpBuilder(parser);
+                helpSetupCallback(builder);
+                parser.Help = builder.Build();
             }
 
             return new ParserBuilder(this, parser);
         }
 
-        public ParserBuilder<T> AddParser<T>(string id, Action<ParserHelp> helpSetupCallback = null)
+        public ParserBuilder<T> AddParser<T>(string id, Action<ParserHelpBuilder> helpSetupCallback = null)
         {
             var parser = ParserRepository.Create<T>(id);
             HierarchyRepository.AddParser(id);
 
             if (helpSetupCallback != null)
             {
-                parser.Help = new ParserHelp();
-                helpSetupCallback(parser.Help);
+                var builder = new ParserHelpBuilder(parser);
+                helpSetupCallback(builder);
+                parser.Help = builder.Build();
             }
-
             return new ParserBuilder<T>(this, parser);
         }
 

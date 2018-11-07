@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection;
 using ArgParser.Core;
 using ArgParser.Styles.Default;
 using ArgParser.Testing.Common;
@@ -20,6 +19,144 @@ namespace ArgParser.Styles.Test.Default
             /// <inheritdoc />
             public override ConsumptionResult Consume(object instance, ConsumptionRequest request) =>
                 new ConsumptionResult(request.Info, -1, this);
+        }
+
+        private ContextBuilder CreateDefaultBuilder()
+        {
+            return new ContextBuilder()
+                .AddParser<UtilOptions>("util")
+                .WithBooleanSwitch('h', "help", o => o.IsHelpRequested = true, help =>
+                {
+                    help
+                        .SetName("Help")
+                        .SetShortDescription("Get help on commands");
+                })
+                .WithBooleanSwitch(null, "version", o => o.IsVersionRequested = true, help =>
+                {
+                    help
+                        .SetName("Version")
+                        .SetShortDescription("Display the current version");
+                })
+                .Finish
+                .AddParser<ClipboardOptions>("clip", help =>
+                {
+                    help
+                        .SetName("Clipboard")
+                        .SetShortDescription("Interact with the clipboard");
+                })
+                .WithBooleanSwitch('o', "overwrite", o => o.IsOverwriteClipboard = true, help =>
+                {
+                    help
+                        .SetName("Overwrite")
+                        .SetShortDescription("Overwrite the contents of the clipboard");
+                })
+                .Finish
+                .AddParser<SortOptions>("sort", help =>
+                {
+                    help
+                        .SetName("Sort")
+                        .SetShortDescription("Sort the lines of text on the clipboard");
+                })
+                .WithFactoryFunction(() => new SortOptions())
+                .WithBooleanSwitch('r', "reverse", o => o.IsReversed = true, help =>
+                {
+                    help
+                        .SetName("Reverse")
+                        .SetShortDescription("Reverse the lines of sorted text");
+                })
+                .Finish
+                .AddParser<ZipOptions>("zip", help =>
+                {
+                    help
+                        .SetName("Zip")
+                        .SetShortDescription("Zip the files currently on the clipboard");
+                })
+                .WithFactoryFunction(() => new ZipOptions())
+                .WithPositional((o, s) => o.ZipFile = s, help =>
+                {
+                    help
+                        .SetName("Output File")
+                        .SetShortDescription("The zip file to create");
+                })
+                .WithPositionals((o, s) => o.Globs = s, helpSetupCallback: help =>
+                {
+                    help
+                        .SetName("Glob Patterns")
+                        .SetShortDescription("Optional list of glob patterns to use to zip only some of the files");
+                })
+                .Finish
+                .AddParser<FireWallOptions>("firewall", help =>
+                {
+                    help
+                        .SetName("Firewall")
+                        .SetShortDescription("Interact with the the local firewall");
+                })
+                .WithSingleValueSwitch('p', "port", (o, s) => o.Port = Convert.ToInt32(s), help =>
+                {
+                    help
+                        .SetName("Port")
+                        .SetShortDescription("The port on which to act");
+                })
+                .WithSingleValueSwitch('m', "mode", (o, s) =>
+                {
+                    o.IsInbound = s.Contains("i");
+                    o.IsOutbound = s.Contains("o");
+                }, help =>
+                {
+                    help
+                        .SetName("Mode")
+                        .SetShortDescription("Set whether inbound or outbound traffic should be blocked");
+                })
+                .WithPositional((o, s) => o.Program = s, help =>
+                {
+                    help
+                        .SetName("Program")
+                        .SetShortDescription("Which program to set the rule on");
+                })
+                .Finish
+                .AddParser<BlockProgramOptions>("block", help =>
+                {
+                    help
+                        .SetName("Block")
+                        .SetShortDescription("Block a program in/out on a specified port");
+                })
+                .WithFactoryFunction(() => new BlockProgramOptions())
+                .Finish
+                .AddParser<UnblockProgramOptions>("unblock", help =>
+                {
+                    help
+                        .SetName("Unblock")
+                        .SetShortDescription("Unblock a program in/out on a specified port");
+                })
+                .WithFactoryFunction(() => new UnblockProgramOptions())
+                .Finish
+                .AddParser<ConvertOptions>("convert", help =>
+                {
+                    help
+                        .SetName("Convert")
+                        .SetShortDescription("Convert files to another format");
+                })
+                .WithFactoryFunction(() => new ConvertOptions())
+                .WithSingleValueSwitch('f', "format", (o, s) => o.Format = s, help =>
+                {
+                    help
+                        .SetName("Format")
+                        .SetShortDescription("What format to conver the files to");
+                })
+                .WithPositionals((o, s) => o.InputFiles = s, helpSetupCallback: help =>
+                {
+                    help
+                        .SetName("Input Files")
+                        .SetShortDescription("Input files to convert");
+                })
+                .Finish
+                .CreateParentChildRelationship("util", "clip")
+                .CreateParentChildRelationship("util", "firewall")
+                .CreateParentChildRelationship("util", "convert")
+                .CreateParentChildRelationship("clip", "sort")
+                .CreateParentChildRelationship("clip", "zip")
+                .CreateParentChildRelationship("firewall", "block")
+                .CreateParentChildRelationship("firewall", "unblock");
         }
 
         [Fact]
@@ -184,87 +321,12 @@ namespace ArgParser.Styles.Test.Default
             var args = "firewall block -p 8080 -m io firefox.exe".Split(' ');
             var builder = CreateDefaultBuilder();
             var strat = new ParseStrategy("base");
-            
+
             // act
             var ids = strat.GetCommandIdentifyingSubsequence(args, builder.BuildContext());
 
             // assert
             ids.Should().BeEquivalentTo("firewall block".Split(' '));
-        }
-
-        private ContextBuilder CreateDefaultBuilder()
-        {
-            return new ContextBuilder()
-                .AddParser<UtilOptions>("util", help =>
-                {
-                    help.Name = "Utility";
-                    help.ShortDescription = "A basic utility application for performing basic tasks";
-                    help.Version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-                    help.Author = "user";
-                    help.RepositoryUrl = "http://example.org";
-                })
-                .WithBooleanSwitch('h', "help", o => o.IsHelpRequested = true, help =>
-                {
-                    help.Name = "Help";
-                    help.ShortDescription = "Request help for the application or for a command";
-                })
-                .WithBooleanSwitch(null, "version", o => o.IsVersionRequested = true, help =>
-                {
-                    help.Name = "Version";
-                    help.ShortDescription = "Display version information";
-                })
-                .Finish
-                .AddParser<ClipboardOptions>("clip")
-                .WithBooleanSwitch('o', "overwrite", o => o.IsOverwriteClipboard = true, help =>
-                    {
-                        help.Name = "Overwrite";
-                        help.ShortDescription = "Overwrite the contents of the clipboard";
-                    })
-                .Finish
-                .AddParser<SortOptions>("sort", help =>
-                {
-                    help.Name = "Sort";
-                    help.ShortDescription = "Sort the lines of text on the clipboard";
-                })
-                .WithFactoryFunction(() => new SortOptions())
-                .WithBooleanSwitch('r', "reverse", o => o.IsReversed = true, help =>
-                {
-                    help.Name = "Reverse";
-                    help.ShortDescription = "Reverse the sorted lines";
-                })
-                .Finish
-                .AddParser<ZipOptions>("zip")
-                .WithFactoryFunction(() => new ZipOptions())
-                .WithPositional((o, s) => o.ZipFile = s)
-                .WithPositionals((o, s) => o.Globs = s)
-                .Finish
-                .AddParser<FireWallOptions>("firewall")
-                .WithSingleValueSwitch('p', "port", (o, s) => o.Port = Convert.ToInt32(s))
-                .WithSingleValueSwitch('m', "mode", (o, s) =>
-                {
-                    o.IsInbound = s.Contains("i");
-                    o.IsOutbound = s.Contains("o");
-                })
-                .WithPositional((o, s) => o.Program = s)
-                .Finish
-                .AddParser<BlockProgramOptions>("block")
-                .WithFactoryFunction(() => new BlockProgramOptions())
-                .Finish
-                .AddParser<UnblockProgramOptions>("unblock")
-                .WithFactoryFunction(() => new UnblockProgramOptions())
-                .Finish
-                .AddParser<ConvertOptions>("convert")
-                .WithFactoryFunction(() => new ConvertOptions())
-                .WithSingleValueSwitch('f', "format", (o, s) => o.Format = s)
-                .WithPositionals((o, s) => o.InputFiles = s)
-                .Finish
-                .CreateParentChildRelationship("util", "clip")
-                .CreateParentChildRelationship("util", "firewall")
-                .CreateParentChildRelationship("util", "convert")
-                .CreateParentChildRelationship("clip", "sort")
-                .CreateParentChildRelationship("clip", "zip")
-                .CreateParentChildRelationship("firewall", "block")
-                .CreateParentChildRelationship("firewall", "unblock");
         }
 
         [Fact]
@@ -295,6 +357,46 @@ namespace ArgParser.Styles.Test.Default
             // assert
             isParsed.Should().BeTrue();
             isHelp.Should().BeTrue();
+        }
+
+        [Fact]
+        public void Parse_Values_Irrespective_Of_Order()
+        {
+            // arrange
+            var builder = CreateDefaultBuilder();
+
+            // act
+            var parseCount = 0;
+            var res0 = builder.Parse("base", "firewall block -p 8080 -m io firefox.exe".Split(' '));
+            var res1 = builder.Parse("base", "firewall block -m io firefox.exe -p 8080".Split(' '));
+            var res2 = builder.Parse("base", "firewall block firefox.exe -m io -p 8080".Split(' '));
+
+            // assert
+            res0.When<BlockProgramOptions>(options =>
+            {
+                parseCount++;
+                options.Port.Should().Be(8080);
+                options.IsInbound.Should().BeTrue();
+                options.IsOutbound.Should().BeTrue();
+                options.Program.Should().Be("firefox.exe");
+            });
+            res1.When<BlockProgramOptions>(options =>
+            {
+                parseCount++;
+                options.Port.Should().Be(8080);
+                options.IsInbound.Should().BeTrue();
+                options.IsOutbound.Should().BeTrue();
+                options.Program.Should().Be("firefox.exe");
+            });
+            res2.When<BlockProgramOptions>(options =>
+            {
+                parseCount++;
+                options.Port.Should().Be(8080);
+                options.IsInbound.Should().BeTrue();
+                options.IsOutbound.Should().BeTrue();
+                options.Program.Should().Be("firefox.exe");
+            });
+            parseCount.Should().Be(3);
         }
 
         [Fact]
@@ -332,46 +434,6 @@ namespace ArgParser.Styles.Test.Default
             // assert
             isHelp.Should().BeFalse();
             mightThrow.Should().Throw<NoFactoryFunctionException>();
-        }
-
-        [Fact]
-        public void Parse_Values_Irrespective_Of_Order()
-        {
-            // arrange
-            var builder = CreateDefaultBuilder();
-
-            // act
-            int parseCount = 0;
-            var res0 = builder.Parse("base", "firewall block -p 8080 -m io firefox.exe".Split(' '));
-            var res1 = builder.Parse("base", "firewall block -m io firefox.exe -p 8080".Split(' '));
-            var res2 = builder.Parse("base", "firewall block firefox.exe -m io -p 8080".Split(' '));
-
-            // assert
-            res0.When<BlockProgramOptions>(options =>
-            {
-                parseCount++;
-                options.Port.Should().Be(8080);
-                options.IsInbound.Should().BeTrue();
-                options.IsOutbound.Should().BeTrue();
-                options.Program.Should().Be("firefox.exe");
-            });
-            res1.When<BlockProgramOptions>(options =>
-            {
-                parseCount++;
-                options.Port.Should().Be(8080);
-                options.IsInbound.Should().BeTrue();
-                options.IsOutbound.Should().BeTrue();
-                options.Program.Should().Be("firefox.exe");
-            });
-            res2.When<BlockProgramOptions>(options =>
-            {
-                parseCount++;
-                options.Port.Should().Be(8080);
-                options.IsInbound.Should().BeTrue();
-                options.IsOutbound.Should().BeTrue();
-                options.Program.Should().Be("firefox.exe");
-            });
-            parseCount.Should().Be(3);
         }
     }
 }
