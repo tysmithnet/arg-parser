@@ -49,8 +49,6 @@ namespace ArgParser.Styles.Default
             foreach (var g in valuesWithLetters)
             {
                 string valueList = "v1";
-                if(g.Key < 1)
-                    throw new ArgumentOutOfRangeException($"Cannot have a values switch with less than 1 values");
 
                 if (g.Key > 1)
                 {
@@ -65,8 +63,6 @@ namespace ArgParser.Styles.Default
             foreach (var g in valuesWithWords)
             {
                 string valueList = "v1";
-                if (g.Key < 1)
-                    throw new ArgumentOutOfRangeException($"Cannot have a values switch with less than 1 values");
 
                 if (g.Key > 1)
                 {
@@ -80,8 +76,6 @@ namespace ArgParser.Styles.Default
             foreach (var p in positionals)
             {
                 string positionalList = "p1";
-                if (p.MaxAllowed < 1)
-                    throw new ArgumentOutOfRangeException($"Cannot have a values switch with less than 1 values");
                 if (p.MaxAllowed > 1)
                 {
                     positionalList += p.MaxAllowed == int.MaxValue ? $"..pN" : $"..p{p.MaxAllowed}";

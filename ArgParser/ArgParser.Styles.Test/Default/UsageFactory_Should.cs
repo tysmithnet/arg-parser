@@ -118,6 +118,31 @@ namespace ArgParser.Styles.Test.Default
         }
 
         [Fact]
+        public void List_Switch_Word_When_No_Letter()
+        {
+            // arrange
+            var builder = new ContextBuilder()
+                .AddParser("base")
+                .WithBooleanSwitch(null, "help", o => { })
+                .WithBooleanSwitch(null, "version", o => { })
+                .WithSingleValueSwitch(null, "reject", (o, s) => { })
+                .WithValuesSwitch(null, "monitor", (o, s) => { }, 2, 5)
+                .Finish
+                .AddParser("child")
+                .WithValuesSwitch(null, "capture", (o, s) => { },1, 5)
+                .Finish
+                .CreateParentChildRelationship("base", "child");
+
+            var fac = new UsageFactory();
+
+            // act
+            var node = fac.Create("child", builder.BuildContext());
+
+            // assert
+            node.Text.Should().Be("child [--help|version] [--reject v1] [--capture|monitor v1..v5]");
+        }
+
+        [Fact]
         public void Not_Group_Positionals()
         {
             // arrange
@@ -139,6 +164,33 @@ namespace ArgParser.Styles.Test.Default
 
             // assert
             node.Text.Should().Be("child [p1..pN] [p1] [p1..p5] [p1..p3]"); // todo: should we warn the user about this?
+        }
+
+        [Fact]
+        public void List_Sub_Commands_First()
+        {
+            // arrange
+            var builder = new ContextBuilder()
+                .AddParser("base")
+                .Finish
+                .AddParser("child0")
+                .Finish
+                .AddParser("child1")
+                .Finish
+                .AddParser("child2")
+                .Finish
+                .CreateParentChildRelationship("base", "child0")
+                .CreateParentChildRelationship("base", "child1")
+                .CreateParentChildRelationship("base", "child2")
+                ;
+
+            var fac = new UsageFactory();
+
+            // act
+            var node = fac.Create("base", builder.BuildContext());
+
+            // assert
+            node.Text.Should().Be("base [child0|child1|child2]"); 
         }
     }
 }
