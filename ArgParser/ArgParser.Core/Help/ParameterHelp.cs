@@ -3,12 +3,4 @@
     public class ParameterHelp : SimpleHelp
     {
     }
-
-    public class ParserHelp : FullHelp
-    {
-        public ParserHelp()
-        {
-            
-        }
-    }
 }

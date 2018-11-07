@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using ArgParser.Core.Help;
 
 namespace ArgParser.Core
 {
@@ -32,6 +33,7 @@ namespace ArgParser.Core
             HasBeenConsumed = false;
         }
 
+        public ParameterHelp Help { get; set; }
         public Action<object, string[]> ConsumeCallback { get; protected internal set; }
         public bool HasBeenConsumed { get; protected internal set; }
         public int MaxAllowed { get; protected internal set; } = int.MaxValue;

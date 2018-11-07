@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using ArgParser.Core;
 using ArgParser.Styles.Default;
 using ArgParser.Testing.Common;
@@ -194,20 +195,43 @@ namespace ArgParser.Styles.Test.Default
         private ContextBuilder CreateDefaultBuilder()
         {
             return new ContextBuilder()
-                .AddParser<UtilOptions>("base")// todo: maybe root parser should have its own method?
-                .WithHelp(h =>
+                .AddParser<UtilOptions>("util", help =>
                 {
-
+                    help.Name = "Utility";
+                    help.ShortDescription = "A basic utility application for performing basic tasks";
+                    help.Version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                    help.Author = "user";
+                    help.RepositoryUrl = "http://example.org";
                 })
-                .WithBooleanSwitch('h', "help", o => o.IsHelpRequested = true)
-                .WithBooleanSwitch(null, "version", o => o.IsVersionRequested = true)
+                .WithBooleanSwitch('h', "help", o => o.IsHelpRequested = true, help =>
+                {
+                    help.Name = "Help";
+                    help.ShortDescription = "Request help for the application or for a command";
+                })
+                .WithBooleanSwitch(null, "version", o => o.IsVersionRequested = true, help =>
+                {
+                    help.Name = "Version";
+                    help.ShortDescription = "Display version information";
+                })
                 .Finish
                 .AddParser<ClipboardOptions>("clip")
-                .WithBooleanSwitch('o', "overwrite", o => o.IsOverwriteClipboard = true)
+                .WithBooleanSwitch('o', "overwrite", o => o.IsOverwriteClipboard = true, help =>
+                    {
+                        help.Name = "Overwrite";
+                        help.ShortDescription = "Overwrite the contents of the clipboard";
+                    })
                 .Finish
-                .AddParser<SortOptions>("sort")
+                .AddParser<SortOptions>("sort", help =>
+                {
+                    help.Name = "Sort";
+                    help.ShortDescription = "Sort the lines of text on the clipboard";
+                })
                 .WithFactoryFunction(() => new SortOptions())
-                .WithBooleanSwitch('r', "reverse", o => o.IsReversed = true)
+                .WithBooleanSwitch('r', "reverse", o => o.IsReversed = true, help =>
+                {
+                    help.Name = "Reverse";
+                    help.ShortDescription = "Reverse the sorted lines";
+                })
                 .Finish
                 .AddParser<ZipOptions>("zip")
                 .WithFactoryFunction(() => new ZipOptions())
@@ -234,9 +258,9 @@ namespace ArgParser.Styles.Test.Default
                 .WithSingleValueSwitch('f', "format", (o, s) => o.Format = s)
                 .WithPositionals((o, s) => o.InputFiles = s)
                 .Finish
-                .CreateParentChildRelationship("base", "clip")
-                .CreateParentChildRelationship("base", "firewall")
-                .CreateParentChildRelationship("base", "convert")
+                .CreateParentChildRelationship("util", "clip")
+                .CreateParentChildRelationship("util", "firewall")
+                .CreateParentChildRelationship("util", "convert")
                 .CreateParentChildRelationship("clip", "sort")
                 .CreateParentChildRelationship("clip", "zip")
                 .CreateParentChildRelationship("firewall", "block")

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using ArgParser.Core;
+using ArgParser.Core.Help;
 
 namespace ArgParser.Styles.Default
 {
@@ -12,10 +13,20 @@ namespace ArgParser.Styles.Default
             Parser = parser.ThrowIfArgumentNull(nameof(parser));
         }
 
-        public ParserBuilder WithBooleanSwitch(char? letter, string word, Action<object> consumeCallback)
+        protected void AddParameterInternal(Parameter parameter, Action<ParameterHelp> helpSetupCallback = null)
+        {
+            Parser.AddParameter(parameter);
+            if (helpSetupCallback != null)
+            {
+                parameter.Help = new ParameterHelp();
+                helpSetupCallback(parameter.Help);
+            }
+        }
+
+        public ParserBuilder WithBooleanSwitch(char? letter, string word, Action<object> consumeCallback, Action<ParameterHelp> helpSetupCallback = null)
         {
             var sw = new BooleanSwitch(letter, word, consumeCallback);
-            Parser.AddParameter(sw);
+            AddParameterInternal(sw, helpSetupCallback);
             return this;
         }
 
@@ -25,31 +36,31 @@ namespace ArgParser.Styles.Default
             return this;
         }
 
-        public ParserBuilder WithSingleValueSwitch(char? letter, string word, Action<object, string> consumeCallback)
+        public ParserBuilder WithSingleValueSwitch(char? letter, string word, Action<object, string> consumeCallback, Action<ParameterHelp> helpSetupCallback = null)
         {
             var sw = new SingleValueSwitch(letter, word, consumeCallback);
-            Parser.AddParameter(sw);
+            AddParameterInternal(sw, helpSetupCallback);
             return this;
         }
 
-        public ParserBuilder WithValuesSwitch(char? letter, string word, Action<object, string[]> consumeCallback)
+        public ParserBuilder WithValuesSwitch(char? letter, string word, Action<object, string[]> consumeCallback, Action<ParameterHelp> helpSetupCallback = null)
         {
             var sw = new ValuesSwitch(letter, word, consumeCallback);
-            Parser.AddParameter(sw);
+            AddParameterInternal(sw, helpSetupCallback);
             return this;
         }
 
-        public ParserBuilder WithPositional(Action<object, string> consumeCallback)
+        public ParserBuilder WithPositional(Action<object, string> consumeCallback, Action<ParameterHelp> helpSetupCallback = null)
         {
             var sw = new Positional((o, strings) => consumeCallback(o, strings.Single()), 1, 1);
-            Parser.AddParameter(sw);
+            AddParameterInternal(sw, helpSetupCallback);
             return this;
         }
 
-        public ParserBuilder WithPositionals(Action<object, string[]> consumeCallback, int min = 1, int max = int.MaxValue)
+        public ParserBuilder WithPositionals(Action<object, string[]> consumeCallback, int min = 1, int max = int.MaxValue, Action<ParameterHelp> helpSetupCallback = null)
         {
             var sw = new Positional(consumeCallback, min, max);
-            Parser.AddParameter(sw);
+            AddParameterInternal(sw, helpSetupCallback);
             return this;
         }
 
@@ -65,10 +76,10 @@ namespace ArgParser.Styles.Default
             Parser = parser.ThrowIfArgumentNull(nameof(parser));
         }
 
-        public ParserBuilder<T> WithBooleanSwitch(char? letter, string word, Action<T> consumeCallback)
+        public ParserBuilder<T> WithBooleanSwitch(char? letter, string word, Action<T> consumeCallback, Action<ParameterHelp> helpSetupCallback = null)
         {
             var sw = new BooleanSwitch<T>(letter, word, consumeCallback);
-            Parser.AddParameter(sw);
+            AddParameterInternal(sw, helpSetupCallback);
             return this;
         }
 
@@ -78,31 +89,31 @@ namespace ArgParser.Styles.Default
             return this;
         }
 
-        public ParserBuilder<T> WithSingleValueSwitch(char? letter, string word, Action<T, string> consumeCallback)
+        public ParserBuilder<T> WithSingleValueSwitch(char? letter, string word, Action<T, string> consumeCallback, Action<ParameterHelp> helpSetupCallback = null)
         {
             var sw = new SingleValueSwitch<T>(letter, word, consumeCallback);
-            Parser.AddParameter(sw);
+            AddParameterInternal(sw, helpSetupCallback);
             return this;
         }
 
-        public ParserBuilder<T> WithValuesSwitch(char? letter, string word, Action<T, string[]> consumeCallback)
+        public ParserBuilder<T> WithValuesSwitch(char? letter, string word, Action<T, string[]> consumeCallback, Action<ParameterHelp> helpSetupCallback = null)
         {
             var sw = new ValuesSwitch<T>(letter, word, consumeCallback);
-            Parser.AddParameter(sw);
+            AddParameterInternal(sw, helpSetupCallback);
             return this;
         }
 
-        public ParserBuilder<T> WithPositional(Action<T, string> consumeCallback)
+        public ParserBuilder<T> WithPositional(Action<T, string> consumeCallback, Action<ParameterHelp> helpSetupCallback = null)
         {
             var sw = new Positional<T>((o, strings) => consumeCallback(o, strings.Single()), 1, 1);
-            Parser.AddParameter(sw);
+            AddParameterInternal(sw, helpSetupCallback);
             return this;
         }
 
-        public ParserBuilder<T> WithPositionals(Action<T, string[]> consumeCallback, int min = 1, int max = int.MaxValue)
+        public ParserBuilder<T> WithPositionals(Action<T, string[]> consumeCallback, int min = 1, int max = int.MaxValue, Action<ParameterHelp> helpSetupCallback = null)
         {
             var sw = new Positional<T>(consumeCallback, min, max);
-            Parser.AddParameter(sw);
+            AddParameterInternal(sw, helpSetupCallback);
             return this;
         }
 
