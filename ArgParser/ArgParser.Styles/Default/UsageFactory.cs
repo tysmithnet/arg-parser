@@ -9,46 +9,40 @@ namespace ArgParser.Styles.Default
 {
     public class UsageFactory : IUsageFactory
     {
-        protected internal string ParserId { get; set; }
-        protected internal IContext Context { get; set; }
-
-        public UsageFactory(string parserId, IContext context)
-        {
-            ParserId = parserId ?? throw new ArgumentNullException(nameof(parserId));
-            Context = context ?? throw new ArgumentNullException(nameof(context));
-        }
-
         public TextNode Create(string parserId, IContext context)
         {
-            // get all sub commands
-            // get all parameters
-            // [com1|com2|com3] [-abcde] [-fgh v1..v2] [-jk v1..v3] [p1] [p1..p2] [p1..pN]
+            parserId.ThrowIfArgumentNull(nameof(parserId));
+            context.ThrowIfArgumentNull(nameof(context));
             var sb = new StringBuilder(parserId);
-            var parser = Context.ParserRepository.Get(ParserId);
-            var thisParserToRoot = Context.PathToRoot(parserId);
+            var thisParserToRoot = context.PathToRoot(parserId);
             var parameters = thisParserToRoot.SelectMany(p => p.Parameters).ToList();
 
-            var subCommands = Context.HierarchyRepository.GetChildren(ParserId).ToList();
+            var subCommands = context.HierarchyRepository.GetChildren(parserId).ToList();
             if (subCommands.Any())
                 sb.Append($" [{subCommands.Join("|")}]");
 
             var booleans = parameters.OfType<BooleanSwitch>().ToList();
             var booleansWithLetter = booleans.Where(b => b.Letter.HasValue).ToList();
             if (booleansWithLetter.Any())
-                sb.Append($" [-{booleansWithLetter.Select(x => $"{x.Letter}").OrderBy(x => x)}]");
+            {
+                var inner = booleansWithLetter.Select(x => $"{x.Letter}").OrderBy(x => x);
+                sb.Append($" [-{inner.Join("")}]");
+            }
 
             var booleansWithWord = booleans.Where(b => !b.Letter.HasValue && b.Word != null).ToList();
             if (booleansWithWord.Any())
-                sb.Append($" [--{booleansWithWord.Select(x => x.Word).OrderBy(x => x).Join("")}]");
+                sb.Append($" [--{booleansWithWord.Select(x => x.Word).OrderBy(x => x).Join("|")}]");
 
             var singleSwitches = parameters.OfType<SingleValueSwitch>().ToList();
             var singlesWithLetters = singleSwitches.Where(b => b.Letter.HasValue).ToList();
             if (singlesWithLetters.Any())
-                sb.Append($" [-{singlesWithLetters.Select(x => $"{x.Letter}").OrderBy(x => x)} v1]");
-
+            {
+                var inner = singlesWithLetters.Select(x => $"{x.Letter}").OrderBy(x => x);
+                sb.Append($" [-{inner.Join("")} v1]");
+            }
             var singlesWithWords = singleSwitches.Where(b => !b.Letter.HasValue && b.Word != null).ToList();
             if (singlesWithWords.Any())
-                sb.Append($" [--{singlesWithWords.Select(x => x.Word).OrderBy(x => x).Join("")} v1]");
+                sb.Append($" [--{singlesWithWords.Select(x => x.Word).OrderBy(x => x).Join("|")} v1]");
 
             var valuesSwitches = parameters.OfType<ValuesSwitch>().ToList();
             var valuesWithLetters = valuesSwitches.Where(b => b.Letter.HasValue).GroupBy(b => b.MaxAllowed).OrderBy(x => x.Key).ToList();
@@ -63,7 +57,8 @@ namespace ArgParser.Styles.Default
                     valueList += g.Key == int.MaxValue ? $"..vN" : $"..v{g.Key}";
                 }
 
-                sb.Append($" [-{g.Select(x => $"{x.Letter}").OrderBy(x => x)} {valueList}]");
+                var inner = g.Select(x => $"{x.Letter}").OrderBy(x => x);
+                sb.Append($" [-{inner.Join("")} {valueList}]");
             }
 
             var valuesWithWords = valuesSwitches.Where(b => !b.Letter.HasValue && b.Word != null).GroupBy(b => b.MaxAllowed).ToList();
@@ -78,10 +73,10 @@ namespace ArgParser.Styles.Default
                     valueList += g.Key == int.MaxValue ? $"..vN" : $"..v{g.Key}";
                 }
 
-                sb.Append($" [--{g.Select(x => $"{x.Word}").OrderBy(x => x)} {valueList}]");
+                sb.Append($" [--{g.Select(x => $"{x.Word}").OrderBy(x => x).Join("|")} {valueList}]");
             }
 
-            var positionals = parameters.OfType<Positional>().OrderBy(p => p.MaxAllowed).ToList();
+            var positionals = parameters.OfType<Positional>().ToList();
             foreach (var p in positionals)
             {
                 string positionalList = "p1";

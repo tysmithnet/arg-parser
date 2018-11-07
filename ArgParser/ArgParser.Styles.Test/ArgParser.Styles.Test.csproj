@@ -84,6 +84,7 @@
     <Compile Include="Default\Positional_Should.cs" />
     <Compile Include="Default\SingleValueSwitch_Should.cs" />
     <Compile Include="Default\Switch_Should.cs" />
+    <Compile Include="Default\UsageFactory_Should.cs" />
     <Compile Include="Default\ValuesSwitch_Should.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
