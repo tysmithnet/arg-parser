@@ -194,7 +194,11 @@ namespace ArgParser.Styles.Test.Default
         private ContextBuilder CreateDefaultBuilder()
         {
             return new ContextBuilder()
-                .AddParser<UtilOptions>("base")
+                .AddParser<UtilOptions>("base")// todo: maybe root parser should have its own method?
+                .WithHelp(h =>
+                {
+
+                })
                 .WithBooleanSwitch('h', "help", o => o.IsHelpRequested = true)
                 .WithBooleanSwitch(null, "version", o => o.IsVersionRequested = true)
                 .Finish

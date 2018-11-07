@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ArgParser.Core;
+using ArgParser.Core.Help;
 
 namespace ArgParser.Styles.Default
 {
@@ -40,6 +41,13 @@ namespace ArgParser.Styles.Default
         {
             var parser = Get(id);
             return (Parser<T>) parser;
+        }
+
+        public RootNode GetHelp(string parser)
+        {
+            if (!Parsers.ContainsKey(parser))
+                return null;
+
         }
 
         public IEnumerable<Parser> GetAll() => Parsers.Values;

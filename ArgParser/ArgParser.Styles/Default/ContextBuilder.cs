@@ -1,10 +1,11 @@
-﻿using ArgParser.Core;
+﻿using System;
+using ArgParser.Core;
 
 namespace ArgParser.Styles.Default
 {
     public class ContextBuilder
     {
-        public ParserBuilder AddParser(string id)
+        public ParserBuilder AddParser(string id, Action<ParserHelp> helpSetupCallback = null)
         {
             var parser = ParserRepository.Create(id);
             HierarchyRepository.AddParser(id);
