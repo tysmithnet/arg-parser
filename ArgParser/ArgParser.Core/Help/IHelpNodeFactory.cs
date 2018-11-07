@@ -2,6 +2,6 @@
 {
     public interface IHelpNodeFactory
     {
-        RootNode Create(IContext context, string parserId);
+        RootNode Create(string parserId, IContext context);
     }
 }

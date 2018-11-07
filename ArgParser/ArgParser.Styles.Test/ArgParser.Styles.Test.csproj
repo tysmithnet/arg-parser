@@ -77,6 +77,7 @@
   <ItemGroup>
     <Compile Include="Default\BooleanSwitch_Should.cs" />
     <Compile Include="Default\ContextBuilder_Should.cs" />
+    <Compile Include="Default\HelpNodeFactory_Should.cs" />
     <Compile Include="Default\HierarchyRepository_Should.cs" />
     <Compile Include="Default\ParserBuilder_Should.cs" />
     <Compile Include="Default\ParserRepository_Should.cs" />

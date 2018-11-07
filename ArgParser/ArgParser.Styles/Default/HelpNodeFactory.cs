@@ -8,21 +8,12 @@ namespace ArgParser.Styles.Default
 {
     public class HelpNodeFactory : IHelpNodeFactory
     {
-        public RootNode Create(IContext context, string parserId)
+        public RootNode Create(string parserId, IContext context)
         {
-            var parser = context.ParserRepository.Get(parserId);
-            var children = context.HierarchyRepository.GetChildren(parserId);
-
             var rootNode = new RootNode();
-            if (parser.Help != null)
-            {
-
-            }
-            
-
+            var usageFac = new UsageFactory();
+            rootNode.AddChild(usageFac.Create(parserId, context));
             return rootNode;
         }
     }
-
-    
 }
