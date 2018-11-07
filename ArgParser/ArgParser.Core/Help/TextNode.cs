@@ -9,11 +9,4 @@
 
         public string Text { get; protected internal set; }
     }
-
-    public class CodeNode : TextNode
-    {
-        public CodeNode(string text) : base(text)
-        {
-        }
-    }
 }

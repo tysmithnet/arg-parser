@@ -34,32 +34,4 @@ namespace ArgParser.Styles.Default
         protected internal ParserHelp Help { get; set; } = new ParserHelp();
         protected internal Parser Parser { get; set; }
     }
-
-    public class ParameterHelpBuilder
-    {
-        protected internal ParameterHelp Help { get; set; } = new ParameterHelp();
-        protected internal Parameter Parameter { get; set; }
-
-        public ParameterHelpBuilder(Parameter parameter)
-        {
-            Parameter = parameter.ThrowIfArgumentNull(nameof(parameter));
-        }
-
-        public ParameterHelp Build()
-        {
-            return Help;
-        }
-
-        public ParameterHelpBuilder SetName(string name)
-        {
-            Help.Name = name;
-            return this;
-        }
-
-        public ParameterHelpBuilder SetShortDescription(string desc)
-        {
-            Help.ShortDescription = desc;
-            return this;
-        }
-    }
 }
