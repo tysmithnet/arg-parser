@@ -320,7 +320,7 @@ namespace ArgParser.Styles.Test.Default
             // arrange
             var args = "firewall block -p 8080 -m io firefox.exe".Split(' ');
             var builder = CreateDefaultBuilder();
-            var strat = new ParseStrategy("base");
+            var strat = new ParseStrategy("util");
 
             // act
             var ids = strat.GetCommandIdentifyingSubsequence(args, builder.BuildContext());
@@ -367,9 +367,9 @@ namespace ArgParser.Styles.Test.Default
 
             // act
             var parseCount = 0;
-            var res0 = builder.Parse("base", "firewall block -p 8080 -m io firefox.exe".Split(' '));
-            var res1 = builder.Parse("base", "firewall block -m io firefox.exe -p 8080".Split(' '));
-            var res2 = builder.Parse("base", "firewall block firefox.exe -m io -p 8080".Split(' '));
+            var res0 = builder.Parse("util", "firewall block -p 8080 -m io firefox.exe".Split(' '));
+            var res1 = builder.Parse("util", "firewall block -m io firefox.exe -p 8080".Split(' '));
+            var res2 = builder.Parse("util", "firewall block firefox.exe -m io -p 8080".Split(' '));
 
             // assert
             res0.When<BlockProgramOptions>(options =>
