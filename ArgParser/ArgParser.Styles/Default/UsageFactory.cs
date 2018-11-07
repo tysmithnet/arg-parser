@@ -18,39 +18,83 @@ namespace ArgParser.Styles.Default
             Context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        private CodeNode C(string code) => new CodeNode(code);
-        private TextNode T(string text) => new TextNode(text);
-        
-
-        public TextNode Create()
+        public TextNode Create(string parserId, IContext context)
         {
             // get all sub commands
             // get all parameters
             // [com1|com2|com3] [-abcde] [-fgh v1..v2] [-jk v1..v3] [p1] [p1..p2] [p1..pN]
-            var subCommands = Context.HierarchyRepository.GetChildren(ParserId).ToList();
+            var sb = new StringBuilder(parserId);
             var parser = Context.ParserRepository.Get(ParserId);
+            var thisParserToRoot = Context.PathToRoot(parserId);
+            var parameters = thisParserToRoot.SelectMany(p => p.Parameters).ToList();
 
-            var parameters = parser.Parameters.ToList();
+            var subCommands = Context.HierarchyRepository.GetChildren(ParserId).ToList();
+            if (subCommands.Any())
+                sb.Append($" [{subCommands.Join("|")}]");
+
             var booleans = parameters.OfType<BooleanSwitch>().ToList();
+            var booleansWithLetter = booleans.Where(b => b.Letter.HasValue).ToList();
+            if (booleansWithLetter.Any())
+                sb.Append($" [-{booleansWithLetter.Select(x => $"{x.Letter}").OrderBy(x => x)}]");
 
-            var booleansWithLetter = booleans.Where(b => b.Letter.HasValue).GroupBy(b => b.MaxAllowed).ToList();
-            var booleansWithWord = booleans.Where(b => !b.Letter.HasValue && b.Word != null).GroupBy(b => b.MaxAllowed).ToList();
+            var booleansWithWord = booleans.Where(b => !b.Letter.HasValue && b.Word != null).ToList();
+            if (booleansWithWord.Any())
+                sb.Append($" [--{booleansWithWord.Select(x => x.Word).OrderBy(x => x).Join("")}]");
 
             var singleSwitches = parameters.OfType<SingleValueSwitch>().ToList();
-            var singlesWithLetters = singleSwitches.Where(b => b.Letter.HasValue).GroupBy(b => b.MaxAllowed).ToList();
-            var singlesWithWords = singleSwitches.Where(b => !b.Letter.HasValue && b.Word != null).GroupBy(b => b.MaxAllowed).ToList();
+            var singlesWithLetters = singleSwitches.Where(b => b.Letter.HasValue).ToList();
+            if (singlesWithLetters.Any())
+                sb.Append($" [-{singlesWithLetters.Select(x => $"{x.Letter}").OrderBy(x => x)} v1]");
+
+            var singlesWithWords = singleSwitches.Where(b => !b.Letter.HasValue && b.Word != null).ToList();
+            if (singlesWithWords.Any())
+                sb.Append($" [--{singlesWithWords.Select(x => x.Word).OrderBy(x => x).Join("")} v1]");
+
             var valuesSwitches = parameters.OfType<ValuesSwitch>().ToList();
-            var valuesWithLetters = valuesSwitches.Where(b => b.Letter.HasValue).GroupBy(b => b.MaxAllowed).ToList();
+            var valuesWithLetters = valuesSwitches.Where(b => b.Letter.HasValue).GroupBy(b => b.MaxAllowed).OrderBy(x => x.Key).ToList();
+            foreach (var g in valuesWithLetters)
+            {
+                string valueList = "v1";
+                if(g.Key < 1)
+                    throw new ArgumentOutOfRangeException($"Cannot have a values switch with less than 1 values");
+
+                if (g.Key > 1)
+                {
+                    valueList += g.Key == int.MaxValue ? $"..vN" : $"..v{g.Key}";
+                }
+
+                sb.Append($" [-{g.Select(x => $"{x.Letter}").OrderBy(x => x)} {valueList}]");
+            }
+
             var valuesWithWords = valuesSwitches.Where(b => !b.Letter.HasValue && b.Word != null).GroupBy(b => b.MaxAllowed).ToList();
-            var positionals = parameters.OfType<Positional>().GroupBy(b => b.MaxAllowed).ToList();
-        }
+            foreach (var g in valuesWithWords)
+            {
+                string valueList = "v1";
+                if (g.Key < 1)
+                    throw new ArgumentOutOfRangeException($"Cannot have a values switch with less than 1 values");
 
-        protected internal virtual TextNode CreateSubCommandNode()
-        {
-            var subCommands = Context.HierarchyRepository.GetChildren(ParserId).ToList();
-            var parser = Context.ParserRepository.Get(ParserId);
+                if (g.Key > 1)
+                {
+                    valueList += g.Key == int.MaxValue ? $"..vN" : $"..v{g.Key}";
+                }
 
+                sb.Append($" [--{g.Select(x => $"{x.Word}").OrderBy(x => x)} {valueList}]");
+            }
 
+            var positionals = parameters.OfType<Positional>().OrderBy(p => p.MaxAllowed).ToList();
+            foreach (var p in positionals)
+            {
+                string positionalList = "p1";
+                if (p.MaxAllowed < 1)
+                    throw new ArgumentOutOfRangeException($"Cannot have a values switch with less than 1 values");
+                if (p.MaxAllowed > 1)
+                {
+                    positionalList += p.MaxAllowed == int.MaxValue ? $"..pN" : $"..p{p.MaxAllowed}";
+                }
+
+                sb.Append($" [{positionalList}]");
+            }
+            return new TextNode(sb.ToString());
         }
     }
 }

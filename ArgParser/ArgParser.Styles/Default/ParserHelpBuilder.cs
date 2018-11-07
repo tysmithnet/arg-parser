@@ -30,7 +30,7 @@ namespace ArgParser.Styles.Default
             Help.Version = version;
             return this;
         }
-
+        
         protected internal ParserHelp Help { get; set; } = new ParserHelp();
         protected internal Parser Parser { get; set; }
     }
