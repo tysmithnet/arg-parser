@@ -8,9 +8,22 @@ namespace ArgParser.Styles.Default
         public RootNode Create(string parserId, IContext context)
         {
             var rootNode = new RootNode();
-            var usageFac = new UsageFactory();
-            rootNode.AddChild(usageFac.Create(parserId, context));
             return rootNode;
+        }
+
+        public virtual BlockNode CreateHeading(string parserId, IContext context)
+        {
+            var usageFac = new UsageFactory();
+
+            return new BlockNode()
+            {
+                Children =
+                {
+                    new HeadingNode(parserId),
+                    new TextNode("Usage: "),
+                    usageFac.Create(parserId, context),
+                }
+            };
         }
     }
 }
