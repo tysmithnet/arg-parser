@@ -29,27 +29,6 @@ namespace ArgParser.Styles.Test.Default
         }
 
         [Fact]
-        public void Throw_If_Multiple_Strings_Passed_To_The_Single_String_Callback()
-        {
-            // arrange
-            var contextBuilder = new ContextBuilder();
-            var parser0 = new Parser<string>("base");
-            var builder0 = new ParserBuilder<string>(contextBuilder, parser0);
-            var parser1 = new Parser("base");
-            var builder1 = new ParserBuilder(contextBuilder, parser1);
-
-            // act
-            builder0.WithPositional((o, s) => { });
-            builder1.WithPositional((o, s) => { });
-
-            // assert
-            Action mightThrow0 = () => builder0.Parser.Parameters.Single().ConsumeCallback("", "a b".Split(' '));
-            mightThrow0.Should().Throw<InvalidOperationException>();
-            Action mightThrow1 = () => builder1.Parser.Parameters.Single().ConsumeCallback(new object(), "a b".Split(' '));
-            mightThrow1.Should().Throw<InvalidOperationException>();
-        }
-
-        [Fact]
         public void Allow_A_Positional_Of_Multiple_Values()
         {
             // arrange
@@ -167,6 +146,28 @@ namespace ArgParser.Styles.Test.Default
             // act
             // assert
             builder.Finish.Should().BeSameAs(contextBuilder);
+        }
+
+        [Fact]
+        public void Throw_If_Multiple_Strings_Passed_To_The_Single_String_Callback()
+        {
+            // arrange
+            var contextBuilder = new ContextBuilder();
+            var parser0 = new Parser<string>("base");
+            var builder0 = new ParserBuilder<string>(contextBuilder, parser0);
+            var parser1 = new Parser("base");
+            var builder1 = new ParserBuilder(contextBuilder, parser1);
+
+            // act
+            builder0.WithPositional((o, s) => { });
+            builder1.WithPositional((o, s) => { });
+
+            // assert
+            Action mightThrow0 = () => builder0.Parser.Parameters.Single().ConsumeCallback("", "a b".Split(' '));
+            mightThrow0.Should().Throw<InvalidOperationException>();
+            Action mightThrow1 = () =>
+                builder1.Parser.Parameters.Single().ConsumeCallback(new object(), "a b".Split(' '));
+            mightThrow1.Should().Throw<InvalidOperationException>();
         }
     }
 }

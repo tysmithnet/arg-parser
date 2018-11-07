@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ArgParser.Styles.Default;
 using FluentAssertions;
 using Xunit;
@@ -11,42 +8,6 @@ namespace ArgParser.Styles.Test.Default
 {
     public class UsageFactory_Should
     {
-        [Fact]
-        public void Throw_If_Given_Bad_Values()
-        {
-            // arrange
-            var builder = new ContextBuilder()
-                .AddParser("base")
-                .Finish;
-            Action mightThrow0 = () => new UsageFactory().Create(null, null);
-            Action mightThrow1 = () => new UsageFactory().Create("base", null);
-            Action mightThrow2 = () => new UsageFactory().Create(null, builder.BuildContext());
-            Action mightThrow3 = () => new UsageFactory().Create("madeup", builder.BuildContext());
-
-            // act
-            // assert
-            mightThrow0.Should().Throw<ArgumentNullException>();
-            mightThrow1.Should().Throw<ArgumentNullException>();
-            mightThrow2.Should().Throw<ArgumentNullException>();
-            mightThrow3.Should().Throw<KeyNotFoundException>();
-        }
-
-        [Fact]
-        public void Return_The_Root_Parser_Id_If_Nothing_Configured()
-        {
-            // arrange
-            var builder = new ContextBuilder()
-                .AddParser("base")
-                .Finish;
-            var fac = new UsageFactory();
-
-            // act
-            var node = fac.Create("base", builder.BuildContext());
-
-            // assert
-            node.Text.Should().Be("base");
-        }
-
         [Fact]
         public void Group_Boolean_Switches()
         {
@@ -118,6 +79,33 @@ namespace ArgParser.Styles.Test.Default
         }
 
         [Fact]
+        public void List_Sub_Commands_First()
+        {
+            // arrange
+            var builder = new ContextBuilder()
+                    .AddParser("base")
+                    .Finish
+                    .AddParser("child0")
+                    .Finish
+                    .AddParser("child1")
+                    .Finish
+                    .AddParser("child2")
+                    .Finish
+                    .CreateParentChildRelationship("base", "child0")
+                    .CreateParentChildRelationship("base", "child1")
+                    .CreateParentChildRelationship("base", "child2")
+                ;
+
+            var fac = new UsageFactory();
+
+            // act
+            var node = fac.Create("base", builder.BuildContext());
+
+            // assert
+            node.Text.Should().Be("base [child0|child1|child2]");
+        }
+
+        [Fact]
         public void List_Switch_Word_When_No_Letter()
         {
             // arrange
@@ -129,7 +117,7 @@ namespace ArgParser.Styles.Test.Default
                 .WithValuesSwitch(null, "monitor", (o, s) => { }, 2, 5)
                 .Finish
                 .AddParser("child")
-                .WithValuesSwitch(null, "capture", (o, s) => { },1, 5)
+                .WithValuesSwitch(null, "capture", (o, s) => { }, 1, 5)
                 .Finish
                 .CreateParentChildRelationship("base", "child");
 
@@ -167,30 +155,39 @@ namespace ArgParser.Styles.Test.Default
         }
 
         [Fact]
-        public void List_Sub_Commands_First()
+        public void Return_The_Root_Parser_Id_If_Nothing_Configured()
         {
             // arrange
             var builder = new ContextBuilder()
                 .AddParser("base")
-                .Finish
-                .AddParser("child0")
-                .Finish
-                .AddParser("child1")
-                .Finish
-                .AddParser("child2")
-                .Finish
-                .CreateParentChildRelationship("base", "child0")
-                .CreateParentChildRelationship("base", "child1")
-                .CreateParentChildRelationship("base", "child2")
-                ;
-
+                .Finish;
             var fac = new UsageFactory();
 
             // act
             var node = fac.Create("base", builder.BuildContext());
 
             // assert
-            node.Text.Should().Be("base [child0|child1|child2]"); 
+            node.Text.Should().Be("base");
+        }
+
+        [Fact]
+        public void Throw_If_Given_Bad_Values()
+        {
+            // arrange
+            var builder = new ContextBuilder()
+                .AddParser("base")
+                .Finish;
+            Action mightThrow0 = () => new UsageFactory().Create(null, null);
+            Action mightThrow1 = () => new UsageFactory().Create("base", null);
+            Action mightThrow2 = () => new UsageFactory().Create(null, builder.BuildContext());
+            Action mightThrow3 = () => new UsageFactory().Create("madeup", builder.BuildContext());
+
+            // act
+            // assert
+            mightThrow0.Should().Throw<ArgumentNullException>();
+            mightThrow1.Should().Throw<ArgumentNullException>();
+            mightThrow2.Should().Throw<ArgumentNullException>();
+            mightThrow3.Should().Throw<KeyNotFoundException>();
         }
     }
 }

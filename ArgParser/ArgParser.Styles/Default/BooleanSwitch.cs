@@ -15,7 +15,8 @@ namespace ArgParser.Styles.Default
 
     public class BooleanSwitch<T> : BooleanSwitch
     {
-        public BooleanSwitch(char? letter, string word, Action<T> consumeCallback) : base(letter, word, consumeCallback.ToNonGenericAction())
+        public BooleanSwitch(char? letter, string word, Action<T> consumeCallback) : base(letter, word,
+            consumeCallback.ToNonGenericAction())
         {
         }
     }

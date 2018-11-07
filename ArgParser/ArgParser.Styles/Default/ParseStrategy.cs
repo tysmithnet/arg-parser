@@ -30,7 +30,7 @@ namespace ArgParser.Styles.Default
             var parser = IdentifyRelevantParser(args, context);
             var chain = GetParserFamily(context, parser);
             var subcommandSequence = GetCommandIdentifyingSubsequence(args, context);
-            if(parser.FactoryFunction == null)
+            if (parser.FactoryFunction == null)
                 throw new NoFactoryFunctionException($"No factory function on parser={parser.Id}");
             var instance = parser.FactoryFunction();
             var info = new IterationInfo(args, subcommandSequence.Count);
@@ -70,7 +70,7 @@ namespace ArgParser.Styles.Default
             var toBeConsumed = currentInfo.FromNowOn().Take(canConsumeResult.NumConsumed).ToList();
             for (var i = 1;
                 i < toBeConsumed.Count;
-                i++) 
+                i++)
                 foreach (var parser in chain)
                 {
                     var info = currentInfo.Consume(i);

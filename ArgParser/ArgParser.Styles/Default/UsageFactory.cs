@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
 using ArgParser.Core;
 using ArgParser.Core.Help;
@@ -40,34 +38,31 @@ namespace ArgParser.Styles.Default
                 var inner = singlesWithLetters.Select(x => $"{x.Letter}").OrderBy(x => x);
                 sb.Append($" [-{inner.Join("")} v1]");
             }
+
             var singlesWithWords = singleSwitches.Where(b => !b.Letter.HasValue && b.Word != null).ToList();
             if (singlesWithWords.Any())
                 sb.Append($" [--{singlesWithWords.Select(x => x.Word).OrderBy(x => x).Join("|")} v1]");
 
             var valuesSwitches = parameters.OfType<ValuesSwitch>().ToList();
-            var valuesWithLetters = valuesSwitches.Where(b => b.Letter.HasValue).GroupBy(b => b.MaxAllowed).OrderBy(x => x.Key).ToList();
+            var valuesWithLetters = valuesSwitches.Where(b => b.Letter.HasValue).GroupBy(b => b.MaxAllowed)
+                .OrderBy(x => x.Key).ToList();
             foreach (var g in valuesWithLetters)
             {
-                string valueList = "v1";
+                var valueList = "v1";
 
-                if (g.Key > 1)
-                {
-                    valueList += g.Key == int.MaxValue ? $"..vN" : $"..v{g.Key}";
-                }
+                if (g.Key > 1) valueList += g.Key == int.MaxValue ? $"..vN" : $"..v{g.Key}";
 
                 var inner = g.Select(x => $"{x.Letter}").OrderBy(x => x);
                 sb.Append($" [-{inner.Join("")} {valueList}]");
             }
 
-            var valuesWithWords = valuesSwitches.Where(b => !b.Letter.HasValue && b.Word != null).GroupBy(b => b.MaxAllowed).ToList();
+            var valuesWithWords = valuesSwitches.Where(b => !b.Letter.HasValue && b.Word != null)
+                .GroupBy(b => b.MaxAllowed).ToList();
             foreach (var g in valuesWithWords)
             {
-                string valueList = "v1";
+                var valueList = "v1";
 
-                if (g.Key > 1)
-                {
-                    valueList += g.Key == int.MaxValue ? $"..vN" : $"..v{g.Key}";
-                }
+                if (g.Key > 1) valueList += g.Key == int.MaxValue ? $"..vN" : $"..v{g.Key}";
 
                 sb.Append($" [--{g.Select(x => $"{x.Word}").OrderBy(x => x).Join("|")} {valueList}]");
             }
@@ -75,14 +70,12 @@ namespace ArgParser.Styles.Default
             var positionals = parameters.OfType<Positional>().ToList();
             foreach (var p in positionals)
             {
-                string positionalList = "p1";
-                if (p.MaxAllowed > 1)
-                {
-                    positionalList += p.MaxAllowed == int.MaxValue ? $"..pN" : $"..p{p.MaxAllowed}";
-                }
+                var positionalList = "p1";
+                if (p.MaxAllowed > 1) positionalList += p.MaxAllowed == int.MaxValue ? $"..pN" : $"..p{p.MaxAllowed}";
 
                 sb.Append($" [{positionalList}]");
             }
+
             return new TextNode(sb.ToString());
         }
     }

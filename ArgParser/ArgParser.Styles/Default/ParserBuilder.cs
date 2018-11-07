@@ -54,7 +54,8 @@ namespace ArgParser.Styles.Default
             return this;
         }
 
-        public ParserBuilder WithValuesSwitch(char? letter, string word, Action<object, string[]> consumeCallback, int min = 1, int max = int.MaxValue, Action<ParameterHelpBuilder> helpSetupCallback = null)
+        public ParserBuilder WithValuesSwitch(char? letter, string word, Action<object, string[]> consumeCallback,
+            int min = 1, int max = int.MaxValue, Action<ParameterHelpBuilder> helpSetupCallback = null)
         {
             var sw = new ValuesSwitch(letter, word, consumeCallback)
             {
@@ -126,7 +127,8 @@ namespace ArgParser.Styles.Default
             return this;
         }
 
-        public ParserBuilder<T> WithValuesSwitch(char? letter, string word, Action<T, string[]> consumeCallback, int min = 1, int max = int.MaxValue, Action<ParameterHelpBuilder> helpSetupCallback = null)
+        public ParserBuilder<T> WithValuesSwitch(char? letter, string word, Action<T, string[]> consumeCallback,
+            int min = 1, int max = int.MaxValue, Action<ParameterHelpBuilder> helpSetupCallback = null)
         {
             var sw = new ValuesSwitch<T>(letter, word, consumeCallback);
             AddParameterInternal(sw, helpSetupCallback);

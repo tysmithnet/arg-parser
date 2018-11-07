@@ -5,18 +5,12 @@ namespace ArgParser.Styles.Default
 {
     public class ParameterHelpBuilder
     {
-        protected internal ParameterHelp Help { get; set; } = new ParameterHelp();
-        protected internal Parameter Parameter { get; set; }
-
         public ParameterHelpBuilder(Parameter parameter)
         {
             Parameter = parameter.ThrowIfArgumentNull(nameof(parameter));
         }
 
-        public ParameterHelp Build()
-        {
-            return Help;
-        }
+        public ParameterHelp Build() => Help;
 
         public ParameterHelpBuilder SetName(string name)
         {
@@ -29,5 +23,8 @@ namespace ArgParser.Styles.Default
             Help.ShortDescription = desc;
             return this;
         }
+
+        protected internal ParameterHelp Help { get; set; } = new ParameterHelp();
+        protected internal Parameter Parameter { get; set; }
     }
 }

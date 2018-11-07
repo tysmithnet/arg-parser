@@ -1,6 +1,5 @@
 ﻿using System;
 using ArgParser.Core;
-using ArgParser.Core.Help;
 
 namespace ArgParser.Styles.Default
 {
@@ -31,6 +30,7 @@ namespace ArgParser.Styles.Default
                 helpSetupCallback(builder);
                 parser.Help = builder.Build();
             }
+
             return new ParserBuilder<T>(this, parser);
         }
 

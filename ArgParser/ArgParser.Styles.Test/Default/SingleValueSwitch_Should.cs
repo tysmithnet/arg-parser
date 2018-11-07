@@ -50,7 +50,7 @@ namespace ArgParser.Styles.Test.Default
             var sw = new SingleValueSwitch<StringBuilder>('l', "log", (o, s) => values.Add(s));
             var info = new IterationInfo("-l log.txt -o other".Split(' '), 0);
             Action mightThrow = () => sw.Consume(new object(), new ConsumptionRequest(info, 2));
-            
+
             // act
             // assert
             mightThrow.Should().Throw<ArgumentException>();

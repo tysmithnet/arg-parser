@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using ArgParser.Core;
 
 namespace ArgParser.Styles.Default
 {
     public class Positional : Parameter
     {
-        public Positional(Action<object, string[]> consumeCallback, int min = 1, int max = int.MaxValue) : base(consumeCallback)
+        public Positional(Action<object, string[]> consumeCallback, int min = 1, int max = int.MaxValue) : base(
+            consumeCallback)
         {
             MinRequired = min;
             MaxAllowed = max;
@@ -16,7 +15,7 @@ namespace ArgParser.Styles.Default
 
         public override ConsumptionResult CanConsume(object instance, IterationInfo info)
         {
-            if(HasBeenConsumed)
+            if (HasBeenConsumed)
                 return new ConsumptionResult(info, 0, null);
             var values = info.FromNowOn().Take(MaxAllowed).ToArray();
             return new ConsumptionResult(info, values.Length, this);
@@ -25,6 +24,11 @@ namespace ArgParser.Styles.Default
 
     public class Positional<T> : Positional
     {
+        public Positional(Action<T, string[]> consumeCallback, int min = 1, int max = int.MaxValue) : base(
+            Convert(consumeCallback), min, max)
+        {
+        }
+
         private static Action<object, string[]> Convert(Action<T, string[]> action)
         {
             return (instance, s) =>
@@ -35,11 +39,6 @@ namespace ArgParser.Styles.Default
                     throw new ArgumentException(
                         $"Expected to find object of type={typeof(T).FullName}, but found type={instance.GetType().FullName}");
             };
-        }
-
-        public Positional(Action<T, string[]> consumeCallback, int min = 1, int max = int.MaxValue) : base(Convert(consumeCallback), min, max)
-        {
-
         }
     }
 }
