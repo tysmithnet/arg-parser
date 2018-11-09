@@ -112,7 +112,7 @@ namespace ArgParser.Styles.Test.Default
 
             var context = builder.BuildContext();
             var parser = builder.ParserRepository.Get("gchild");
-            parser.AddParameter(new ParseStrategy_Should.BackwardsParameter());
+            parser.AddParameter(new BackwardsParameter());
             var strat = new ParseStrategy("base");
 
             // act

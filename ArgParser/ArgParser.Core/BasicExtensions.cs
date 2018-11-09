@@ -51,7 +51,8 @@ namespace ArgParser.Core
                 if (instance is T casted)
                     toConvert(casted);
                 else
-                    throw new ArgumentException($"Expected to find object of type={typeof(T).FullName}, but found type={instance.GetType().FullName}");
+                    throw new ArgumentException(
+                        $"Expected to find object of type={typeof(T).FullName}, but found type={instance.GetType().FullName}");
             };
         }
     }
