@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ArgParser.Core\ArgParser.Core.csproj" />
+    <ProjectReference Include="..\ArgParser.Styles\ArgParser.Styles.csproj" />
   </ItemGroup>
 
 </Project>

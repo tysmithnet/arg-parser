@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ArgParser.Core.Help;
-using ArgParser.Styles.Default;
+using ArgParser.HelpWriter;
 using FluentAssertions;
 using Xunit;
 
@@ -16,7 +16,7 @@ namespace ArgParser.Styles.Test.Default
         public void Return_An_Empty_String_For_An_Empty_Dom()
         {
             // arrange
-            var sut = new HelpWriter();
+            var sut = new DefaultHelpWriter();
             var root = new RootNode();
 
             // act

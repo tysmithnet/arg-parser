@@ -1,9 +1,7 @@
-﻿using ArgParser.Core.Help;
-using ArgParser.Styles.Default;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Xunit;
 
-namespace ArgParser.Styles.Test.Default
+namespace ArgParser.HelpWriter.Test
 {
     public class HelpWriterVisitor_Should
     {

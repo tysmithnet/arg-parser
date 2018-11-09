@@ -1,12 +1,11 @@
 ﻿using System;
 using ArgParser.Core;
-using ArgParser.Core.Help;
 using ArgParser.Styles.Default;
 using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace ArgParser.Styles.Test.Default
+namespace ArgParser.HelpWriter.Test
 {
     public class HelpNodeFactory_Should
     {

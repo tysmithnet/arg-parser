@@ -4,7 +4,7 @@ using ArgParser.Styles.Default;
 using FluentAssertions;
 using Xunit;
 
-namespace ArgParser.Styles.Test.Default
+namespace ArgParser.HelpWriter.Test
 {
     public class UsageFactory_Should
     {

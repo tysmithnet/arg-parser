@@ -5,11 +5,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D56631DE-E221-4A1B-BC8B-22A8B3FAE17F}</ProjectGuid>
+    <ProjectGuid>{24A038AB-C7AE-4ADF-8BF1-9F88FEA8FB0D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ArgParser.Core.Test</RootNamespace>
-    <AssemblyName>ArgParser.Core.Test</AssemblyName>
+    <RootNamespace>ArgParser.HelpWriter.Test</RootNamespace>
+    <AssemblyName>ArgParser.HelpWriter.Test</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -75,29 +75,32 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BasicExtensions_Should.cs" />
-    <Compile Include="ConsumptionRequestExtensions_Should.cs" />
-    <Compile Include="IterationInfoExtensions_Should.cs" />
-    <Compile Include="IterationInfo_Should.cs" />
-    <Compile Include="ParseException_Should.cs" />
-    <Compile Include="Parser_Should.cs" />
+    <Compile Include="HelpNodeFactory_Should.cs" />
+    <Compile Include="HelpWriterVisitor_Should.cs" />
+    <Compile Include="HelpWriter_Should.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UsageFactory_Should.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Analyzer Include="..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\ArgParser.Core\ArgParser.Core.csproj">
       <Project>{3388c6b5-010d-427e-b0b2-17bed051ae9c}</Project>
       <Name>ArgParser.Core</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Analyzer Include="..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Help\" />
+    <ProjectReference Include="..\ArgParser.HelpWriter\ArgParser.HelpWriter.csproj">
+      <Project>{4127a098-0868-4087-8ba1-b4d99c9bddeb}</Project>
+      <Name>ArgParser.HelpWriter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ArgParser.Styles\ArgParser.Styles.csproj">
+      <Project>{5151703F-7881-485E-ABF5-A52076BD4B5E}</Project>
+      <Name>ArgParser.Styles</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

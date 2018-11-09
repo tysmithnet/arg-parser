@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Text;
 using ArgParser.Core;
-using ArgParser.Core.Help;
+using ArgParser.Styles.Default;
 
-namespace ArgParser.Styles.Default
+namespace ArgParser.HelpWriter
 {
     public class UsageFactory : IUsageFactory
     {
