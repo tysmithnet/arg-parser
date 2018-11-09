@@ -1,9 +1,8 @@
 ﻿using System.Linq;
 using ArgParser.Core;
-using ArgParser.Core.Help;
-using ArgParser.HelpWriter;
+using ArgParser.Styles.Default;
 
-namespace ArgParser.Styles.Default
+namespace ArgParser.Styles.Help
 {
     public class HelpNodeFactory : IHelpNodeFactory
     {

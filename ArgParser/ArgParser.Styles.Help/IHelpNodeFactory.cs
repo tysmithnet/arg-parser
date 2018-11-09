@@ -1,6 +1,6 @@
 ﻿using ArgParser.Core;
 
-namespace ArgParser.HelpWriter
+namespace ArgParser.Styles.Help
 {
     public interface IHelpNodeFactory
     {

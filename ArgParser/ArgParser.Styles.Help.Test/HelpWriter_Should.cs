@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ArgParser.Core.Help;
-using ArgParser.HelpWriter;
+﻿using ArgParser.Styles.Help;
 using FluentAssertions;
 using Xunit;
 
-namespace ArgParser.Styles.Test.Default
+namespace ArgParser.Styles.Help.Test
 {
     public class HelpWriter_Should
     {
@@ -16,7 +10,7 @@ namespace ArgParser.Styles.Test.Default
         public void Return_An_Empty_String_For_An_Empty_Dom()
         {
             // arrange
-            var sut = new HelpWriter.HelpWriter();
+            var sut = new Styles.Help.HelpWriter();
             var root = new RootNode();
 
             // act

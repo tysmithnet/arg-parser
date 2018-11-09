@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace ArgParser.HelpWriter
+namespace ArgParser.Styles.Help
 {
     public class HelpWriterVisitor : IHelpNodeVisitor<object>
     {

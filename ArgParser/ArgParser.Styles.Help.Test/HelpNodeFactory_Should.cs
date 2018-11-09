@@ -5,7 +5,7 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace ArgParser.HelpWriter.Test
+namespace ArgParser.Styles.Help.Test
 {
     public class HelpNodeFactory_Should
     {

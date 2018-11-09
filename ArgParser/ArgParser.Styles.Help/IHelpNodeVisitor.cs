@@ -1,4 +1,4 @@
-﻿namespace ArgParser.HelpWriter
+﻿namespace ArgParser.Styles.Help
 {
     public interface IHelpNodeVisitor<out T>
     {

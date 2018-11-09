@@ -3,7 +3,7 @@ using System.Text;
 using ArgParser.Core;
 using ArgParser.Styles.Default;
 
-namespace ArgParser.HelpWriter
+namespace ArgParser.Styles.Help
 {
     public class UsageFactory : IUsageFactory
     {
