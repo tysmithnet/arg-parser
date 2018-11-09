@@ -19,6 +19,11 @@ namespace ArgParser.Styles.Default
     {
         protected internal StringBuilder Builder { get; set; } = new StringBuilder();
 
+        public override string ToString()
+        {
+            return Builder.ToString();
+        }
+
         public object Visit(HelpNode node)
         {
             foreach (var nodeChild in node.Children)
@@ -53,11 +58,13 @@ namespace ArgParser.Styles.Default
 
         public object Visit(BlockNode node)
         {
+            if (Builder.Length > 0 && Builder[Builder.Length - 1] != '\n') 
+                Builder.AppendLine();
             foreach (var nodeChild in node.Children)
             {
                 nodeChild.Accept(this);
             }
-
+            Builder.AppendLine();
             return null;
         }
 
