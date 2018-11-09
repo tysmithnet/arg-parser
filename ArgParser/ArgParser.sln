@@ -15,9 +15,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgParser.TestApp", "ArgPar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArgParser.Testing.Common", "ArgParser.Testing.Common\ArgParser.Testing.Common.csproj", "{5B73286C-5EDE-46A2-BA78-B7A1FD61C5A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgParser.HelpWriter", "ArgParser.HelpWriter\ArgParser.HelpWriter.csproj", "{4127A098-0868-4087-8BA1-B4D99C9BDDEB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArgParser.Styles.Help", "ArgParser.Styles.Help\ArgParser.Styles.Help.csproj", "{58A58C86-EBDF-4617-B281-FF391CC4093D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgParser.HelpWriter.Test", "ArgParser.HelpWriter.Test\ArgParser.HelpWriter.Test.csproj", "{24A038AB-C7AE-4ADF-8BF1-9F88FEA8FB0D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgParser.Styles.Help.Test", "ArgParser.Styles.Help.Test\ArgParser.Styles.Help.Test.csproj", "{24A038AB-C7AE-4ADF-8BF1-9F88FEA8FB0D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,10 +49,10 @@ Global
 		{5B73286C-5EDE-46A2-BA78-B7A1FD61C5A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B73286C-5EDE-46A2-BA78-B7A1FD61C5A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B73286C-5EDE-46A2-BA78-B7A1FD61C5A6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4127A098-0868-4087-8BA1-B4D99C9BDDEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4127A098-0868-4087-8BA1-B4D99C9BDDEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4127A098-0868-4087-8BA1-B4D99C9BDDEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4127A098-0868-4087-8BA1-B4D99C9BDDEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58A58C86-EBDF-4617-B281-FF391CC4093D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58A58C86-EBDF-4617-B281-FF391CC4093D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58A58C86-EBDF-4617-B281-FF391CC4093D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58A58C86-EBDF-4617-B281-FF391CC4093D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{24A038AB-C7AE-4ADF-8BF1-9F88FEA8FB0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{24A038AB-C7AE-4ADF-8BF1-9F88FEA8FB0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24A038AB-C7AE-4ADF-8BF1-9F88FEA8FB0D}.Release|Any CPU.ActiveCfg = Release|Any CPU

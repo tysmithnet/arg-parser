@@ -93,9 +93,9 @@
       <Project>{3388c6b5-010d-427e-b0b2-17bed051ae9c}</Project>
       <Name>ArgParser.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ArgParser.HelpWriter\ArgParser.HelpWriter.csproj">
-      <Project>{4127a098-0868-4087-8ba1-b4d99c9bddeb}</Project>
-      <Name>ArgParser.HelpWriter</Name>
+    <ProjectReference Include="..\ArgParser.Styles.Help\ArgParser.Styles.Help.csproj">
+      <Project>{58A58C86-EBDF-4617-B281-FF391CC4093D}</Project>
+      <Name>ArgParser.Styles.Help</Name>
     </ProjectReference>
     <ProjectReference Include="..\ArgParser.Styles\ArgParser.Styles.csproj">
       <Project>{5151703F-7881-485E-ABF5-A52076BD4B5E}</Project>
