@@ -18,6 +18,12 @@ namespace ArgParser.Styles.Default
             return this;
         }
 
+        public ParserHelpBuilder SetLongDescription(string desc)
+        {
+            Help.LongDescription = desc;
+            return this;
+        }
+
         public ParserHelpBuilder SetShortDescription(string desc)
         {
             Help.ShortDescription = desc;
