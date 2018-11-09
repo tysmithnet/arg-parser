@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using ArgParser.Core.Help;
 
 namespace ArgParser.Core
 {
     [DebuggerDisplay("{Id}")]
     public class Parser : IConsumer
     {
+        public ParserHelp Help { get; set; }
+
         public Parser(string id)
         {
             Id = id;
@@ -37,7 +40,6 @@ namespace ArgParser.Core
                 parameter.Reset();
             }
         }
-
         public Func<object> FactoryFunction { get; set; }
         public string Id { get; protected internal set; }
         public IEnumerable<Parameter> Parameters => ParametersInternal.ToList();

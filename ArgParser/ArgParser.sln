@@ -11,11 +11,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgParser.Styles.Test", "Ar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgParser.Core.Test", "ArgParser.Core.Test\ArgParser.Core.Test.csproj", "{D56631DE-E221-4A1B-BC8B-22A8B3FAE17F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArgParser.Styles.ColorHelpWriter", "ArgParser.Styles.ColorHelpWriter\ArgParser.Styles.ColorHelpWriter.csproj", "{7303B149-3374-4FF4-B2AC-2D03E9D1270A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgParser.TestApp", "ArgParser.TestApp\ArgParser.TestApp.csproj", "{30888984-3A5B-4AD8-84AD-8C55A3696273}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgParser.Testing.Common", "ArgParser.Testing.Common\ArgParser.Testing.Common.csproj", "{5B73286C-5EDE-46A2-BA78-B7A1FD61C5A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArgParser.Testing.Common", "ArgParser.Testing.Common\ArgParser.Testing.Common.csproj", "{5B73286C-5EDE-46A2-BA78-B7A1FD61C5A6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArgParser.Styles.Help", "ArgParser.Styles.Help\ArgParser.Styles.Help.csproj", "{58A58C86-EBDF-4617-B281-FF391CC4093D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgParser.Styles.Help.Test", "ArgParser.Styles.Help.Test\ArgParser.Styles.Help.Test.csproj", "{24A038AB-C7AE-4ADF-8BF1-9F88FEA8FB0D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,10 +41,6 @@ Global
 		{D56631DE-E221-4A1B-BC8B-22A8B3FAE17F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D56631DE-E221-4A1B-BC8B-22A8B3FAE17F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D56631DE-E221-4A1B-BC8B-22A8B3FAE17F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7303B149-3374-4FF4-B2AC-2D03E9D1270A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7303B149-3374-4FF4-B2AC-2D03E9D1270A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7303B149-3374-4FF4-B2AC-2D03E9D1270A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7303B149-3374-4FF4-B2AC-2D03E9D1270A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{30888984-3A5B-4AD8-84AD-8C55A3696273}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{30888984-3A5B-4AD8-84AD-8C55A3696273}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30888984-3A5B-4AD8-84AD-8C55A3696273}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -51,6 +49,14 @@ Global
 		{5B73286C-5EDE-46A2-BA78-B7A1FD61C5A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B73286C-5EDE-46A2-BA78-B7A1FD61C5A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B73286C-5EDE-46A2-BA78-B7A1FD61C5A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58A58C86-EBDF-4617-B281-FF391CC4093D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58A58C86-EBDF-4617-B281-FF391CC4093D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58A58C86-EBDF-4617-B281-FF391CC4093D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58A58C86-EBDF-4617-B281-FF391CC4093D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24A038AB-C7AE-4ADF-8BF1-9F88FEA8FB0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24A038AB-C7AE-4ADF-8BF1-9F88FEA8FB0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24A038AB-C7AE-4ADF-8BF1-9F88FEA8FB0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24A038AB-C7AE-4ADF-8BF1-9F88FEA8FB0D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

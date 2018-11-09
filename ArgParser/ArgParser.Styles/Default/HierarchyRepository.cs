@@ -45,6 +45,14 @@ namespace ArgParser.Styles.Default
             return results;
         }
 
+        public IEnumerable<string> GetChildren(string parserId)
+        {
+            if (!Nodes.ContainsKey(parserId))
+                throw new KeyNotFoundException(
+                    $"Unable to find parent parser with id={parserId}, are you sure it was added and you are using the correct id?");
+            return Nodes[parserId].Children.Select(x => x.Id);
+        }
+
         public bool IsParent(string parentParserId, string childParserId)
         {
             if (childParserId == null)
@@ -58,7 +66,6 @@ namespace ArgParser.Styles.Default
 
         protected internal class Node
         {
-            /// <inheritdoc />
             public Node(string id)
             {
                 Id = id.ThrowIfArgumentNull(nameof(id));

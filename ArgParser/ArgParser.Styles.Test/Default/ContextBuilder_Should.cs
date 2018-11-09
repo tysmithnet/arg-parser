@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Xml;
 using ArgParser.Styles.Default;
 using ArgParser.Testing.Common;
 using FluentAssertions;
@@ -77,7 +76,7 @@ namespace ArgParser.Styles.Test.Default
             var result = builder.Parse("base", args);
 
             // assert
-            bool isParsed = false;
+            var isParsed = false;
             result.When<BlockProgramOptions>(options =>
             {
                 isParsed = true;

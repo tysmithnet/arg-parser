@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ArgParser.Core;
 using ArgParser.Styles.Default;
 using FluentAssertions;
@@ -12,6 +8,25 @@ namespace ArgParser.Styles.Test.Default
 {
     public class Positional_Should
     {
+        [Fact]
+        public void Consume_The_Min_Of_The_Number_It_Wants_Vs_The_Number_It_Can_Have()
+        {
+            // arrange
+            var positional = new Positional<string>((o, strings) => { })
+            {
+                MaxAllowed = 3
+            };
+            var info = new IterationInfo("a b c d e f".Split(' '));
+
+            // act
+            var res0 = positional.Consume("", new ConsumptionRequest(info, int.MaxValue));
+            var res1 = positional.Consume("", new ConsumptionRequest(info, 2));
+
+            // assert
+            res0.NumConsumed.Should().Be(3);
+            res1.NumConsumed.Should().Be(2);
+        }
+
         [Fact]
         public void Indicate_It_Cannot_Consume_If_It_Has_Already_Consumed()
         {
@@ -52,25 +67,6 @@ namespace ArgParser.Styles.Test.Default
             // act
             // assert
             mightThrow.Should().Throw<ArgumentException>();
-        }
-
-        [Fact]
-        public void Consume_The_Min_Of_The_Number_It_Wants_Vs_The_Number_It_Can_Have()
-        {
-            // arrange
-            var positional = new Positional<string>((o, strings) => { })
-            {
-                MaxAllowed = 3
-            };
-            var info = new IterationInfo("a b c d e f".Split(' '));
-
-            // act
-            var res0 = positional.Consume("", new ConsumptionRequest(info, int.MaxValue));
-            var res1 = positional.Consume("", new ConsumptionRequest(info, 2));
-
-            // assert
-            res0.NumConsumed.Should().Be(3);
-            res1.NumConsumed.Should().Be(2);
         }
     }
 }

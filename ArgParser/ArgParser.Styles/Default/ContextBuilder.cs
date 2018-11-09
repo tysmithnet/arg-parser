@@ -1,20 +1,36 @@
-﻿using ArgParser.Core;
+﻿using System;
+using ArgParser.Core;
 
 namespace ArgParser.Styles.Default
 {
     public class ContextBuilder
     {
-        public ParserBuilder AddParser(string id)
+        public ParserBuilder AddParser(string id, Action<ParserHelpBuilder> helpSetupCallback = null)
         {
             var parser = ParserRepository.Create(id);
             HierarchyRepository.AddParser(id);
+            if (helpSetupCallback != null)
+            {
+                var builder = new ParserHelpBuilder(parser);
+                helpSetupCallback(builder);
+                parser.Help = builder.Build();
+            }
+
             return new ParserBuilder(this, parser);
         }
 
-        public ParserBuilder<T> AddParser<T>(string id)
+        public ParserBuilder<T> AddParser<T>(string id, Action<ParserHelpBuilder> helpSetupCallback = null)
         {
             var parser = ParserRepository.Create<T>(id);
             HierarchyRepository.AddParser(id);
+
+            if (helpSetupCallback != null)
+            {
+                var builder = new ParserHelpBuilder(parser);
+                helpSetupCallback(builder);
+                parser.Help = builder.Build();
+            }
+
             return new ParserBuilder<T>(this, parser);
         }
 
@@ -32,7 +48,6 @@ namespace ArgParser.Styles.Default
 
         public IParseResult Parse(string parser, string[] args)
         {
-            
             var strat = new ParseStrategy(parser);
             var context = BuildContext();
             return strat.Parse(args, context);

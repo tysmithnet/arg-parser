@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ArgParser.Styles.Default.Help
+namespace ArgParser.Styles.Help
 {
     public abstract class HelpNode
     {

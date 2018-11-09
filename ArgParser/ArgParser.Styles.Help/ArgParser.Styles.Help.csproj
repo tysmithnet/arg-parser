@@ -8,4 +8,9 @@
     <PackageReference Include="Alba.CsConsoleFormat.ColorfulConsole" Version="1.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ArgParser.Core\ArgParser.Core.csproj" />
+    <ProjectReference Include="..\ArgParser.Styles\ArgParser.Styles.csproj" />
+  </ItemGroup>
+
 </Project>

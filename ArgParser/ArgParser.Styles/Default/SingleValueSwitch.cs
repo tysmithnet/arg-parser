@@ -15,6 +15,11 @@ namespace ArgParser.Styles.Default
 
     public class SingleValueSwitch<T> : SingleValueSwitch
     {
+        public SingleValueSwitch(char? letter, string word, Action<T, string> consumeCallback) : base(letter, word,
+            Convert(consumeCallback))
+        {
+        }
+
         private static Action<object, string> Convert(Action<T, string> action)
         {
             return (instance, s) =>
@@ -25,10 +30,6 @@ namespace ArgParser.Styles.Default
                     throw new ArgumentException(
                         $"Expected to find object of type={typeof(T).FullName}, but found type={instance.GetType().FullName}");
             };
-        }
-
-        public SingleValueSwitch(char? letter, string word, Action<T, string> consumeCallback) : base(letter, word, Convert(consumeCallback))
-        {
         }
     }
 }
