@@ -1,4 +1,8 @@
-﻿using ArgParser.Styles.Help;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
 
@@ -7,17 +11,23 @@ namespace ArgParser.Styles.Help.Test
     public class HelpWriter_Should
     {
         [Fact]
-        public void Return_An_Empty_String_For_An_Empty_Dom()
+        public void Pass_Hello_World_Test()
         {
             // arrange
-            var sut = new Styles.Help.HelpWriter();
-            var root = new RootNode();
+            var writer = new HelpWriter();
+            var root = new RootNode()
+            {
+                Children =
+                {
+                    new TextNode("hello world")
+                }
+            };
 
             // act
-            var res = sut.CreateHelp(root);
-
+            var res = writer.CreateHelpText(root);
+            
             // assert
-            res.Should().Be("");
+            res.Should().Be("hello world                                                                     ");
         }
     }
 }

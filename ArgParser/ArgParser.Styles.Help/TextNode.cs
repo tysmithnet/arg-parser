@@ -10,5 +10,10 @@ namespace ArgParser.Styles.Help
         }
 
         public string Text { get; protected internal set; }
+
+        public override T Accept<T>(IHelpNodeVisitor<T> visitor)
+        {
+            return visitor.Visit(this);
+        }
     }
 }
