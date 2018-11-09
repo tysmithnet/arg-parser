@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ArgParser.Core.Help;
+﻿using System.Text;
 
-namespace ArgParser.Styles.Default
+namespace ArgParser.HelpWriter
 {
     public class HelpWriterVisitor : IHelpNodeVisitor<object>
     {

@@ -1,6 +1,4 @@
-﻿using ArgParser.Core.Help;
-
-namespace ArgParser.Styles.Default
+﻿namespace ArgParser.HelpWriter
 {
     public class HelpWriter
     {

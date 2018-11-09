@@ -1,4 +1,4 @@
-﻿namespace ArgParser.Core.Help
+﻿namespace ArgParser.HelpWriter
 {
     public class TextNode : HelpNode
     {
