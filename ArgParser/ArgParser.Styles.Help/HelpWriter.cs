@@ -1,6 +1,6 @@
 ﻿namespace ArgParser.HelpWriter
 {
-    public class DefaultHelpWriter
+    public class HelpWriter
     {
         public string CreateHelp(RootNode rootNode)
         {

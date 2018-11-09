@@ -16,7 +16,7 @@ namespace ArgParser.Styles.Test.Default
         public void Return_An_Empty_String_For_An_Empty_Dom()
         {
             // arrange
-            var sut = new DefaultHelpWriter();
+            var sut = new HelpWriter.HelpWriter();
             var root = new RootNode();
 
             // act
