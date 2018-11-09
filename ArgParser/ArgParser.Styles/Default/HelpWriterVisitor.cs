@@ -19,7 +19,6 @@ namespace ArgParser.Styles.Default
     {
         protected internal StringBuilder Builder { get; set; } = new StringBuilder();
 
-        /// <inheritdoc />
         public object Visit(HelpNode node)
         {
             foreach (var nodeChild in node.Children)
@@ -30,7 +29,6 @@ namespace ArgParser.Styles.Default
             return null;
         }
 
-        /// <inheritdoc />
         public object Visit(RootNode node)
         {
             foreach (var nodeChild in node.Children)
@@ -41,21 +39,18 @@ namespace ArgParser.Styles.Default
             return null;
         }
 
-        /// <inheritdoc />
         public object Visit(TextNode node)
         {
             Builder.Append(node.Text);
             return null;
         }
 
-        /// <inheritdoc />
         public object Visit(HeadingNode node)
         {
             Builder.AppendLine(node.Text);
             return null;
         }
 
-        /// <inheritdoc />
         public object Visit(BlockNode node)
         {
             foreach (var nodeChild in node.Children)
@@ -66,14 +61,12 @@ namespace ArgParser.Styles.Default
             return null;
         }
 
-        /// <inheritdoc />
         public object Visit(HorizontalLineNode node)
         {
             Builder.AppendLine("------------------------------");
             return null;
         }
 
-        /// <inheritdoc />
         public object Visit(GridNode node)
         {
             int n = node.Columns;
@@ -87,7 +80,6 @@ namespace ArgParser.Styles.Default
             return null;
         }
 
-        /// <inheritdoc />
         public object Visit(CodeNode node)
         {
             Builder.Append(node.Text);
