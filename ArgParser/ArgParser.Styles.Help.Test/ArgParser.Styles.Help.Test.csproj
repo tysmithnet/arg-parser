@@ -76,6 +76,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Advanced_Tests.cs" />
     <Compile Include="HelpNodeFactory_Should.cs" />
     <Compile Include="HelpWriter_Should.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -100,6 +101,10 @@
     <ProjectReference Include="..\ArgParser.Styles\ArgParser.Styles.csproj">
       <Project>{5151703F-7881-485E-ABF5-A52076BD4B5E}</Project>
       <Name>ArgParser.Styles</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ArgParser.Testing.Common\ArgParser.Testing.Common.csproj">
+      <Project>{5B73286C-5EDE-46A2-BA78-B7A1FD61C5A6}</Project>
+      <Name>ArgParser.Testing.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

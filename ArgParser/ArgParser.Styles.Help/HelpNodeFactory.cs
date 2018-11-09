@@ -35,7 +35,7 @@ namespace ArgParser.Styles.Help
                     new TextNode("Usage: "),
                     UsageFactory.Create(parserId, context)
                 ),
-                new TextNode(parser.Help.LongDescription)
+                new TextNode(parser.Help?.LongDescription)
             );
         }
 
@@ -52,7 +52,7 @@ namespace ArgParser.Styles.Help
             foreach (var parameter in parser.Parameters.OfType<Switch>())
             {
                 grid.AddChild(new TextNode(parameter.ToString()));
-                grid.AddChild(new TextNode(parameter.Help.ShortDescription));
+                grid.AddChild(new TextNode(parameter.Help?.ShortDescription));
             }
 
             return grid;
@@ -69,7 +69,7 @@ namespace ArgParser.Styles.Help
             foreach (var child in children)
             {
                 grid.AddChild(new TextNode(child.Id));
-                grid.AddChild(new TextNode(child.Help.ShortDescription));
+                grid.AddChild(new TextNode(child.Help?.ShortDescription));
             }
 
             return grid;

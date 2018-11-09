@@ -6,7 +6,7 @@ namespace ArgParser.Styles.Help
     {
         public TextNode(string text)
         {
-            Text = text.ThrowIfArgumentNull(nameof(text));
+            Text = text ?? "";
         }
 
         public string Text { get; protected internal set; }
