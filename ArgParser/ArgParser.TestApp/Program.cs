@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.InteropServices;
+using ArgParser.Core;
 using ArgParser.Styles.Help;
 using ArgParser.Testing.Common;
 using Newtonsoft.Json;
@@ -38,11 +40,17 @@ namespace ArgParser.TestApp
 
         private static void Main(string[] args)
         {
+            Console.WriteLine("Enter commands e.g. firewall -h");
             while (true)
             {
-                Console.Write($"Enter command line: ");
+                Console.Write($"$ util ");
                 var line = Console.ReadLine();
-                args = CommandLineToArgs(line);
+                if (line.IsNullOrWhiteSpace())
+                    continue;
+                args = CommandLineToArgs(line).Where(x => !x.IsNullOrWhiteSpace()).ToArray();
+                if(args.Length == 0)
+                    continue;
+                
                 var builder = DefaultBuilder.CreateDefaultBuilder();
                 var context = builder.BuildContext();
                 var result = builder.Parse("util", args);
