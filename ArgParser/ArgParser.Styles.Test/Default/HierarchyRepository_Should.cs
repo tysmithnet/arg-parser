@@ -28,18 +28,6 @@ namespace ArgParser.Styles.Test.Default
         }
 
         [Fact]
-        public void Throw_If_Requested_Parser_Is_Not_Found()
-        {
-            // arrange
-            var repo = new HierarchyRepository();
-            Action mightThrow = () => repo.GetChildren("doesntexist");
-
-            // act
-            // assert
-            mightThrow.Should().Throw<KeyNotFoundException>();
-        }
-
-        [Fact]
         public void Correctly_Get_A_Parsers_Ancestors()
         {
             // arrange
@@ -138,6 +126,18 @@ namespace ArgParser.Styles.Test.Default
             mightThrow2.Should().NotThrow();
             mightThrow3.Should().Throw<KeyNotFoundException>();
             mightThrow4.Should().Throw<KeyNotFoundException>();
+        }
+
+        [Fact]
+        public void Throw_If_Requested_Parser_Is_Not_Found()
+        {
+            // arrange
+            var repo = new HierarchyRepository();
+            Action mightThrow = () => repo.GetChildren("doesntexist");
+
+            // act
+            // assert
+            mightThrow.Should().Throw<KeyNotFoundException>();
         }
     }
 }

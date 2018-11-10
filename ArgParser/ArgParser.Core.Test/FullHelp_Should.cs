@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ArgParser.Core.Help;
 using FluentAssertions;
 using Xunit;
@@ -11,18 +7,6 @@ namespace ArgParser.Core.Test
 {
     public class FullHelp_Should
     {
-        [Fact]
-        public void Throw_If_Given_Bad_Values()
-        {
-            // arrange
-            var help = new FullHelp();
-            Action mightThrow = () => help.AddExample(null);
-
-            // act
-            // assert
-            mightThrow.Should().Throw<ArgumentNullException>();
-        }
-
         [Fact]
         public void Allow_Examples_To_Be_Added()
         {
@@ -49,6 +33,18 @@ namespace ArgParser.Core.Test
 
             // assert
             help.Examples.Should().HaveCount(1);
+        }
+
+        [Fact]
+        public void Throw_If_Given_Bad_Values()
+        {
+            // arrange
+            var help = new FullHelp();
+            Action mightThrow = () => help.AddExample(null);
+
+            // act
+            // assert
+            mightThrow.Should().Throw<ArgumentNullException>();
         }
     }
 }
