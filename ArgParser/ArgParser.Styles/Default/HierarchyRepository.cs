@@ -13,6 +13,13 @@ namespace ArgParser.Styles.Default
             Nodes.Add(parserId, new Node(parserId));
         }
 
+        public string GetRoot()
+        {
+            var allChildren = Nodes.SelectMany(pair => pair.Value.Children);
+            var root = Nodes.Values.Except(allChildren).Single();
+            return root.Id;
+        }
+
         public void EstablishParentChildRelationship(string parentParserId, string childParserId)
         {
             parentParserId.ThrowIfArgumentNull(nameof(parentParserId));

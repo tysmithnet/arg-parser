@@ -28,6 +28,31 @@ namespace ArgParser.Styles.Test.Default
         }
 
         [Fact]
+        public void Correctly_Get_The_Root_Parser()
+        {
+            // arrange
+            var repo = new HierarchyRepository();
+
+            // act
+            repo.AddParser("base");
+            repo.AddParser("child0");
+            repo.AddParser("child1");
+            repo.AddParser("child0child0");
+            repo.AddParser("child0child1");
+            repo.AddParser("child1child0");
+            repo.AddParser("child1child1");
+            repo.EstablishParentChildRelationship("base", "child0");
+            repo.EstablishParentChildRelationship("base", "child1");
+            repo.EstablishParentChildRelationship("child0", "child0child0");
+            repo.EstablishParentChildRelationship("child0", "child0child1");
+            repo.EstablishParentChildRelationship("child1", "child1child0");
+            repo.EstablishParentChildRelationship("child1", "child1child1");
+
+            // assert
+            repo.GetRoot().Should().Be("base");
+        }
+
+        [Fact]
         public void Correctly_Get_A_Parsers_Ancestors()
         {
             // arrange
