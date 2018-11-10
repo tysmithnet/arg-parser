@@ -51,11 +51,23 @@ namespace ArgParser.TestApp
                 {
                     Console.WriteLine(options.GetType().FullName);
                     Console.WriteLine(JsonConvert.SerializeObject(options, Formatting.Indented));
-                    if (options.IsHelpRequested)
-                    {
-                        context.RenderHelp("util");
-                        return;
-                    }
+                    if (!options.IsHelpRequested) return;
+                    if(options.GetType() == typeof(UtilOptions))
+                        context.RenderHelp("util", Console.WindowWidth);
+                    else if (options.GetType() == typeof(ClipboardOptions))
+                        context.RenderHelp("clip", Console.WindowWidth);
+                    else if (options.GetType() == typeof(SortOptions))
+                        context.RenderHelp("sort", Console.WindowWidth);
+                    else if (options.GetType() == typeof(ZipOptions))
+                        context.RenderHelp("zip", Console.WindowWidth);
+                    else if (options.GetType() == typeof(FireWallOptions))
+                        context.RenderHelp("firewall");
+                    else if (options.GetType() == typeof(BlockProgramOptions))
+                        context.RenderHelp("block", Console.WindowWidth);
+                    else if (options.GetType() == typeof(UnblockProgramOptions))
+                        context.RenderHelp("unblock", Console.WindowWidth);
+                    else if (options.GetType() == typeof(ConvertOptions))
+                        context.RenderHelp("convert", Console.WindowWidth);
                 });
 
                 result.WhenError(exceptions =>
