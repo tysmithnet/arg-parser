@@ -10,7 +10,7 @@ namespace ArgParser.Styles.Help.Test
         public void Use_Case_0()
         {
             // arrange
-            var builder = DefaultBuilder.Create();
+            var builder = DefaultBuilder.CreateDefaultBuilder();
             var fac = new HelpNodeFactory();
             var root = fac.Create("util", builder.BuildContext());
             var writer = new HelpWriter();
@@ -47,7 +47,7 @@ A collection of small utilities used frequently.
         public void Use_Case_1()
         {
             // arrange
-            var builder = DefaultBuilder.Create();
+            var builder = DefaultBuilder.CreateDefaultBuilder();
             var fac = new HelpNodeFactory();
             var root = fac.Create("clip", builder.BuildContext());
             var writer = new HelpWriter();
@@ -80,7 +80,7 @@ Usage: clip [sort|zip] [-ho] [--version]
         public void Use_Case_2()
         {
             // arrange
-            var builder = DefaultBuilder.Create();
+            var builder = DefaultBuilder.CreateDefaultBuilder();
             var fac = new HelpNodeFactory();
             var root = fac.Create("firewall", builder.BuildContext());
             var writer = new HelpWriter();

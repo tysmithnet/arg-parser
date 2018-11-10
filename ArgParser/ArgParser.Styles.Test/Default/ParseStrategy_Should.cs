@@ -181,7 +181,7 @@ namespace ArgParser.Styles.Test.Default
         {
             // arrange
             var args = "firewall block -p 8080 -m io firefox.exe".Split(' ');
-            var builder = DefaultBuilder.Create();
+            var builder = DefaultBuilder.CreateDefaultBuilder();
             var strat = new ParseStrategy("util");
 
             // act
@@ -225,7 +225,7 @@ namespace ArgParser.Styles.Test.Default
         public void Parse_Values_Irrespective_Of_Order()
         {
             // arrange
-            var builder = DefaultBuilder.Create();
+            var builder = DefaultBuilder.CreateDefaultBuilder();
 
             // act
             var parseCount = 0;

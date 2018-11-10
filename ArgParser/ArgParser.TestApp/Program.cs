@@ -44,7 +44,7 @@ namespace ArgParser.TestApp
                 Console.Write($"Enter command line: ");
                 var line = Console.ReadLine();
                 args = CommandLineToArgs(line);
-                var builder = DefaultBuilder.Create();
+                var builder = DefaultBuilder.CreateDefaultBuilder();
                 var context = builder.BuildContext();
                 var result = builder.Parse("util", args);
                 result.When<UtilOptions>(options =>
