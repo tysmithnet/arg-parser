@@ -8,5 +8,6 @@ namespace ArgParser.Core
         IEnumerable<string> GetAncestors(string parserId);
         IEnumerable<string> GetChildren(string parserId);
         bool IsParent(string parentParserId, string childParserId);
+        string Root { get; }
     }
 }
