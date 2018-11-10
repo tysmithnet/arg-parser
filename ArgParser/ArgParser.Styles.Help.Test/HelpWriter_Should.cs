@@ -1,4 +1,6 @@
-﻿using FluentAssertions;
+﻿using System;
+using Alba.CsConsoleFormat;
+using FluentAssertions;
 using Xunit;
 
 namespace ArgParser.Styles.Help.Test
@@ -84,6 +86,37 @@ The dumb content tracker                                                        
 ╟─┼─┼─╢                                                                         
 ║d│e│f║                                                                         
 ╚═╧═╧═╝                                                                         ");
+        }
+
+        [Fact]
+        public void Create_Document_Correctly()
+        {
+            // arrange
+            var writer = new HelpWriter();
+            var root = new RootNode
+            {
+                Children =
+                {
+                    new GridNode
+                    {
+                        Columns = 3,
+                        Children =
+                        {
+                            new TextNode("a"),
+                            new TextNode("b"),
+                            new TextNode("c"),
+                            new TextNode("d"),
+                            new TextNode("e"),
+                            new TextNode("f")
+                        }
+                    }
+                }
+            };
+            // act
+            var res = writer.CreateDocument(root);
+
+            // assert
+            res.Should().BeOfType<Document>().Which.Children.Should().HaveCount(1);
         }
     }
 }
