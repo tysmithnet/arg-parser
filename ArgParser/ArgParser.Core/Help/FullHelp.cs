@@ -12,7 +12,7 @@ namespace ArgParser.Core.Help
             Examples.Add(example);
         }
 
-        public IList<Example> Examples { get; set; } = new List<Example>();
+        public IList<Example> Examples { get; protected internal set; } = new List<Example>();
         public string LongDescription { get; set; }
     }
 }
