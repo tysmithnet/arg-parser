@@ -43,15 +43,15 @@ namespace ArgParser.Styles.Default
             {
                 while (!info.IsComplete())
                 {
-                    var allWhoCanHandle = chain.Where(c => c.CanConsume(instance, info).NumConsumed > 0).ToList();
-                    if (!allWhoCanHandle.Any())
+                    var allParsersWhoCanDoSomething = chain.Where(c => c.CanConsume(instance, info).NumConsumed > 0).ToList();
+                    if (!allParsersWhoCanDoSomething.Any())
                         throw new UnexpectedArgException(
                             $"Encountered an argument that could not be parsed. Argument={info.Current}, Parsers={chain.Select(p => p.Id).Join(", ")}");
 
-                    var consumptionResults = allWhoCanHandle.Select(x => x.CanConsume(instance, info)).ToList();
-                    var request = CreateCanConsumeRequest(instance, chain, info, consumptionResults.ToList());
-                    var whoWillHandle = IdentifyParserToConsume(chain, consumptionResults);
-                    var consumptionResult = whoWillHandle.Consume(instance, request);
+                    var consumptionResultsForTheParsersWhoCanConsume = allParsersWhoCanDoSomething.Select(x => x.CanConsume(instance, info)).ToList();
+                    var requestThatLimitsConsumption = CreateCanConsumeRequest(instance, chain, info, consumptionResultsForTheParsersWhoCanConsume.ToList());
+                    var whoWillConsume = IdentifyParserToConsume(chain, consumptionResultsForTheParsersWhoCanConsume);
+                    var consumptionResult = whoWillConsume.Consume(instance, requestThatLimitsConsumption);
                     if (consumptionResult.Info <= info)
                         throw new ForwardProgressException(
                             $"Consumption resuled in new index={consumptionResult.Info.Index} and provided index={info.Index}");
@@ -100,15 +100,18 @@ namespace ArgParser.Styles.Default
             if (switchResults.Any())
             {
                 // if multiple switches exist, find the on closest to the first parser
-                foundParser = switchResults.First(r => chain.Contains(r.ConsumingParameter.Parent))
-                    .ConsumingParameter.Parent;
+                foundParser = switchResults.FirstOrDefault(r => chain.Contains(r.ConsumingParameter.Parent))
+                    ?.ConsumingParameter.Parent;
             }
 
             if (foundParser == null)
             {
-                foundParser = canConsumeResults.First(r => chain.Contains(r.ConsumingParameter.Parent)).ConsumingParameter
+                foundParser = canConsumeResults.FirstOrDefault(r => chain.Contains(r.ConsumingParameter.Parent))?.ConsumingParameter
                     .Parent;
             }
+
+            if(foundParser == null)
+                throw new ForwardProgressException($"Expected to find a parser to consume, but found none");
 
             return foundParser;
         }

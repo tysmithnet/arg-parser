@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Linq;
+using ArgParser.Core;
 
 namespace ArgParser.Styles.Default
 {
     public class SingleValueSwitch : Switch
     {
-        public SingleValueSwitch(char? letter, string word, Action<object, string> consumeCallback) : base(letter, word,
+        public SingleValueSwitch(Parser parent, char? letter, string word, Action<object, string> consumeCallback) : base(parent, letter, word,
             (o, strings) => consumeCallback(o, strings.Skip(1).First()))
         {
             MinRequired = 2;
@@ -15,7 +16,7 @@ namespace ArgParser.Styles.Default
 
     public class SingleValueSwitch<T> : SingleValueSwitch
     {
-        public SingleValueSwitch(char? letter, string word, Action<T, string> consumeCallback) : base(letter, word,
+        public SingleValueSwitch(Parser parent, char? letter, string word, Action<T, string> consumeCallback) : base(parent, letter, word,
             Convert(consumeCallback))
         {
         }

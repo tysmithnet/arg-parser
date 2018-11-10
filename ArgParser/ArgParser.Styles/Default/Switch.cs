@@ -6,7 +6,7 @@ namespace ArgParser.Styles.Default
 {
     public abstract class Switch : Parameter
     {
-        protected Switch(char? letter, string word, Action<object, string[]> consumeCallback) : base(consumeCallback)
+        protected Switch(Parser parent, char? letter, string word, Action<object, string[]> consumeCallback) : base(parent, consumeCallback)
         {
             if (letter == null && word == null)
                 throw new ArgumentException($"You must either provide a letter or a word to identify this switch");

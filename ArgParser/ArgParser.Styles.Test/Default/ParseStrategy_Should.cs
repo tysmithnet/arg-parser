@@ -47,9 +47,9 @@ namespace ArgParser.Styles.Test.Default
             var strat = new ParseStrategy("base");
             var context = new Context();
             var parser = context.ParserRepository.Create("base");
-            parser.AddParameter(new BooleanSwitch(null, "help", o => { }));
-            parser.AddParameter(new BooleanSwitch(null, "verbose", o => { }));
-            var valuesSwitch = new ValuesSwitch('d', "data", (o, strings) => { });
+            parser.AddParameter(new BooleanSwitch(parser, null, "help", o => { }));
+            parser.AddParameter(new BooleanSwitch(parser, null, "verbose", o => { }));
+            var valuesSwitch = new ValuesSwitch(parser, 'd', "data", (o, strings) => { });
             parser.AddParameter(valuesSwitch);
             var info = new IterationInfo("-d d0 d1 d2 d3 -v -h".Split(' '));
             var result = new ConsumptionResult(info, 7, valuesSwitch);
@@ -154,9 +154,9 @@ namespace ArgParser.Styles.Test.Default
             var strat = new ParseStrategy("base");
             var context = new Context();
             var parser = context.ParserRepository.Create("base");
-            parser.AddParameter(new BooleanSwitch('h', "help", o => { }));
-            parser.AddParameter(new BooleanSwitch('v', "verbose", o => { }));
-            var valuesSwitch = new ValuesSwitch('d', "data", (o, strings) => { });
+            parser.AddParameter(new BooleanSwitch(parser, 'h', "help", o => { }));
+            parser.AddParameter(new BooleanSwitch(parser, 'v', "verbose", o => { }));
+            var valuesSwitch = new ValuesSwitch(parser, 'd', "data", (o, strings) => { });
             parser.AddParameter(valuesSwitch);
             var info = new IterationInfo("-d d0 d1 d2 d3 -v -h".Split(' '));
             var result = new ConsumptionResult(info, 7, valuesSwitch);

@@ -6,8 +6,9 @@ namespace ArgParser.Core
 {
     public abstract class Parameter : IConsumer
     {
-        protected Parameter(Action<object, string[]> consumeCallback)
+        protected Parameter(Parser parent, Action<object, string[]> consumeCallback)
         {
+            Parent = parent.ThrowIfArgumentNull(nameof(parent));
             ConsumeCallback = consumeCallback.ThrowIfArgumentNull(nameof(consumeCallback));
         }
 

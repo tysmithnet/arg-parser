@@ -14,7 +14,7 @@ namespace ArgParser.Styles.Test.Default
         {
             // arrange
             var list = new List<string[]>();
-            var sw = new ValuesSwitch('v', "values", (o, strings) => list.Add(strings));
+            var sw = new ValuesSwitch(new Parser("a"), 'v', "values", (o, strings) => list.Add(strings));
             var info = new IterationInfo("-v v0 v1 v2 v3 -s".Split(' '), 0);
             var request = new ConsumptionRequest(info, int.MaxValue);
 
@@ -32,7 +32,7 @@ namespace ArgParser.Styles.Test.Default
         {
             // arrange
             var list = new List<string[]>();
-            var sw = new ValuesSwitch('v', "values", (o, strings) => list.Add(strings));
+            var sw = new ValuesSwitch(new Parser("a"), 'v', "values", (o, strings) => list.Add(strings));
             var info = new IterationInfo("-v v0 v1 v2 v3 -s".Split(' '), 0);
             var request = new ConsumptionRequest(info, 3);
 
@@ -50,7 +50,7 @@ namespace ArgParser.Styles.Test.Default
         {
             // arrange
             var list = new List<string[]>();
-            var sw = new ValuesSwitch('v', "values", (o, strings) => list.Add(strings))
+            var sw = new ValuesSwitch(new Parser("a"), 'v', "values", (o, strings) => list.Add(strings))
             {
                 MinRequired = 5
             };

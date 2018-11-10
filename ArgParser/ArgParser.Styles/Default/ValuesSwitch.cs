@@ -6,8 +6,8 @@ namespace ArgParser.Styles.Default
 {
     public class ValuesSwitch : Switch
     {
-        public ValuesSwitch(char? letter, string word, Action<object, string[]> consumeCallback, int min = 1,
-            int max = int.MaxValue) : base(letter, word, (o, strings) => consumeCallback(o, strings.Skip(1).ToArray()))
+        public ValuesSwitch(Parser parent, char? letter, string word, Action<object, string[]> consumeCallback, int min = 1,
+            int max = int.MaxValue) : base(parent, letter, word, (o, strings) => consumeCallback(o, strings.Skip(1).ToArray()))
         {
             MinRequired = min;
             MaxAllowed = max == int.MaxValue ? max : max + 1;
@@ -16,8 +16,8 @@ namespace ArgParser.Styles.Default
 
     public class ValuesSwitch<T> : Switch
     {
-        public ValuesSwitch(char? letter, string word, Action<T, string[]> consumeCallback, int min = 1,
-            int max = int.MaxValue) : base(letter, word, consumeCallback.ToNonGenericAction())
+        public ValuesSwitch(Parser parent, char? letter, string word, Action<T, string[]> consumeCallback, int min = 1,
+            int max = int.MaxValue) : base(parent, letter, word, consumeCallback.ToNonGenericAction())
         {
             MinRequired = min;
             MaxAllowed = max == int.MaxValue ? max : max + 1;

@@ -6,7 +6,7 @@ namespace ArgParser.Styles.Default
 {
     public class Positional : Parameter
     {
-        public Positional(Action<object, string[]> consumeCallback, int min = 1, int max = int.MaxValue) : base(
+        public Positional(Parser parent, Action<object, string[]> consumeCallback, int min = 1, int max = int.MaxValue) : base(parent,
             consumeCallback)
         {
             MinRequired = min;
@@ -24,7 +24,7 @@ namespace ArgParser.Styles.Default
 
     public class Positional<T> : Positional
     {
-        public Positional(Action<T, string[]> consumeCallback, int min = 1, int max = int.MaxValue) : base(
+        public Positional(Parser parent, Action<T, string[]> consumeCallback, int min = 1, int max = int.MaxValue) : base(parent,
             Convert(consumeCallback), min, max)
         {
         }
