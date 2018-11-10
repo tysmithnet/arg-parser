@@ -23,7 +23,7 @@ namespace ArgParser.Styles.Default
         {
             var ids = GetCommandIdentifyingSubsequence(args, context);
             if (!ids.Any())
-                return context.ParserRepository.Root;
+                return null;
             return context.ParserRepository.Get(ids.Last());
         }
 

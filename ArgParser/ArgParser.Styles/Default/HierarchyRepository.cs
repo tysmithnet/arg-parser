@@ -62,9 +62,6 @@ namespace ArgParser.Styles.Default
             return Nodes[childParserId].Parent?.Id == parentParserId;
         }
 
-        /// <inheritdoc />
-        public string Root { get; }
-
         protected internal Dictionary<string, Node> Nodes { get; set; } = new Dictionary<string, Node>();
 
         protected internal class Node

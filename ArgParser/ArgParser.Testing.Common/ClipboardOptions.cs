@@ -1,6 +1,6 @@
 ﻿namespace ArgParser.Testing.Common
 {
-    public class ClipboardOptions : UtilOptions
+    public abstract class ClipboardOptions : UtilOptions
     {
         public bool IsOverwriteClipboard { get; set; }
     }

@@ -6,13 +6,10 @@ namespace ArgParser.Styles.Default
 {
     public class ParserRepository : IParserRepository
     {
-        public string RootId { get; protected internal set; }
-
-        public Parser Root => Parsers[RootId];
-
-        public Parser Create(string id, bool isRoot = false)
+        public Parser Create(string id)
         {
-            CheckCreateParameters(id, isRoot);
+            if (Parsers.ContainsKey(id))
+                throw new ArgumentException($"Parser already exists with id={id}");
             var parser = new Parser(id);
             if (FirstAdded == null)
                 FirstAdded = parser;
@@ -20,23 +17,10 @@ namespace ArgParser.Styles.Default
             return parser;
         }
 
-        private void CheckCreateParameters(string id, bool isRoot)
+        public Parser<T> Create<T>(string id)
         {
-            if (Parsers.ContainsKey(id))
+            if (Parsers.ContainsKey(id)) // todo: duplicate code
                 throw new ArgumentException($"Parser already exists with id={id}");
-            if (isRoot)
-            {
-                if (!RootId.IsNullOrWhiteSpace())
-                    RootId = id;
-                else
-                    throw new InvalidOperationException(
-                        $"Root parser is already set to id={RootId}, but attempting to set it to {id}");
-            }
-        }
-
-        public Parser<T> Create<T>(string id, bool isRoot = false)
-        {
-            CheckCreateParameters(id, isRoot);
             var parser = new Parser<T>(id);
             if (FirstAdded == null)
                 FirstAdded = parser;

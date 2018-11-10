@@ -1,6 +1,6 @@
 ﻿namespace ArgParser.Testing.Common
 {
-    public class FireWallOptions : UtilOptions
+    public abstract class FireWallOptions : UtilOptions
     {
         public bool IsInbound { get; set; }
         public bool IsOutbound { get; set; }

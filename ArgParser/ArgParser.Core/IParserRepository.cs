@@ -4,9 +4,8 @@ namespace ArgParser.Core
 {
     public interface IParserRepository
     {
-        Parser Root { get; }
-        Parser Create(string id, bool isRoot = false);
-        Parser<T> Create<T>(string id, bool isRoot = false);
+        Parser Create(string id);
+        Parser<T> Create<T>(string id);
         Parser Get(string id);
         Parser<T> Get<T>(string id);
         IEnumerable<Parser> GetAll();

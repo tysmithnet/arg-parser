@@ -8,7 +8,7 @@ namespace ArgParser.Testing.Common
         public static ContextBuilder Create()
         {
             return new ContextBuilder()
-                .AddRoot<UtilOptions>(help =>
+                .AddParser<UtilOptions>("util", help =>
                 {
                     help
                         .SetName("utility")
@@ -16,7 +16,6 @@ namespace ArgParser.Testing.Common
                         .SetShortDescription("General utility tool")
                         .SetLongDescription("A collection of small utilities used frequently.");
                 })
-                .WithFactoryFunction(() => new UtilOptions())
                 .WithBooleanSwitch('h', "help", o => o.IsHelpRequested = true, help =>
                 {
                     help
@@ -36,7 +35,6 @@ namespace ArgParser.Testing.Common
                         .SetName("Clipboard")
                         .SetShortDescription("Interact with the clipboard");
                 })
-                .WithFactoryFunction(() => new ClipboardOptions())
                 .WithBooleanSwitch('o', "overwrite", o => o.IsOverwriteClipboard = true, help =>
                 {
                     help
@@ -84,7 +82,6 @@ namespace ArgParser.Testing.Common
                         .SetName("Firewall")
                         .SetShortDescription("Interact with the the local firewall");
                 })
-                .WithFactoryFunction(() => new FireWallOptions())
                 .WithSingleValueSwitch('p', "port", (o, s) => o.Port = Convert.ToInt32(s), help =>
                 {
                     help
@@ -144,9 +141,9 @@ namespace ArgParser.Testing.Common
                         .SetShortDescription("Input files to convert");
                 })
                 .Finish
-                .CreateParentChildRelationship("clip")
-                .CreateParentChildRelationship("firewall")
-                .CreateParentChildRelationship("convert")
+                .CreateParentChildRelationship("util", "clip")
+                .CreateParentChildRelationship("util", "firewall")
+                .CreateParentChildRelationship("util", "convert")
                 .CreateParentChildRelationship("clip", "sort")
                 .CreateParentChildRelationship("clip", "zip")
                 .CreateParentChildRelationship("firewall", "block")
