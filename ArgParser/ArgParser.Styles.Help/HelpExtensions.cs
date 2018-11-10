@@ -7,12 +7,13 @@ namespace ArgParser.Styles.Help
 {
     public static class HelpExtensions
     {
-        public static void RenderHelp(this IContext context, string parserId)
+        internal static IHelpNodeFactory HelpNodeFactory { get; set; } = new HelpNodeFactory();
+        internal static IHelpWriter HelpWriter { get; set; } = new HelpWriter();
+
+        public static void RenderHelp(this IContext context, string parserId, int width=80)
         {
-            var help = new HelpWriter();
-            var fac = new HelpNodeFactory();
-            var root = fac.Create(parserId, context);
-            help.RenderHelp(root);
+            var node = HelpNodeFactory.Create(parserId, context);
+            HelpWriter.RenderHelp(node, width);
         }
     }
 }
