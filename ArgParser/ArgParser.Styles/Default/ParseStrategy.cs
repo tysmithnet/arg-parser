@@ -52,9 +52,6 @@ namespace ArgParser.Styles.Default
                     var requestThatLimitsConsumption = CreateCanConsumeRequest(instance, chain, info, consumptionResultsForTheParsersWhoCanConsume.ToList());
                     var whoWillConsume = IdentifyParserToConsume(chain, consumptionResultsForTheParsersWhoCanConsume);
                     var consumptionResult = whoWillConsume.Consume(instance, requestThatLimitsConsumption);
-                    if (consumptionResult.Info <= info)
-                        throw new ForwardProgressException(
-                            $"Consumption resuled in new index={consumptionResult.Info.Index} and provided index={info.Index}");
                     info = consumptionResult.Info;
                 }
 
