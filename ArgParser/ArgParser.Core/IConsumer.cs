@@ -1,6 +1,4 @@
-﻿using ArgParser.Core.Help;
-
-namespace ArgParser.Core
+﻿namespace ArgParser.Core
 {
     public interface IConsumer
     {

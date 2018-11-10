@@ -9,8 +9,6 @@ namespace ArgParser.Core
     [DebuggerDisplay("{Id}")]
     public class Parser : IConsumer
     {
-        public ParserHelp Help { get; set; }
-
         public Parser(string id)
         {
             Id = id;
@@ -35,12 +33,11 @@ namespace ArgParser.Core
 
         public void Reset()
         {
-            foreach (var parameter in Parameters)
-            {
-                parameter.Reset();
-            }
+            foreach (var parameter in Parameters) parameter.Reset();
         }
+
         public Func<object> FactoryFunction { get; set; }
+        public ParserHelp Help { get; set; }
         public string Id { get; protected internal set; }
         public IEnumerable<Parameter> Parameters => ParametersInternal.ToList();
         protected internal IList<Parameter> ParametersInternal { get; set; } = new List<Parameter>();
@@ -52,7 +49,7 @@ namespace ArgParser.Core
         public Parser(string id) : base(id)
         {
         }
-        
+
         public new Func<T> FactoryFunction
         {
             get => base.FactoryFunction as Func<T>;

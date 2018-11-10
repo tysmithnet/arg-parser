@@ -43,7 +43,8 @@ namespace ArgParser.Core.Test
             var parser = new Parser("base");
             var info = new IterationInfo("a b c".Split(' '));
             var mock = new Mock<Parameter>();
-            mock.Setup(p => p.CanConsume(It.IsAny<object>(), info)).Returns(new ConsumptionResult(info.Consume(1), 1, mock.Object));
+            mock.Setup(p => p.CanConsume(It.IsAny<object>(), info))
+                .Returns(new ConsumptionResult(info.Consume(1), 1, mock.Object));
             parser.AddParameter(mock.Object);
 
             // act

@@ -12,15 +12,15 @@ namespace ArgParser.Styles.Default
 
         public ParserHelp Build() => Help;
 
-        public ParserHelpBuilder SetName(string name)
-        {
-            Help.Name = name;
-            return this;
-        }
-
         public ParserHelpBuilder SetLongDescription(string desc)
         {
             Help.LongDescription = desc;
+            return this;
+        }
+
+        public ParserHelpBuilder SetName(string name)
+        {
+            Help.Name = name;
             return this;
         }
 

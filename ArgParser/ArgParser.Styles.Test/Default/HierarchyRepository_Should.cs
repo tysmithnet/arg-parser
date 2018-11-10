@@ -54,6 +54,31 @@ namespace ArgParser.Styles.Test.Default
         }
 
         [Fact]
+        public void Correctly_Get_The_Root_Parser()
+        {
+            // arrange
+            var repo = new HierarchyRepository();
+
+            // act
+            repo.AddParser("base");
+            repo.AddParser("child0");
+            repo.AddParser("child1");
+            repo.AddParser("child0child0");
+            repo.AddParser("child0child1");
+            repo.AddParser("child1child0");
+            repo.AddParser("child1child1");
+            repo.EstablishParentChildRelationship("base", "child0");
+            repo.EstablishParentChildRelationship("base", "child1");
+            repo.EstablishParentChildRelationship("child0", "child0child0");
+            repo.EstablishParentChildRelationship("child0", "child0child1");
+            repo.EstablishParentChildRelationship("child1", "child1child0");
+            repo.EstablishParentChildRelationship("child1", "child1child1");
+
+            // assert
+            repo.GetRoot().Should().Be("base");
+        }
+
+        [Fact]
         public void Only_Create_A_Parser_Once()
         {
             // arrange
@@ -126,6 +151,18 @@ namespace ArgParser.Styles.Test.Default
             mightThrow2.Should().NotThrow();
             mightThrow3.Should().Throw<KeyNotFoundException>();
             mightThrow4.Should().Throw<KeyNotFoundException>();
+        }
+
+        [Fact]
+        public void Throw_If_Requested_Parser_Is_Not_Found()
+        {
+            // arrange
+            var repo = new HierarchyRepository();
+            Action mightThrow = () => repo.GetChildren("doesntexist");
+
+            // act
+            // assert
+            mightThrow.Should().Throw<KeyNotFoundException>();
         }
     }
 }

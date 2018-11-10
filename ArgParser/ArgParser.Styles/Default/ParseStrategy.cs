@@ -22,6 +22,12 @@ namespace ArgParser.Styles.Default
         public virtual Parser IdentifyRelevantParser(string[] args, IContext context)
         {
             var ids = GetCommandIdentifyingSubsequence(args, context);
+            if (!ids.Any())
+            {
+                var root = context.HierarchyRepository.GetRoot();
+                return context.ParserRepository.Get(root);
+            }
+
             return context.ParserRepository.Get(ids.Last());
         }
 
@@ -38,17 +44,18 @@ namespace ArgParser.Styles.Default
             {
                 while (!info.IsComplete())
                 {
-                    var firstWhoCanHandle = chain.FirstOrDefault(c => c.CanConsume(instance, info).NumConsumed > 0);
-                    if (firstWhoCanHandle == null)
+                    var allParsersWhoCanDoSomething =
+                        chain.Where(c => c.CanConsume(instance, info).NumConsumed > 0).ToList();
+                    if (!allParsersWhoCanDoSomething.Any())
                         throw new UnexpectedArgException(
                             $"Encountered an argument that could not be parsed. Argument={info.Current}, Parsers={chain.Select(p => p.Id).Join(", ")}");
 
-                    var canConsumeResult = firstWhoCanHandle.CanConsume(instance, info);
-                    var request = CreateCanConsumeRequest(instance, chain, info, canConsumeResult);
-                    var consumptionResult = firstWhoCanHandle.Consume(instance, request);
-                    if (consumptionResult.Info <= info)
-                        throw new ForwardProgressException(
-                            $"Consumption resuled in new index={consumptionResult.Info.Index} and provided index={info.Index}");
+                    var consumptionResultsForTheParsersWhoCanConsume = allParsersWhoCanDoSomething
+                        .Select(x => x.CanConsume(instance, info)).ToList();
+                    var requestThatLimitsConsumption = CreateCanConsumeRequest(instance, chain, info,
+                        consumptionResultsForTheParsersWhoCanConsume.ToList());
+                    var whoWillConsume = IdentifyParserToConsume(chain, consumptionResultsForTheParsersWhoCanConsume);
+                    var consumptionResult = whoWillConsume.Consume(instance, requestThatLimitsConsumption);
                     info = consumptionResult.Info;
                 }
 
@@ -65,9 +72,14 @@ namespace ArgParser.Styles.Default
         }
 
         protected internal ConsumptionRequest CreateCanConsumeRequest(object instance, List<Parser> chain,
-            IterationInfo currentInfo, ConsumptionResult canConsumeResult)
+            IterationInfo currentInfo, IList<ConsumptionResult> canConsumeResults)
         {
-            var toBeConsumed = currentInfo.FromNowOn().Take(canConsumeResult.NumConsumed).ToList();
+            // first try to find a switch because we prioritize them
+            var foundParser = IdentifyParserToConsume(chain, canConsumeResults);
+
+            var foundParameter = canConsumeResults.First(r => r.ConsumingParameter.Parent == foundParser);
+
+            var toBeConsumed = currentInfo.FromNowOn().Take(foundParameter.NumConsumed).ToList();
             for (var i = 1;
                 i < toBeConsumed.Count;
                 i++)
@@ -79,7 +91,7 @@ namespace ArgParser.Styles.Default
                         return new ConsumptionRequest(currentInfo, i);
                 }
 
-            return new ConsumptionRequest(currentInfo, canConsumeResult.NumConsumed);
+            return new ConsumptionRequest(currentInfo, foundParameter.NumConsumed);
         }
 
         protected internal IList<string> GetCommandIdentifyingSubsequence(string[] args, IContext context)
@@ -94,6 +106,25 @@ namespace ArgParser.Styles.Default
             }
 
             return ids;
+        }
+
+        private Parser IdentifyParserToConsume(List<Parser> chain, IList<ConsumptionResult> canConsumeResults)
+        {
+            Parser foundParser = null;
+            var switchResults = canConsumeResults.Where(r => r.ConsumingParameter is Switch).ToList();
+            if (switchResults.Any())
+                foundParser = switchResults.FirstOrDefault(r => chain.Contains(r.ConsumingParameter.Parent))
+                    ?.ConsumingParameter.Parent;
+
+            if (foundParser == null)
+                foundParser = canConsumeResults.FirstOrDefault(r => chain.Contains(r.ConsumingParameter.Parent))
+                    ?.ConsumingParameter
+                    .Parent;
+
+            if (foundParser == null)
+                throw new ForwardProgressException($"Expected to find a parser to consume, but found none");
+
+            return foundParser;
         }
 
         public string RootParserId { get; protected internal set; }

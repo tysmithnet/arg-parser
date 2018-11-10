@@ -1,7 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.InteropServices;
-using ArgParser.Styles.Default;
+using ArgParser.Core;
+using ArgParser.Styles.Help;
 using ArgParser.Testing.Common;
 using Newtonsoft.Json;
 
@@ -38,61 +40,41 @@ namespace ArgParser.TestApp
 
         private static void Main(string[] args)
         {
+            Console.WriteLine("Enter commands e.g. firewall -h");
             while (true)
             {
-                Console.Write($"Enter command line: ");
+                Console.Write($"$ util ");
                 var line = Console.ReadLine();
-                args = CommandLineToArgs(line);
-                var builder = new ContextBuilder()
-                    .AddParser<UtilOptions>("base")
-                    .WithBooleanSwitch('h', "help", o => o.IsHelpRequested = true)
-                    .WithBooleanSwitch(null, "version", o => o.IsVersionRequested = true)
-                    .Finish
-                    .AddParser<ClipboardOptions>("clip")
-                    .WithBooleanSwitch('o', "overwrite", o => o.IsOverwriteClipboard = true)
-                    .Finish
-                    .AddParser<SortOptions>("sort")
-                    .WithFactoryFunction(() => new SortOptions())
-                    .WithBooleanSwitch('r', "reverse", o => o.IsReversed = true)
-                    .Finish
-                    .AddParser<ZipOptions>("zip")
-                    .WithFactoryFunction(() => new ZipOptions())
-                    .WithPositional((o, s) => o.ZipFile = s)
-                    .WithPositionals((o, s) => o.Globs = s)
-                    .Finish
-                    .AddParser<FireWallOptions>("firewall")
-                    .WithSingleValueSwitch('p', "port", (o, s) => o.Port = Convert.ToInt32(s))
-                    .WithSingleValueSwitch('m', "mode", (o, s) =>
-                    {
-                        o.IsInbound = s.Contains("i");
-                        o.IsOutbound = s.Contains("o");
-                    })
-                    .WithPositional((o, s) => o.Program = s)
-                    .Finish
-                    .AddParser<BlockProgramOptions>("block")
-                    .WithFactoryFunction(() => new BlockProgramOptions())
-                    .Finish
-                    .AddParser<UnblockProgramOptions>("unblock")
-                    .WithFactoryFunction(() => new UnblockProgramOptions())
-                    .Finish
-                    .AddParser<ConvertOptions>("convert")
-                    .WithFactoryFunction(() => new ConvertOptions())
-                    .WithSingleValueSwitch('f', "format", (o, s) => o.Format = s)
-                    .WithPositionals((o, s) => o.InputFiles = s)
-                    .Finish
-                    .CreateParentChildRelationship("base", "clip")
-                    .CreateParentChildRelationship("base", "firewall")
-                    .CreateParentChildRelationship("base", "convert")
-                    .CreateParentChildRelationship("clip", "sort")
-                    .CreateParentChildRelationship("clip", "zip")
-                    .CreateParentChildRelationship("firewall", "block")
-                    .CreateParentChildRelationship("firewall", "unblock");
-
-                var result = builder.Parse("base", args);
+                if (line.IsNullOrWhiteSpace())
+                    continue;
+                args = CommandLineToArgs(line).Where(x => !x.IsNullOrWhiteSpace()).ToArray();
+                if(args.Length == 0)
+                    continue;
+                
+                var builder = DefaultBuilder.CreateDefaultBuilder();
+                var context = builder.BuildContext();
+                var result = builder.Parse("util", args);
                 result.When<UtilOptions>(options =>
                 {
                     Console.WriteLine(options.GetType().FullName);
                     Console.WriteLine(JsonConvert.SerializeObject(options, Formatting.Indented));
+                    if (!options.IsHelpRequested) return;
+                    if (options.GetType() == typeof(UtilOptions))
+                        context.RenderHelp("util", Console.WindowWidth);
+                    else if (options.GetType() == typeof(ClipboardOptions))
+                        context.RenderHelp("clip", Console.WindowWidth);
+                    else if (options.GetType() == typeof(SortOptions))
+                        context.RenderHelp("sort", Console.WindowWidth);
+                    else if (options.GetType() == typeof(ZipOptions))
+                        context.RenderHelp("zip", Console.WindowWidth);
+                    else if (options.GetType() == typeof(FireWallOptions))
+                        context.RenderHelp("firewall");
+                    else if (options.GetType() == typeof(BlockProgramOptions))
+                        context.RenderHelp("block", Console.WindowWidth);
+                    else if (options.GetType() == typeof(UnblockProgramOptions))
+                        context.RenderHelp("unblock", Console.WindowWidth);
+                    else if (options.GetType() == typeof(ConvertOptions))
+                        context.RenderHelp("convert", Console.WindowWidth);
                 });
 
                 result.WhenError(exceptions =>

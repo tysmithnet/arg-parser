@@ -8,6 +8,26 @@ namespace ArgParser.Core.Test
     public class BasicExtensions_Should
     {
         [Fact]
+        public void Convert_Generic_Actions_Into_NonGeneric_Actions()
+        {
+            // arrange
+            var isExecuted0 = false;
+            var isExecuted1 = false;
+            Action<string, string[]> action0 = (s1, strings) => { isExecuted0 = true; };
+            Action<string> action1 = s => { isExecuted1 = true; };
+            // act
+            var converted0 = action0.ToNonGenericAction();
+            var converted1 = action1.ToNonGenericAction();
+
+            converted0("", new string[0]);
+            converted1("");
+
+            // assert
+            isExecuted0.Should().BeTrue();
+            isExecuted1.Should().BeTrue();
+        }
+
+        [Fact]
         public void Identify_Null_Or_WhiteSpace_Strings()
         {
             // arrange
@@ -64,37 +84,17 @@ namespace ArgParser.Core.Test
         }
 
         [Fact]
-        public void Convert_Generic_Actions_Into_NonGeneric_Actions()
-        {
-            // arrange
-            bool isExecuted0 = false;
-            bool isExecuted1 = false;
-            Action<string, string[]> action0 = (s1, strings) => { isExecuted0 = true;};
-            Action<string> action1 = s => { isExecuted1 = true; };
-            // act
-            Action<object, string[]> converted0 = action0.ToNonGenericAction();
-            Action<object> converted1 = action1.ToNonGenericAction();
-
-            converted0("", new string[0]);
-            converted1("");
-
-            // assert
-            isExecuted0.Should().BeTrue();
-            isExecuted1.Should().BeTrue();
-        }
-
-        [Fact]
         public void Throw_If_Given_Bad_Value_To_Converted_Action()
         {
             // arrange
-            bool isExecuted0 = false;
-            bool isExecuted1 = false;
+            var isExecuted0 = false;
+            var isExecuted1 = false;
             Action<string, string[]> action0 = (s1, strings) => { isExecuted0 = true; };
             Action<string> action1 = s => { isExecuted1 = true; };
 
             // act
-            Action<object, string[]> converted0 = action0.ToNonGenericAction();
-            Action<object> converted1 = action1.ToNonGenericAction();
+            var converted0 = action0.ToNonGenericAction();
+            var converted1 = action1.ToNonGenericAction();
             Action mightThrow0 = () => converted0(new object(), new string[0]);
             Action mightThrow1 = () => converted1(new object());
 

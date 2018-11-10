@@ -12,7 +12,7 @@ namespace ArgParser.Styles.Test.Default
         {
             // arrange
             var parseCount = 0;
-            var sw = new BooleanSwitch('h', "help", o => { parseCount++; });
+            var sw = new BooleanSwitch(new Parser("a"), 'h', "help", o => { parseCount++; });
             var info = new IterationInfo("-h -o other stuff".Split(' '), 0);
 
             // act

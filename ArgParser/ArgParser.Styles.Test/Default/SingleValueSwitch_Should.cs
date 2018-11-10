@@ -15,7 +15,7 @@ namespace ArgParser.Styles.Test.Default
         {
             // arrange
             var values = new List<string>();
-            var sw = new SingleValueSwitch('l', "log", (o, s) => values.Add(s));
+            var sw = new SingleValueSwitch(new Parser("a"), 'l', "log", (o, s) => values.Add(s));
             var info = new IterationInfo("-l log.txt -o other".Split(' '), 0);
 
             // act
@@ -31,7 +31,7 @@ namespace ArgParser.Styles.Test.Default
         {
             // arrange
             var values = new List<string>();
-            var sw = new SingleValueSwitch<StringBuilder>('l', "log", (o, s) => values.Add(s));
+            var sw = new SingleValueSwitch<StringBuilder>(new Parser("a"), 'l', "log", (o, s) => values.Add(s));
             var info = new IterationInfo("-l log.txt -o other".Split(' '), 0);
 
             // act
@@ -47,7 +47,7 @@ namespace ArgParser.Styles.Test.Default
         {
             // arrange
             var values = new List<string>();
-            var sw = new SingleValueSwitch<StringBuilder>('l', "log", (o, s) => values.Add(s));
+            var sw = new SingleValueSwitch<StringBuilder>(new Parser("a"), 'l', "log", (o, s) => values.Add(s));
             var info = new IterationInfo("-l log.txt -o other".Split(' '), 0);
             Action mightThrow = () => sw.Consume(new object(), new ConsumptionRequest(info, 2));
 

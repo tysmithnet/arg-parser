@@ -11,8 +11,9 @@ namespace ArgParser.Styles.Test.Default
         private class TestSwitch : Switch
         {
             /// <inheritdoc />
-            public TestSwitch(char? letter, string word, Action<object, string[]> consumeCallback) : base(letter, word,
-                consumeCallback)
+            public TestSwitch(Parser parent, char? letter, string word, Action<object, string[]> consumeCallback) :
+                base(parent, letter, word,
+                    consumeCallback)
             {
             }
         }
@@ -21,7 +22,7 @@ namespace ArgParser.Styles.Test.Default
         public void Indicate_It_Can_Consume_The_Max_Allowed_When_Current_Arg_Is_A_Match()
         {
             // arrange
-            var switch0 = new TestSwitch('t', "test", (o, strings) => { })
+            var switch0 = new TestSwitch(new Parser("a"), 't', "test", (o, strings) => { })
             {
                 MaxAllowed = 3
             };
@@ -38,9 +39,9 @@ namespace ArgParser.Styles.Test.Default
         public void Return_A_Human_Friendly_ToString()
         {
             // arrange
-            var switch0 = new TestSwitch('t', "test", (o, strings) => { });
-            var switch1 = new TestSwitch(null, "test", (o, strings) => { });
-            var switch2 = new TestSwitch('t', null, (o, strings) => { });
+            var switch0 = new TestSwitch(new Parser("a"), 't', "test", (o, strings) => { });
+            var switch1 = new TestSwitch(new Parser("a"), null, "test", (o, strings) => { });
+            var switch2 = new TestSwitch(new Parser("a"), 't', null, (o, strings) => { });
 
             // act
             // assert
@@ -53,7 +54,7 @@ namespace ArgParser.Styles.Test.Default
         public void Return_No_Consumption_If_Minimum_Number_Of_Values_Are_Not_Met()
         {
             // arrange
-            var switch0 = new TestSwitch('t', "test", (o, strings) => { })
+            var switch0 = new TestSwitch(new Parser("a"), 't', "test", (o, strings) => { })
             {
                 MinRequired = 50
             };
@@ -70,7 +71,7 @@ namespace ArgParser.Styles.Test.Default
         public void Return_No_Consumption_If_Switch_Does_Not_Match()
         {
             // arrange
-            var switch0 = new TestSwitch('t', "test", (o, strings) => { });
+            var switch0 = new TestSwitch(new Parser("a"), 't', "test", (o, strings) => { });
             var info = new IterationInfo("-x a b c d e d f g".Split(' '));
 
             // act
@@ -84,9 +85,9 @@ namespace ArgParser.Styles.Test.Default
         public void Return_True_When_Current_Arg_Matches()
         {
             // arrange
-            var switch0 = new TestSwitch('t', "test", (o, strings) => { });
-            var switch1 = new TestSwitch(null, "test", (o, strings) => { });
-            var switch2 = new TestSwitch('t', null, (o, strings) => { });
+            var switch0 = new TestSwitch(new Parser("a"), 't', "test", (o, strings) => { });
+            var switch1 = new TestSwitch(new Parser("a"), null, "test", (o, strings) => { });
+            var switch2 = new TestSwitch(new Parser("a"), 't', null, (o, strings) => { });
 
             // act
             // assert
@@ -104,7 +105,7 @@ namespace ArgParser.Styles.Test.Default
         public void Throw_If_Given_Bad_Values()
         {
             // arrange
-            Action mightThrow = () => new TestSwitch(null, null, (o, strings) => { });
+            Action mightThrow = () => new TestSwitch(new Parser("a"), null, null, (o, strings) => { });
 
             // act
             // assert

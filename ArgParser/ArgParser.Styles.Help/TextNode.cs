@@ -1,6 +1,4 @@
-﻿using ArgParser.Core;
-
-namespace ArgParser.Styles.Help
+﻿namespace ArgParser.Styles.Help
 {
     public class TextNode : HelpNode
     {
@@ -9,11 +7,8 @@ namespace ArgParser.Styles.Help
             Text = text ?? "";
         }
 
-        public string Text { get; protected internal set; }
+        public override T Accept<T>(IHelpNodeVisitor<T> visitor) => visitor.Visit(this);
 
-        public override T Accept<T>(IHelpNodeVisitor<T> visitor)
-        {
-            return visitor.Visit(this);
-        }
+        public string Text { get; protected internal set; }
     }
 }

@@ -53,6 +53,13 @@ namespace ArgParser.Styles.Default
             return Nodes[parserId].Children.Select(x => x.Id);
         }
 
+        public string GetRoot()
+        {
+            var allChildren = Nodes.SelectMany(pair => pair.Value.Children);
+            var root = Nodes.Values.Except(allChildren).Single();
+            return root.Id;
+        }
+
         public bool IsParent(string parentParserId, string childParserId)
         {
             if (childParserId == null)

@@ -8,7 +8,15 @@ namespace ArgParser.Testing.Common
         public static ContextBuilder CreateDefaultBuilder()
         {
             return new ContextBuilder()
-                .AddParser<UtilOptions>("util")
+                .AddParser<UtilOptions>("util", help =>
+                {
+                    help
+                        .SetName("utility")
+                        .SetVersion("1.0.0.0")
+                        .SetShortDescription("General utility tool")
+                        .SetLongDescription("A collection of small utilities used frequently.");
+                })
+                .WithFactoryFunction(() => new UtilOptions())
                 .WithBooleanSwitch('h', "help", o => o.IsHelpRequested = true, help =>
                 {
                     help
@@ -28,6 +36,7 @@ namespace ArgParser.Testing.Common
                         .SetName("Clipboard")
                         .SetShortDescription("Interact with the clipboard");
                 })
+                .WithFactoryFunction(() => new ClipboardOptions())
                 .WithBooleanSwitch('o', "overwrite", o => o.IsOverwriteClipboard = true, help =>
                 {
                     help
@@ -75,6 +84,7 @@ namespace ArgParser.Testing.Common
                         .SetName("Firewall")
                         .SetShortDescription("Interact with the the local firewall");
                 })
+                .WithFactoryFunction(() => new FireWallOptions())
                 .WithSingleValueSwitch('p', "port", (o, s) => o.Port = Convert.ToInt32(s), help =>
                 {
                     help

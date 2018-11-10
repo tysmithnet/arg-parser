@@ -12,7 +12,7 @@ namespace ArgParser.Styles.Test.Default
         public void Consume_The_Min_Of_The_Number_It_Wants_Vs_The_Number_It_Can_Have()
         {
             // arrange
-            var positional = new Positional<string>((o, strings) => { })
+            var positional = new Positional<string>(new Parser("a"), (o, strings) => { })
             {
                 MaxAllowed = 3
             };
@@ -31,7 +31,7 @@ namespace ArgParser.Styles.Test.Default
         public void Indicate_It_Cannot_Consume_If_It_Has_Already_Consumed()
         {
             // arrange
-            var positional = new Positional((o, strings) => { });
+            var positional = new Positional(new Parser("a"), (o, strings) => { });
             positional.HasBeenConsumed = true;
             var info = new IterationInfo("a b c".Split(' '));
 
@@ -46,7 +46,7 @@ namespace ArgParser.Styles.Test.Default
         public void Provide_A_Generic_Version()
         {
             // arrange
-            var positional = new Positional<string>((o, strings) => { });
+            var positional = new Positional<string>(new Parser("a"), (o, strings) => { });
             var info = new IterationInfo("a b c".Split(' '));
 
             // act
@@ -60,7 +60,7 @@ namespace ArgParser.Styles.Test.Default
         public void Throw_If_Given_An_Incompatible_Instance()
         {
             // arrange
-            var positional = new Positional<string>((o, strings) => { });
+            var positional = new Positional<string>(new Parser("a"), (o, strings) => { });
             var info = new IterationInfo("a b c".Split(' '));
             Action mightThrow = () => positional.Consume(new object(), new ConsumptionRequest(info));
 
