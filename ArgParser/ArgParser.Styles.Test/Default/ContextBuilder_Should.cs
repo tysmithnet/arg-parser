@@ -23,6 +23,25 @@ namespace ArgParser.Styles.Test.Default
         }
 
         [Fact]
+        public void Correctly_Parse_A_Single_Help_Request()
+        {
+            // arrange
+            int parseCount = 0;
+            var builder = DefaultBuilder.Create();
+
+            // act
+            var result = builder.Parse("util", "-h".Split(' '));
+
+            // assert
+            result.When<SortOptions>(options =>
+            {
+                options.IsHelpRequested.Should().BeTrue();
+                parseCount++;
+            });
+            parseCount.Should().Be(1);
+        }
+
+        [Fact]
         public void Parse_Complicated_Hierarchies()
         {
             // arrange

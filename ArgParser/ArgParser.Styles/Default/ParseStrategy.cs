@@ -22,6 +22,8 @@ namespace ArgParser.Styles.Default
         public virtual Parser IdentifyRelevantParser(string[] args, IContext context)
         {
             var ids = GetCommandIdentifyingSubsequence(args, context);
+            if (!ids.Any())
+                return null;
             return context.ParserRepository.Get(ids.Last());
         }
 

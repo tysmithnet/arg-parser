@@ -5,7 +5,7 @@ namespace ArgParser.Testing.Common
 {
     public class DefaultBuilder
     {
-        public static ContextBuilder CreateDefaultBuilder()
+        public static ContextBuilder Create()
         {
             return new ContextBuilder()
                 .AddParser<UtilOptions>("util", help =>
