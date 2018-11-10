@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
-using ArgParser.Styles.Default;
 using ArgParser.Styles.Help;
 using ArgParser.Testing.Common;
 using Newtonsoft.Json;
@@ -52,7 +51,7 @@ namespace ArgParser.TestApp
                     Console.WriteLine(options.GetType().FullName);
                     Console.WriteLine(JsonConvert.SerializeObject(options, Formatting.Indented));
                     if (!options.IsHelpRequested) return;
-                    if(options.GetType() == typeof(UtilOptions))
+                    if (options.GetType() == typeof(UtilOptions))
                         context.RenderHelp("util", Console.WindowWidth);
                     else if (options.GetType() == typeof(ClipboardOptions))
                         context.RenderHelp("clip", Console.WindowWidth);

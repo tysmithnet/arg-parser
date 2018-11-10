@@ -22,25 +22,6 @@ namespace ArgParser.Styles.Test.Default
         }
 
         [Fact]
-        public void Favor_Base_Switches_Over_Positionals()
-        {
-            // arrange
-            var builder = DefaultBuilder.CreateDefaultBuilder();
-            var strat = new ParseStrategy("util");
-
-            // act
-            var res = strat.Parse("firewall -h".Split(' '), builder.BuildContext());
-
-            // assert
-            bool isParsed = false;
-            res.When<FireWallOptions>(options =>
-            {
-                options.IsHelpRequested.Should().BeTrue();
-                options.Program.Should().BeNull();
-            });
-        }
-
-        [Fact]
         public void Allow_A_Switch_To_Be_Greedy_When_No_Conflicting_Switch_Values()
         {
             // arrange
@@ -55,11 +36,31 @@ namespace ArgParser.Styles.Test.Default
             var result = new ConsumptionResult(info, 7, valuesSwitch);
 
             // act
-            var request = strat.CreateCanConsumeRequest("", parser.ToEnumerableOfOne().ToList(), info, result.ToEnumerableOfOne().ToList());
+            var request = strat.CreateCanConsumeRequest("", parser.ToEnumerableOfOne().ToList(), info,
+                result.ToEnumerableOfOne().ToList());
 
             // assert
             request.Max.Should().Be(7);
             request.Info.Should().BeSameAs(info);
+        }
+
+        [Fact]
+        public void Favor_Base_Switches_Over_Positionals()
+        {
+            // arrange
+            var builder = DefaultBuilder.CreateDefaultBuilder();
+            var strat = new ParseStrategy("util");
+
+            // act
+            var res = strat.Parse("firewall -h".Split(' '), builder.BuildContext());
+
+            // assert
+            var isParsed = false;
+            res.When<FireWallOptions>(options =>
+            {
+                options.IsHelpRequested.Should().BeTrue();
+                options.Program.Should().BeNull();
+            });
         }
 
         [Fact]
@@ -162,7 +163,8 @@ namespace ArgParser.Styles.Test.Default
             var result = new ConsumptionResult(info, 7, valuesSwitch);
 
             // act
-            var request = strat.CreateCanConsumeRequest("", parser.ToEnumerableOfOne().ToList(), info, result.ToEnumerableOfOne().ToList());
+            var request = strat.CreateCanConsumeRequest("", parser.ToEnumerableOfOne().ToList(), info,
+                result.ToEnumerableOfOne().ToList());
 
             // assert
             request.Max.Should().Be(5);

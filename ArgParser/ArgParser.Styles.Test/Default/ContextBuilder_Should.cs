@@ -26,7 +26,7 @@ namespace ArgParser.Styles.Test.Default
         public void Correctly_Parse_A_Single_Help_Request()
         {
             // arrange
-            int parseCount = 0;
+            var parseCount = 0;
             var builder = DefaultBuilder.CreateDefaultBuilder();
 
             // act

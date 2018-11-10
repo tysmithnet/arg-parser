@@ -11,8 +11,9 @@ namespace ArgParser.Styles.Test.Default
         private class TestSwitch : Switch
         {
             /// <inheritdoc />
-            public TestSwitch(Parser parent, char? letter, string word, Action<object, string[]> consumeCallback) : base(parent, letter, word,
-                consumeCallback)
+            public TestSwitch(Parser parent, char? letter, string word, Action<object, string[]> consumeCallback) :
+                base(parent, letter, word,
+                    consumeCallback)
             {
             }
         }

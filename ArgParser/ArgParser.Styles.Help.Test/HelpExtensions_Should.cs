@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ArgParser.Core;
+﻿using ArgParser.Core;
 using ArgParser.Styles.Default;
 using Moq;
 using Xunit;
@@ -31,7 +26,7 @@ namespace ArgParser.Styles.Help.Test
             context.RenderHelp("base");
 
             // assert
-            mockFac.Verify(factory => factory.Create("base", context),Times.Once);
+            mockFac.Verify(factory => factory.Create("base", context), Times.Once);
             mockWriter.Verify(writer => writer.RenderHelp(It.IsAny<RootNode>(), 80), Times.Once);
         }
     }

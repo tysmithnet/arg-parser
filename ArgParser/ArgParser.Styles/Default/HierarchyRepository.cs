@@ -13,13 +13,6 @@ namespace ArgParser.Styles.Default
             Nodes.Add(parserId, new Node(parserId));
         }
 
-        public string GetRoot()
-        {
-            var allChildren = Nodes.SelectMany(pair => pair.Value.Children);
-            var root = Nodes.Values.Except(allChildren).Single();
-            return root.Id;
-        }
-
         public void EstablishParentChildRelationship(string parentParserId, string childParserId)
         {
             parentParserId.ThrowIfArgumentNull(nameof(parentParserId));
@@ -58,6 +51,13 @@ namespace ArgParser.Styles.Default
                 throw new KeyNotFoundException(
                     $"Unable to find parent parser with id={parserId}, are you sure it was added and you are using the correct id?");
             return Nodes[parserId].Children.Select(x => x.Id);
+        }
+
+        public string GetRoot()
+        {
+            var allChildren = Nodes.SelectMany(pair => pair.Value.Children);
+            var root = Nodes.Values.Except(allChildren).Single();
+            return root.Id;
         }
 
         public bool IsParent(string parentParserId, string childParserId)
