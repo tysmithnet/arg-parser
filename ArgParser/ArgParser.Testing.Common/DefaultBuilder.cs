@@ -8,7 +8,14 @@ namespace ArgParser.Testing.Common
         public static ContextBuilder CreateDefaultBuilder()
         {
             return new ContextBuilder()
-                .AddParser<UtilOptions>("util")
+                .AddParser<UtilOptions>("util", help =>
+                {
+                    help
+                        .SetName("utility")
+                        .SetVersion("1.0.0.0")
+                        .SetShortDescription("General utility tool")
+                        .SetLongDescription("A collection of small utilities used frequently.");
+                })
                 .WithBooleanSwitch('h', "help", o => o.IsHelpRequested = true, help =>
                 {
                     help

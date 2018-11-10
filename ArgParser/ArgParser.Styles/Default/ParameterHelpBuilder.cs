@@ -26,5 +26,6 @@ namespace ArgParser.Styles.Default
 
         protected internal ParameterHelp Help { get; set; } = new ParameterHelp();
         protected internal Parameter Parameter { get; set; }
+
     }
 }

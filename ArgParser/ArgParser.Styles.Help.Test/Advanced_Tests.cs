@@ -26,7 +26,7 @@ namespace ArgParser.Styles.Help.Test
                                                                                 
 ------------------------------                                                  
 Usage: util [clip|firewall|convert] [-h] [--version]                            
-                                                                                
+A collection of small utilities used frequently.                                
 ------------------------------                                                  
 ╔════════╤════════════════════════════════════╗                                 
 ║clip    │Interact with the clipboard         ║                                 

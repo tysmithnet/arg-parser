@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Alba.CsConsoleFormat;
 using Alba.CsConsoleFormat.ColorfulConsole;
+using ArgParser.Core;
 
 namespace ArgParser.Styles.Help
 {
@@ -9,7 +10,7 @@ namespace ArgParser.Styles.Help
         public Element Default(HelpNode node)
         {
             var span = new Span();
-            foreach (var child in node.Children)
+            foreach (var child in node.ThrowIfArgumentNull(nameof(node)).Children)
             {
                 var element = child.Accept(this);
                 span.Children.Add(element);
@@ -22,25 +23,25 @@ namespace ArgParser.Styles.Help
 
         public Element Visit(RootNode node)
         {
-            var children = node.Children.Select(x => x.Accept(this));
+            var children = node.ThrowIfArgumentNull(nameof(node)).Children.Select(x => x.Accept(this));
             // ReSharper disable once CoVariantArrayConversion
             return new Document(children.ToArray());
         }
 
         public Element Visit(TextNode node) => new Span
         {
-            Text = node.Text
+            Text = node.ThrowIfArgumentNull(nameof(node)).Text
         };
 
         public Element Visit(HeadingNode node) => new FigletDiv
         {
-            Text = node.Text
+            Text = node.ThrowIfArgumentNull(nameof(node)).Text
         };
 
         public Element Visit(BlockNode node)
         {
             var div = new Div();
-            foreach (var child in node.Children) div.Children.Add(child.Accept(this));
+            foreach (var child in node.ThrowIfArgumentNull(nameof(node)).Children) div.Children.Add(child.Accept(this));
             return div;
         }
 
@@ -48,6 +49,7 @@ namespace ArgParser.Styles.Help
 
         public Element Visit(GridNode node)
         {
+            node.ThrowIfArgumentNull(nameof(node));
             var grid = new Grid
             {
                 Columns = {Enumerable.Range(0, node.Columns).Select(x => GridLength.Auto)}
@@ -57,6 +59,6 @@ namespace ArgParser.Styles.Help
             return grid;
         }
 
-        public Element Visit(CodeNode node) => new Span(node.Text);
+        public Element Visit(CodeNode node) => new Span(node.ThrowIfArgumentNull(nameof(node)).Text);
     }
 }
