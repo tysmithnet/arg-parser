@@ -1,4 +1,5 @@
-﻿using Alba.CsConsoleFormat;
+﻿using System.Linq;
+using Alba.CsConsoleFormat;
 using FluentAssertions;
 using Xunit;
 
@@ -17,7 +18,7 @@ namespace ArgParser.Styles.Help.Test
                 {
                     new GridNode
                     {
-                        Columns = 3,
+                        Columns = 3.ToAutoColumns().ToList(),
                         Children =
                         {
                             new TextNode("a"),
@@ -94,7 +95,7 @@ The dumb content tracker                                                        
                 {
                     new GridNode
                     {
-                        Columns = 3,
+                        Columns = 3.ToAutoColumns().ToList(),
                         Children =
                         {
                             new TextNode("a"),

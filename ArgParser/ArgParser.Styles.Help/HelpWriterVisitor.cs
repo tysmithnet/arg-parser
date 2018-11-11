@@ -9,6 +9,7 @@ namespace ArgParser.Styles.Help
     public class HelpWriterVisitor : IHelpNodeVisitor<Element>
     {
         public Theme Theme { get; set; } = new Theme();
+        public int Width { get; set; } = 80;
 
         public Element Default(HelpNode node)
         {
@@ -64,8 +65,11 @@ namespace ArgParser.Styles.Help
             node.ThrowIfArgumentNull(nameof(node));
             var grid = new Grid
             {
-                Columns = {Enumerable.Range(0, node.Columns).Select(x => GridLength.Auto)},
-                StrokeColor = Theme.HeadingColor.ToNearestConsoleColor()
+                Columns =
+                {
+                    node.Columns.Select(c => c.ToGridLength())
+                },
+                StrokeColor = Theme.HeadingColor.ToNearestConsoleColor(),
             };
             foreach (var child in node.Children) grid.Children.Add(new Cell(child.Accept(this)));
 
