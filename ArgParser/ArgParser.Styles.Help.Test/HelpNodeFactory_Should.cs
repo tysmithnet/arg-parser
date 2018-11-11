@@ -92,7 +92,7 @@ namespace ArgParser.Styles.Help.Test
             // assert
             res.Children.Should().HaveCount(4);
             var grid = (GridNode) res;
-            grid.Columns.Should().Be(2);
+            grid.Columns.Should().HaveCount(2);
             grid.Children[0].Should().BeOfType<TextNode>().Which.Text.Should().Be("-h, --help");
             grid.Children[1].Should().BeOfType<TextNode>().Which.Text.Should().Be("Get help");
             grid.Children[2].Should().BeOfType<TextNode>().Which.Text.Should().Be("-v, --value");
@@ -121,7 +121,7 @@ namespace ArgParser.Styles.Help.Test
             // assert
             res.Children.Should().HaveCount(4);
             var grid = (GridNode) res;
-            grid.Columns.Should().Be(2);
+            grid.Columns.Should().HaveCount(2);
             grid.Children[0].Should().BeOfType<TextNode>().Which.Text.Should().Be("c0");
             grid.Children[1].Should().BeOfType<TextNode>().Which.Text.Should().Be("child0 desc");
             grid.Children[2].Should().BeOfType<TextNode>().Which.Text.Should().Be("c1");

@@ -47,7 +47,11 @@ namespace ArgParser.Styles.Help
 
             var grid = new GridNode
             {
-                Columns = 2
+                Columns =
+                {
+                    new ColumnLength(),
+                    new ColumnLength(1)
+                }
             };
             foreach (var parameter in parser.Parameters.OfType<Switch>())
             {
@@ -64,7 +68,11 @@ namespace ArgParser.Styles.Help
                 .Select(x => context.ParserRepository.Get(x));
             var grid = new GridNode
             {
-                Columns = 2
+                Columns =
+                {
+                    new ColumnLength(),
+                    new ColumnLength(1)
+                }
             };
             foreach (var child in children)
             {

@@ -2,11 +2,15 @@
 using Alba.CsConsoleFormat;
 using Alba.CsConsoleFormat.ColorfulConsole;
 using ArgParser.Core;
+using Colorful;
 
 namespace ArgParser.Styles.Help
 {
     public class HelpWriterVisitor : IHelpNodeVisitor<Element>
     {
+        public Theme Theme { get; set; } = new Theme();
+        public int Width { get; set; } = 80;
+
         public Element Default(HelpNode node)
         {
             var span = new Span();
@@ -30,12 +34,14 @@ namespace ArgParser.Styles.Help
 
         public Element Visit(TextNode node) => new Span
         {
-            Text = node.ThrowIfArgumentNull(nameof(node)).Text
+            Text = node.ThrowIfArgumentNull(nameof(node)).Text,
+            Color = Theme.TextColor.ToNearestConsoleColor()
         };
 
         public Element Visit(HeadingNode node) => new FigletDiv
         {
-            Text = node.ThrowIfArgumentNull(nameof(node)).Text
+            Text = node.ThrowIfArgumentNull(nameof(node)).Text,
+            Color = Theme.HeadingColor.ToNearestConsoleColor()
         };
 
         public Element Visit(BlockNode node)
@@ -45,20 +51,34 @@ namespace ArgParser.Styles.Help
             return div;
         }
 
-        public Element Visit(HorizontalLineNode node) => new Div(new Span("------------------------------"));
+        public Element Visit(HorizontalLineNode node)
+        {
+            var result = new Div(new Span("------------------------------")
+            {
+                Color = Theme.HeadingColor.ToNearestConsoleColor(),
+            });
+            return result;
+        }
 
         public Element Visit(GridNode node)
         {
             node.ThrowIfArgumentNull(nameof(node));
             var grid = new Grid
             {
-                Columns = {Enumerable.Range(0, node.Columns).Select(x => GridLength.Auto)}
+                Columns =
+                {
+                    node.Columns.Select(c => c.ToGridLength())
+                },
+                StrokeColor = Theme.HeadingColor.ToNearestConsoleColor(),
             };
             foreach (var child in node.Children) grid.Children.Add(new Cell(child.Accept(this)));
 
             return grid;
         }
 
-        public Element Visit(CodeNode node) => new Span(node.ThrowIfArgumentNull(nameof(node)).Text);
+        public Element Visit(CodeNode node) => new Span(node.ThrowIfArgumentNull(nameof(node)).Text)
+        {
+            Color = Theme.TextColor.ToNearestConsoleColor()
+        };
     }
 }
