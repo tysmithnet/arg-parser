@@ -90,15 +90,21 @@ namespace ArgParser.Styles.Help.Test
             var res = fac.CreateParameters("base", context);
 
             // assert
-            res.Children.Should().HaveCount(6);
+            res.Children.Should().HaveCount(12);
             var grid = (GridNode) res;
-            grid.Columns.Should().HaveCount(2);
-            grid.Children[0].Should().BeOfType<TextNode>().Which.Text.Should().Be("Parameter");
-            grid.Children[1].Should().BeOfType<TextNode>().Which.Text.Should().Be("Description");
-            grid.Children[2].Should().BeOfType<TextNode>().Which.Text.Should().Be("-h, --help");
-            grid.Children[3].Should().BeOfType<TextNode>().Which.Text.Should().Be("Get help");
-            grid.Children[4].Should().BeOfType<TextNode>().Which.Text.Should().Be("-v, --value");
-            grid.Children[5].Should().BeOfType<TextNode>().Which.Text.Should().Be("Set a value");
+            grid.Columns.Should().HaveCount(4);
+            grid.Children[0].Should().BeOfType<TextNode>().Which.Text.Should().Be("Name");
+            grid.Children[1].Should().BeOfType<TextNode>().Which.Text.Should().Be("Switch");
+            grid.Children[2].Should().BeOfType<TextNode>().Which.Text.Should().Be("Num Values");
+            grid.Children[3].Should().BeOfType<TextNode>().Which.Text.Should().Be("Description");
+            grid.Children[4].Should().BeOfType<TextNode>().Which.Text.Should().Be("help");
+            grid.Children[5].Should().BeOfType<TextNode>().Which.Text.Should().Be("-h, --help");
+            grid.Children[6].Should().BeOfType<TextNode>().Which.Text.Should().Be("1");
+            grid.Children[7].Should().BeOfType<TextNode>().Which.Text.Should().Be("Get help");
+            grid.Children[8].Should().BeOfType<TextNode>().Which.Text.Should().Be("value");
+            grid.Children[9].Should().BeOfType<TextNode>().Which.Text.Should().Be("-v, --value");
+            grid.Children[10].Should().BeOfType<TextNode>().Which.Text.Should().Be("1");
+            grid.Children[11].Should().BeOfType<TextNode>().Which.Text.Should().Be("Set a value");
         }
 
         [Fact]

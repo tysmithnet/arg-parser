@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using ArgParser.Core;
 using ArgParser.Styles.Default;
 
@@ -50,14 +51,24 @@ namespace ArgParser.Styles.Help
                 Columns =
                 {
                     new ColumnLength(),
-                    new ColumnLength(1)
+                    new ColumnLength(),
+                    new ColumnLength(),
+                    new ColumnLength(1),
                 }
             };
-            grid.AddChild(new TextNode("Parameter"));
+            grid.AddChild(new TextNode("Name"));
+            grid.AddChild(new TextNode("Switch"));
+            grid.AddChild(new TextNode("Num Values"));
             grid.AddChild(new TextNode("Description"));
             foreach (var parameter in parser.Parameters.OfType<Switch>())
             {
+                var hi = parameter.MaxAllowed == int.MaxValue ? "N" : parameter.MaxAllowed.ToString();
+                var range = parameter.MinRequired == parameter.MaxAllowed
+                    ? $"{parameter.MinRequired}"
+                    : $"{parameter.MinRequired}..{hi}";
+                grid.AddChild(new TextNode(parameter.Help?.Name));
                 grid.AddChild(new TextNode(parameter.ToString()));
+                grid.AddChild(new TextNode(range));
                 grid.AddChild(new TextNode(parameter.Help?.ShortDescription));
             }
 
@@ -73,7 +84,7 @@ namespace ArgParser.Styles.Help
                 Columns =
                 {
                     new ColumnLength(),
-                    new ColumnLength(1)
+                    new ColumnLength(1),
                 }
             };
             grid.AddChild(new TextNode("SubCommand"));
