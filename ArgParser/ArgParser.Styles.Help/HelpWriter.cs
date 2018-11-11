@@ -5,6 +5,7 @@ namespace ArgParser.Styles.Help
 {
     public class HelpWriter : IHelpWriter
     {
+
         public string CreateHelpText(RootNode rootNode, int width = 80)
         {
             var visitor = new HelpWriterVisitor();
