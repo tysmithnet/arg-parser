@@ -40,12 +40,25 @@ namespace ArgParser.Styles.Help
             );
         }
 
-        public virtual HelpNode CreateHeading(string parserId, IContext context) => new HeadingNode(parserId);
+        public virtual HelpNode CreateHeading(string parserId, IContext context)
+        {
+            var parser = context.ParserRepository.Get(parserId);
+            var displayName = parser.Help?.Name ?? parserId;
+            var heading = new HeadingNode(displayName);
+            string version = parser.Help?.Version.IsNullOrWhiteSpace() ?? true ? "" : $" {parser.Help.Version}";
+            var desc = parser.Help?.ShortDescription.IsNullOrWhiteSpace() ?? true ? "" : $" - {parser.Help.ShortDescription}";
+            var subHeading = $"{displayName}{version}{desc}";
+            return Block(heading, Block(new TextNode(subHeading)));
+        }
 
         public virtual HelpNode CreateParameters(string parserId, IContext context)
         {
             var parser = context.ParserRepository.Get(parserId);
-
+            var inheritedParameters = context
+                .HierarchyRepository
+                .GetAncestors(parserId)
+                .Select(x => context.ParserRepository.Get(x))
+                .SelectMany(x => x.Parameters);
             var grid = new GridNode
             {
                 Columns =
@@ -70,6 +83,31 @@ namespace ArgParser.Styles.Help
                 grid.AddChild(new TextNode(parameter.ToString()));
                 grid.AddChild(new TextNode(range));
                 grid.AddChild(new TextNode(parameter.Help?.ShortDescription));
+            }
+
+            foreach (var parameter in inheritedParameters.OfType<Switch>())
+            {
+                var hi = parameter.MaxAllowed == int.MaxValue ? "N" : parameter.MaxAllowed.ToString();
+                var range = parameter.MinRequired == parameter.MaxAllowed
+                    ? $"{parameter.MinRequired}"
+                    : $"{parameter.MinRequired}..{hi}";
+                grid.AddChild(new TextNode(parameter.Help?.Name));
+                grid.AddChild(new TextNode(parameter.ToString()));
+                grid.AddChild(new TextNode(range));
+                grid.AddChild(new TextNode($"*inherited* {parameter.Help?.ShortDescription}"));
+            }
+
+            int pos = 1;
+            foreach (var positional in parser.Parameters.OfType<Positional>())
+            {
+                var hi = positional.MaxAllowed == int.MaxValue ? "N" : positional.MaxAllowed.ToString();
+                var range = positional.MinRequired == positional.MaxAllowed
+                    ? $"{positional.MinRequired}"
+                    : $"{positional.MinRequired}..{hi}";
+                grid.AddChild(new TextNode(positional.Help?.Name));
+                grid.AddChild(new TextNode($"<pos {pos++}>"));
+                grid.AddChild(new TextNode(range));
+                grid.AddChild(new TextNode($"*inherited* {positional.Help?.ShortDescription}"));
             }
 
             return grid;

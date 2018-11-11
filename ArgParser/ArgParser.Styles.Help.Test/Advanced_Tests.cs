@@ -7,7 +7,7 @@ namespace ArgParser.Styles.Help.Test
     public class Advanced_Tests
     {
         [Fact]
-        public void Use_Case_0()
+        public void Util_Help()
         {
             // arrange
             var builder = DefaultBuilder.CreateDefaultBuilder();
@@ -48,7 +48,7 @@ A collection of small utilities used frequently.
         }
 
         [Fact]
-        public void Use_Case_1()
+        public void Clip_Help()
         {
             // arrange
             var builder = DefaultBuilder.CreateDefaultBuilder();
@@ -85,12 +85,52 @@ Usage: clip [sort|zip] [-ho] [--version]
         }
 
         [Fact]
-        public void Use_Case_2()
+        public void Firewall_Help()
         {
             // arrange
             var builder = DefaultBuilder.CreateDefaultBuilder();
             var fac = new HelpNodeFactory();
             var root = fac.Create("firewall", builder.BuildContext());
+            var writer = new HelpWriter();
+
+            // act
+            var res = writer.CreateHelpText(root);
+
+            // assert
+            res.Should().Be(@"   ___   _                             __   __                                  
+  / _/  (_)  ____ ___  _    __ ___ _  / /  / /                                  
+ / _/  / /  / __// -_)| |/|/ // _ `/ / /  / /                                   
+/_/   /_/  /_/   \__/ |__,__/ \_,_/ /_/  /_/                                    
+                                                                                
+------------------------------                                                  
+Usage: firewall [block|unblock] [-h] [--version] [-mp v1] [p1]                  
+                                                                                
+------------------------------                                                  
+╔══════════╤═══════════════════════════════════════════════════════════════════╗
+║SubCommand│Description                                                        ║
+╟──────────┼───────────────────────────────────────────────────────────────────╢
+║block     │Block a program in/out on a specified port                         ║
+╟──────────┼───────────────────────────────────────────────────────────────────╢
+║unblock   │Unblock a program in/out on a specified port                       ║
+╚══════════╧═══════════════════════════════════════════════════════════════════╝
+------------------------------                                                  
+╔════╤══════════╤══════════╤═══════════════════════════════════════════════════╗
+║Name│Switch    │Num Values│Description                                        ║
+╟────┼──────────┼──────────┼───────────────────────────────────────────────────╢
+║Port│-p, --port│2         │The port on which to act                           ║
+╟────┼──────────┼──────────┼───────────────────────────────────────────────────╢
+║Mode│-m, --mode│2         │Set whether inbound or outbound traffic should be  ║
+║    │          │          │blocked                                            ║
+╚════╧══════════╧══════════╧═══════════════════════════════════════════════════╝");
+        }
+
+        [Fact]
+        public void Block_Options()
+        {
+            // arrange
+            var builder = DefaultBuilder.CreateDefaultBuilder();
+            var fac = new HelpNodeFactory();
+            var root = fac.Create("block", builder.BuildContext());
             var writer = new HelpWriter();
 
             // act
