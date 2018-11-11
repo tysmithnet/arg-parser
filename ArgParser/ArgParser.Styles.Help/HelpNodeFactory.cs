@@ -58,7 +58,8 @@ namespace ArgParser.Styles.Help
                 .HierarchyRepository
                 .GetAncestors(parserId)
                 .Select(x => context.ParserRepository.Get(x))
-                .SelectMany(x => x.Parameters);
+                .SelectMany(x => x.Parameters)
+                .ToList();
             var grid = new GridNode
             {
                 Columns =
@@ -99,6 +100,18 @@ namespace ArgParser.Styles.Help
 
             int pos = 1;
             foreach (var positional in parser.Parameters.OfType<Positional>())
+            {
+                var hi = positional.MaxAllowed == int.MaxValue ? "N" : positional.MaxAllowed.ToString();
+                var range = positional.MinRequired == positional.MaxAllowed
+                    ? $"{positional.MinRequired}"
+                    : $"{positional.MinRequired}..{hi}";
+                grid.AddChild(new TextNode(positional.Help?.Name));
+                grid.AddChild(new TextNode($"<pos {pos++}>"));
+                grid.AddChild(new TextNode(range));
+                grid.AddChild(new TextNode($"{positional.Help?.ShortDescription}"));
+            }
+
+            foreach (var positional in inheritedParameters.OfType<Positional>())
             {
                 var hi = positional.MaxAllowed == int.MaxValue ? "N" : positional.MaxAllowed.ToString();
                 var range = positional.MinRequired == positional.MaxAllowed
