@@ -69,13 +69,15 @@ namespace ArgParser.Testing.Common
                 {
                     help
                         .SetName("Output File")
-                        .SetShortDescription("The zip file to create");
+                        .SetShortDescription("The zip file to create")
+                        .SetValueAlias("outfile");
                 })
                 .WithPositionals((o, s) => o.Globs = s, helpSetupCallback: help =>
                 {
                     help
                         .SetName("Glob Patterns")
-                        .SetShortDescription("Optional list of glob patterns to use to zip only some of the files");
+                        .SetShortDescription("Optional list of glob patterns to use to zip only some of the files")
+                        .SetValueAlias("glob");
                 })
                 .Finish
                 .AddParser<FireWallOptions>("firewall", help =>

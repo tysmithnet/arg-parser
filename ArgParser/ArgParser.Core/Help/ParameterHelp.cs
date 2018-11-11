@@ -2,5 +2,6 @@
 {
     public class ParameterHelp : SimpleHelp
     {
+        public string ValueAlias { get; set; }
     }
 }

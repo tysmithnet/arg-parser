@@ -70,8 +70,9 @@ namespace ArgParser.Styles.Help
             var positionals = parameters.OfType<Positional>().ToList();
             foreach (var p in positionals)
             {
-                var positionalList = "p1";
-                if (p.MaxAllowed > 1) positionalList += p.MaxAllowed == int.MaxValue ? $"..pN" : $"..p{p.MaxAllowed}";
+                var prefix = p.Help.ValueAlias.IsNullOrWhiteSpace() ? "p" : $"{p.Help.ValueAlias}";
+                var positionalList = $"{prefix}1";
+                if (p.MaxAllowed > 1) positionalList += p.MaxAllowed == int.MaxValue ? $"..{prefix}N" : $"..{prefix}{p.MaxAllowed}";
 
                 sb.Append($" [{positionalList}]");
             }
