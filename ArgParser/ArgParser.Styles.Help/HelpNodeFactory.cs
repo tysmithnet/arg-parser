@@ -34,7 +34,7 @@ namespace ArgParser.Styles.Help
             return Block(
                 Block(
                     new TextNode("Usage: "),
-                    UsageFactory.Create(parserId, context)
+                    UsageFactory.CreateFullUsage(parserId, context)
                 ),
                 new TextNode(parser.Help?.LongDescription)
             );

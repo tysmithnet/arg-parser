@@ -25,7 +25,7 @@ namespace ArgParser.Styles.Help.Test
             var fac = new UsageFactory();
 
             // act
-            var node = fac.Create("child", builder.BuildContext());
+            var node = fac.CreateFullUsage("child", builder.BuildContext());
 
             // assert
             node.Should().BeOfType<TextNode>().Which.Text.Should().Be("child [-hlv]");
@@ -48,7 +48,7 @@ namespace ArgParser.Styles.Help.Test
             var fac = new UsageFactory();
 
             // act
-            var node = fac.Create("child", builder.BuildContext());
+            var node = fac.CreateFullUsage("child", builder.BuildContext());
 
             // assert
             node.Should().BeOfType<TextNode>().Which.Text.Should().Be("child [-acr v1]");
@@ -72,7 +72,7 @@ namespace ArgParser.Styles.Help.Test
             var fac = new UsageFactory();
 
             // act
-            var node = fac.Create("child", builder.BuildContext());
+            var node = fac.CreateFullUsage("child", builder.BuildContext());
 
             // assert
             node.Should().BeOfType<TextNode>().Which.Text.Should().Be("child [-ar v1..v2] [-m v1..v5] [-c v1..vN]");
@@ -99,7 +99,7 @@ namespace ArgParser.Styles.Help.Test
             var fac = new UsageFactory();
 
             // act
-            var node = fac.Create("base", builder.BuildContext());
+            var node = fac.CreateFullUsage("base", builder.BuildContext());
 
             // assert
             node.Should().BeOfType<TextNode>().Which.Text.Should().Be("base [child0|child1|child2]");
@@ -124,7 +124,7 @@ namespace ArgParser.Styles.Help.Test
             var fac = new UsageFactory();
 
             // act
-            var node = fac.Create("child", builder.BuildContext());
+            var node = fac.CreateFullUsage("child", builder.BuildContext());
 
             // assert
             node.Should().BeOfType<TextNode>().Which.Text.Should().Be("child [--help|version] [--reject v1] [--capture|monitor v1..v5]");
@@ -148,7 +148,7 @@ namespace ArgParser.Styles.Help.Test
             var fac = new UsageFactory();
 
             // act
-            var node = fac.Create("child", builder.BuildContext());
+            var node = fac.CreateFullUsage("child", builder.BuildContext());
 
             // assert
             node.Should().BeOfType<TextNode>().Which.Text.Should().Be("child [p1..pN] [p1] [p1..p5] [p1..p3]"); // todo: should we warn the user about this?
@@ -164,7 +164,7 @@ namespace ArgParser.Styles.Help.Test
             var fac = new UsageFactory();
 
             // act
-            var node = fac.Create("base", builder.BuildContext());
+            var node = fac.CreateFullUsage("base", builder.BuildContext());
 
             // assert
             node.Should().BeOfType<TextNode>().Which.Text.Should().Be("base");
@@ -177,10 +177,10 @@ namespace ArgParser.Styles.Help.Test
             var builder = new ContextBuilder()
                 .AddParser("base")
                 .Finish;
-            Action mightThrow0 = () => new UsageFactory().Create(null, null);
-            Action mightThrow1 = () => new UsageFactory().Create("base", null);
-            Action mightThrow2 = () => new UsageFactory().Create(null, builder.BuildContext());
-            Action mightThrow3 = () => new UsageFactory().Create("madeup", builder.BuildContext());
+            Action mightThrow0 = () => new UsageFactory().CreateFullUsage(null, null);
+            Action mightThrow1 = () => new UsageFactory().CreateFullUsage("base", null);
+            Action mightThrow2 = () => new UsageFactory().CreateFullUsage(null, builder.BuildContext());
+            Action mightThrow3 = () => new UsageFactory().CreateFullUsage("madeup", builder.BuildContext());
 
             // act
             // assert

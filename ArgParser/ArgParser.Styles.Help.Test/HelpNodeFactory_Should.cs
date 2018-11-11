@@ -14,7 +14,7 @@ namespace ArgParser.Styles.Help.Test
         {
             // arrange
             var mock = new Mock<IUsageFactory>();
-            mock.Setup(factory => factory.Create(It.IsAny<string>(), It.IsAny<IContext>()))
+            mock.Setup(factory => factory.CreateFullUsage(It.IsAny<string>(), It.IsAny<IContext>()))
                 .Returns(new CodeNode("mock value"));
             var fac = new HelpNodeFactory();
             fac.UsageFactory = mock.Object;
@@ -51,7 +51,7 @@ namespace ArgParser.Styles.Help.Test
         {
             // arrange
             var mock = new Mock<IUsageFactory>();
-            mock.Setup(factory => factory.Create(It.IsAny<string>(), It.IsAny<IContext>()))
+            mock.Setup(factory => factory.CreateFullUsage(It.IsAny<string>(), It.IsAny<IContext>()))
                 .Returns(new CodeNode("mock value"));
             var fac = new HelpNodeFactory();
             fac.UsageFactory = mock.Object;

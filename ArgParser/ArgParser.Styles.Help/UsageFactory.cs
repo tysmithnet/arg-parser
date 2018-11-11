@@ -7,7 +7,7 @@ namespace ArgParser.Styles.Help
 {
     public class UsageFactory : IUsageFactory
     {
-        public HelpNode Create(string parserId, IContext context)
+        public HelpNode CreateFullUsage(string parserId, IContext context)
         {
             parserId.ThrowIfArgumentNull(nameof(parserId));
             context.ThrowIfArgumentNull(nameof(context));
@@ -78,6 +78,47 @@ namespace ArgParser.Styles.Help
             }
 
             return new TextNode(sb.ToString());
+        }
+
+        public HelpNode CreateSwitchUsage(Switch @switch, IContext context)
+        {
+            var span = new SpanNode();
+            if (@switch.Letter.HasValue)
+            {
+                span.AddChild(new TextNode("-"));
+                span.AddChild(new CodeNode(@switch.Letter.ToString()));
+            }
+
+            if (@switch.Word.IsNullOrWhiteSpace())
+                return span;
+            span.AddChild(new TextNode("--"));
+            span.AddChild(new CodeNode(@switch.Word));
+            return span;
+
+        }
+
+        public HelpNode CreatePositionalUsage(Positional positional, IContext context)
+        {
+            var span = new SpanNode();
+            return span; // todo: fix
+        }
+
+        public HelpNode CreateUsageAlias(Parameter parameter, IContext context)
+        {
+            string prefix = "v";
+            if (parameter is Positional)
+            {
+                prefix = "p";
+            }
+            var hi = parameter.MaxAllowed == int.MaxValue ? "N" : parameter.MinRequired.ToString();
+            if (parameter.MinRequired == parameter.MaxAllowed)
+            {
+                return new TextNode($"{prefix}1");
+            }
+            else
+            {
+                return new TextNode($"{prefix}1..{prefix}{hi}");
+            }
         }
     }
 }
