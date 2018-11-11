@@ -62,6 +62,29 @@ namespace ArgParser.Styles.Test.Default
                 options.Program.Should().BeNull();
             });
         }
+        
+        [Fact]
+        public void Allow_Switches_To_Be_Grouped()
+        {
+            // arrange
+            var builder = DefaultBuilder.CreateDefaultBuilder();
+            var strat = new ParseStrategy("util");
+
+            // act
+            var res = strat.Parse("clip sort -hro".Split(' '), builder.BuildContext());
+
+            // assert
+            bool isParsed = false;
+            res
+                .When<SortOptions>(options =>
+                {
+                    isParsed = true;
+                    options.IsHelpRequested.Should().BeTrue();
+                    options.IsReversed.Should().BeTrue();
+                    options.IsOverwriteClipboard.Should().BeTrue();
+                });
+            isParsed.Should().BeTrue();
+        }
 
         [Fact]
         public void Get_The_Correct_Parser_Tree()
