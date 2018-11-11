@@ -62,7 +62,7 @@ namespace ArgParser.Styles.Test.Default
                 options.Program.Should().BeNull();
             });
         }
-
+        
         [Fact]
         public void Allow_Switches_To_Be_Grouped()
         {
@@ -71,16 +71,17 @@ namespace ArgParser.Styles.Test.Default
             var strat = new ParseStrategy("util");
 
             // act
-            var res = strat.Parse("-hv".Split(' '), builder.BuildContext());
+            var res = strat.Parse("clip sort -hro".Split(' '), builder.BuildContext());
 
             // assert
             bool isParsed = false;
             res
-                .When<UtilOptions>(options =>
+                .When<SortOptions>(options =>
                 {
                     isParsed = true;
                     options.IsHelpRequested.Should().BeTrue();
-                    options.IsVersionRequested.Should().BeTrue();
+                    options.IsReversed.Should().BeTrue();
+                    options.IsOverwriteClipboard.Should().BeTrue();
                 });
             isParsed.Should().BeTrue();
         }

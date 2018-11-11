@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using ArgParser.Core;
 
 namespace ArgParser.Styles.Default
@@ -35,7 +36,8 @@ namespace ArgParser.Styles.Default
         {
             var parser = IdentifyRelevantParser(args, context);
             var chain = GetParserFamily(context, parser);
-            var subcommandSequence = GetCommandIdentifyingSubsequence(args, context);
+            args = MutateArgs(args, chain, context);
+             var subcommandSequence = GetCommandIdentifyingSubsequence(args, context);
             if (parser.FactoryFunction == null)
                 throw new NoFactoryFunctionException($"No factory function on parser={parser.Id}");
             var instance = parser.FactoryFunction();
@@ -69,6 +71,41 @@ namespace ArgParser.Styles.Default
             {
                 chain.ForEach(c => c.Reset());
             }
+        }
+
+        protected internal virtual string[] MutateArgs(string[] args, List<Parser> chain, IContext context)
+        {
+            var allSwitchesForChain = chain.SelectMany(x => x.Parameters).OfType<Switch>().ToList();
+            var booleanSwitches = allSwitchesForChain.OfType<BooleanSwitch>().ToList();
+            var others = allSwitchesForChain.Except(booleanSwitches).ToList();
+            var booleanLetters = booleanSwitches.Where(s => s.Letter.HasValue).Select(x => x.Letter.Value.ToString()).Join("");
+            var otherLetters = others.Where(s => s.Letter.HasValue).Select(x => x.Letter.Value.ToString()).Join("");
+            if (!booleanLetters.Any())
+                return args;
+            List<string> groups;
+            if(others.Any())
+                groups = args.Where(a => Regex.IsMatch(a, $"-[{booleanLetters}]+[{otherLetters}]?")).ToList();
+            else
+                groups = args.Where(a => Regex.IsMatch(a, $"-[{booleanLetters}]+")).ToList();
+            var copy = args.ToList();
+            foreach (var g in groups)
+            {
+                for (var i = 0; i < copy.Count; i++)
+                {
+                    var c = copy[i];
+                    if (g.Contains(c))
+                    {
+                        copy.RemoveAt(i);
+                        var letters = c.Substring(1).ToCharArray().Reverse();
+                        foreach (var letter in letters)
+                        {
+                            copy.Insert(i, $"-{letter}");
+                        }
+                    }
+                }
+            }
+
+            return copy.ToArray();
         }
 
         protected internal ConsumptionRequest CreateCanConsumeRequest(object instance, List<Parser> chain,
