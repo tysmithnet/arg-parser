@@ -53,6 +53,8 @@ namespace ArgParser.Styles.Help
                     new ColumnLength(1)
                 }
             };
+            grid.AddChild(new TextNode("Parameter"));
+            grid.AddChild(new TextNode("Description"));
             foreach (var parameter in parser.Parameters.OfType<Switch>())
             {
                 grid.AddChild(new TextNode(parameter.ToString()));
@@ -74,6 +76,8 @@ namespace ArgParser.Styles.Help
                     new ColumnLength(1)
                 }
             };
+            grid.AddChild(new TextNode("SubCommand"));
+            grid.AddChild(new TextNode("Description"));
             foreach (var child in children)
             {
                 grid.AddChild(new TextNode(child.Id));
