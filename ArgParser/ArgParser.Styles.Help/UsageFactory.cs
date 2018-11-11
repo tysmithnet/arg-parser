@@ -7,7 +7,7 @@ namespace ArgParser.Styles.Help
 {
     public class UsageFactory : IUsageFactory
     {
-        public TextNode Create(string parserId, IContext context)
+        public HelpNode Create(string parserId, IContext context)
         {
             parserId.ThrowIfArgumentNull(nameof(parserId));
             context.ThrowIfArgumentNull(nameof(context));

@@ -28,7 +28,7 @@ namespace ArgParser.Styles.Help.Test
             var node = fac.Create("child", builder.BuildContext());
 
             // assert
-            node.Text.Should().Be("child [-hlv]");
+            node.Should().BeOfType<TextNode>().Which.Text.Should().Be("child [-hlv]");
         }
 
         [Fact]
@@ -51,7 +51,7 @@ namespace ArgParser.Styles.Help.Test
             var node = fac.Create("child", builder.BuildContext());
 
             // assert
-            node.Text.Should().Be("child [-acr v1]");
+            node.Should().BeOfType<TextNode>().Which.Text.Should().Be("child [-acr v1]");
         }
 
         [Fact]
@@ -75,7 +75,7 @@ namespace ArgParser.Styles.Help.Test
             var node = fac.Create("child", builder.BuildContext());
 
             // assert
-            node.Text.Should().Be("child [-ar v1..v2] [-m v1..v5] [-c v1..vN]");
+            node.Should().BeOfType<TextNode>().Which.Text.Should().Be("child [-ar v1..v2] [-m v1..v5] [-c v1..vN]");
         }
 
         [Fact]
@@ -102,7 +102,7 @@ namespace ArgParser.Styles.Help.Test
             var node = fac.Create("base", builder.BuildContext());
 
             // assert
-            node.Text.Should().Be("base [child0|child1|child2]");
+            node.Should().BeOfType<TextNode>().Which.Text.Should().Be("base [child0|child1|child2]");
         }
 
         [Fact]
@@ -127,7 +127,7 @@ namespace ArgParser.Styles.Help.Test
             var node = fac.Create("child", builder.BuildContext());
 
             // assert
-            node.Text.Should().Be("child [--help|version] [--reject v1] [--capture|monitor v1..v5]");
+            node.Should().BeOfType<TextNode>().Which.Text.Should().Be("child [--help|version] [--reject v1] [--capture|monitor v1..v5]");
         }
 
         [Fact]
@@ -151,7 +151,7 @@ namespace ArgParser.Styles.Help.Test
             var node = fac.Create("child", builder.BuildContext());
 
             // assert
-            node.Text.Should().Be("child [p1..pN] [p1] [p1..p5] [p1..p3]"); // todo: should we warn the user about this?
+            node.Should().BeOfType<TextNode>().Which.Text.Should().Be("child [p1..pN] [p1] [p1..p5] [p1..p3]"); // todo: should we warn the user about this?
         }
 
         [Fact]
@@ -167,7 +167,7 @@ namespace ArgParser.Styles.Help.Test
             var node = fac.Create("base", builder.BuildContext());
 
             // assert
-            node.Text.Should().Be("base");
+            node.Should().BeOfType<TextNode>().Which.Text.Should().Be("base");
         }
 
         [Fact]
