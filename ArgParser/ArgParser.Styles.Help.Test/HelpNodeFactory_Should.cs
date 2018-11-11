@@ -90,13 +90,15 @@ namespace ArgParser.Styles.Help.Test
             var res = fac.CreateParameters("base", context);
 
             // assert
-            res.Children.Should().HaveCount(4);
+            res.Children.Should().HaveCount(6);
             var grid = (GridNode) res;
             grid.Columns.Should().HaveCount(2);
-            grid.Children[0].Should().BeOfType<TextNode>().Which.Text.Should().Be("-h, --help");
-            grid.Children[1].Should().BeOfType<TextNode>().Which.Text.Should().Be("Get help");
-            grid.Children[2].Should().BeOfType<TextNode>().Which.Text.Should().Be("-v, --value");
-            grid.Children[3].Should().BeOfType<TextNode>().Which.Text.Should().Be("Set a value");
+            grid.Children[0].Should().BeOfType<TextNode>().Which.Text.Should().Be("Parameter");
+            grid.Children[1].Should().BeOfType<TextNode>().Which.Text.Should().Be("Description");
+            grid.Children[2].Should().BeOfType<TextNode>().Which.Text.Should().Be("-h, --help");
+            grid.Children[3].Should().BeOfType<TextNode>().Which.Text.Should().Be("Get help");
+            grid.Children[4].Should().BeOfType<TextNode>().Which.Text.Should().Be("-v, --value");
+            grid.Children[5].Should().BeOfType<TextNode>().Which.Text.Should().Be("Set a value");
         }
 
         [Fact]
@@ -119,13 +121,15 @@ namespace ArgParser.Styles.Help.Test
             var res = fac.CreateSubCommands("base", context);
 
             // assert
-            res.Children.Should().HaveCount(4);
+            res.Children.Should().HaveCount(6);
             var grid = (GridNode) res;
             grid.Columns.Should().HaveCount(2);
-            grid.Children[0].Should().BeOfType<TextNode>().Which.Text.Should().Be("c0");
-            grid.Children[1].Should().BeOfType<TextNode>().Which.Text.Should().Be("child0 desc");
-            grid.Children[2].Should().BeOfType<TextNode>().Which.Text.Should().Be("c1");
-            grid.Children[3].Should().BeOfType<TextNode>().Which.Text.Should().Be("child1 desc");
+            grid.Children[0].Should().BeOfType<TextNode>().Which.Text.Should().Be("SubCommand");
+            grid.Children[1].Should().BeOfType<TextNode>().Which.Text.Should().Be("Description");
+            grid.Children[2].Should().BeOfType<TextNode>().Which.Text.Should().Be("c0");
+            grid.Children[3].Should().BeOfType<TextNode>().Which.Text.Should().Be("child0 desc");
+            grid.Children[4].Should().BeOfType<TextNode>().Which.Text.Should().Be("c1");
+            grid.Children[5].Should().BeOfType<TextNode>().Which.Text.Should().Be("child1 desc");
         }
 
         [Fact]
