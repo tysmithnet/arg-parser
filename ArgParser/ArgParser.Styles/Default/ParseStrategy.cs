@@ -80,6 +80,13 @@ namespace ArgParser.Styles.Default
                     OnIterationInfoChanged(new IterationInfoChangedEventArgs(context, copy, info));
                 }
 
+                var requiredParameters = chain.SelectMany(p => p.Parameters)
+                    .Where(p => p is IRequirable casted && casted.IsRequired);
+                foreach (var requiredParameter in requiredParameters)
+                {
+                    if (!requiredParameter.HasBeenConsumed)
+                        throw new MissingRequiredParameterException(requiredParameter, instance);
+                }
                 return new ParseResult(instance.ToEnumerableOfOne(), null);
             }
             catch (ParseException e)
