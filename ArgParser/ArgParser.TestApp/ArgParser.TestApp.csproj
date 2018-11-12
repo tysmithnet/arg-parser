@@ -55,6 +55,10 @@
       <Project>{3388c6b5-010d-427e-b0b2-17bed051ae9c}</Project>
       <Name>ArgParser.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ArgParser.Styles.Help.Alba\ArgParser.Styles.Help.Alba.csproj">
+      <Project>{E0D5A313-DFE0-4963-B738-B26A9F8DAB5C}</Project>
+      <Name>ArgParser.Styles.Help.Alba</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ArgParser.Styles.Help\ArgParser.Styles.Help.csproj">
       <Project>{58A58C86-EBDF-4617-B281-FF391CC4093D}</Project>
       <Name>ArgParser.Styles.Help</Name>

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using ArgParser.Core;
-using ArgParser.Styles.Default;
 using FluentAssertions;
 using Xunit;
 

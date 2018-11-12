@@ -1,5 +1,5 @@
 ﻿using System;
-using ArgParser.Styles.Default;
+using ArgParser.Styles;
 
 namespace ArgParser.Testing.Common
 {
