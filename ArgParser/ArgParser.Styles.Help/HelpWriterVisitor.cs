@@ -78,7 +78,7 @@ namespace ArgParser.Styles.Help
 
         public Element Visit(CodeNode node) => new Span(node.ThrowIfArgumentNull(nameof(node)).Text)
         {
-            Color = Theme.TextColor.ToNearestConsoleColor()
+            Color = Theme.CodeColor.ToNearestConsoleColor()
         };
     }
 }

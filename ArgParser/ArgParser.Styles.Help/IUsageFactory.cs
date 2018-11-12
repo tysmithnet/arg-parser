@@ -7,6 +7,7 @@ namespace ArgParser.Styles.Help
     {
         HelpNode CreateFullUsage(string parserId, IContext context);
         HelpNode CreateSwitchUsage(Switch @switch, IContext context);
-        HelpNode CreatePositionalUsage(Positional parameter, IContext context);
+        HelpNode CreatePositionalUsage(Positional positional, IContext context);
+        HelpNode CreateSubCommandUsage(string parserId, IContext context);
     }
 }
