@@ -78,14 +78,17 @@ namespace ArgParser.Styles.Help
             {
                 grid.AddChild(new TextNode(sw.Help?.Name));
                 grid.AddChild(UsageFactory.CreateSwitchUsage(sw, context));
-                grid.AddChild(new TextNode(sw.Help?.ShortDescription));
+                var prefix = sw.IsRequired ? $"*req* " : "";
+                grid.AddChild(new TextNode($"{prefix}{sw.Help?.ShortDescription}"));
+                
             }
 
             foreach (var pos in parser.Parameters.OfType<Positional>().Concat(inheritedParameters.OfType<Positional>()))
             {
                 grid.AddChild(new TextNode(pos.Help?.Name));
                 grid.AddChild(UsageFactory.CreatePositionalUsage(pos, context));
-                grid.AddChild(new TextNode(pos.Help?.ShortDescription));
+                var prefix = pos.IsRequired ? $"*req* " : "";
+                grid.AddChild(new TextNode($"{prefix}{pos.Help?.ShortDescription}"));
             }
 
             return grid;
