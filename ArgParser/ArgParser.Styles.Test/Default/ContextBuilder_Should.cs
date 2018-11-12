@@ -29,7 +29,8 @@ namespace ArgParser.Styles.Test.Default
             var builder = new ContextBuilder();
 
             // act
-            var parserBuilder = builder.AddParser("a", help => { help.SetName("Something").SetShortDescription("Does something"); });
+            var parserBuilder = builder.AddParser("a",
+                help => { help.SetName("Something").SetShortDescription("Does something"); });
 
             // assert
             parserBuilder.Parser.Help.Name.Should().Be("Something");
