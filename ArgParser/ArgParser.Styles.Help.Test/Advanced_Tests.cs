@@ -7,44 +7,43 @@ namespace ArgParser.Styles.Help.Test
     public class Advanced_Tests
     {
         [Fact]
-        public void Util_Help()
+        public void Block_Options()
         {
             // arrange
             var builder = DefaultBuilder.CreateDefaultBuilder();
             var fac = new HelpNodeFactory();
-            var root = fac.Create("util", builder.BuildContext());
+            var root = fac.Create("block", builder.BuildContext());
             var writer = new HelpWriter();
 
             // act
             var res = writer.CreateHelpText(root);
 
             // assert
-            res.Should().Be(@"        __    _    __                                                           
- __ __ / /_  (_)  / /                                                           
-/ // // __/ / /  / /                                                            
-\_,_/ \__/ /_/  /_/                                                             
+            res.Should().Be(@"   ___   _                             __   __                                  
+  / _/  (_)  ____ ___  _    __ ___ _  / /  / /                                  
+ / _/  / /  / __// -_)| |/|/ // _ `/ / /  / /                                   
+/_/   /_/  /_/   \__/ |__,__/ \_,_/ /_/  /_/                                    
                                                                                 
 ------------------------------                                                  
-Usage: util [clip|firewall|convert] [-h] [--version]                            
-A collection of small utilities used frequently.                                
+Usage: firewall [block|unblock] [-h] [--version] [-mp v1] [p1]                  
+                                                                                
 ------------------------------                                                  
 ╔══════════╤═══════════════════════════════════════════════════════════════════╗
 ║SubCommand│Description                                                        ║
 ╟──────────┼───────────────────────────────────────────────────────────────────╢
-║clip      │Interact with the clipboard                                        ║
+║block     │Block a program in/out on a specified port                         ║
 ╟──────────┼───────────────────────────────────────────────────────────────────╢
-║firewall  │Interact with the the local firewall                               ║
-╟──────────┼───────────────────────────────────────────────────────────────────╢
-║convert   │Convert files to another format                                    ║
+║unblock   │Unblock a program in/out on a specified port                       ║
 ╚══════════╧═══════════════════════════════════════════════════════════════════╝
 ------------------------------                                                  
-╔═══════╤══════════╤══════════╤════════════════════════════════════════════════╗
-║Name   │Switch    │Num Values│Description                                     ║
-╟───────┼──────────┼──────────┼────────────────────────────────────────────────╢
-║Help   │-h, --help│1         │Get help on commands                            ║
-╟───────┼──────────┼──────────┼────────────────────────────────────────────────╢
-║Version│--version │1         │Display the current version                     ║
-╚═══════╧══════════╧══════════╧════════════════════════════════════════════════╝");
+╔════╤══════════╤══════════╤═══════════════════════════════════════════════════╗
+║Name│Switch    │Num Values│Description                                        ║
+╟────┼──────────┼──────────┼───────────────────────────────────────────────────╢
+║Port│-p, --port│2         │The port on which to act                           ║
+╟────┼──────────┼──────────┼───────────────────────────────────────────────────╢
+║Mode│-m, --mode│2         │Set whether inbound or outbound traffic should be  ║
+║    │          │          │blocked                                            ║
+╚════╧══════════╧══════════╧═══════════════════════════════════════════════════╝");
         }
 
         [Fact]
@@ -125,43 +124,44 @@ Usage: firewall [block|unblock] [-h] [--version] [-mp v1] [p1]
         }
 
         [Fact]
-        public void Block_Options()
+        public void Util_Help()
         {
             // arrange
             var builder = DefaultBuilder.CreateDefaultBuilder();
             var fac = new HelpNodeFactory();
-            var root = fac.Create("block", builder.BuildContext());
+            var root = fac.Create("util", builder.BuildContext());
             var writer = new HelpWriter();
 
             // act
             var res = writer.CreateHelpText(root);
 
             // assert
-            res.Should().Be(@"   ___   _                             __   __                                  
-  / _/  (_)  ____ ___  _    __ ___ _  / /  / /                                  
- / _/  / /  / __// -_)| |/|/ // _ `/ / /  / /                                   
-/_/   /_/  /_/   \__/ |__,__/ \_,_/ /_/  /_/                                    
+            res.Should().Be(@"        __    _    __                                                           
+ __ __ / /_  (_)  / /                                                           
+/ // // __/ / /  / /                                                            
+\_,_/ \__/ /_/  /_/                                                             
                                                                                 
 ------------------------------                                                  
-Usage: firewall [block|unblock] [-h] [--version] [-mp v1] [p1]                  
-                                                                                
+Usage: util [clip|firewall|convert] [-h] [--version]                            
+A collection of small utilities used frequently.                                
 ------------------------------                                                  
 ╔══════════╤═══════════════════════════════════════════════════════════════════╗
 ║SubCommand│Description                                                        ║
 ╟──────────┼───────────────────────────────────────────────────────────────────╢
-║block     │Block a program in/out on a specified port                         ║
+║clip      │Interact with the clipboard                                        ║
 ╟──────────┼───────────────────────────────────────────────────────────────────╢
-║unblock   │Unblock a program in/out on a specified port                       ║
+║firewall  │Interact with the the local firewall                               ║
+╟──────────┼───────────────────────────────────────────────────────────────────╢
+║convert   │Convert files to another format                                    ║
 ╚══════════╧═══════════════════════════════════════════════════════════════════╝
 ------------------------------                                                  
-╔════╤══════════╤══════════╤═══════════════════════════════════════════════════╗
-║Name│Switch    │Num Values│Description                                        ║
-╟────┼──────────┼──────────┼───────────────────────────────────────────────────╢
-║Port│-p, --port│2         │The port on which to act                           ║
-╟────┼──────────┼──────────┼───────────────────────────────────────────────────╢
-║Mode│-m, --mode│2         │Set whether inbound or outbound traffic should be  ║
-║    │          │          │blocked                                            ║
-╚════╧══════════╧══════════╧═══════════════════════════════════════════════════╝");
+╔═══════╤══════════╤══════════╤════════════════════════════════════════════════╗
+║Name   │Switch    │Num Values│Description                                     ║
+╟───────┼──────────┼──────────┼────────────────────────────────────────────────╢
+║Help   │-h, --help│1         │Get help on commands                            ║
+╟───────┼──────────┼──────────┼────────────────────────────────────────────────╢
+║Version│--version │1         │Display the current version                     ║
+╚═══════╧══════════╧══════════╧════════════════════════════════════════════════╝");
         }
     }
 }

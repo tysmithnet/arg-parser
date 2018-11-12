@@ -127,7 +127,8 @@ namespace ArgParser.Styles.Help.Test
             var node = fac.CreateFullUsage("child", builder.BuildContext());
 
             // assert
-            node.Should().BeOfType<TextNode>().Which.Text.Should().Be("child [--help|version] [--reject v1] [--capture|monitor v1..v5]");
+            node.Should().BeOfType<TextNode>().Which.Text.Should()
+                .Be("child [--help|version] [--reject v1] [--capture|monitor v1..v5]");
         }
 
         [Fact]
@@ -151,7 +152,8 @@ namespace ArgParser.Styles.Help.Test
             var node = fac.CreateFullUsage("child", builder.BuildContext());
 
             // assert
-            node.Should().BeOfType<TextNode>().Which.Text.Should().Be("child [p1..pN] [p1] [p1..p5] [p1..p3]"); // todo: should we warn the user about this?
+            node.Should().BeOfType<TextNode>().Which.Text.Should()
+                .Be("child [p1..pN] [p1] [p1..p5] [p1..p3]"); // todo: should we warn the user about this?
         }
 
         [Fact]

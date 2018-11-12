@@ -8,9 +8,6 @@ namespace ArgParser.Styles.Help
 {
     public class HelpWriterVisitor : IHelpNodeVisitor<Element>
     {
-        public Theme Theme { get; set; } = new Theme();
-        public int Width { get; set; } = 80;
-
         public Element Default(HelpNode node)
         {
             var span = new Span();
@@ -55,7 +52,7 @@ namespace ArgParser.Styles.Help
         {
             var result = new Div(new Span("------------------------------")
             {
-                Color = Theme.HeadingColor.ToNearestConsoleColor(),
+                Color = Theme.HeadingColor.ToNearestConsoleColor()
             });
             return result;
         }
@@ -69,7 +66,7 @@ namespace ArgParser.Styles.Help
                 {
                     node.Columns.Select(c => c.ToGridLength())
                 },
-                StrokeColor = Theme.HeadingColor.ToNearestConsoleColor(),
+                StrokeColor = Theme.HeadingColor.ToNearestConsoleColor()
             };
             foreach (var child in node.Children) grid.Children.Add(new Cell(child.Accept(this)));
 
@@ -80,5 +77,8 @@ namespace ArgParser.Styles.Help
         {
             Color = Theme.CodeColor.ToNearestConsoleColor()
         };
+
+        public Theme Theme { get; set; } = new Theme();
+        public int Width { get; set; } = 80;
     }
 }

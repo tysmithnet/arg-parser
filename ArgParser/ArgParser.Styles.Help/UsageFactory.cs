@@ -22,8 +22,11 @@ namespace ArgParser.Styles.Help
 
             var switches = allPossibleParameters.OfType<Switch>().ToList();
             var positionals = allPossibleParameters.OfType<Positional>().ToList();
-            foreach (var parameter in switches) span.AddChild(Surround(CreateSwitchUsage(parameter, context), new TextNode("["), new TextNode("]")));
-            foreach (var positional in positionals) span.AddChild(Surround(CreatePositionalUsage(positional, context), new TextNode("["), new TextNode("]")));
+            foreach (var parameter in switches)
+                span.AddChild(Surround(CreateSwitchUsage(parameter, context), new TextNode("["), new TextNode("]")));
+            foreach (var positional in positionals)
+                span.AddChild(
+                    Surround(CreatePositionalUsage(positional, context), new TextNode("["), new TextNode("]")));
 
             return span;
         }
@@ -53,19 +56,6 @@ namespace ArgParser.Styles.Help
             return span;
         }
 
-        private HelpNode Surround(HelpNode nodeToBeSurrounded, HelpNode nodeThatSurroundsFirst, HelpNode nodeThatSurroundsSecond)
-        {
-            return new SpanNode()
-            {
-                Children =
-                {
-                    nodeThatSurroundsFirst,
-                    nodeToBeSurrounded,
-                    nodeThatSurroundsSecond
-                }
-            };
-        }
-
         public HelpNode CreateSwitchUsage(Switch @switch, IContext context)
         {
             var span = new SpanNode();
@@ -92,6 +82,7 @@ namespace ArgParser.Styles.Help
                 span.AddChild(new TextNode(" "));
                 span.AddChild(CreateUsageAlias(@switch, context));
             }
+
             return span;
         }
 
@@ -99,10 +90,7 @@ namespace ArgParser.Styles.Help
         {
             var prefix = "v";
             if (parameter is Positional) prefix = "p";
-            if (parameter.Help?.ValueAlias.IsNotNullOrWhiteSpace() ?? false)
-            {
-                prefix = parameter.Help.ValueAlias;
-            }
+            if (parameter.Help?.ValueAlias.IsNotNullOrWhiteSpace() ?? false) prefix = parameter.Help.ValueAlias;
             var hi = parameter.MaxAllowed == int.MaxValue ? "N" : parameter.MinRequired.ToString();
             if (parameter.MinRequired == parameter.MaxAllowed)
                 return new CodeNode($"{prefix}");
@@ -116,5 +104,16 @@ namespace ArgParser.Styles.Help
                 }
             };
         }
+
+        private HelpNode Surround(HelpNode nodeToBeSurrounded, HelpNode nodeThatSurroundsFirst,
+            HelpNode nodeThatSurroundsSecond) => new SpanNode
+        {
+            Children =
+            {
+                nodeThatSurroundsFirst,
+                nodeToBeSurrounded,
+                nodeThatSurroundsSecond
+            }
+        };
     }
 }

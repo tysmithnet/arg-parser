@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using ArgParser.Core;
 using ArgParser.Styles.Default;
 
@@ -45,8 +44,10 @@ namespace ArgParser.Styles.Help
             var parser = context.ParserRepository.Get(parserId);
             var displayName = parser.Help?.Name ?? parserId;
             var heading = new HeadingNode(displayName);
-            string version = parser.Help?.Version.IsNullOrWhiteSpace() ?? true ? "" : $" {parser.Help.Version}";
-            var desc = parser.Help?.ShortDescription.IsNullOrWhiteSpace() ?? true ? "" : $" - {parser.Help.ShortDescription}";
+            var version = parser.Help?.Version.IsNullOrWhiteSpace() ?? true ? "" : $" {parser.Help.Version}";
+            var desc = parser.Help?.ShortDescription.IsNullOrWhiteSpace() ?? true
+                ? ""
+                : $" - {parser.Help.ShortDescription}";
             var subHeading = $"{displayName}{version}{desc}";
             return Block(heading, Block(new TextNode(subHeading)));
         }
@@ -66,7 +67,7 @@ namespace ArgParser.Styles.Help
                 {
                     new ColumnLength(),
                     new ColumnLength(),
-                    new ColumnLength(1),
+                    new ColumnLength(1)
                 }
             };
             grid.AddChild(new TextNode("Name"));
@@ -86,6 +87,7 @@ namespace ArgParser.Styles.Help
                 grid.AddChild(UsageFactory.CreatePositionalUsage(pos, context));
                 grid.AddChild(new TextNode(pos.Help?.ShortDescription));
             }
+
             return grid;
         }
 
@@ -98,7 +100,7 @@ namespace ArgParser.Styles.Help
                 Columns =
                 {
                     new ColumnLength(),
-                    new ColumnLength(1),
+                    new ColumnLength(1)
                 }
             };
             grid.AddChild(new TextNode("SubCommand"));
