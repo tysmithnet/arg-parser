@@ -66,63 +66,26 @@ namespace ArgParser.Styles.Help
                 {
                     new ColumnLength(),
                     new ColumnLength(),
-                    new ColumnLength(),
                     new ColumnLength(1),
                 }
             };
             grid.AddChild(new TextNode("Name"));
-            grid.AddChild(new TextNode("Switch"));
-            grid.AddChild(new TextNode("Num Values"));
+            grid.AddChild(new TextNode("Usage"));
             grid.AddChild(new TextNode("Description"));
-            foreach (var parameter in parser.Parameters.OfType<Switch>())
+
+            foreach (var sw in parser.Parameters.OfType<Switch>().Concat(inheritedParameters.OfType<Switch>()))
             {
-                var hi = parameter.MaxAllowed == int.MaxValue ? "N" : parameter.MaxAllowed.ToString();
-                var range = parameter.MinRequired == parameter.MaxAllowed
-                    ? $"{parameter.MinRequired}"
-                    : $"{parameter.MinRequired}..{hi}";
-                grid.AddChild(new TextNode(parameter.Help?.Name));
-                grid.AddChild(new TextNode(parameter.ToString()));
-                grid.AddChild(new TextNode(range));
-                grid.AddChild(new TextNode(parameter.Help?.ShortDescription));
+                grid.AddChild(new TextNode(sw.Help?.Name));
+                grid.AddChild(UsageFactory.CreateSwitchUsage(sw, context));
+                grid.AddChild(new TextNode(sw.Help?.ShortDescription));
             }
 
-            foreach (var parameter in inheritedParameters.OfType<Switch>())
+            foreach (var pos in parser.Parameters.OfType<Positional>().Concat(inheritedParameters.OfType<Positional>()))
             {
-                var hi = parameter.MaxAllowed == int.MaxValue ? "N" : parameter.MaxAllowed.ToString();
-                var range = parameter.MinRequired == parameter.MaxAllowed
-                    ? $"{parameter.MinRequired}"
-                    : $"{parameter.MinRequired}..{hi}";
-                grid.AddChild(new TextNode(parameter.Help?.Name));
-                grid.AddChild(new TextNode(parameter.ToString()));
-                grid.AddChild(new TextNode(range));
-                grid.AddChild(new TextNode($"*inherited* {parameter.Help?.ShortDescription}"));
+                grid.AddChild(new TextNode(pos.Help?.Name));
+                grid.AddChild(UsageFactory.CreatePositionalUsage(pos, context));
+                grid.AddChild(new TextNode(pos.Help?.ShortDescription));
             }
-
-            int pos = 1;
-            foreach (var positional in parser.Parameters.OfType<Positional>())
-            {
-                var hi = positional.MaxAllowed == int.MaxValue ? "N" : positional.MaxAllowed.ToString();
-                var range = positional.MinRequired == positional.MaxAllowed
-                    ? $"{positional.MinRequired}"
-                    : $"{positional.MinRequired}..{hi}";
-                grid.AddChild(new TextNode(positional.Help?.Name));
-                grid.AddChild(new TextNode($"<pos {pos++}>"));
-                grid.AddChild(new TextNode(range));
-                grid.AddChild(new TextNode($"{positional.Help?.ShortDescription}"));
-            }
-
-            foreach (var positional in inheritedParameters.OfType<Positional>())
-            {
-                var hi = positional.MaxAllowed == int.MaxValue ? "N" : positional.MaxAllowed.ToString();
-                var range = positional.MinRequired == positional.MaxAllowed
-                    ? $"{positional.MinRequired}"
-                    : $"{positional.MinRequired}..{hi}";
-                grid.AddChild(new TextNode(positional.Help?.Name));
-                grid.AddChild(new TextNode($"<pos {pos++}>"));
-                grid.AddChild(new TextNode(range));
-                grid.AddChild(new TextNode($"*inherited* {positional.Help?.ShortDescription}"));
-            }
-
             return grid;
         }
 

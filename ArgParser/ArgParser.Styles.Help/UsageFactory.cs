@@ -22,8 +22,8 @@ namespace ArgParser.Styles.Help
 
             var switches = allPossibleParameters.OfType<Switch>().ToList();
             var positionals = allPossibleParameters.OfType<Positional>().ToList();
-            foreach (var parameter in switches) span.AddChild(CreateSwitchUsage(parameter, context));
-            foreach (var positional in positionals) span.AddChild(CreatePositionalUsage(positional, context));
+            foreach (var parameter in switches) span.AddChild(Surround(CreateSwitchUsage(parameter, context), new TextNode("["), new TextNode("]")));
+            foreach (var positional in positionals) span.AddChild(Surround(CreatePositionalUsage(positional, context), new TextNode("["), new TextNode("]")));
 
             return span;
         }
@@ -31,9 +31,7 @@ namespace ArgParser.Styles.Help
         public HelpNode CreatePositionalUsage(Positional positional, IContext context)
         {
             var span = new SpanNode();
-            span.AddChild(new TextNode("["));
             span.AddChild(CreateUsageAlias(positional, context));
-            span.AddChild(new TextNode("]"));
             return span;
         }
 
@@ -41,13 +39,7 @@ namespace ArgParser.Styles.Help
         {
             var subCommands = context.HierarchyRepository.GetChildren(parserId).ToList();
             var code = subCommands.Select(x => new CodeNode(x));
-            var span = new SpanNode
-            {
-                Children =
-                {
-                    new TextNode("[")
-                }
-            };
+            var span = new SpanNode();
 
             var inner = code.Aggregate(new List<HelpNode>(), (list, codeNode) =>
             {
@@ -58,14 +50,25 @@ namespace ArgParser.Styles.Help
 
             foreach (var helpNode in inner) span.AddChild(helpNode);
 
-            span.AddChild(new TextNode("]"));
             return span;
+        }
+
+        private HelpNode Surround(HelpNode nodeToBeSurrounded, HelpNode nodeThatSurroundsFirst, HelpNode nodeThatSurroundsSecond)
+        {
+            return new SpanNode()
+            {
+                Children =
+                {
+                    nodeThatSurroundsFirst,
+                    nodeToBeSurrounded,
+                    nodeThatSurroundsSecond
+                }
+            };
         }
 
         public HelpNode CreateSwitchUsage(Switch @switch, IContext context)
         {
             var span = new SpanNode();
-            span.AddChild(new TextNode("["));
 
             if (@switch.Letter.HasValue && !@switch.Word.IsNullOrWhiteSpace())
             {
@@ -89,7 +92,6 @@ namespace ArgParser.Styles.Help
                 span.AddChild(new TextNode(" "));
                 span.AddChild(CreateUsageAlias(@switch, context));
             }
-            span.AddChild(new TextNode("]"));
             return span;
         }
 
