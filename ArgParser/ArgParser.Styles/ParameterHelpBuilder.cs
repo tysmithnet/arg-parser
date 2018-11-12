@@ -1,7 +1,7 @@
 ﻿using ArgParser.Core;
 using ArgParser.Core.Help;
 
-namespace ArgParser.Styles.Default
+namespace ArgParser.Styles
 {
     public class ParameterHelpBuilder
     {

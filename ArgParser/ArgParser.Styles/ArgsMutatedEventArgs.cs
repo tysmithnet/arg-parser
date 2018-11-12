@@ -1,6 +1,6 @@
 ﻿using ArgParser.Core;
 
-namespace ArgParser.Styles.Default
+namespace ArgParser.Styles
 {
     public class ArgsMutatedEventArgs : ParserEventArgs
     {

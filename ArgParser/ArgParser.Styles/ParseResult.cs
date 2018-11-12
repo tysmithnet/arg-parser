@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ArgParser.Core;
 
-namespace ArgParser.Styles.Default
+namespace ArgParser.Styles
 {
     public class ParseResult : IParseResult
     {

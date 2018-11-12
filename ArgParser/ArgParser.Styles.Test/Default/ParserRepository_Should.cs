@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using ArgParser.Core;
-using ArgParser.Styles.Default;
 using FluentAssertions;
 using Xunit;
 

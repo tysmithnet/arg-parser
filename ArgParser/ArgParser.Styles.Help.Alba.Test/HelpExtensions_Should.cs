@@ -1,5 +1,4 @@
 ﻿using ArgParser.Core;
-using ArgParser.Styles.Default;
 using Moq;
 using Xunit;
 

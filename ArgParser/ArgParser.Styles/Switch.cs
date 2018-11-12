@@ -2,7 +2,7 @@
 using System.Linq;
 using ArgParser.Core;
 
-namespace ArgParser.Styles.Default
+namespace ArgParser.Styles
 {
     public abstract class Switch : Parameter, IRequirable
     {

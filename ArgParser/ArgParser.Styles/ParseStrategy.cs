@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using ArgParser.Core;
 
-namespace ArgParser.Styles.Default
+namespace ArgParser.Styles
 {
     public class ParseStrategy : IParseStrategy
     {
