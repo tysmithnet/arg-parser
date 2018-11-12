@@ -29,6 +29,22 @@ namespace ArgParser.Styles.Test.Default
         }
 
         [Fact]
+        public void Allow_Help_To_Be_Added()
+        {
+            // arrange
+            var contextBuilder = new ContextBuilder();
+            var parser = new Parser("a");
+            var parserBuilder = new ParserBuilder(contextBuilder, parser);
+            parserBuilder.WithBooleanSwitch('h', "help", o => { },
+                help => { help.SetName("Help").SetShortDescription("Get help"); });
+
+            // act
+            // assert
+            parser.Parameters.Single().Help.Name.Should().Be("Help");
+            parser.Parameters.Single().Help.ShortDescription.Should().Be("Get help");
+        }
+
+        [Fact]
         public void Allow_A_Positional_Of_Multiple_Values()
         {
             // arrange

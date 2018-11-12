@@ -77,6 +77,7 @@
   <ItemGroup>
     <Compile Include="BasicExtensions_Should.cs" />
     <Compile Include="ConsumptionRequestExtensions_Should.cs" />
+    <Compile Include="ContextExtensions_Should.cs" />
     <Compile Include="FullHelp_Should.cs" />
     <Compile Include="IterationInfoExtensions_Should.cs" />
     <Compile Include="IterationInfo_Should.cs" />

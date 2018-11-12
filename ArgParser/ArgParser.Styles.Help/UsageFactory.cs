@@ -88,6 +88,8 @@ namespace ArgParser.Styles.Help
 
         public HelpNode CreateUsageAlias(Parameter parameter, IContext context)
         {
+            if(parameter is BooleanSwitch)
+                return new TextNode("");
             var prefix = "v";
             if (parameter is Positional) prefix = "p";
             if (parameter.Help?.ValueAlias.IsNotNullOrWhiteSpace() ?? false) prefix = parameter.Help.ValueAlias;
