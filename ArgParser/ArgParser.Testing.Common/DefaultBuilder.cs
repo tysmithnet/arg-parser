@@ -69,13 +69,15 @@ namespace ArgParser.Testing.Common
                 {
                     help
                         .SetName("Output File")
-                        .SetShortDescription("The zip file to create");
+                        .SetShortDescription("The zip file to create")
+                        .SetValueAlias("outfile");
                 })
                 .WithPositionals((o, s) => o.Globs = s, helpSetupCallback: help =>
                 {
                     help
                         .SetName("Glob Patterns")
-                        .SetShortDescription("Optional list of glob patterns to use to zip only some of the files");
+                        .SetShortDescription("Optional list of glob patterns to use to zip only some of the files")
+                        .SetValueAlias("glob");
                 })
                 .Finish
                 .AddParser<FireWallOptions>("firewall", help =>
@@ -89,7 +91,8 @@ namespace ArgParser.Testing.Common
                 {
                     help
                         .SetName("Port")
-                        .SetShortDescription("The port on which to act");
+                        .SetShortDescription("The port on which to act")
+                        .SetValueAlias("8080");
                 })
                 .WithSingleValueSwitch('m', "mode", (o, s) =>
                 {
@@ -99,12 +102,14 @@ namespace ArgParser.Testing.Common
                 {
                     help
                         .SetName("Mode")
-                        .SetShortDescription("Set whether inbound or outbound traffic should be blocked");
+                        .SetShortDescription("Set whether inbound or outbound traffic should be blocked")
+                        .SetValueAlias("io");
                 })
                 .WithPositional((o, s) => o.Program = s, help =>
                 {
                     help
                         .SetName("Program")
+                        .SetValueAlias("firefox.exe")
                         .SetShortDescription("Which program to set the rule on");
                 })
                 .Finish
@@ -135,12 +140,14 @@ namespace ArgParser.Testing.Common
                 {
                     help
                         .SetName("Format")
+                        .SetValueAlias("png")
                         .SetShortDescription("What format to conver the files to");
                 })
                 .WithPositionals((o, s) => o.InputFiles = s, helpSetupCallback: help =>
                 {
                     help
                         .SetName("Input Files")
+                        .SetValueAlias("file")
                         .SetShortDescription("Input files to convert");
                 })
                 .Finish

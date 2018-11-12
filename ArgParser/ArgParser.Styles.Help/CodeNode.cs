@@ -8,4 +8,8 @@
 
         public override T Accept<T>(IHelpNodeVisitor<T> visitor) => visitor.Visit(this);
     }
+
+    public class SpanNode : HelpNode
+    {
+    }
 }

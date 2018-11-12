@@ -24,6 +24,12 @@ namespace ArgParser.Styles.Default
             return this;
         }
 
+        public ParameterHelpBuilder SetValueAlias(string alias)
+        {
+            Help.ValueAlias = alias;
+            return this;
+        }
+
         protected internal ParameterHelp Help { get; set; } = new ParameterHelp();
         protected internal Parameter Parameter { get; set; }
     }

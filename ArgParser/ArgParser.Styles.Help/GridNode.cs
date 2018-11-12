@@ -13,26 +13,24 @@ namespace ArgParser.Styles.Help
 
     public class ColumnLength
     {
-        public int NumStars { get; set; }
-
         public ColumnLength(int numStars = 0)
         {
             NumStars = numStars;
         }
+
+        public int NumStars { get; set; }
     }
 
     public static class ColumnLengthExtensions
     {
+        public static IEnumerable<ColumnLength> ToAutoColumns(this int numAutoColumns) =>
+            Enumerable.Repeat(new ColumnLength(), numAutoColumns);
+
         public static GridLength ToGridLength(this ColumnLength length)
         {
-            if(length.NumStars == 0)
+            if (length.NumStars == 0)
                 return GridLength.Auto;
             return GridLength.Star(length.NumStars);
-        }
-
-        public static IEnumerable<ColumnLength> ToAutoColumns(this int numAutoColumns)
-        {
-            return Enumerable.Repeat(new ColumnLength(), numAutoColumns);
         }
     }
 }

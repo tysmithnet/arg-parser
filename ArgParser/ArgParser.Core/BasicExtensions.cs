@@ -7,6 +7,7 @@ namespace ArgParser.Core
     public static class BasicExtensions
     {
         public static bool IsNullOrWhiteSpace(this string source) => string.IsNullOrWhiteSpace(source);
+        public static bool IsNotNullOrWhiteSpace(this string source) => !IsNullOrWhiteSpace(source);
 
         public static string Join(this IEnumerable<string> strings, string separator) =>
             string.Join(separator, strings);

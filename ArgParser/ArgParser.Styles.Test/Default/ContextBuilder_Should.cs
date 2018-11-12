@@ -23,6 +23,21 @@ namespace ArgParser.Styles.Test.Default
         }
 
         [Fact]
+        public void Allow_Help_To_Be_Set_When_Adding()
+        {
+            // arrange
+            var builder = new ContextBuilder();
+
+            // act
+            var parserBuilder = builder.AddParser("a",
+                help => { help.SetName("Something").SetShortDescription("Does something"); });
+
+            // assert
+            parserBuilder.Parser.Help.Name.Should().Be("Something");
+            parserBuilder.Parser.Help.ShortDescription.Should().Be("Does something");
+        }
+
+        [Fact]
         public void Correctly_Parse_A_Single_Help_Request()
         {
             // arrange
