@@ -71,7 +71,7 @@ namespace ArgParser.Testing.Common
                         .SetName("Output File")
                         .SetShortDescription("The zip file to create")
                         .SetValueAlias("outfile");
-                })
+                }, required: true)
                 .WithPositionals((o, s) => o.Globs = s, helpSetupCallback: help =>
                 {
                     help
@@ -93,7 +93,7 @@ namespace ArgParser.Testing.Common
                         .SetName("Port")
                         .SetShortDescription("The port on which to act")
                         .SetValueAlias("8080");
-                })
+                }, required: true)
                 .WithSingleValueSwitch('m', "mode", (o, s) =>
                 {
                     o.IsInbound = s.Contains("i");
@@ -111,7 +111,7 @@ namespace ArgParser.Testing.Common
                         .SetName("Program")
                         .SetValueAlias("firefox.exe")
                         .SetShortDescription("Which program to set the rule on");
-                })
+                }, required: true)
                 .Finish
                 .AddParser<BlockProgramOptions>("block", help =>
                 {
@@ -142,14 +142,14 @@ namespace ArgParser.Testing.Common
                         .SetName("Format")
                         .SetValueAlias("png")
                         .SetShortDescription("What format to conver the files to");
-                })
+                }, required: true)
                 .WithPositionals((o, s) => o.InputFiles = s, helpSetupCallback: help =>
                 {
                     help
                         .SetName("Input Files")
                         .SetValueAlias("file")
                         .SetShortDescription("Input files to convert");
-                })
+                }, required: true)
                 .Finish
                 .CreateParentChildRelationship("util", "clip")
                 .CreateParentChildRelationship("util", "firewall")

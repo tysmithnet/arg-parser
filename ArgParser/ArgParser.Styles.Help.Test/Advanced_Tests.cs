@@ -36,7 +36,7 @@ Usage: [-p, --port 8080][-m, --mode io][-h, --help][--version][firefox.exe]
 ╔═══════╤═══════════════╤══════════════════════════════════════════════════════╗
 ║Name   │Usage          │Description                                           ║
 ╟───────┼───────────────┼──────────────────────────────────────────────────────╢
-║Port   │-p, --port 8080│The port on which to act                              ║
+║Port   │-p, --port 8080│*req* The port on which to act                        ║
 ╟───────┼───────────────┼──────────────────────────────────────────────────────╢
 ║Mode   │-m, --mode io  │Set whether inbound or outbound traffic should be     ║
 ║       │               │blocked                                               ║
@@ -45,7 +45,7 @@ Usage: [-p, --port 8080][-m, --mode io][-h, --help][--version][firefox.exe]
 ╟───────┼───────────────┼──────────────────────────────────────────────────────╢
 ║Version│--version      │Display the current version                           ║
 ╟───────┼───────────────┼──────────────────────────────────────────────────────╢
-║Program│firefox.exe    │Which program to set the rule on                      ║
+║Program│firefox.exe    │*req* Which program to set the rule on                ║
 ╚═══════╧═══════════════╧══════════════════════════════════════════════════════╝");
         }
 
@@ -125,7 +125,7 @@ Usage: [-p, --port 8080][-m, --mode io][-h, --help][--version][firefox.exe]
 ╔═══════╤═══════════════╤══════════════════════════════════════════════════════╗
 ║Name   │Usage          │Description                                           ║
 ╟───────┼───────────────┼──────────────────────────────────────────────────────╢
-║Port   │-p, --port 8080│The port on which to act                              ║
+║Port   │-p, --port 8080│*req* The port on which to act                        ║
 ╟───────┼───────────────┼──────────────────────────────────────────────────────╢
 ║Mode   │-m, --mode io  │Set whether inbound or outbound traffic should be     ║
 ║       │               │blocked                                               ║
@@ -134,7 +134,7 @@ Usage: [-p, --port 8080][-m, --mode io][-h, --help][--version][firefox.exe]
 ╟───────┼───────────────┼──────────────────────────────────────────────────────╢
 ║Version│--version      │Display the current version                           ║
 ╟───────┼───────────────┼──────────────────────────────────────────────────────╢
-║Program│firefox.exe    │Which program to set the rule on                      ║
+║Program│firefox.exe    │*req* Which program to set the rule on                ║
 ╚═══════╧═══════════════╧══════════════════════════════════════════════════════╝");
         }
 

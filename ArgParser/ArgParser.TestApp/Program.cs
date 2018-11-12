@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using ArgParser.Core;
+using ArgParser.Styles.Default;
 using ArgParser.Styles.Help;
 using ArgParser.Testing.Common;
 using Newtonsoft.Json;
@@ -38,9 +39,29 @@ namespace ArgParser.TestApp
         private static extern IntPtr CommandLineToArgvW(
             [MarshalAs(UnmanagedType.LPWStr)] string lpCmdLine, out int pNumArgs);
 
+        private static void FindHelp(UtilOptions options, Context context)
+        {
+            if (options.GetType() == typeof(UtilOptions))
+                context.RenderHelp("util", Console.WindowWidth);
+            else if (options.GetType() == typeof(ClipboardOptions))
+                context.RenderHelp("clip", Console.WindowWidth);
+            else if (options.GetType() == typeof(SortOptions))
+                context.RenderHelp("sort", Console.WindowWidth);
+            else if (options.GetType() == typeof(ZipOptions))
+                context.RenderHelp("zip", Console.WindowWidth);
+            else if (options.GetType() == typeof(FireWallOptions))
+                context.RenderHelp("firewall");
+            else if (options.GetType() == typeof(BlockProgramOptions))
+                context.RenderHelp("block", Console.WindowWidth);
+            else if (options.GetType() == typeof(UnblockProgramOptions))
+                context.RenderHelp("unblock", Console.WindowWidth);
+            else if (options.GetType() == typeof(ConvertOptions))
+                context.RenderHelp("convert", Console.WindowWidth);
+        }
+
         private static void Main(string[] args)
         {
-            Console.WriteLine("Enter commands e.g. firewall -h");
+            Console.WriteLine("Enter commands for the fake tool `util` e.g. firewall -h");
             while (true)
             {
                 Console.Write($"$ util ");
@@ -48,9 +69,9 @@ namespace ArgParser.TestApp
                 if (line.IsNullOrWhiteSpace())
                     continue;
                 args = CommandLineToArgs(line).Where(x => !x.IsNullOrWhiteSpace()).ToArray();
-                if(args.Length == 0)
+                if (args.Length == 0)
                     continue;
-                
+
                 var builder = DefaultBuilder.CreateDefaultBuilder();
                 var context = builder.BuildContext();
                 var result = builder.Parse("util", args);
@@ -59,28 +80,25 @@ namespace ArgParser.TestApp
                     Console.WriteLine(options.GetType().FullName);
                     Console.WriteLine(JsonConvert.SerializeObject(options, Formatting.Indented));
                     if (!options.IsHelpRequested) return;
-                    if (options.GetType() == typeof(UtilOptions))
-                        context.RenderHelp("util", Console.WindowWidth);
-                    else if (options.GetType() == typeof(ClipboardOptions))
-                        context.RenderHelp("clip", Console.WindowWidth);
-                    else if (options.GetType() == typeof(SortOptions))
-                        context.RenderHelp("sort", Console.WindowWidth);
-                    else if (options.GetType() == typeof(ZipOptions))
-                        context.RenderHelp("zip", Console.WindowWidth);
-                    else if (options.GetType() == typeof(FireWallOptions))
-                        context.RenderHelp("firewall");
-                    else if (options.GetType() == typeof(BlockProgramOptions))
-                        context.RenderHelp("block", Console.WindowWidth);
-                    else if (options.GetType() == typeof(UnblockProgramOptions))
-                        context.RenderHelp("unblock", Console.WindowWidth);
-                    else if (options.GetType() == typeof(ConvertOptions))
-                        context.RenderHelp("convert", Console.WindowWidth);
+                    FindHelp(options, context);
                 });
 
                 result.WhenError(exceptions =>
                 {
+                    exceptions = exceptions.ToList();
+                    foreach (var parseException in exceptions)
+                        if (parseException is MissingRequiredParameterException mrpe &&
+                            mrpe.Instance is UtilOptions options && options.IsHelpRequested)
+                        {
+                            FindHelp(options, context);
+                            return;
+                        }
+
                     Console.Error.WriteLine("Error");
-                    Console.WriteLine(JsonConvert.SerializeObject(exceptions, Formatting.Indented));
+                    foreach (var ex in exceptions)
+                    {
+                        Console.Error.WriteLineAsync($"Parse Error: {ex.Message}");
+                    }
                 });
             }
         }
