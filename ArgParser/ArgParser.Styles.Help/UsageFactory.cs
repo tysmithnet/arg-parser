@@ -16,7 +16,7 @@ namespace ArgParser.Styles.Help
             var allPossibleParameters = parser.Parameters.Concat(context
                     .HierarchyRepository
                     .GetAncestors(parserId)
-                    .Select(x => context.ParserRepository.Get(parserId))
+                    .Select(x => context.ParserRepository.Get(x))
                     .SelectMany(x => x.Parameters))
                 .ToList();
 
@@ -99,9 +99,13 @@ namespace ArgParser.Styles.Help
         {
             var prefix = "v";
             if (parameter is Positional) prefix = "p";
+            if (parameter.Help?.ValueAlias.IsNotNullOrWhiteSpace() ?? false)
+            {
+                prefix = parameter.Help.ValueAlias;
+            }
             var hi = parameter.MaxAllowed == int.MaxValue ? "N" : parameter.MinRequired.ToString();
             if (parameter.MinRequired == parameter.MaxAllowed)
-                return new CodeNode($"{prefix}1");
+                return new CodeNode($"{prefix}");
             return new SpanNode
             {
                 Children =
