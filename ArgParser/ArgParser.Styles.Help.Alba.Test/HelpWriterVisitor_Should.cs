@@ -3,7 +3,7 @@ using Alba.CsConsoleFormat;
 using FluentAssertions;
 using Xunit;
 
-namespace ArgParser.Styles.Help.Test
+namespace ArgParser.Styles.Help.Alba.Test
 {
     public class HelpWriterVisitor_Should
     {

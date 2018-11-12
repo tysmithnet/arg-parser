@@ -2,7 +2,7 @@
 using System.Linq;
 using Alba.CsConsoleFormat;
 
-namespace ArgParser.Styles.Help
+namespace ArgParser.Styles.Help.Alba
 {
     public static class ColumnLengthExtensions
     {

@@ -1,6 +1,6 @@
 ﻿using ArgParser.Core;
 
-namespace ArgParser.Styles.Help
+namespace ArgParser.Styles.Help.Alba
 {
     public static class HelpExtensions
     {

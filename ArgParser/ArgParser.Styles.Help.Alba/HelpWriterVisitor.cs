@@ -4,7 +4,7 @@ using Alba.CsConsoleFormat.ColorfulConsole;
 using ArgParser.Core;
 using Colorful;
 
-namespace ArgParser.Styles.Help
+namespace ArgParser.Styles.Help.Alba
 {
     public class HelpWriterVisitor : IHelpNodeVisitor<Element>
     {

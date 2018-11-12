@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Alba.CsConsoleFormat;
 
-namespace ArgParser.Styles.Help
+namespace ArgParser.Styles.Help.Alba
 {
     public class HelpWriter : IHelpWriter
     {
@@ -9,8 +9,7 @@ namespace ArgParser.Styles.Help
         {
             var visitor = new HelpWriterVisitor();
             var doc = (Document) visitor.Visit(rootNode);
-            var text = ConsoleRenderer.RenderDocumentToText(doc, new TextRenderTarget(),
-                new Rect(0, 0, width, Size.Infinity));
+            var text = ConsoleRenderer.RenderDocumentToText(doc, new TextRenderTarget());
             return text.Length > 0 ? text.Remove(text.Length - 2) : text;
         }
 

@@ -2,7 +2,7 @@
 using FluentAssertions;
 using Xunit;
 
-namespace ArgParser.Styles.Help.Test
+namespace ArgParser.Styles.Help.Alba.Test
 {
     public class Advanced_Tests
     {
