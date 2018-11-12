@@ -4,7 +4,7 @@ using ArgParser.Core;
 
 namespace ArgParser.Styles.Default
 {
-    public abstract class Switch : Parameter
+    public abstract class Switch : Parameter, IRequirable
     {
         protected Switch(Parser parent, char? letter, string word, Action<object, string[]> consumeCallback) : base(
             parent, consumeCallback)
@@ -38,5 +38,7 @@ namespace ArgParser.Styles.Default
 
         public char? Letter { get; protected internal set; }
         public string Word { get; protected internal set; }
+
+        public bool IsRequired { get; protected internal set; }
     }
 }
