@@ -11,7 +11,9 @@ namespace ArgParser.Styles.Help
         {
             parserId.ThrowIfArgumentNull(nameof(parserId));
             context.ThrowIfArgumentNull(nameof(context));
+            var pathToRoot = context.PathToRoot(parserId).Select(x => x.Id).Reverse().Select(x => new CodeNode($"{x} ")).ToList();
             var span = new SpanNode();
+            pathToRoot.ForEach(p => span.AddChild(p));
             var parser = context.ParserRepository.Get(parserId);
             var allPossibleParameters = parser.Parameters.Concat(context
                     .HierarchyRepository

@@ -11,6 +11,15 @@ namespace ArgParser.Styles.Help
             Children.Add(child);
         }
 
+        public IEnumerable<string> Classes { get; set; }
+        protected internal List<string> ClassesInternal { get; set; }
+
+        public virtual void AddClass(string @class)
+        {
+            if(!ClassesInternal.Contains(@class))
+                ClassesInternal.Add(@class);
+        }
+
         public IList<HelpNode> Children { get; protected internal set; } = new List<HelpNode>();
     }
 }
