@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Alba.CsConsoleFormat;
 using ArgParser.Core;
 
 namespace ArgParser.Styles.Help.Alba

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using Alba.CsConsoleFormat;
 using ArgParser.Core;
 using Colorful;
 
@@ -13,8 +15,11 @@ namespace ArgParser.Styles.Help.Alba
 
         public static void RenderHelp(this ContextBuilder contextBuilder, string parserId, int width = 80)
         {
-            var renderer = new HelpRenderer();
-            renderer.Render(contextBuilder.BuildContext(), parserId, width);
+            using (var fs = File.OpenRead("Views/Default.xaml"))
+            {
+                var doc = ConsoleRenderer.ReadDocumentFromStream(fs, new Something());
+                ConsoleRenderer.RenderDocument(doc);
+            }
         }
 
         public static ContextBuilder AddRenderSupport(this ContextBuilder builder)
@@ -32,5 +37,26 @@ namespace ArgParser.Styles.Help.Alba
             return builder;
         }
     }
+    public class Something
+    {
+        public IEnumerable<Person> People { get; set; } = new List<Person>()
+        {
+            new Person()
+            {
+                Name = "Alice",
+                Age = 64
+            },
+            new Person()
+            {
+                Name = "Bob",
+                Age = 24
+            }
+        };
+    }
 
+    public class Person
+    {
+        public string Name { get; set; }
+        public int Age { get; set; }
+    }
 }

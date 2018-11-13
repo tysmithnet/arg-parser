@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -49,6 +50,7 @@ namespace ArgParser.TestApp
             Console.WriteLine("Enter commands for the fake tool `util` e.g. firewall -h");
             while (true)
             {
+
                 Console.Write($"$ util ");
                 var line = Console.ReadLine();
                 if (line.IsNullOrWhiteSpace())
@@ -58,7 +60,10 @@ namespace ArgParser.TestApp
                     continue;
 
                 var builder = DefaultBuilder.CreateDefaultBuilder();
+                builder.RenderHelp("util");
+                continue;
                 var context = builder.BuildContext();
+                
                 var result = builder.Parse("util", args);
                 result.When<UtilOptions>(options =>
                 {
@@ -88,4 +93,6 @@ namespace ArgParser.TestApp
             }
         }
     }
+
+   
 }
