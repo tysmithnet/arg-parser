@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using Alba.CsConsoleFormat;
+using Alba.CsConsoleFormat.ColorfulConsole;
 
 namespace ArgParser.Styles.Alba
 {
@@ -9,7 +10,10 @@ namespace ArgParser.Styles.Alba
         {
             using (var fs = File.OpenRead("Views/Default.xaml"))
             {
-                var document = ConsoleRenderer.ReadDocumentFromStream(fs, viewModel);
+                var document = ConsoleRenderer.ReadDocumentFromStream(fs, viewModel, new XamlElementReaderSettings
+                {
+                    ReferenceAssemblies = {typeof(FigletDiv).Assembly}
+                });
                 ConsoleRenderer.RenderDocument(document);
             }
         }

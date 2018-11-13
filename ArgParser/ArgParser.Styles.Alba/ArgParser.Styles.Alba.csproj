@@ -17,9 +17,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ArgParser.Core\ArgParser.Core.csproj" />
+    <ProjectReference Include="..\ArgParser.Styles\ArgParser.Styles.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Alba.CsConsoleFormat" Version="1.0.0" />
     <PackageReference Include="Alba.CsConsoleFormat.ColorfulConsole" Version="1.0.0" />
   </ItemGroup>
 
