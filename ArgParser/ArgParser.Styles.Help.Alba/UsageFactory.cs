@@ -2,8 +2,27 @@
 using System.Linq;
 using ArgParser.Core;
 
-namespace ArgParser.Styles.Help
+namespace ArgParser.Styles.Help.Alba
 {
+    public interface IUsageFactoryShop
+    {
+        bool CanCreate(string parserId, IContext context);
+        HelpNode Create(string parserId, IContext context);
+    }
+
+    public interface IPositionalUsageShop
+    {
+        bool CanCreate(Positional positional, IContext context);
+        HelpNode Create(Positional positional, IContext context);
+    }
+
+    public interface ISwitchUsageShop
+    {
+        bool CanCreate(Switch @switch, IContext context);
+        HelpNode Create(Switch @switch, IContext context);
+    }
+
+
     public class UsageFactory : IUsageFactory
     {
         public HelpNode CreateFullUsage(string parserId, IContext context)
