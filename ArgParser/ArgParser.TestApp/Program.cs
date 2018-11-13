@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using ArgParser.Core;
 using ArgParser.Styles;
-using ArgParser.Styles.Help;
-using ArgParser.Styles.Help.Alba;
+using ArgParser.Styles.Alba;
 using ArgParser.Testing.Common;
 using Newtonsoft.Json;
 
@@ -42,22 +42,6 @@ namespace ArgParser.TestApp
 
         private static void FindHelp(UtilOptions options, Context context)
         {
-            if (options.GetType() == typeof(UtilOptions))
-                context.RenderHelp("util", Console.WindowWidth);
-            else if (options.GetType() == typeof(ClipboardOptions))
-                context.RenderHelp("clip", Console.WindowWidth);
-            else if (options.GetType() == typeof(SortOptions))
-                context.RenderHelp("sort", Console.WindowWidth);
-            else if (options.GetType() == typeof(ZipOptions))
-                context.RenderHelp("zip", Console.WindowWidth);
-            else if (options.GetType() == typeof(FireWallOptions))
-                context.RenderHelp("firewall");
-            else if (options.GetType() == typeof(BlockProgramOptions))
-                context.RenderHelp("block", Console.WindowWidth);
-            else if (options.GetType() == typeof(UnblockProgramOptions))
-                context.RenderHelp("unblock", Console.WindowWidth);
-            else if (options.GetType() == typeof(ConvertOptions))
-                context.RenderHelp("convert", Console.WindowWidth);
         }
 
         private static void Main(string[] args)
@@ -65,6 +49,10 @@ namespace ArgParser.TestApp
             Console.WriteLine("Enter commands for the fake tool `util` e.g. firewall -h");
             while (true)
             {
+                var def = new DefaultHelpTemplate();
+                def.Render(new DefaultViewModel());
+                Console.ReadLine();
+                continue;
                 Console.Write($"$ util ");
                 var line = Console.ReadLine();
                 if (line.IsNullOrWhiteSpace())
@@ -75,6 +63,7 @@ namespace ArgParser.TestApp
 
                 var builder = DefaultBuilder.CreateDefaultBuilder();
                 var context = builder.BuildContext();
+                
                 var result = builder.Parse("util", args);
                 result.When<UtilOptions>(options =>
                 {
@@ -104,4 +93,6 @@ namespace ArgParser.TestApp
             }
         }
     }
+
+   
 }

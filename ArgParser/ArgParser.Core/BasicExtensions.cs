@@ -1,11 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace ArgParser.Core
 {
     public static class BasicExtensions
     {
+        public static Stream ToStream(this string source)
+        {
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream);
+            writer.Write(source);
+            writer.Flush();
+            writer.Close();
+            stream.Position = 0;
+            return stream;
+        }
+
         public static bool IsNullOrWhiteSpace(this string source) => string.IsNullOrWhiteSpace(source);
         public static bool IsNotNullOrWhiteSpace(this string source) => !IsNullOrWhiteSpace(source);
 

@@ -9,7 +9,6 @@ namespace ArgParser.Core
     [DebuggerDisplay("{Id}")]
     public class Parser : IConsumer
     {
-        public event EventHandler<ParameterChosenEventArgs> ParameterChosen;
 
         public Parser(string id)
         {
@@ -30,7 +29,6 @@ namespace ArgParser.Core
         public virtual ConsumptionResult Consume(object instance, ConsumptionRequest request)
         {
             var parameter = Parameters.First(x => x.CanConsume(instance, request.Info).Info != request.Info);
-            OnParameterChosen(new ParameterChosenEventArgs(parameter, request));
             return parameter.Consume(instance, request);
         }
 
@@ -45,10 +43,6 @@ namespace ArgParser.Core
         public IEnumerable<Parameter> Parameters => ParametersInternal.ToList();
         protected internal IList<Parameter> ParametersInternal { get; set; } = new List<Parameter>();
 
-        protected virtual void OnParameterChosen(ParameterChosenEventArgs e)
-        {
-            ParameterChosen?.Invoke(this, e);
-        }
     }
 
     [DebuggerDisplay("{Id}")]

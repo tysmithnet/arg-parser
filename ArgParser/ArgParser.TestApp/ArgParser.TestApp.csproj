@@ -55,13 +55,9 @@
       <Project>{3388c6b5-010d-427e-b0b2-17bed051ae9c}</Project>
       <Name>ArgParser.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ArgParser.Styles.Help.Alba\ArgParser.Styles.Help.Alba.csproj">
-      <Project>{E0D5A313-DFE0-4963-B738-B26A9F8DAB5C}</Project>
-      <Name>ArgParser.Styles.Help.Alba</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ArgParser.Styles.Help\ArgParser.Styles.Help.csproj">
-      <Project>{58A58C86-EBDF-4617-B281-FF391CC4093D}</Project>
-      <Name>ArgParser.Styles.Help</Name>
+    <ProjectReference Include="..\ArgParser.Styles.Alba\ArgParser.Styles.Alba.csproj">
+      <Project>{639a31a0-d932-48f6-a062-509e1663f551}</Project>
+      <Name>ArgParser.Styles.Alba</Name>
     </ProjectReference>
     <ProjectReference Include="..\ArgParser.Styles\ArgParser.Styles.csproj">
       <Project>{5151703f-7881-485e-abf5-a52076bd4b5e}</Project>
