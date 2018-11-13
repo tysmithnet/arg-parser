@@ -1,9 +1,0 @@
-﻿<Document xmlns="urn:alba:cs-console-format"
-          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Repeater Items="{Get People}">
-        <Div>
-            <Span Text="{Get Name}"/>
-            <Span Text="{Get Age}"/>
-        </Div>
-    </Repeater>
-</Document>
