@@ -28,16 +28,9 @@ namespace ArgParser.Styles.Help.Alba
         {
             var convertedColors = colors.PreventNull().Select(c => c.ToNearestConsoleColor()).ToArray();
             var renderer = Renderers[builder];
-            renderer.HelpNodeFactory.ParameterHelpCreated += (sender, args) =>
-            {
-                var parser = args.Parameter.Parent;
-                if (parser == null)
-                    return;
-
-            }
+            
             return builder;
         }
     }
 
-    public class
 }

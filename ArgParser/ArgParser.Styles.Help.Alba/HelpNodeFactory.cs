@@ -6,8 +6,6 @@ namespace ArgParser.Styles.Help.Alba
 {
     public class HelpNodeFactory : IHelpNodeFactory
     {
-        public event EventHandler<ParameterHelpCreatedEventArgs> ParameterHelpCreated;
-        public event EventHandler<SubCommandCreatedEventArgs> SubCommandCreated; 
         public virtual RootNode Create(string parserId, IContext context)
         {
             parserId.ThrowIfArgumentNull(nameof(parserId));
@@ -125,15 +123,5 @@ namespace ArgParser.Styles.Help.Alba
         }
 
         public IUsageFactory UsageFactory { get; set; } = new UsageFactory();
-
-        protected virtual void OnParameterHelpCreated(ParameterHelpCreatedEventArgs e)
-        {
-            ParameterHelpCreated?.Invoke(this, e);
-        }
-
-        protected virtual void OnSubCommandCreated(SubCommandCreatedEventArgs e)
-        {
-            SubCommandCreated?.Invoke(this, e);
-        }
     }
 }

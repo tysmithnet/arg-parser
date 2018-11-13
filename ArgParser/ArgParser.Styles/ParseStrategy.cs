@@ -8,14 +8,7 @@ namespace ArgParser.Styles
 {
     public class ParseStrategy : IParseStrategy
     {
-        public event EventHandler<ParserIdentifedEventArgs> ParserIdentified;
-        public event EventHandler<ParserCollectionIdentifiedEventArgs> ParserCollectionIdentified;
-        public event EventHandler<ArgsMutatedEventArgs> ArgsMutated;
-        public event EventHandler<InstanceCreatedEventArgs> InstanceCreated;
-        public event EventHandler<IterationInfoChangedEventArgs> IterationInfoChanged;
-        public event EventHandler<PotentialConsumersIdentified> PotentialConsumersIdentified;
-        public event EventHandler<ConsumptionRequestCreatedEventArgs> ConsumptionRequestCreated;
-        public event EventHandler<ParserConsumedEventArgs> ParserConsumed; 
+        
 
         public ParseStrategy(string rootParserId)
         {
@@ -45,19 +38,14 @@ namespace ArgParser.Styles
         public virtual IParseResult Parse(string[] args, IContext context)
         {
             var parser = IdentifyRelevantParser(args, context);
-            OnParserIdentified(new ParserIdentifedEventArgs(parser, context));
             var chain = GetParserFamily(context, parser);
-            OnParserCollectionIdentified(new ParserCollectionIdentifiedEventArgs(chain, context));
             var newArgs = MutateArgs(args, chain, context);
-            OnArgsMutated(new ArgsMutatedEventArgs(args.ToArray(), newArgs.ToArray(), context));
             args = newArgs;
             var subcommandSequence = GetCommandIdentifyingSubsequence(args, context);
             if (parser.FactoryFunction == null)
                 throw new NoFactoryFunctionException($"No factory function on parser={parser.Id}");
             var instance = parser.FactoryFunction();
-            OnInstanceCreated(new InstanceCreatedEventArgs(instance, parser, context));
             var info = new IterationInfo(args, subcommandSequence.Count);
-            OnIterationInfoChanged(new IterationInfoChangedEventArgs(context, null, info));
             try
             {
                 while (!info.IsComplete())
@@ -68,16 +56,12 @@ namespace ArgParser.Styles
                     if (!consumptionResultsForTheParsersWhoCanConsume.Any())
                         throw new UnexpectedArgException(
                             $"Encountered an argument that could not be parsed. Argument={info.Current}, Parsers={chain.Select(p => p.Id).Join(", ")}");
-                    OnPotentialConsumersIdentified(new PotentialConsumersIdentified(context, consumptionResultsForTheParsersWhoCanConsume));
                     var whoWillConsume = IdentifyParserToConsume(chain, consumptionResultsForTheParsersWhoCanConsume);
                     var requestThatLimitsConsumption = CreateCanConsumeRequest(instance, chain, info,
                         consumptionResultsForTheParsersWhoCanConsume.ToList());
-                    OnConsumptionRequestCreated(new ConsumptionRequestCreatedEventArgs(context, requestThatLimitsConsumption, whoWillConsume));
                     var consumptionResult = whoWillConsume.Consume(instance, requestThatLimitsConsumption);
-                    OnParserConsumed(new ParserConsumedEventArgs(context, whoWillConsume, consumptionResult));
                     var copy = info;
                     info = consumptionResult.Info;
-                    OnIterationInfoChanged(new IterationInfoChangedEventArgs(context, copy, info));
                 }
 
                 var requiredParameters = chain.SelectMany(p => p.Parameters)
@@ -192,44 +176,5 @@ namespace ArgParser.Styles
 
         public string RootParserId { get; protected internal set; }
 
-        protected virtual void OnParserIdentified(ParserIdentifedEventArgs e)
-        {
-            ParserIdentified?.Invoke(this, e);
-        }
-
-        protected virtual void OnParserCollectionIdentified(ParserCollectionIdentifiedEventArgs e)
-        {
-            ParserCollectionIdentified?.Invoke(this, e);
-        }
-
-        protected virtual void OnArgsMutated(ArgsMutatedEventArgs e)
-        {
-            ArgsMutated?.Invoke(this, e);
-        }
-
-        protected virtual void OnInstanceCreated(InstanceCreatedEventArgs e)
-        {
-            InstanceCreated?.Invoke(this, e);
-        }
-
-        protected virtual void OnIterationInfoChanged(IterationInfoChangedEventArgs e)
-        {
-            IterationInfoChanged?.Invoke(this, e);
-        }
-
-        protected virtual void OnPotentialConsumersIdentified(PotentialConsumersIdentified e)
-        {
-            PotentialConsumersIdentified?.Invoke(this, e);
-        }
-
-        protected virtual void OnConsumptionRequestCreated(ConsumptionRequestCreatedEventArgs e)
-        {
-            ConsumptionRequestCreated?.Invoke(this, e);
-        }
-
-        protected virtual void OnParserConsumed(ParserConsumedEventArgs e)
-        {
-            ParserConsumed?.Invoke(this, e);
-        }
     }
 }
