@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Alba.CsConsoleFormat;
 using Alba.CsConsoleFormat.ColorfulConsole;
 using ArgParser.Core;
@@ -6,6 +8,27 @@ using Colorful;
 
 namespace ArgParser.Styles.Help.Alba
 {
+    public class ColoredSubCommandsDecorator : HelpWriterVisitorDecorator
+    {
+        public Dictionary<string, Theme> ParserThemes { get; set; }
+        public ColoredSubCommandsDecorator(HelpWriterVisitor helpWriterVisitor) : base(helpWriterVisitor)
+        {
+            
+        }
+
+
+    }
+
+    public class ParameterHelpFormatter
+    {
+        public ParameterHelpFormatter Next { get; protected internal set; }
+
+        public ParameterHelpFormatter(ParameterHelpFormatter next = null)
+        {
+            Next = next;
+        }
+    }
+
     public class HelpWriterVisitor : IHelpNodeVisitor<Element>
     {
         public Element Default(HelpNode node)

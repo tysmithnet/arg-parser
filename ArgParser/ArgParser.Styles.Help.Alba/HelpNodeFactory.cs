@@ -2,7 +2,7 @@
 using System.Linq;
 using ArgParser.Core;
 
-namespace ArgParser.Styles.Help
+namespace ArgParser.Styles.Help.Alba
 {
     public class HelpNodeFactory : IHelpNodeFactory
     {
