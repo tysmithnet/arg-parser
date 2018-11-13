@@ -6,10 +6,6 @@ using Colorful;
 
 namespace ArgParser.Styles.Help.Alba
 {
-    public interface IStyleStrategy
-    {
-    }
-
     public class HelpWriterVisitor : IHelpNodeVisitor<Element>
     {
         public Element Default(HelpNode node)
