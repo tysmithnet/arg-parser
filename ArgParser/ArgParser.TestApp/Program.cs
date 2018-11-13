@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using ArgParser.Core;
 using ArgParser.Styles;
+using ArgParser.Styles.Alba;
 using ArgParser.Testing.Common;
 using Newtonsoft.Json;
 
@@ -48,7 +49,10 @@ namespace ArgParser.TestApp
             Console.WriteLine("Enter commands for the fake tool `util` e.g. firewall -h");
             while (true)
             {
-
+                var def = new DefaultHelpTemplate();
+                def.Render(new DefaultViewModel());
+                Console.ReadLine();
+                continue;
                 Console.Write($"$ util ");
                 var line = Console.ReadLine();
                 if (line.IsNullOrWhiteSpace())
@@ -58,7 +62,6 @@ namespace ArgParser.TestApp
                     continue;
 
                 var builder = DefaultBuilder.CreateDefaultBuilder();
-                continue;
                 var context = builder.BuildContext();
                 
                 var result = builder.Parse("util", args);

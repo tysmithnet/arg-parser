@@ -1,0 +1,9 @@
+﻿<Document xmlns="urn:alba:cs-console-format"
+          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Div Visibility="{Get TitleVisibility}">
+        <Span Color="Red" Text="{Get Title}"  />
+    </Div>
+    <Div Visibility="{Get SubTitleVisibility}">
+        <Span Color="Red" Text="{Get SubTitle}"  />
+    </Div>
+</Document>

@@ -5,11 +5,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Views\Default.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Views\Default.xaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Generator>MSBuild:Compile</Generator>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ArgParser.Core\ArgParser.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\" />
+    <PackageReference Include="Alba.CsConsoleFormat.ColorfulConsole" Version="1.0.0" />
   </ItemGroup>
 
 </Project>
