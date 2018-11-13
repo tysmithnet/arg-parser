@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArgParser.Styles.Help", "Ar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgParser.Styles.Help.Test", "ArgParser.Styles.Help.Test\ArgParser.Styles.Help.Test.csproj", "{24A038AB-C7AE-4ADF-8BF1-9F88FEA8FB0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgParser.Styles.Help.Alba", "ArgParser.Styles.Help.Alba\ArgParser.Styles.Help.Alba.csproj", "{E0D5A313-DFE0-4963-B738-B26A9F8DAB5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArgParser.Styles.Help.Alba", "ArgParser.Styles.Help.Alba\ArgParser.Styles.Help.Alba.csproj", "{E0D5A313-DFE0-4963-B738-B26A9F8DAB5C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgParser.Styles.Help.Alba.Test", "ArgParser.Styles.Help.Alba.Test\ArgParser.Styles.Help.Alba.Test.csproj", "{02DF846F-CFB5-45AE-89C4-BE55E65AC390}"
 EndProject
