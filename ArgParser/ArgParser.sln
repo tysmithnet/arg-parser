@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgParser.TestApp", "ArgPar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArgParser.Testing.Common", "ArgParser.Testing.Common\ArgParser.Testing.Common.csproj", "{5B73286C-5EDE-46A2-BA78-B7A1FD61C5A6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgParser.Styles.Alba", "ArgParser.Styles.Alba\ArgParser.Styles.Alba.csproj", "{639A31A0-D932-48F6-A062-509E1663F551}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{5B73286C-5EDE-46A2-BA78-B7A1FD61C5A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B73286C-5EDE-46A2-BA78-B7A1FD61C5A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B73286C-5EDE-46A2-BA78-B7A1FD61C5A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{639A31A0-D932-48F6-A062-509E1663F551}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{639A31A0-D932-48F6-A062-509E1663F551}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{639A31A0-D932-48F6-A062-509E1663F551}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{639A31A0-D932-48F6-A062-509E1663F551}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
