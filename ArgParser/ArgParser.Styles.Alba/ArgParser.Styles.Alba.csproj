@@ -5,17 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Views\Default.xaml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Views\Default.xaml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Generator>MSBuild:Compile</Generator>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\ArgParser.Core\ArgParser.Core.csproj" />
     <ProjectReference Include="..\ArgParser.Styles\ArgParser.Styles.csproj" />
   </ItemGroup>
