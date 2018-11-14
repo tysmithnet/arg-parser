@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
+using Alba.CsConsoleFormat;
 using ArgParser.Core;
 using ArgParser.Styles;
 using ArgParser.Styles.Alba;
@@ -49,8 +50,9 @@ namespace ArgParser.TestApp
             Console.WriteLine("Enter commands for the fake tool `util` e.g. firewall -h");
             while (true)
             {
-                var def = new DefaultHelpTemplate();
-                def.Render(new DefaultViewModel());
+                var vm = new DefaultViewModel();
+                var doc = vm.Create();
+                ConsoleRenderer.RenderDocument(doc);
                 Console.ReadLine();
                 continue;
                 Console.Write($"$ util ");

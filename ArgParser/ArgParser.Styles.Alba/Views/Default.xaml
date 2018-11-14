@@ -1,26 +1,10 @@
-﻿<Document x:Name="doc" xml:lang="en-us"
+﻿<Div x:Name="div" xml:lang="en-us"
           xmlns="urn:alba:cs-console-format"
           xmlns:colorful="urn:alba:cs-console-format:colorful"
           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
           xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <Document.Resources>
-        <CallConverter x:Key="ToUpper" Path="ToUpper"/>
-    </Document.Resources>
-    <Div Visibility="{Get TitleVisibility}">
-        <colorful:FigletDiv Text="{Get Title}" ColorGradient="White 0; Yellow; DarkYellow 3"/>
-    </Div>
-    <Div Visibility="{Get SubTitleVisibility}">
-        <Span Color="Red" Text="{Get SubTitle}"  />
-    </Div>
-    <Div>
-        <Span Text="Usage: "/>
-        <Repeater Items="{Get SubCommandChain}">
-            <Div>
-                <Span Text="{Get Id, Converter={Res ToUpper}}"/>
-            </Div>
-        </Repeater>
-    </Div>
-</Document>      
+    <Span Text="{Get Id}" />
+</Div>      
     
     
     

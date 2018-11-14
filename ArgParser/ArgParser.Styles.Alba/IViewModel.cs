@@ -1,4 +1,5 @@
-﻿using ArgParser.Core;
+﻿using Alba.CsConsoleFormat;
+using ArgParser.Core;
 
 namespace ArgParser.Styles.Alba
 {
@@ -6,5 +7,6 @@ namespace ArgParser.Styles.Alba
     {
         IContext Context { get; }
         void Setup();
+        Document Create();
     }
 }
