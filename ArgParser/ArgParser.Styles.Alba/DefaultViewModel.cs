@@ -10,6 +10,12 @@ namespace ArgParser.Styles.Alba
     {
         public IContext Context { get; protected internal set; }
 
+        /// <inheritdoc />
+        public void Setup()
+        {
+            Title = Context.HierarchyRepository.GetRoot();
+        }
+
         public string Title { get; set; } = "Program";
         public Visibility TitleVisibility { get; set; } = Visibility.Visible;
         public string SubTitle { get; set; } = "A program that does something";
@@ -22,5 +28,10 @@ namespace ArgParser.Styles.Alba
             new Parser("b"),
             new Parser("c")
         };
+
+        public static string ToUpper(string value)
+        {
+            return value?.ToUpper();
+        }
     }
 }
