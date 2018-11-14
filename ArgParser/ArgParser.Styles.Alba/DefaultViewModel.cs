@@ -33,8 +33,10 @@ namespace ArgParser.Styles.Alba
         }
     }
 
-    public class HelloWorld : Element
+    public class HelloWorld : BlockElement
     {
+        public string Id { get; set; }
+
         public override IEnumerable<Element> GenerateVisualElements()
         {
             return new[]
@@ -45,8 +47,12 @@ namespace ArgParser.Styles.Alba
                 },
                 new Span()
                 {
-                    Text = "Word"
+                    Text = "World: "
                 },
+                new Span()
+                {
+                    Text = Id
+                }
             };
         }
     }
