@@ -2,8 +2,9 @@
           xmlns="urn:alba:cs-console-format"
           xmlns:colorful="urn:alba:cs-console-format:colorful"
           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+          xmlns:ap="clr-namespace:ArgParser.Styles.Alba;assembly=ArgParser.Styles.Alba, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
           xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <Span Text="{Get Id}" />
+    <ap:HelloWorld></ap:HelloWorld>
 </Div>      
     
     

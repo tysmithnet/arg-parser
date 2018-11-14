@@ -20,10 +20,34 @@ namespace ArgParser.Styles.Alba
         {
             using (var fs = File.OpenRead("Views/Default.xaml"))
             {
-                var element = ConsoleRenderer.ReadElementFromStream<Div>(fs, new Parser("hi"));
+                var element = ConsoleRenderer.ReadElementFromStream<Div>(fs, new Parser("hi"), new XamlElementReaderSettings()
+                {
+                    ReferenceAssemblies =
+                    {
+                        typeof(HelloWorld).Assembly
+                    }
+                });
                 var document = new Document(element);
                 return document;
             }
+        }
+    }
+
+    public class HelloWorld : Element
+    {
+        public override IEnumerable<Element> GenerateVisualElements()
+        {
+            return new[]
+            {
+                new Span()
+                {
+                    Text = "Hello "
+                },
+                new Span()
+                {
+                    Text = "Word"
+                },
+            };
         }
     }
 }
