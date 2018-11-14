@@ -5,6 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Views\AsciiArtBanner.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Views\AsciiArtBanner.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ArgParser.Core\ArgParser.Core.csproj" />
     <ProjectReference Include="..\ArgParser.Styles\ArgParser.Styles.csproj" />
   </ItemGroup>

@@ -50,8 +50,10 @@ namespace ArgParser.TestApp
             Console.WriteLine("Enter commands for the fake tool `util` e.g. firewall -h");
             while (true)
             {
-                var vm = new DefaultViewModel();
-                var doc = vm.Create();
+                var builder = DefaultBuilder.CreateDefaultBuilder();
+                var context = builder.BuildContext();
+                var template = new DefaultTemplate(context);
+                var doc = template.Create();
                 ConsoleRenderer.RenderDocument(doc);
                 Console.ReadLine();
                 continue;
@@ -63,8 +65,7 @@ namespace ArgParser.TestApp
                 if (args.Length == 0)
                     continue;
 
-                var builder = DefaultBuilder.CreateDefaultBuilder();
-                var context = builder.BuildContext();
+                
                 
                 var result = builder.Parse("util", args);
                 result.When<UtilOptions>(options =>
