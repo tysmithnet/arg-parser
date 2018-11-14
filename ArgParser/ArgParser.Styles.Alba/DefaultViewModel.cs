@@ -15,5 +15,12 @@ namespace ArgParser.Styles.Alba
         public string SubTitle { get; set; } = "A program that does something";
         public Visibility SubTitleVisibility { get; set; } = Visibility.Visible;
         public IEnumerable<Switch> OwnSwitches { get; set; }
+
+        public IEnumerable<Parser> SubCommandChain { get; set; } = new List<Parser>()
+        {
+            new Parser("a"),
+            new Parser("b"),
+            new Parser("c")
+        };
     }
 }
