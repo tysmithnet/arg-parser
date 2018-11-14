@@ -6,10 +6,15 @@
 
   <ItemGroup>
     <None Remove="Views\AsciiArtBanner.xaml" />
+    <None Remove="Views\DefaultTemplate.xaml" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Views\AsciiArtBanner.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\DefaultTemplate.xaml">
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
