@@ -10,6 +10,7 @@ namespace ArgParser.Styles.Alba
     {
         public IContext Context { get; set; }
         public Parser Parser { get; set; }
+        public IElementFactory ElementFactory { get; set; } = new ElementFactory();
         public override IEnumerable<Element> GenerateVisualElements()
         {
             var chain = Context.PathToRoot(Parser.Id).Reverse();
@@ -19,18 +20,8 @@ namespace ArgParser.Styles.Alba
                 ParserChain = chain.ToList(),
                 Parameters = Parser.Parameters.ToList()
             };
-            using (var fs = File.OpenRead("Views/FullUsage.xaml"))
-            {
-                var element = ConsoleRenderer.ReadElementFromStream<Div>(fs, vm, new XamlElementReaderSettings()
-                {
-                    ReferenceAssemblies =
-                    {
-                        typeof(Parameter).Assembly,
-                        typeof(ParameterUsage).Assembly
-                    }
-                });
-                return element.ToEnumerableOfOne();
-            }
+            return ElementFactory.InflateTempalte<Div>("Views/FullUsage.xaml", vm, typeof(Parameter).Assembly,
+                typeof(ParameterUsage).Assembly).ToEnumerableOfOne();
         }
     }
 

@@ -2,6 +2,7 @@
 using System.IO;
 using Alba.CsConsoleFormat;
 using Alba.CsConsoleFormat.ColorfulConsole;
+using ArgParser.Core;
 
 namespace ArgParser.Styles.Alba
 {
@@ -9,24 +10,13 @@ namespace ArgParser.Styles.Alba
     {
         public string Title { get; set; }
         public string SubTitle { get; set; }
-
+        public IElementFactory ElementFactory { get; set; } = new ElementFactory();
         public override IEnumerable<Element> GenerateVisualElements()
         {
-            var visualChildren = new List<Element>();
-            using (var fs = File.OpenRead("Views/AsciiArtBanner.xaml"))
-            {
-                var element = ConsoleRenderer.ReadElementFromStream<Div>(fs, this, new XamlElementReaderSettings()
-                {
-                    ReferenceAssemblies =
-                    {
-                        typeof(FigletDiv).Assembly,
-                        typeof(AsciiArtBanner).Assembly
-                    }
-                });
-                visualChildren.Add(element);
-            }
-
-            return visualChildren;
+            var element = ElementFactory.InflateTempalte<Div>("Views/AsciiArtBanner.xaml", this,
+                typeof(FigletDiv).Assembly,
+                typeof(AsciiArtBanner).Assembly);
+            return element.ToEnumerableOfOne();
         }
     }
 }
