@@ -12,7 +12,7 @@ namespace ArgParser.Styles.Alba
         public Parser Parser { get; set; }
         public override IEnumerable<Element> GenerateVisualElements()
         {
-            var chain = Context.PathToRoot(Parser.Id).ToList();
+            var chain = Context.PathToRoot(Parser.Id).Reverse();
             
             var vm = new FullUsageVm()
             {

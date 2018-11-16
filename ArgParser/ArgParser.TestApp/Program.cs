@@ -52,7 +52,7 @@ namespace ArgParser.TestApp
             {
                 var builder = DefaultBuilder.CreateDefaultBuilder();
                 var context = builder.BuildContext();
-                var template = new DefaultTemplate(context, "util");
+                var template = new DefaultTemplate(context, "firewall");
                 var doc = template.Create();
                 ConsoleRenderer.RenderDocument(doc);
                 Console.ReadLine();
