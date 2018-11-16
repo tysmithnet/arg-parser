@@ -13,7 +13,6 @@ namespace ArgParser.Styles.Alba
         public ConsoleColor? PrimaryBackground { get; set; }
         public ConsoleColor? SecondaryBackground { get; set; }
         protected internal StringBuilder StringBuilder { get; set; } = new StringBuilder();
-        
 
         public override void GenerateSequence(IInlineSequence sequence)
         {

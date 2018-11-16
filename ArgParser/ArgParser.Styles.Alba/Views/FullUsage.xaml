@@ -4,6 +4,15 @@
           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
           xmlns:ap="clr-namespace:ArgParser.Styles.Alba;assembly=ArgParser.Styles.Alba, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
           xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <Div>
+        <Span Text="Usage:" />
+    </Div>
+    <Repeater Items="{Get ParserChain}">
+        <Span>
+            <Span Text="{Get Id}" />
+            <Span Text=" " /> 
+        </Span>
+    </Repeater>
     <Repeater Items="{Get Parameters}">
         <ap:ParameterUsage Parameter="{Get }"  />
     </Repeater>

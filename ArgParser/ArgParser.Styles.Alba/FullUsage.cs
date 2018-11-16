@@ -13,8 +13,11 @@ namespace ArgParser.Styles.Alba
         public override IEnumerable<Element> GenerateVisualElements()
         {
             var parser = Context.ParserRepository.Get(ParserId);
+            var chain = Context.PathToRoot(ParserId);
+            
             var vm = new FullUsageVm()
             {
+                ParserChain = chain.ToList(),
                 Parameters = parser.Parameters.ToList()
             };
             using (var fs = File.OpenRead("Views/FullUsage.xaml"))
@@ -34,6 +37,7 @@ namespace ArgParser.Styles.Alba
 
     public class FullUsageVm
     {
+        public IList<Parser> ParserChain { get; set; }
         public IList<Parameter> Parameters { get; set; }
     }
 }
