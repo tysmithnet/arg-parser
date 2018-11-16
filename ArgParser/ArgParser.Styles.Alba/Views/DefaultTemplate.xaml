@@ -17,6 +17,10 @@
         <Div>Parameters:</Div>
         <ap:ParameterGrid Context="{Get Context}" Parser="{Get Parser}" />
     </Div>
+    <Div>
+        <Div>Examples:</Div>
+        <ap:ExampleList Examples="{Get Examples}" />
+    </Div>
 </Document>
 
 

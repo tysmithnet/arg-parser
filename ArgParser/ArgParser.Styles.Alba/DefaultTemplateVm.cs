@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ArgParser.Core;
+using ArgParser.Core.Help;
 
 namespace ArgParser.Styles.Alba
 {
@@ -8,5 +9,6 @@ namespace ArgParser.Styles.Alba
         public string ParserId { get; set; }
         public Parser Parser { get; set; }
         public IContext Context { get; set; }
+        public IList<Example> Examples { get; set; }
     }
 }

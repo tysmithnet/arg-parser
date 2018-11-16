@@ -1,6 +1,9 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Alba.CsConsoleFormat;
 using ArgParser.Core;
+using ArgParser.Core.Help;
 
 namespace ArgParser.Styles.Alba
 {
@@ -15,10 +18,14 @@ namespace ArgParser.Styles.Alba
 
         public override Document Create()
         {
+            var parser = Context.ParserRepository.Get(ParserId);
+            var chain = Context.PathToRoot(ParserId);
+            var examples = chain.SelectMany(x => x.Help?.Examples ?? new List<Example>()).ToList();
             var vm = new DefaultTemplateVm()
             {
                 Context = Context,
-                Parser = Context.ParserRepository.Get(ParserId)
+                Parser = parser,
+                Examples = examples
             };
 
             using (var fs = File.OpenRead("Views/DefaultTemplate.xaml"))
