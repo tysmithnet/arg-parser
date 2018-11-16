@@ -4,7 +4,7 @@
      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
      xmlns:ap="clr-namespace:ArgParser.Styles.Alba;assembly=ArgParser.Styles.Alba, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
      xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <ap:AsciiArtBanner Title="{Get Parser.Id}" />
+    <ap:AsciiArtBanner Title="{Get Parser.Id}" SubTitle="{Get SubTitle}" />
     <Separator />
     <ap:FullUsage Context="{Get Context}" Parser="{Get Parser}" />
     <Separator />

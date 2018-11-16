@@ -10,5 +10,6 @@ namespace ArgParser.Styles.Alba
         public Parser Parser { get; set; }
         public IContext Context { get; set; }
         public IList<Example> Examples { get; set; }
+        public string SubTitle => $"{Parser.Help.Name} - {Parser.Help.ShortDescription}";
     }
 }

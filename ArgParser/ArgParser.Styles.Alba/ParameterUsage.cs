@@ -65,7 +65,7 @@ namespace ArgParser.Styles.Alba
             }
 
             var hi = parameter.MaxAllowed == int.MaxValue ? "N" : $"{parameter.MaxAllowed}";
-            if (parameter.MinRequired == 1)
+            if (parameter is Switch && parameter.MinRequired == 1)
             {
                 return "";
             }
