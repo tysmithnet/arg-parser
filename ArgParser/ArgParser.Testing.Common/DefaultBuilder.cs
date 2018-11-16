@@ -133,7 +133,8 @@ namespace ArgParser.Testing.Common
                 {
                     help
                         .SetName("Convert")
-                        .SetShortDescription("Convert files to another format");
+                        .SetShortDescription("Convert files to another format")
+                        .AddExample("Image files", "Convert some images to png", "util convert -f png file0.jpg file1.gif", "Converted (2) files to .png");
                 })
                 .WithFactoryFunction(() => new ConvertOptions())
                 .WithSingleValueSwitch('f', "format", (o, s) => o.Format = s, help =>
