@@ -38,7 +38,7 @@ namespace ArgParser.Core
         public Action<object, string[]> ConsumeCallback { get; protected internal set; }
         public bool HasBeenConsumed { get; protected internal set; }
 
-        public ParameterHelp Help { get; set; }
+        public ParameterHelp Help { get; set; } = new ParameterHelp();
         public int MaxAllowed { get; set; } = int.MaxValue;
         public int MinRequired { get; set; } = 1;
         public Parser Parent { get; protected internal set; }

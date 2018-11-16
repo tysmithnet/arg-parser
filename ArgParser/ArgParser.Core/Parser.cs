@@ -38,7 +38,7 @@ namespace ArgParser.Core
         }
 
         public Func<object> FactoryFunction { get; set; }
-        public ParserHelp Help { get; set; }
+        public ParserHelp Help { get; set; } = new ParserHelp();
         public string Id { get; protected internal set; }
         public IEnumerable<Parameter> Parameters => ParametersInternal.ToList();
         protected internal IList<Parameter> ParametersInternal { get; set; } = new List<Parameter>();

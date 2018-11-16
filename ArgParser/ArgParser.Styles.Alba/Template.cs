@@ -7,7 +7,7 @@ namespace ArgParser.Styles.Alba
 {
     public abstract class Template
     {
-        protected internal IContext Context { get; set; }
+        public IContext Context { get; set; }
 
         protected Template(IContext context)
         {
