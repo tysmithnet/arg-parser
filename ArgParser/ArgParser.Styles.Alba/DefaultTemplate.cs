@@ -17,12 +17,13 @@ namespace ArgParser.Styles.Alba
         {
             var vm = new DefaultTemplateVm()
             {
-                Title = ParserId,
+                Context = Context,
+                Parser = Context.ParserRepository.Get(ParserId)
             };
 
             using (var fs = File.OpenRead("Views/DefaultTemplate.xaml"))
             {
-                return ConsoleRenderer.ReadDocumentFromStream(fs, this, new XamlElementReaderSettings()
+                return ConsoleRenderer.ReadDocumentFromStream(fs, vm, new XamlElementReaderSettings()
                 {
                     ReferenceAssemblies =
                     {

@@ -9,16 +9,15 @@ namespace ArgParser.Styles.Alba
     public class FullUsage : BlockElement
     {
         public IContext Context { get; set; }
-        public string ParserId { get; set; }
+        public Parser Parser { get; set; }
         public override IEnumerable<Element> GenerateVisualElements()
         {
-            var parser = Context.ParserRepository.Get(ParserId);
-            var chain = Context.PathToRoot(ParserId);
+            var chain = Context.PathToRoot(Parser.Id).ToList();
             
             var vm = new FullUsageVm()
             {
                 ParserChain = chain.ToList(),
-                Parameters = parser.Parameters.ToList()
+                Parameters = Parser.Parameters.ToList()
             };
             using (var fs = File.OpenRead("Views/FullUsage.xaml"))
             {

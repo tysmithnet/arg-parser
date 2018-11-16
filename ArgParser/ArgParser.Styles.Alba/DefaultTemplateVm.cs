@@ -5,8 +5,8 @@ namespace ArgParser.Styles.Alba
 {
     public class DefaultTemplateVm
     {
-        public string Title { get; set; }
-        public string SubTitle { get; set; }
-        public List<Parameter> Parameters { get; set; }
+        public string ParserId { get; set; }
+        public Parser Parser { get; set; }
+        public IContext Context { get; set; }
     }
 }

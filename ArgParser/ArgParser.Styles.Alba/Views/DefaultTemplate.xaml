@@ -4,8 +4,12 @@
      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
      xmlns:ap="clr-namespace:ArgParser.Styles.Alba;assembly=ArgParser.Styles.Alba, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
      xmlns:sys="clr-namespace:System;assembly=mscorlib">
-     <ap:AsciiArtBanner Title="{Get ParserId}" />
-     <ap:FullUsage Context="{Get Context}" ParserId="{Get ParserId}" />
+     <ap:AsciiArtBanner Title="{Get Parser.Id}" />
+    <ap:FullUsage Context="{Get Context}" Parser="{Get Parser}" />
+    <Div>
+        <Div>Description:</Div>
+        <Span Text="{Get Parser.Help.LongDescription}"></Span>
+    </Div>
 </Document>
 
 
