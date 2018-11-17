@@ -71,7 +71,10 @@ namespace ArgParser.Styles
                     if (!requiredParameter.HasBeenConsumed)
                         throw new MissingRequiredParameterException(requiredParameter, instance);
                 }
-                return new ParseResult(instance.ToEnumerableOfOne(), null);
+                return new ParseResult(new Dictionary<object, Parser>()
+                {
+                    [instance] = parser
+                }, null);
             }
             catch (ParseException e)
             {

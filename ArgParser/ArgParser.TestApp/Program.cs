@@ -43,6 +43,9 @@ namespace ArgParser.TestApp
 
         private static void FindHelp(UtilOptions options, Context context)
         {
+            var helpTemplate = new ParserHelpTemplate(context, "firewall");
+            var doc = helpTemplate.Create();
+            ConsoleRenderer.RenderDocument(doc);
         }
 
         private static void Main(string[] args)
@@ -52,11 +55,6 @@ namespace ArgParser.TestApp
             {
                 var builder = DefaultBuilder.CreateDefaultBuilder();
                 var context = builder.BuildContext();
-                var helpTemplate = new ParserHelpTemplate(context, "firewall");
-                var doc = helpTemplate.Create();
-                ConsoleRenderer.RenderDocument(doc);
-                Console.ReadLine();
-                continue;
                 Console.Write($"$ util ");
                 var line = Console.ReadLine();
                 if (line.IsNullOrWhiteSpace())
@@ -68,7 +66,7 @@ namespace ArgParser.TestApp
                 
                 
                 var result = builder.Parse("util", args);
-                result.When<UtilOptions>(options =>
+                result.When<UtilOptions>((options, parser) =>
                 {
                     Console.WriteLine(options.GetType().FullName);
                     Console.WriteLine(JsonConvert.SerializeObject(options, Formatting.Indented));

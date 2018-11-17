@@ -5,7 +5,7 @@ namespace ArgParser.Core
 {
     public interface IParseResult
     {
-        void When<T>(Action<T> handler);
+        void When<T>(Action<T, Parser> handler);
         void WhenError(Action<IEnumerable<ParseException>> handler);
     }
 }

@@ -47,7 +47,7 @@ namespace ArgParser.Styles.Test.Default
             var result = builder.Parse("util", "-h".Split(' '));
 
             // assert
-            result.When<UtilOptions>(options =>
+            result.When<UtilOptions>((options, parser) =>
             {
                 options.IsHelpRequested.Should().BeTrue();
                 parseCount++;
@@ -110,7 +110,7 @@ namespace ArgParser.Styles.Test.Default
 
             // assert
             var isParsed = false;
-            result.When<BlockProgramOptions>(options =>
+            result.When<BlockProgramOptions>((options, parser) =>
             {
                 isParsed = true;
                 options.IsInbound.Should().BeTrue();

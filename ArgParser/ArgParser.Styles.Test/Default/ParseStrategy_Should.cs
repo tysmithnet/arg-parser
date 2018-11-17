@@ -56,7 +56,7 @@ namespace ArgParser.Styles.Test.Default
             // assert
             var isParsed = false;
             res
-                .When<SortOptions>(options =>
+                .When<SortOptions>((options, parser) =>
                 {
                     isParsed = true;
                     options.IsHelpRequested.Should().BeTrue();
@@ -78,7 +78,7 @@ namespace ArgParser.Styles.Test.Default
 
             // assert
             var isParsed = false;
-            res.When<FireWallOptions>(options =>
+            res.When<FireWallOptions>((options, parser) =>
             {
                 options.IsHelpRequested.Should().BeTrue();
                 options.Program.Should().BeNull();
@@ -257,7 +257,7 @@ namespace ArgParser.Styles.Test.Default
             // act
             var isParsed = false;
             var result = strat.Parse("child gchild -h".Split(' '), context);
-            result.When<string>(s => isParsed = true);
+            result.When<string>((options, parser) => isParsed = true);
 
             // assert
             isParsed.Should().BeTrue();
@@ -277,7 +277,7 @@ namespace ArgParser.Styles.Test.Default
             var res2 = builder.Parse("util", "firewall block firefox.exe -m io -p 8080".Split(' '));
 
             // assert
-            res0.When<BlockProgramOptions>(options =>
+            res0.When<BlockProgramOptions>((options, parser) =>
             {
                 parseCount++;
                 options.Port.Should().Be(8080);
@@ -285,7 +285,7 @@ namespace ArgParser.Styles.Test.Default
                 options.IsOutbound.Should().BeTrue();
                 options.Program.Should().Be("firefox.exe");
             });
-            res1.When<BlockProgramOptions>(options =>
+            res1.When<BlockProgramOptions>((options, parser) =>
             {
                 parseCount++;
                 options.Port.Should().Be(8080);
@@ -293,7 +293,7 @@ namespace ArgParser.Styles.Test.Default
                 options.IsOutbound.Should().BeTrue();
                 options.Program.Should().Be("firefox.exe");
             });
-            res2.When<BlockProgramOptions>(options =>
+            res2.When<BlockProgramOptions>((options, parser) =>
             {
                 parseCount++;
                 options.Port.Should().Be(8080);
