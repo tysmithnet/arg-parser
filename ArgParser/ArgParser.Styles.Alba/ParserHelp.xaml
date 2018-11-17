@@ -1,0 +1,13 @@
+﻿<Document x:Name="div" xml:lang="en-us"
+          xmlns="urn:alba:cs-console-format"
+          xmlns:colorful="urn:alba:cs-console-format:colorful"
+          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+          xmlns:ap="clr-namespace:ArgParser.Styles.Alba;assembly=ArgParser.Styles.Alba, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+          xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <colorful:FigletDiv Text="{Get ParserVm.Parser.Id}" ColorGradient="{Get BannerColor}"/>
+    <Div>
+        <Span Text="{Get SubTitle}" Color="{Get ParserVm.Theme.DefaultTextColor}"/>
+    </Div>
+</Document>
+
+

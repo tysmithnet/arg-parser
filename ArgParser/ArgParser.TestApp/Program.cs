@@ -52,6 +52,8 @@ namespace ArgParser.TestApp
             {
                 var builder = DefaultBuilder.CreateDefaultBuilder();
                 var context = builder.BuildContext();
+                var helpTemplate = new ParserHelpTemplate(context, "firewall");
+                var doc = helpTemplate.Create();
                 ConsoleRenderer.RenderDocument(doc);
                 Console.ReadLine();
                 continue;
