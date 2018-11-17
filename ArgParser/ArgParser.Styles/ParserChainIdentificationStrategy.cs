@@ -26,7 +26,7 @@ namespace ArgParser.Styles
             }
             var res = new ChainIdentificationResult()
             {
-                Chain = ids.Select(x => request.Context.ParserRepository.Get(x)),
+                Chain = Context.PathToRoot(ids.Last()).Reverse(),
                 IdentifiedParser = request.Context.ParserRepository.Get(ids.Last()),
                 ConsumedArgs = request.Args.Take(ids.Count).ToArray()
             };

@@ -19,7 +19,9 @@ namespace ArgParser.Styles
                 .Where(x => x.NumConsumed > 0).ToList();
             return new PotentialConsumerResult()
             {
-                ConsumptionResults = consumptionResultsForTheParsersWhoCanConsume
+                ConsumptionResults = consumptionResultsForTheParsersWhoCanConsume,
+                Chain = request.ChainIdentificationResult.Chain,
+                Info = request.Info
             };
         }
     }

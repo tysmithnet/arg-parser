@@ -44,7 +44,9 @@ namespace ArgParser.Styles
                 var potentialConsumerResult = PotentialConsumerStrategy.IdentifyPotentialConsumer(
                     new PotentialConsumerRequest
                     {
-                        ChainIdentificationResult = chainRes
+                        ChainIdentificationResult = chainRes,
+                        Instance = instance,
+                        Info = info
                     });
                 if (!potentialConsumerResult.Success)
                     throw new UnexpectedArgException($"todo: change");

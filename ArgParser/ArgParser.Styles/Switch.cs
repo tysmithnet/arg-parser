@@ -38,7 +38,6 @@ namespace ArgParser.Styles
 
         public char? Letter { get; protected internal set; }
         public string Word { get; protected internal set; }
-
         public bool IsRequired { get; protected internal set; }
     }
 }
