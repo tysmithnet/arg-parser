@@ -76,7 +76,7 @@ namespace ArgParser.TestApp
                         if (parseException is MissingRequiredParameterException mrpe &&
                             mrpe.Instance is UtilOptions options && options.IsHelpRequested)
                         {
-                            var helpTemplate = new ParserHelpTemplate(context, mrpe.RequiredParameter.Parent.Id);
+                            var helpTemplate = new ParserHelpTemplate(context, mrpe.RequiredParameter.Parser.Id);
                             var doc = helpTemplate.Create();
                             ConsoleRenderer.RenderDocument(doc);
                             return;

@@ -9,7 +9,7 @@ namespace ArgParser.Core
 
         protected Parameter(Parser parent, Action<object, string[]> consumeCallback)
         {
-            Parent = parent.ThrowIfArgumentNull(nameof(parent));
+            Parser = parent.ThrowIfArgumentNull(nameof(parent));
             ConsumeCallback = consumeCallback.ThrowIfArgumentNull(nameof(consumeCallback));
         }
 
@@ -41,6 +41,6 @@ namespace ArgParser.Core
         public ParameterHelp Help { get; set; } = new ParameterHelp();
         public int MaxAllowed { get; set; } = int.MaxValue;
         public int MinRequired { get; set; } = 1;
-        public Parser Parent { get; protected internal set; }
+        public Parser Parser { get; protected internal set; }
     }
 }
