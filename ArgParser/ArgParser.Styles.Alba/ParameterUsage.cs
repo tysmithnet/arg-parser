@@ -7,18 +7,14 @@ namespace ArgParser.Styles.Alba
 {
     public class ParameterUsage : InlineElement
     {
-        public Parameter Parameter { get; set; }
-        public ConsoleColor? PrimaryColor { get; set; }
-        public ConsoleColor? SecondaryColor { get; set; }
-        public ConsoleColor? PrimaryBackground { get; set; }
-        public ConsoleColor? SecondaryBackground { get; set; }
+        public ParameterViewModel ViewModel { get; set; }
         protected internal StringBuilder StringBuilder { get; set; } = new StringBuilder();
 
         public override void GenerateSequence(IInlineSequence sequence)
         {
-            if(Parameter is Switch @switch)
+            if(ViewModel.Parameter is Switch @switch)
                 GenerateSwitchSequence(@switch, sequence);
-            else if(Parameter is Positional positional)
+            else if(ViewModel.Parameter is Positional positional)
                 GeneratePositionalSequence(positional, sequence);
         }
 
@@ -40,7 +36,7 @@ namespace ArgParser.Styles.Alba
                 WriteSecondary(seq, $"--{@switch.Word}");
             }
 
-            if (Parameter.MaxAllowed > 1)
+            if (ViewModel.Parameter.MaxAllowed > 1)
             {
                 WriteSecondary(seq, $" {GenerateValueAlias(@switch)}");
             }
@@ -69,7 +65,12 @@ namespace ArgParser.Styles.Alba
             {
                 return "";
             }
-            if (parameter.MaxAllowed == 2)
+            if (parameter is Switch && parameter.MaxAllowed == 2)
+            {
+                return prefix;
+            }
+
+            if (parameter is Positional && parameter.MaxAllowed == 1)
             {
                 return prefix;
             }
@@ -79,31 +80,18 @@ namespace ArgParser.Styles.Alba
 
         private void WritePrimary(IInlineSequence sequence, string text)
         {
-            if(PrimaryColor.HasValue)
-                sequence.PushColor(PrimaryColor.Value);
-            if(PrimaryBackground.HasValue)
-                sequence.PushColor(PrimaryBackground.Value);
+            sequence.PushColor(ViewModel.Theme.DefaultTextColor);
             sequence.AppendText(text);
             StringBuilder.Append(text);
-            if (PrimaryBackground.HasValue)
-                sequence.PopFormatting();
-            if (PrimaryColor.HasValue)
-                sequence.PopFormatting();
-
+            sequence.PopFormatting();
         }
 
         private void WriteSecondary(IInlineSequence sequence, string text)
         {
-            if (SecondaryColor.HasValue)
-                sequence.PushColor(SecondaryColor.Value);
-            if (SecondaryBackground.HasValue)
-                sequence.PushColor(SecondaryBackground.Value);
+            sequence.PushColor(ViewModel.Theme.SecondaryTextColor);
             sequence.AppendText(text);
             StringBuilder.Append(text);
-            if (SecondaryBackground.HasValue)
-                sequence.PopFormatting();
-            if (SecondaryColor.HasValue)
-                sequence.PopFormatting();
+            sequence.PopFormatting();
         }
 
         public override string GeneratedText => StringBuilder.ToString();
