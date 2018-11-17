@@ -7,11 +7,11 @@ namespace ArgParser.Styles.Alba
 {
     public abstract class Template
     {
-        public IContext Context { get; set; }
+        public AlbaContext Context { get; set; }
 
         protected Template(IContext context)
         {
-            Context = context ?? throw new ArgumentNullException(nameof(context));
+            Context = new AlbaContext(context.ThrowIfArgumentNull(nameof(context)));
         }
 
         public abstract Document Create();
