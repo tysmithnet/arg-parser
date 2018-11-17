@@ -27,7 +27,6 @@ namespace ArgParser.Styles.Alba
 
         public static ParserBuilder WithAutoHelp(this ParserBuilder builder, Func<object, Parser, bool> isHelpRequested)
         {
-            var decorator = new HelpRequestedParseResultFactoryDecorator(builder.);
             return builder;
         }
     }

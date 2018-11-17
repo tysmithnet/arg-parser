@@ -41,12 +41,7 @@ namespace ArgParser.TestApp
         private static extern IntPtr CommandLineToArgvW(
             [MarshalAs(UnmanagedType.LPWStr)] string lpCmdLine, out int pNumArgs);
 
-        private static void FindHelp(UtilOptions options, Context context)
-        {
-            var helpTemplate = new ParserHelpTemplate(context, "firewall");
-            var doc = helpTemplate.Create();
-            ConsoleRenderer.RenderDocument(doc);
-        }
+
 
         private static void Main(string[] args)
         {
@@ -62,8 +57,6 @@ namespace ArgParser.TestApp
                 args = CommandLineToArgs(line).Where(x => !x.IsNullOrWhiteSpace()).ToArray();
                 if (args.Length == 0)
                     continue;
-
-                
                 
                 var result = builder.Parse("util", args);
                 result.When<UtilOptions>((options, parser) =>
@@ -71,7 +64,9 @@ namespace ArgParser.TestApp
                     Console.WriteLine(options.GetType().FullName);
                     Console.WriteLine(JsonConvert.SerializeObject(options, Formatting.Indented));
                     if (!options.IsHelpRequested) return;
-                    FindHelp(options, context);
+                    var helpTemplate = new ParserHelpTemplate(context, parser.Id);
+                    var doc = helpTemplate.Create();
+                    ConsoleRenderer.RenderDocument(doc);
                 });
 
                 result.WhenError(exceptions =>
@@ -81,7 +76,9 @@ namespace ArgParser.TestApp
                         if (parseException is MissingRequiredParameterException mrpe &&
                             mrpe.Instance is UtilOptions options && options.IsHelpRequested)
                         {
-                            FindHelp(options, context);
+                            var helpTemplate = new ParserHelpTemplate(context, mrpe.RequiredParameter.Parent.Id);
+                            var doc = helpTemplate.Create();
+                            ConsoleRenderer.RenderDocument(doc);
                             return;
                         }
 

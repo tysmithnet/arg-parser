@@ -22,7 +22,7 @@ namespace ArgParser.Styles
             AddParameterInternal(sw, helpSetupCallback);
             return this;
         }
-
+        
         public ParserBuilder WithFactoryFunction(Func<object> func)
         {
             Parser.FactoryFunction = func.ThrowIfArgumentNull(nameof(func));
