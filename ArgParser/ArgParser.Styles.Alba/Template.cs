@@ -1,21 +1,12 @@
-﻿using System;
-using System.Text;
-using Alba.CsConsoleFormat;
-using ArgParser.Core;
+﻿using Alba.CsConsoleFormat;
 
 namespace ArgParser.Styles.Alba
 {
-    public abstract class Template<TVm> where TVm : IViewModel
+    public class Template<TModel> where TModel : IViewModel
     {
-        public AlbaContext Context { get; set; }
-        public TVm ViewModel { get; set; }
-
-        protected Template(IContext context, TVm viewModel)
+        public virtual TElement Inflate<TElement>(TModel model) where TElement : Element, new()
         {
-            Context = new AlbaContext(context.ThrowIfArgumentNull(nameof(context)));
-            ViewModel = viewModel.ThrowIfArgumentNull(nameof(viewModel));
+            return default(TElement);
         }
-
-        public abstract Document Create();
     }
 }

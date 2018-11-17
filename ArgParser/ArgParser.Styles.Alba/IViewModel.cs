@@ -2,6 +2,6 @@
 {
     public interface IViewModel
     {
-        Theme Theme { get; set; }
+        AlbaContext Context { get; }
     }
 }
