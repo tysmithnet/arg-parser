@@ -6,9 +6,22 @@ using ArgParser.Core;
 
 namespace ArgParser.Styles
 {
+    public interface IParseResultFactory
+    {
+        IParseResult Create(Dictionary<object, Parser> results, IEnumerable<ParseException> parseExceptions);
+    }
+
+    public class ParseResultFactory : IParseResultFactory
+    {
+        public IParseResult Create(Dictionary<object, Parser> results, IEnumerable<ParseException> parseExceptions)
+        {
+            return new ParseResult(results, parseExceptions);
+        }
+    }
+
     public class ParseStrategy : IParseStrategy
     {
-        
+        public IParseResultFactory ParseResultFactory { get; set; } = new ParseResultFactory();
 
         public ParseStrategy(string rootParserId)
         {
@@ -71,7 +84,8 @@ namespace ArgParser.Styles
                     if (!requiredParameter.HasBeenConsumed)
                         throw new MissingRequiredParameterException(requiredParameter, instance);
                 }
-                return new ParseResult(new Dictionary<object, Parser>()
+
+                return ParseResultFactory.Create(new Dictionary<object, Parser>()
                 {
                     [instance] = parser
                 }, null);
