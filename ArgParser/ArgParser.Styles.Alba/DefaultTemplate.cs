@@ -23,7 +23,7 @@ namespace ArgParser.Styles.Alba
                 Context = Context,
                 Parser = parser,
                 Examples = examples,
-                CurrentTheme = Theme.Warm
+                CurrentTheme = Theme.Basic
             };
             return ElementFactory.InflateTempalte<Document>("Views/DefaultTemplate.xaml", vm,
                 typeof(DefaultTemplate).Assembly);

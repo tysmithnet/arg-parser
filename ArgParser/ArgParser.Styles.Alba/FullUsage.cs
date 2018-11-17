@@ -24,10 +24,4 @@ namespace ArgParser.Styles.Alba
                 typeof(ParameterUsage).Assembly).ToEnumerableOfOne();
         }
     }
-
-    public class FullUsageVm
-    {
-        public IList<Parser> ParserChain { get; set; }
-        public IList<Parameter> Parameters { get; set; }
-    }
 }

@@ -9,7 +9,7 @@
     </Div>
     <Repeater Items="{Get ParserChain}">
         <Span>
-            <Span Text="{Get Id}" />
+            <Span Text="{Get Parser.Id}" />
             <Span Text=" " /> 
         </Span>
     </Repeater>

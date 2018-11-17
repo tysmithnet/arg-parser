@@ -4,24 +4,25 @@
      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
      xmlns:ap="clr-namespace:ArgParser.Styles.Alba;assembly=ArgParser.Styles.Alba, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
      xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <Div Color="{Get CurrentTheme.DefaultTextColor}">
-        <ap:AsciiArtBanner Title="{Get Parser.Id}" SubTitle="{Get SubTitle}" />
-        <Separator Color="{Get CurrentTheme.BorderColor}" />
-        <ap:FullUsage Context="{Get Context}" Parser="{Get Parser}" />
-        <Separator Color="{Get CurrentTheme.BorderColor}"/>
-        <Div>
-            <Div>Description:</Div>
-            <Span Text="{Get Parser.Help.LongDescription}"></Span>
-        </Div>
-        <Separator />
-        <Div>
-            <Div>Parameters:</Div>
-            <ap:ParameterGrid Context="{Get Context}" Parser="{Get Parser}" />
-        </Div>
-        <Div>
-            <Div>Examples:</Div>
-            <ap:ExampleList Examples="{Get Examples}" />
-        </Div>
+    <ap:AsciiArtBanner Title="{Get Parser.Id}" SubTitle="{Get SubTitle}" 
+                       GradientStart="{Get CurrentTheme.DefaultTextColor}" 
+                       GradientMid="{Get CurrentTheme.SecondaryTextColor}"
+                       GradientEnd="{Get CurrentTheme.CodeColor}"/>
+    <Separator Color="{Get CurrentTheme.BorderColor}" />
+    <ap:FullUsage Context="{Get Context}" Parser="{Get Parser}" />
+    <Separator Color="{Get CurrentTheme.BorderColor}"/>
+    <Div>
+        <Div Color="{Get CurrentTheme.SecondaryTextColor}">Description:</Div>
+        <Span Color="{Get CurrentTheme.DefaultTextColor}"  Text="{Get Parser.Help.LongDescription}"></Span>
+    </Div>
+    <Separator />
+    <Div>
+        <Div Color="{Get CurrentTheme.SecondaryTextColor}">Parameters:</Div>
+        <ap:ParameterGrid Context="{Get Context}" Parser="{Get Parser}" />
+    </Div>
+    <Div>
+        <Div Color="{Get CurrentTheme.SecondaryTextColor}">Examples:</Div>
+        <ap:ExampleList Examples="{Get Examples}" />
     </Div>
 </Document>
 

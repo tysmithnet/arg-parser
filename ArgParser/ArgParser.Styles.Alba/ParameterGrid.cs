@@ -45,15 +45,4 @@ namespace ArgParser.Styles.Alba
             return "";
         }
     }
-
-    public class ParameterGridVm
-    {
-        public IList<ParameterVm> Parameters { get; set; }
-    }
-
-    public class ParameterVm
-    {
-        public Parameter Base { get; set; }
-        public string RequiredText { get; set; }
-    }
 }

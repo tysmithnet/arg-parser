@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Alba.CsConsoleFormat;
 using Alba.CsConsoleFormat.ColorfulConsole;
@@ -10,13 +11,26 @@ namespace ArgParser.Styles.Alba
     {
         public string Title { get; set; }
         public string SubTitle { get; set; }
-        public IElementFactory ElementFactory { get; set; } = new ElementFactory();
+        public ConsoleColor GradientStart { get; set; }
+        public ConsoleColor GradientMid { get; set; }
+        public ConsoleColor GradientEnd { get; set; }
+        
         public override IEnumerable<Element> GenerateVisualElements()
         {
-            var element = ElementFactory.InflateTempalte<Div>("Views/AsciiArtBanner.xaml", this,
-                typeof(FigletDiv).Assembly,
-                typeof(AsciiArtBanner).Assembly);
-            return element.ToEnumerableOfOne();
+            var div = new Div(new FigletDiv()
+            {
+                Text = Title,
+                ColorGradient = new FigletGradient()
+                {
+                    GradientStops =
+                    {
+                        new FigletGradientStop(GradientStart, 0),
+                        new FigletGradientStop(GradientMid),
+                        new FigletGradientStop(GradientMid, 3)
+                    }
+                }
+            });
+            return div.ToEnumerableOfOne();
         }
     }
 }

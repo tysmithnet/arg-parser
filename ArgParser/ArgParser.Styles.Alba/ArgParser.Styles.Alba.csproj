@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Views\AsciiArtBanner.xaml" />
     <None Remove="Views\DefaultTemplate.xaml" />
     <None Remove="Views\ExampleList.xaml" />
     <None Remove="Views\FullUsage.xaml" />
@@ -13,10 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Views\AsciiArtBanner.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Views\DefaultTemplate.xaml">
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
