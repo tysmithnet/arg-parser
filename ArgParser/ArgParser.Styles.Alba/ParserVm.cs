@@ -2,7 +2,7 @@
 
 namespace ArgParser.Styles.Alba
 {
-    public class ParserVm
+    public class ParserVm : IViewModel
     {
         public Parser Parser { get; set; }
         public Theme Theme { get; set; }

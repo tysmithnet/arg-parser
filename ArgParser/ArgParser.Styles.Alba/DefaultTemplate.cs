@@ -6,30 +6,28 @@ using ArgParser.Core.Help;
 
 namespace ArgParser.Styles.Alba
 {
-    public class DefaultTemplate : Template
+    public class DefaultTemplate : Template<DefaultTemplateVm>
     {
-        public DefaultTemplate(IContext context, string parserId) : base(context)
+        public DefaultTemplate(IContext context, DefaultTemplateVm viewModel) : base(context, viewModel)
         {
-            ParserId = parserId.ThrowIfArgumentNull(nameof(parserId));
         }
 
         public override Document Create()
         {
-            var parser = Context.ParserRepository.Get(ParserId);
-            var chain = Context.PathToRoot(ParserId);
+            var parser = Context.ParserRepository.Get(ViewModel.ParserId);
+            var chain = Context.PathToRoot(ViewModel.ParserId);
             var examples = chain.SelectMany(x => x.Help?.Examples ?? new List<Example>()).ToList();
-            var vm = new DefaultTemplateVm
+            var theme = Theme.Default;
+            if (Context.ParserThemes.ContainsKey(parser.Id))
+                theme = Context.ParserThemes[parser.Id];
+            var vm = new DefaultTemplateVm(parser, Context, theme)
             {
-                Context = Context,
-                Parser = parser,
                 Examples = examples,
-                CurrentTheme = Theme.Basic
             };
             return ElementFactory.InflateTempalte<Document>("Views/DefaultTemplate.xaml", vm,
                 typeof(DefaultTemplate).Assembly);
         }
 
         public IElementFactory ElementFactory { get; set; } = new ElementFactory();
-        public string ParserId { get; set; }
     }
 }

@@ -16,6 +16,6 @@ namespace ArgParser.Styles.Alba
 
         public IParserRepository ParserRepository => Context.ParserRepository;
 
-        public Dictionary<string, Theme> ParserThemes { get; set; }
+        public Dictionary<string, Theme> ParserThemes { get; set; } = new Dictionary<string, Theme>();
     }
 }
