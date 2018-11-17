@@ -5,6 +5,13 @@ namespace ArgParser.Styles
 {
     public class ConsumerSelectionStrategy : IConsumerSelectionStrategy
     {
+        public ConsumerSelectionStrategy(IContext context)
+        {
+            Context = context.ThrowIfArgumentNull(nameof(context));
+        }
+
+        public IContext Context { get; private set; }
+
         public ConsumptionResult Select(PotentialConsumerResult result)
         {
             ConsumptionResult foundResult = null;

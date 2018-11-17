@@ -5,9 +5,18 @@ namespace ArgParser.Styles
 {
     public class ParseStrategy : IParseStrategy
     {
-        public ParseStrategy(string rootParserId)
+        public IContext Context { get; set; }
+        public ParseStrategy(IContext context, string rootParserId)
         {
+            Context = context.ThrowIfArgumentNull(nameof(context));
             RootParserId = rootParserId.ThrowIfArgumentNull(nameof(rootParserId));
+            ArgsMutator = new ArgsMutator(context);
+            ChainIdentificationStrategy = new ParserChainIdentificationStrategy(context);
+            ConsumerSelectionStrategy = new ConsumerSelectionStrategy(context);
+            ConsumptionRequestFactory = new ConsumptionRequestFactory(context);
+            IterationInfoFactory = new IterationInfoFactory(context);
+            ParseResultFactory = new ParseResultFactory(context);
+            PotentialConsumerStrategy = new PotentialConsumerStrategy(context);
         }
 
         public virtual IParseResult Parse(string[] args, IContext context)
@@ -51,16 +60,13 @@ namespace ArgParser.Styles
             }, null);
         }
 
-        public IArgsMutator ArgsMutator { get; set; } = new ArgsMutator();
-
-        public IParserChainIdentificationStrategy ChainIdentificationStrategy { get; set; } =
-            new ParserChainIdentificationStrategy();
-
+        public IArgsMutator ArgsMutator { get; set; }
+        public IParserChainIdentificationStrategy ChainIdentificationStrategy { get; set; }
         public IConsumerSelectionStrategy ConsumerSelectionStrategy { get; set; }
-        public IConsumptionRequestFactory ConsumptionRequestFactory { get; set; } = new ConsumptionRequestFactory();
-        public IIterationInfoFactory IterationInfoFactory { get; set; } = new IterationInfoFactory();
-        public IParseResultFactory ParseResultFactory { get; set; } = new ParseResultFactory();
-        public IPotentialConsumerStrategy PotentialConsumerStrategy { get; set; } = new PotentialConsumerStrategy();
+        public IConsumptionRequestFactory ConsumptionRequestFactory { get; set; }
+        public IIterationInfoFactory IterationInfoFactory { get; set; }
+        public IParseResultFactory ParseResultFactory { get; set; }
+        public IPotentialConsumerStrategy PotentialConsumerStrategy { get; set; }
 
         public string RootParserId { get; protected internal set; }
     }

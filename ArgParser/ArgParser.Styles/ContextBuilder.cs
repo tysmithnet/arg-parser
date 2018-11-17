@@ -48,8 +48,8 @@ namespace ArgParser.Styles
 
         public IParseResult Parse(string parser, string[] args)
         {
-            var strat = new ParseStrategy(parser);
             var context = BuildContext();
+            var strat = new ParseStrategy(context, parser);
             return strat.Parse(args, context);
         }
 

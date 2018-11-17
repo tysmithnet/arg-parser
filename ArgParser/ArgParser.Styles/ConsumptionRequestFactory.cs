@@ -4,6 +4,11 @@ namespace ArgParser.Styles
 {
     public class ConsumptionRequestFactory : IConsumptionRequestFactory
     {
+        public ConsumptionRequestFactory(IContext context)
+        {
+            Context = context.ThrowIfArgumentNull(nameof(context));
+        }
+
         public IContext Context { get; set; }
 
         public ConsumptionRequest Create(PotentialConsumerResult consumerResult, ConsumptionResult selected)

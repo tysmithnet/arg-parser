@@ -7,6 +7,13 @@ namespace ArgParser.Styles
 {
     public class ArgsMutator : IArgsMutator
     {
+        public ArgsMutator(IContext context)
+        {
+            Context = context.ThrowIfArgumentNull(nameof(context));
+        }
+
+        public IContext Context { get; private set; }
+
         public string[] Mutate(MutateArgsRequest request)
         {
             var allSwitchesForChain = request.Chain.SelectMany(x => x.Parameters).OfType<Switch>().ToList();

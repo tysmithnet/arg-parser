@@ -1,10 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ArgParser.Core;
 
 namespace ArgParser.Styles
 {
     public class ParserChainIdentificationStrategy : IParserChainIdentificationStrategy
     {
+        public ParserChainIdentificationStrategy(IContext context)
+        {
+            Context = context;
+        }
+
+        public IContext Context { get; private set; }
+
         public ChainIdentificationResult Identify(ChainIdentificationRequest request)
         {
             var ids = new List<string>();

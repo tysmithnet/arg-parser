@@ -1,9 +1,17 @@
 ﻿using System.Linq;
+using ArgParser.Core;
 
 namespace ArgParser.Styles
 {
     public class PotentialConsumerStrategy : IPotentialConsumerStrategy
     {
+        public PotentialConsumerStrategy(IContext context)
+        {
+            Context = context.ThrowIfArgumentNull(nameof(context));
+        }
+
+        public IContext Context { get; private set; }
+
         public PotentialConsumerResult IdentifyPotentialConsumer(PotentialConsumerRequest request)
         {
             var consumptionResultsForTheParsersWhoCanConsume = request.ChainIdentificationResult.Chain
