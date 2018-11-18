@@ -34,6 +34,8 @@ namespace ArgParser.Styles.ParseStrategy
                 MutatedArgs = mutatedArgs,
                 OriginalArgs = args
             });
+            if(chainRes.IdentifiedParser.FactoryFunction == null)
+                throw new NoFactoryFunctionException($"No factory function set on parser={chainRes.IdentifiedParser.Id}");
             var instance = chainRes.IdentifiedParser.FactoryFunction();
             while (!info.IsComplete())
             {
