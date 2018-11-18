@@ -6,7 +6,7 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace ArgParser.Styles.Test.Default
+namespace ArgParser.Styles.Test
 {
     public class ParseStrategy_Should
     {

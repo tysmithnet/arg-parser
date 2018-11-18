@@ -2,7 +2,7 @@
 using FluentAssertions;
 using Xunit;
 
-namespace ArgParser.Styles.Test.Default
+namespace ArgParser.Styles.Test
 {
     public class BooleanSwitch_Should
     {

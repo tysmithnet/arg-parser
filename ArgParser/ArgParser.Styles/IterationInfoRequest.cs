@@ -1,4 +1,4 @@
-﻿using ArgParser.Core.Extensions;
+﻿using ArgParser.Core;
 
 namespace ArgParser.Styles
 {

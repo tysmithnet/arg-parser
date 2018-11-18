@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Linq;
-using ArgParser.Core.Extensions;
-using ArgParser.Core.Help;
 
 namespace ArgParser.Core
 {

@@ -75,17 +75,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Default\BooleanSwitch_Should.cs" />
-    <Compile Include="Default\ContextBuilder_Should.cs" />
-    <Compile Include="Default\HierarchyRepository_Should.cs" />
-    <Compile Include="Default\MissingRequiredParameterException_Should.cs" />
-    <Compile Include="Default\ParserBuilder_Should.cs" />
-    <Compile Include="Default\ParserRepository_Should.cs" />
-    <Compile Include="Default\ParseStrategy_Should.cs" />
-    <Compile Include="Default\Positional_Should.cs" />
-    <Compile Include="Default\SingleValueSwitch_Should.cs" />
-    <Compile Include="Default\Switch_Should.cs" />
-    <Compile Include="Default\ValuesSwitch_Should.cs" />
+    <Compile Include="BooleanSwitch_Should.cs" />
+    <Compile Include="ContextBuilder_Should.cs" />
+    <Compile Include="HierarchyRepository_Should.cs" />
+    <Compile Include="MissingRequiredParameterException_Should.cs" />
+    <Compile Include="ParserBuilder_Should.cs" />
+    <Compile Include="ParserRepository_Should.cs" />
+    <Compile Include="ParseStrategy_Should.cs" />
+    <Compile Include="Positional_Should.cs" />
+    <Compile Include="SingleValueSwitch_Should.cs" />
+    <Compile Include="Switch_Should.cs" />
+    <Compile Include="ValuesSwitch_Should.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

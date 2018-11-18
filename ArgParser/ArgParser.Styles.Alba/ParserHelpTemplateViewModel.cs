@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Text;
 using ArgParser.Core;
-using ArgParser.Core.Extensions;
 
 namespace ArgParser.Styles.Alba
 {

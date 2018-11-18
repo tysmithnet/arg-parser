@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using ArgParser.Core.Extensions;
 
 namespace ArgParser.Core
 {

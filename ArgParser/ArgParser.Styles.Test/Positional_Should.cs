@@ -3,7 +3,7 @@ using ArgParser.Core;
 using FluentAssertions;
 using Xunit;
 
-namespace ArgParser.Styles.Test.Default
+namespace ArgParser.Styles.Test
 {
     public class Positional_Should
     {

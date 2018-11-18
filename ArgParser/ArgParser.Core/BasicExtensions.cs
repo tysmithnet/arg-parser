@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ArgParser.Core.Extensions
+namespace ArgParser.Core
 {
     public static class BasicExtensions
     {

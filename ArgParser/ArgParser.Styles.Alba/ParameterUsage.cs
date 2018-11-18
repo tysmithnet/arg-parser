@@ -1,7 +1,6 @@
 ﻿using System.Text;
 using Alba.CsConsoleFormat;
 using ArgParser.Core;
-using ArgParser.Core.Extensions;
 
 namespace ArgParser.Styles.Alba
 {

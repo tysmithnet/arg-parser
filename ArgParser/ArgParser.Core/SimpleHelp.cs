@@ -1,4 +1,4 @@
-﻿namespace ArgParser.Core.Help
+﻿namespace ArgParser.Core
 {
     public class SimpleHelp
     {

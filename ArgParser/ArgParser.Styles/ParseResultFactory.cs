@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using ArgParser.Core;
-using ArgParser.Core.Extensions;
 
 namespace ArgParser.Styles
 {

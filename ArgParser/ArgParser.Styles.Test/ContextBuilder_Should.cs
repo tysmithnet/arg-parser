@@ -3,7 +3,7 @@ using ArgParser.Testing.Common;
 using FluentAssertions;
 using Xunit;
 
-namespace ArgParser.Styles.Test.Default
+namespace ArgParser.Styles.Test
 {
     public class ContextBuilder_Should
     {
