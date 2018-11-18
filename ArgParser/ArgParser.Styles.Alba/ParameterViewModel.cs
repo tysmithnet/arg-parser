@@ -1,4 +1,5 @@
-﻿using ArgParser.Core;
+﻿using System;
+using ArgParser.Core;
 
 namespace ArgParser.Styles.Alba
 {
@@ -17,5 +18,11 @@ namespace ArgParser.Styles.Alba
         }
 
         public Theme Theme { get; set; }
+
+        public ParameterViewModel(Parameter parameter, Theme theme)
+        {
+            Parameter = parameter ?? throw new ArgumentNullException(nameof(parameter));
+            Theme = theme ?? throw new ArgumentNullException(nameof(theme));
+        }
     }
 }

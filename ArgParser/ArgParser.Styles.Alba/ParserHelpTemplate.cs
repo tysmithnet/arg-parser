@@ -42,11 +42,7 @@ namespace ArgParser.Styles.Alba
                     Theme = albaContext.ThemeRepository.Get(x.Id)
                 }).ToList()
             };
-            vm.ParameterVms = vm.Chain.SelectMany(x => x.Parser.Parameters.Select(y => new ParameterViewModel
-            {
-                Parameter = y,
-                Theme = x.Theme
-            })).ToList();
+            vm.ParameterVms = vm.Chain.SelectMany(x => x.Parser.Parameters.Select(y => new ParameterViewModel(y, x.Theme))).ToList();
             return vm;
         }
 

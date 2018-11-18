@@ -20,7 +20,7 @@
         </Repeater>
     </Div>
     <Separator Color="{Get ParserVm.Theme.BorderColor}" />
-    <Grid>
+    <Grid Color="{Get ParserVm.Theme.BorderColor}">
         <Grid.Columns>
             <Column Width="Auto"/>
             <Column Width="Auto"/>
@@ -36,13 +36,13 @@
                 <ap:ParameterUsage ViewModel="{Get }"  />
             </Cell>
             <Cell TextAlign="Center">
-                <Span Text="{Get RequiredText}" />
+                <Span Text="{Get RequiredText}" Color="{Get Theme.DefaultTextColor}" />
             </Cell>
             <Cell>
-                <Span Text="{Get Parameter.Help.DefaultValue}" />
+                <Span Text="{Get Parameter.Help.DefaultValue}" Color="{Get Theme.DefaultTextColor}" />
             </Cell>
             <Cell>
-                <Span Text="{Get Parameter.Help.ShortDescription}" />
+                <Span Text="{Get Parameter.Help.ShortDescription}" Color="{Get Theme.DefaultTextColor}" />
             </Cell>
         </Repeater>
     </Grid>
