@@ -1,4 +1,4 @@
-﻿namespace ArgParser.Styles
+﻿namespace ArgParser.Styles.ParseStrategy
 {
     public interface IArgsMutator : IParseStrategyUnit
     {

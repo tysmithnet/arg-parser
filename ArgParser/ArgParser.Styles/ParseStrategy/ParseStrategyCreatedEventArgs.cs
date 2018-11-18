@@ -4,6 +4,6 @@ namespace ArgParser.Styles
 {
     public class ParseStrategyCreatedEventArgs : EventArgs
     {
-        public ParseStrategy ParseStrategy { get; set; }
+        public ParseStrategy.ParseStrategy ParseStrategy { get; set; }
     }
 }

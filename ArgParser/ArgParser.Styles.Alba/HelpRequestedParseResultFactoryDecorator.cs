@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ArgParser.Core;
+using ArgParser.Styles.ParseStrategy;
 
 namespace ArgParser.Styles.Alba
 {

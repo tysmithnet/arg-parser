@@ -55,12 +55,12 @@ namespace ArgParser.Styles
         public IParseResult Parse(string[] args)
         {
             var context = Context;
-            var strat = new ParseStrategy(context, RootParserId);
+            var strat = new ParseStrategy.ParseStrategy(context, RootParserId);
             OnParseStrategyCreated(strat);
             return strat.Parse(args, context);
         }
 
-        protected virtual void OnParseStrategyCreated(ParseStrategy parseStrategy)
+        protected virtual void OnParseStrategyCreated(ParseStrategy.ParseStrategy parseStrategy)
         {
             ParseStrategyCreated?.Invoke(this, new ParseStrategyCreatedEventArgs
             {

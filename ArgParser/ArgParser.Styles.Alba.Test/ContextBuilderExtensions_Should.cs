@@ -94,7 +94,7 @@ namespace ArgParser.Styles.Alba.Test
 
             // act
             // assert
-            ContextBuilderExtensions.ParserThemes.Single().Value.Should().Be(Theme.Warm);
+            ContextBuilderExtensions.ParserThemes[builder.Parser].Should().Be(Theme.Warm);
         }
 
         [Fact]
@@ -119,7 +119,7 @@ namespace ArgParser.Styles.Alba.Test
 
             // act
             // assert
-            ContextBuilderExtensions.ParserThemes.Single().Value.Should().Be(Theme.Cool);
+            ContextBuilderExtensions.ParserThemes[builder.Context.ParserRepository.Get("util")].Should().Be(Theme.Cool);
         }
     }
 }

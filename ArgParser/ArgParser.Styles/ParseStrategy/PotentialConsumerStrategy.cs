@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using ArgParser.Core;
 
-namespace ArgParser.Styles
+namespace ArgParser.Styles.ParseStrategy
 {
     public class PotentialConsumerStrategy : IPotentialConsumerStrategy
     {
