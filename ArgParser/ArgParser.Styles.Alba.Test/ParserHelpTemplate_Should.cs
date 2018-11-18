@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using ArgParser.Core;
 using ArgParser.Testing.Common;
 using FluentAssertions;
@@ -19,16 +15,16 @@ namespace ArgParser.Styles.Alba.Test
             var builder = DefaultBuilder.CreateDefaultBuilder()
                 .RegisterAlba();
             var parser = builder.Context.ParserRepository.Get("util");
-            var parserVm = new ParserViewModel()
+            var parserVm = new ParserViewModel
             {
                 Parser = parser,
                 Theme = Theme.Default
             };
             var template = new ParserHelpTemplate(builder.Context, "util")
             {
-                ViewModel = new ParserHelpTemplateViewModel()
+                ViewModel = new ParserHelpTemplateViewModel
                 {
-                    Chain = parserVm.ToEnumerableOfOne().ToList(),
+                    Chain = parserVm.ToEnumerableOfOne().ToList()
                 }
             };
 

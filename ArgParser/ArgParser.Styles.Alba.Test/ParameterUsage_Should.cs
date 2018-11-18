@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Alba.CsConsoleFormat;
+﻿using Alba.CsConsoleFormat;
 using ArgParser.Testing.Common;
 using FluentAssertions;
 using Moq;
@@ -22,7 +17,7 @@ namespace ArgParser.Styles.Alba.Test
             var builder = DefaultBuilder.CreateDefaultBuilder();
             var parameter = new SingleValueSwitch(builder.Context.ParserRepository.Get("util"), 'v', "value",
                 (o, s) => { });
-            var vm = new ParameterViewModel()
+            var vm = new ParameterViewModel
             {
                 Parameter = parameter,
                 Theme = Theme.Default
@@ -31,7 +26,7 @@ namespace ArgParser.Styles.Alba.Test
             {
                 ViewModel = vm
             };
-            
+
             // act
             usage.GenerateSequence(mock.Object);
 
@@ -49,7 +44,7 @@ namespace ArgParser.Styles.Alba.Test
             var parameter = new SingleValueSwitch(builder.Context.ParserRepository.Get("util"), null, "value",
                 (o, s) => { });
             parameter.Help.ValueAlias = "val";
-            var vm = new ParameterViewModel()
+            var vm = new ParameterViewModel
             {
                 Parameter = parameter,
                 Theme = Theme.Default
@@ -76,7 +71,7 @@ namespace ArgParser.Styles.Alba.Test
             var parameter = new SingleValueSwitch(builder.Context.ParserRepository.Get("util"), 'v', null,
                 (o, s) => { });
             parameter.Help.ValueAlias = "val";
-            var vm = new ParameterViewModel()
+            var vm = new ParameterViewModel
             {
                 Parameter = parameter,
                 Theme = Theme.Default
@@ -102,7 +97,7 @@ namespace ArgParser.Styles.Alba.Test
             var builder = DefaultBuilder.CreateDefaultBuilder();
             var parameter = new Positional(builder.Context.ParserRepository.Get("util"), (o, strings) => { });
             parameter.Help.ValueAlias = "val";
-            var vm = new ParameterViewModel()
+            var vm = new ParameterViewModel
             {
                 Parameter = parameter,
                 Theme = Theme.Default
@@ -120,6 +115,30 @@ namespace ArgParser.Styles.Alba.Test
         }
 
         [Fact]
+        public void Generate_The_Correct_Prefix_For_BooleanSwitches()
+        {
+            // arrange
+            var mock = new Mock<IInlineSequence>();
+            mock.SetupAllProperties();
+            var builder = DefaultBuilder.CreateDefaultBuilder();
+            var parameter = new BooleanSwitch(builder.Context.ParserRepository.Get("util"), 'v', "value", o => { });
+            parameter.Help.ValueAlias = "val";
+            var vm = new ParameterViewModel
+            {
+                Parameter = parameter,
+                Theme = Theme.Default
+            };
+            var usage = new ParameterUsage
+            {
+                ViewModel = vm
+            };
+
+            // act
+            // assert
+            usage.GenerateValueAlias(parameter).Should().Be("");
+        }
+
+        [Fact]
         public void Generate_The_Correct_Prefix_For_Positionals()
         {
             // arrange
@@ -128,7 +147,7 @@ namespace ArgParser.Styles.Alba.Test
             var builder = DefaultBuilder.CreateDefaultBuilder();
             var parameter = new Positional(builder.Context.ParserRepository.Get("util"), (o, strings) => { }, 1, 1);
             parameter.Help.ValueAlias = "val";
-            var vm = new ParameterViewModel()
+            var vm = new ParameterViewModel
             {
                 Parameter = parameter,
                 Theme = Theme.Default
@@ -152,9 +171,10 @@ namespace ArgParser.Styles.Alba.Test
             var mock = new Mock<IInlineSequence>();
             mock.SetupAllProperties();
             var builder = DefaultBuilder.CreateDefaultBuilder();
-            var parameter = new ValuesSwitch(builder.Context.ParserRepository.Get("util"), 'v', "value", (o, strings) => { }, 1, 3);
+            var parameter = new ValuesSwitch(builder.Context.ParserRepository.Get("util"), 'v', "value",
+                (o, strings) => { }, 1, 3);
             parameter.Help.ValueAlias = "val";
-            var vm = new ParameterViewModel()
+            var vm = new ParameterViewModel
             {
                 Parameter = parameter,
                 Theme = Theme.Default
@@ -169,30 +189,6 @@ namespace ArgParser.Styles.Alba.Test
 
             // assert
             usage.GeneratedText.Should().Be("[-v, --value val1..val3]");
-        }
-
-        [Fact]
-        public void Generate_The_Correct_Prefix_For_BooleanSwitches()
-        {
-            // arrange
-            var mock = new Mock<IInlineSequence>();
-            mock.SetupAllProperties();
-            var builder = DefaultBuilder.CreateDefaultBuilder();
-            var parameter = new BooleanSwitch(builder.Context.ParserRepository.Get("util"), 'v', "value", o => { });
-            parameter.Help.ValueAlias = "val";
-            var vm = new ParameterViewModel()
-            {
-                Parameter = parameter,
-                Theme = Theme.Default
-            };
-            var usage = new ParameterUsage
-            {
-                ViewModel = vm
-            };
-
-            // act
-            // assert
-            usage.GenerateValueAlias(parameter).Should().Be("");
         }
     }
 }

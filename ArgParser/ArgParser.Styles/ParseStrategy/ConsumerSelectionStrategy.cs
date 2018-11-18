@@ -28,5 +28,4 @@ namespace ArgParser.Styles.ParseStrategy
 
         public IContext Context { get; set; }
     }
-
 }

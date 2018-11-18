@@ -109,6 +109,18 @@ namespace ArgParser.Styles.Test.Default
         }
 
         [Fact]
+        public void Return_The_Children_Of_The_Requested_Node()
+        {
+            // arrange
+            var builder = DefaultBuilder.CreateDefaultBuilder();
+
+            // act
+            // assert
+            builder.Context.HierarchyRepository.GetChildren("util").Should()
+                .Contain("clip convert firewall".Split(' '));
+        }
+
+        [Fact]
         public void Throw_If_Given_Bad_Values()
         {
             // arrange
@@ -163,18 +175,6 @@ namespace ArgParser.Styles.Test.Default
             // act
             // assert
             mightThrow.Should().Throw<KeyNotFoundException>();
-        }
-
-        [Fact]
-        public void Return_The_Children_Of_The_Requested_Node()
-        {
-            // arrange
-            var builder = DefaultBuilder.CreateDefaultBuilder();
-
-            // act
-            // assert
-            builder.Context.HierarchyRepository.GetChildren("util").Should()
-                .Contain("clip convert firewall".Split(' '));
         }
     }
 }

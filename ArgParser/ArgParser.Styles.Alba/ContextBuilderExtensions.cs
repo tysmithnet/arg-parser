@@ -15,7 +15,8 @@ namespace ArgParser.Styles.Alba
 
         internal static readonly Dictionary<Parser, Theme> ParserThemes = new Dictionary<Parser, Theme>();
 
-        public static ContextBuilder AddAutoHelp(this ContextBuilder builder, HelpRequestCallback callback, Func<HelpRequestedParseResultFactory, HelpRequestedParseResultFactory> setupCallback = null)
+        public static ContextBuilder AddAutoHelp(this ContextBuilder builder, HelpRequestCallback callback,
+            Func<HelpRequestedParseResultFactory, HelpRequestedParseResultFactory> setupCallback = null)
         {
             builder.ParseStrategyCreated += (sender, args) =>
             {

@@ -32,6 +32,29 @@ public class ParseStrategy_Should
     }
 
     [Fact]
+    public void Throw_If_An_Unexpected_Argument_Is_Found()
+    {
+        // arrange
+        var builder = DefaultBuilder.CreateDefaultBuilder();
+        var strat = new ParseStrategy(builder.Context, "util");
+        var mock = new Mock<IPotentialConsumerStrategy>();
+        mock.SetupAllProperties();
+        mock.Setup(s => s.IdentifyPotentialConsumer(It.IsAny<PotentialConsumerRequest>())).Returns(
+            new PotentialConsumerResult
+            {
+                Chain = builder.Context.PathToRoot("util"),
+                Info = new IterationInfo("-h".Split(' ')),
+                ConsumptionResults = new ConsumptionResult[0]
+            });
+        strat.PotentialConsumerStrategy = mock.Object;
+        Action mightThrow = () => strat.Parse("-h".Split(' '), builder.Context);
+
+        // act
+        // assert
+        mightThrow.Should().Throw<UnexpectedArgException>();
+    }
+
+    [Fact]
     public void Throw_If_No_Factory_Function_Set()
     {
         // arrange
@@ -44,28 +67,5 @@ public class ParseStrategy_Should
         // act
         // assert
         mightThrow.Should().Throw<NoFactoryFunctionException>();
-    }
-
-    [Fact]
-    public void Throw_If_An_Unexpected_Argument_Is_Found()
-    {
-        // arrange
-        var builder = DefaultBuilder.CreateDefaultBuilder();
-        var strat = new ParseStrategy(builder.Context, "util");
-        var mock = new Mock<IPotentialConsumerStrategy>();
-        mock.SetupAllProperties();
-        mock.Setup(s => s.IdentifyPotentialConsumer(It.IsAny<PotentialConsumerRequest>())).Returns(
-            new PotentialConsumerResult()
-            {
-                Chain = builder.Context.PathToRoot("util"),
-                Info = new IterationInfo("-h".Split(' ')),
-                ConsumptionResults = new ConsumptionResult[0]
-            });
-        strat.PotentialConsumerStrategy = mock.Object;
-        Action mightThrow = () => strat.Parse("-h".Split(' '), builder.Context);
-
-        // act
-        // assert
-        mightThrow.Should().Throw<UnexpectedArgException>();
     }
 }

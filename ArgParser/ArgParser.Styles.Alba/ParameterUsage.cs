@@ -50,7 +50,7 @@ namespace ArgParser.Styles.Alba
                 prefix = "p";
             if (parameter.Help?.ValueAlias.IsNotNullOrWhiteSpace() ?? false) prefix = parameter.Help.ValueAlias;
 
-            int sub = 1;
+            var sub = 1;
             if (parameter is Positional)
                 sub = 0;
             var hi = parameter.MaxAllowed == int.MaxValue ? "N" : $"{parameter.MaxAllowed - sub}";
