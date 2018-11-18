@@ -17,7 +17,7 @@ namespace ArgParser.Styles.ParseStrategy
         {
             Chain = chain.ThrowIfArgumentNull(nameof(chain)).ToList();
             ConsumptionResults = consumptionResults.ThrowIfArgumentNull(nameof(consumptionResults)).ToList();
-            Info = info ?? throw new ArgumentNullException(nameof(info));
+            Info = info.ThrowIfArgumentNull(nameof(info));
         }
     }
 }

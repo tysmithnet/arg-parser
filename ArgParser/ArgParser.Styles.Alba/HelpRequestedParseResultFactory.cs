@@ -12,10 +12,9 @@ namespace ArgParser.Styles.Alba
             Func<Dictionary<object, Parser>, IEnumerable<ParseException>, string> helpRequestedCallback,
             IContext context)
         {
-            Inner = inner ?? throw new ArgumentNullException(nameof(inner));
-            IsHelpRequestedCallback = helpRequestedCallback ??
-                                      throw new ArgumentNullException(nameof(helpRequestedCallback));
-            Context = context ?? throw new ArgumentNullException(nameof(context));
+            Inner = inner.ThrowIfArgumentNull(nameof(inner));
+            IsHelpRequestedCallback = helpRequestedCallback.ThrowIfArgumentNull(nameof(helpRequestedCallback));
+            Context = context.ThrowIfArgumentNull(nameof(context));
         }
 
         public IParseResult Create(Dictionary<object, Parser> results, IEnumerable<ParseException> parseExceptions)

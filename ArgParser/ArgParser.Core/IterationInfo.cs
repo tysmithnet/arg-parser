@@ -8,7 +8,7 @@ namespace ArgParser.Core
     {
         public IterationInfo(string[] args, int index = 0)
         {
-            Args = args ?? throw new ArgumentNullException(nameof(args));
+            Args = args.ThrowIfArgumentNull(nameof(args));
             Index = index;
         }
 

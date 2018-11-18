@@ -8,7 +8,7 @@ namespace ArgParser.Styles
         public MissingRequiredParameterException(Parameter requiredParameter, object instance) : base(
             CreateExceptionMessage(requiredParameter))
         {
-            RequiredParameter = requiredParameter ?? throw new ArgumentNullException(nameof(requiredParameter));
+            RequiredParameter = requiredParameter.ThrowIfArgumentNull(nameof(requiredParameter));
             Instance = instance.ThrowIfArgumentNull(nameof(instance));
         }
 

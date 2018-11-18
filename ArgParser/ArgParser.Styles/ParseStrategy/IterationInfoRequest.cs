@@ -1,4 +1,5 @@
 ﻿using System;
+using ArgParser.Core;
 
 namespace ArgParser.Styles.ParseStrategy
 {
@@ -11,10 +12,9 @@ namespace ArgParser.Styles.ParseStrategy
         public IterationInfoRequest(ChainIdentificationResult chainIdentificationResult, string[] mutatedArgs,
             string[] originalArgs)
         {
-            ChainIdentificationResult = chainIdentificationResult ??
-                                        throw new ArgumentNullException(nameof(chainIdentificationResult));
-            MutatedArgs = mutatedArgs ?? throw new ArgumentNullException(nameof(mutatedArgs));
-            OriginalArgs = originalArgs ?? throw new ArgumentNullException(nameof(originalArgs));
+            ChainIdentificationResult = chainIdentificationResult.ThrowIfArgumentNull(nameof(chainIdentificationResult));
+            MutatedArgs = mutatedArgs.ThrowIfArgumentNull(nameof(mutatedArgs));
+            OriginalArgs = originalArgs.ThrowIfArgumentNull(nameof(originalArgs));
         }
     }
 }

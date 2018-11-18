@@ -12,10 +12,9 @@ namespace ArgParser.Styles.ParseStrategy
         public PotentialConsumerRequest(ChainIdentificationResult chainIdentificationResult, IterationInfo info,
             object instance)
         {
-            ChainIdentificationResult = chainIdentificationResult ??
-                                        throw new ArgumentNullException(nameof(chainIdentificationResult));
-            Info = info ?? throw new ArgumentNullException(nameof(info));
-            Instance = instance ?? throw new ArgumentNullException(nameof(instance));
+            ChainIdentificationResult = chainIdentificationResult.ThrowIfArgumentNull(nameof(chainIdentificationResult));
+            Info = info.ThrowIfArgumentNull(nameof(info));
+            Instance = instance.ThrowIfArgumentNull(nameof(instance));
         }
     }
 }

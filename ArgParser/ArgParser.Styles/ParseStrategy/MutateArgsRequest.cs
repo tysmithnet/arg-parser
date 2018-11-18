@@ -13,9 +13,9 @@ namespace ArgParser.Styles.ParseStrategy
 
         public MutateArgsRequest(string[] args, IEnumerable<Parser> chain, IContext context)
         {
-            Args = args ?? throw new ArgumentNullException(nameof(args));
+            Args = args.ThrowIfArgumentNull(nameof(args));
             Chain = chain.ThrowIfArgumentNull(nameof(chain)).ToList();
-            Context = context ?? throw new ArgumentNullException(nameof(context));
+            Context = context.ThrowIfArgumentNull(nameof(context));
         }
     }
 }

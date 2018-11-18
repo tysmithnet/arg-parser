@@ -10,8 +10,8 @@ namespace ArgParser.Styles.ParseStrategy
 
         public ChainIdentificationRequest(string[] args, IContext context)
         {
-            Args = args ?? throw new ArgumentNullException(nameof(args));
-            Context = context ?? throw new ArgumentNullException(nameof(context));
+            Args = args.ThrowIfArgumentNull(nameof(args));
+            Context = context.ThrowIfArgumentNull(nameof(context));
         }
     }
 }

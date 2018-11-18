@@ -14,7 +14,7 @@ namespace ArgParser.Styles.ParseStrategy
         public ChainIdentificationResult(IEnumerable<Parser> chain, string[] consumedArgs)
         {
             Chain = chain.ThrowIfArgumentNull(nameof(chain)).ToList();
-            ConsumedArgs = consumedArgs ?? throw new ArgumentNullException(nameof(consumedArgs));
+            ConsumedArgs = consumedArgs.ThrowIfArgumentNull(nameof(consumedArgs));
         }
     }
 }

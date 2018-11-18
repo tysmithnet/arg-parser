@@ -7,7 +7,7 @@ namespace ArgParser.Styles.Alba
     {
         public AlbaContext(IContext context)
         {
-            Context = context ?? throw new ArgumentNullException(nameof(context));
+            Context = context.ThrowIfArgumentNull(nameof(context));
         }
 
         public IHierarchyRepository HierarchyRepository => Context.HierarchyRepository;
