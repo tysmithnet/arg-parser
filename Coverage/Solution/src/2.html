@@ -2,151 +2,84 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>C:\projects\arg-parser\ArgParser\ArgParser.Core\DefaultIterationInfo.cs</title>
+    <title>C:\projects\arg-parser\ArgParser\ArgParser.Styles.Alba\ContextBuilderExtensions.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
-// ***********************************************************************
-// Assembly         : ArgParser.Core
-// Author           : @tysmithnet
-// Created          : 10-20-2018
-//
-// Last Modified By : @tysmithnet
-// Last Modified On : 10-21-2018
-// ***********************************************************************
-// &lt;copyright file=&quot;DefaultIterationInfo.cs&quot; company=&quot;ArgParser.Core&quot;&gt;
-//     Copyright (c) . All rights reserved.
-// &lt;/copyright&gt;
-// &lt;summary&gt;&lt;/summary&gt;
-// ***********************************************************************
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ArgParser.Core;
+using HelpRequestCallback =
+    System.Func&lt;System.Collections.Generic.Dictionary&lt;object, ArgParser.Core.Parser&gt;,
+        System.Collections.Generic.IEnumerable&lt;ArgParser.Core.ParseException&gt;, string&gt;;
 
-namespace ArgParser.Core
+namespace ArgParser.Styles.Alba
 {
-    /// &lt;summary&gt;
-    ///     Class DefaultIterationInfo.
-    /// &lt;/summary&gt;
-    /// &lt;seealso cref=&quot;ArgParser.Core.IIterationInfo&quot; /&gt;
-    public class DefaultIterationInfo : IIterationInfo
+    public static class ContextBuilderExtensions
     {
-        /// &lt;summary&gt;
-        ///     Consumes the specified number tokens.
-        /// &lt;/summary&gt;
-        /// &lt;param name=&quot;numTokens&quot;&gt;The number tokens.&lt;/param&gt;
-        /// &lt;returns&gt;IIterationInfo.&lt;/returns&gt;
-            
-        public virtual IIterationInfo Consume(int numTokens) =&gt; SetIndex(Index + numTokens);
+        internal static readonly Dictionary&lt;IContext, AlbaContext&gt; AlbaContexts =
+            new Dictionary&lt;IContext, AlbaContext&gt;();
 
-        /// &lt;summary&gt;
-        ///     Sets the index.
-        /// &lt;/summary&gt;
-        /// &lt;param name=&quot;i&quot;&gt;The i.&lt;/param&gt;
-        /// &lt;returns&gt;IIterationInfo.&lt;/returns&gt;
-        public IIterationInfo SetIndex(int i)
-        {
-            return Clone(info =&gt; info.Index = i);
-        }
+        internal static readonly Dictionary&lt;Parser, Theme&gt; ParserThemes = new Dictionary&lt;Parser, Theme&gt;();
 
-        /// &lt;summary&gt;
-        ///     Sets the tokens.
-        /// &lt;/summary&gt;
-        /// &lt;param name=&quot;tokens&quot;&gt;The tokens.&lt;/param&gt;
-        /// &lt;returns&gt;IIterationInfo.&lt;/returns&gt;
-        public IIterationInfo SetTokens(IList&lt;IToken&gt; tokens)
+        public static ContextBuilder AddAutoHelp(this ContextBuilder builder, HelpRequestCallback callback,
+            Func&lt;HelpRequestedParseResultFactory, HelpRequestedParseResultFactory&gt; setupCallback = null)
         {
-            return Clone(info =&gt; info.Tokens = tokens?.ToList());
-        }
-
-        /// &lt;summary&gt;
-        ///     Clones the specified transformer.
-        /// &lt;/summary&gt;
-        /// &lt;param name=&quot;transformer&quot;&gt;The transformer.&lt;/param&gt;
-        /// &lt;returns&gt;DefaultIterationInfo.&lt;/returns&gt;
-        private DefaultIterationInfo Clone(Action&lt;DefaultIterationInfo&gt; transformer)
-        {
-            var newGuy = new DefaultIterationInfo
+            builder.ParseStrategyCreated += (sender, args) =&gt;
             {
-                Args = Args?.ToArray(),
-                Tokens = Tokens?.ToList(),
-                Index = Index
+                var albaContext = builder.Context.ToAlbaContext();
+                ParserThemes.ToList().ForEach(kvp =&gt; albaContext.ThemeRepository.SetTheme(kvp.Key.Id, kvp.Value));
+                args.ParseStrategy.Context = albaContext;
+                var factory = new HelpRequestedParseResultFactory(args.ParseStrategy.ParseResultFactory, callback,
+                    builder.Context);
+                if (setupCallback != null)
+                    factory = setupCallback(factory);
+                args.ParseStrategy.ParseResultFactory =
+                    factory;
             };
-            transformer?.Invoke(newGuy);
-            return newGuy;
+            return builder;
         }
 
-        /// &lt;summary&gt;
-        ///     Gets or sets the arguments.
-        /// &lt;/summary&gt;
-        /// &lt;value&gt;The arguments.&lt;/value&gt;
-            
-        public string[] Args { get; set; }
+        public static ContextBuilder RegisterAlba(this ContextBuilder builder)
+        {
+            AlbaContexts.Add(builder.Context, new AlbaContext(builder.Context));
+            return builder;
+        }
 
-        /// &lt;summary&gt;
-        ///     Gets the current.
-        /// &lt;/summary&gt;
-        /// &lt;value&gt;The current.&lt;/value&gt;
-            
-        public IToken Current =&gt; !IsComplete ? Tokens?[Index] : null;
+        public static ContextBuilder SetTheme(this ContextBuilder builder, string parserId, Theme theme)
+        {
+            var parser = builder.Context.ParserRepository.Get(parserId);
+            if (!ParserThemes.ContainsKey(parser))
+                ParserThemes.Add(parser, theme);
+            ParserThemes[parser] = theme;
+            return builder;
+        }
 
-            
-        public IToken First =&gt; Tokens?.FirstOrDefault();
+        public static AlbaContext ToAlbaContext(this IContext context) =&gt; AlbaContexts[context];
 
-        /// &lt;summary&gt;
-        ///     Gets or sets the index.
-        /// &lt;/summary&gt;
-        /// &lt;value&gt;The index.&lt;/value&gt;
-            
-        public int Index { get; set; }
+        public static ParserBuilder WithTheme(this ParserBuilder builder, Theme theme)
+        {
+            if (!ParserThemes.ContainsKey(builder.Parser))
+                ParserThemes.Add(builder.Parser, theme);
+            ParserThemes[builder.Parser] = theme;
+            return builder;
+        }
 
-        /// &lt;summary&gt;
-        ///     Gets a value indicating whether this instance is complete.
-        /// &lt;/summary&gt;
-        /// &lt;value&gt;&lt;c&gt;true&lt;/c&gt; if this instance is complete; otherwise, &lt;c&gt;false&lt;/c&gt;.&lt;/value&gt;
-            
-        public bool IsComplete =&gt; Index &gt;= Tokens?.Count;
-
-            
-        public bool IsFirst =&gt; Index == 0;
-
-            
-        public bool IsInternal =&gt; Index &gt; 0 &amp;&amp; Index &lt; Tokens?.Count - 1;
-
-            
-        public bool IsLast =&gt; Index == Tokens?.Count - 1;
-
-            
-        public IToken Last =&gt; Tokens?.LastOrDefault();
-
-        /// &lt;summary&gt;
-        ///     Gets the next.
-        /// &lt;/summary&gt;
-        /// &lt;value&gt;The next.&lt;/value&gt;
-            
-        public IToken Next =&gt; Rest?.FirstOrDefault();
-
-        /// &lt;summary&gt;
-        ///     Gets the rest.
-        /// &lt;/summary&gt;
-        /// &lt;value&gt;The rest.&lt;/value&gt;
-            
-        public IEnumerable&lt;IToken&gt; Rest =&gt; Tokens?.Skip(Index + 1);
-
-        /// &lt;summary&gt;
-        ///     Gets the tokens.
-        /// &lt;/summary&gt;
-        /// &lt;value&gt;The tokens.&lt;/value&gt;
-            
-        public IReadOnlyList&lt;IToken&gt; Tokens { get; internal set; }
+        public static ParserBuilder&lt;T&gt; WithTheme&lt;T&gt;(this ParserBuilder&lt;T&gt; builder, Theme theme)
+        {
+            if (!ParserThemes.ContainsKey(builder.Parser))
+                ParserThemes.Add(builder.Parser, theme);
+            ParserThemes[builder.Parser] = theme;
+            return builder;
+        }
     }
 }
     </pre>
     <script type="text/javascript">
-      highlightRanges([[33,65,33,92,1],[41,9,41,10,1],[42,13,42,34,1],[42,34,42,48,1],[42,48,42,50,1],[42,13,42,50,1],[43,9,43,10,1],[51,9,51,10,1],[52,13,52,34,1],[52,34,52,64,1],[52,64,52,66,1],[52,13,52,66,1],[53,9,53,10,1],[61,9,61,10,1],[62,13,67,15,1],[68,13,68,41,1],[69,13,69,27,1],[70,9,70,10,1],[84,34,84,69,1],[87,32,87,56,1],[101,35,101,57,1],[104,32,104,42,1],[107,35,107,73,1],[110,31,110,57,1],[113,31,113,54,1],[120,31,120,53,1],[127,44,127,67,1]]);
+      highlightRanges([[13,9,14,53,1],[16,9,16,107,1],[20,9,20,10,1],[21,13,22,13,1],[22,13,22,14,1],[22,14,23,17,1],[23,17,23,67,1],[23,67,24,17,1],[24,17,24,54,1],[24,54,24,113,1],[24,113,24,115,1],[24,17,24,115,1],[24,115,25,17,1],[25,17,25,58,1],[25,58,26,17,1],[26,17,27,38,1],[27,38,28,17,1],[28,17,28,43,1],[28,43,29,21,1],[29,21,29,54,1],[29,54,30,17,1],[30,17,31,29,1],[31,29,32,13,1],[32,13,32,14,1],[32,14,32,15,1],[21,13,32,15,1],[33,13,33,28,1],[34,9,34,10,1],[37,9,37,10,1],[38,13,38,81,1],[39,13,39,28,1],[40,9,40,10,1],[43,9,43,10,1],[44,13,44,73,1],[45,13,45,51,1],[46,17,46,49,1],[47,13,47,42,1],[48,13,48,28,1],[49,9,49,10,1],[51,75,51,96,1],[54,9,54,10,1],[55,13,55,59,1],[56,17,56,57,1],[57,13,57,50,1],[58,13,58,28,1],[59,9,59,10,1],[62,9,62,10,1],[63,13,63,59,1],[64,17,64,57,1],[65,13,65,50,1],[66,13,66,28,1],[67,9,67,10,1]]);
     </script>
   </body>
 </html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\projects\arg-parser\ArgParser\ArgParser.Core\Parser.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using ArgParser.Core.Help;
+
+namespace ArgParser.Core
+{
+    [DebuggerDisplay(&quot;{Id}&quot;)]
+    public class Parser : IConsumer
+    {
+        public Parser(string id)
+        {
+            Id = id;
+        }
+
+        public void AddParameter(Parameter parameter)
+        {
+            ParametersInternal.Add(parameter);
+        }
+
+        public virtual ConsumptionResult CanConsume(object instance, IterationInfo info)
+        {
+            return Parameters.Select(x =&gt; x.CanConsume(instance, info)).FirstOrDefault(x =&gt; x.Info != info) ??
+                   new ConsumptionResult(info, 0, null);
+        }
+
+        public virtual ConsumptionResult Consume(object instance, ConsumptionRequest request)
+        {
+            var parameter = Parameters.First(x =&gt; x.CanConsume(instance, request.Info).Info != request.Info);
+            return parameter.Consume(instance, request);
+        }
+
+        public void Reset()
+        {
+            foreach (var parameter in Parameters) parameter.Reset();
+        }
+
+        public Func&lt;object&gt; FactoryFunction { get; set; }
+        public ParserHelp Help { get; set; } = new ParserHelp();
+        public string Id { get; protected internal set; }
+        public IEnumerable&lt;Parameter&gt; Parameters =&gt; ParametersInternal.ToList();
+        protected internal IList&lt;Parameter&gt; ParametersInternal { get; set; } = new List&lt;Parameter&gt;();
+    }
+
+    [DebuggerDisplay(&quot;{Id}&quot;)]
+    public class Parser&lt;T&gt; : Parser
+    {
+        public Parser(string id) : base(id)
+        {
+        }
+
+        public new Func&lt;T&gt; FactoryFunction
+        {
+            get =&gt; base.FactoryFunction as Func&lt;T&gt;;
+            set =&gt; base.FactoryFunction = value as Func&lt;object&gt;;
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[12,9,12,33,1],[13,9,13,10,1],[14,13,14,21,1],[15,9,15,10,1],[18,9,18,10,1],[19,13,19,47,1],[20,9,20,10,1],[23,9,23,10,1],[24,13,24,43,1],[24,43,24,71,1],[24,71,24,93,1],[24,93,24,107,1],[24,107,25,57,1],[24,13,25,57,1],[26,9,26,10,1],[29,9,29,10,1],[30,13,30,51,1],[30,51,30,108,1],[30,108,30,110,1],[30,13,30,110,1],[31,13,31,57,1],[32,9,32,10,1],[35,9,35,10,1],[36,13,36,20,1],[36,22,36,35,1],[36,36,36,38,1],[36,39,36,49,1],[36,51,36,69,1],[37,9,37,10,1],[40,48,40,64,1],[42,53,42,80,1],[43,80,43,101,1],[49,36,49,44,1],[50,9,50,10,1],[51,9,51,10,1],[55,20,55,51,1],[56,20,56,64,1]]);
+    </script>
+  </body>
+</html>

@@ -2,36 +2,35 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>C:\projects\arg-parser\ArgParser\ArgParser.Flavors\Git\GitParameter.cs</title>
+    <title>C:\projects\arg-parser\ArgParser\ArgParser.Styles\ParseStrategy\ChainIdentificationResult.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using ArgParser.Core;
 
-namespace ArgParser.Flavors.Git
+namespace ArgParser.Styles.ParseStrategy
 {
-    public abstract class GitParameter : IParameter
+    public class ChainIdentificationResult
     {
-            
-        public abstract bool CanConsume(object instance, IIterationInfo info);
+        public IList&lt;Parser&gt; Chain { get; set; }
+        public string[] ConsumedArgs { get; set; }
+        public Parser IdentifiedParser =&gt; Chain.Last();
 
-            
-        public abstract IIterationInfo Consume(object instance, IIterationInfo info);
-
-            
-        public virtual void Reset()
+        public ChainIdentificationResult(IEnumerable&lt;Parser&gt; chain, string[] consumedArgs)
         {
-            HasBeenConsumed = false;
+            Chain = chain.ThrowIfArgumentNull(nameof(chain)).ToList();
+            ConsumedArgs = consumedArgs.ThrowIfArgumentNull(nameof(consumedArgs));
         }
-
-        public abstract bool HasBeenConsumed { get; set; }
     }
 }
     </pre>
     <script type="text/javascript">
-      highlightRanges([[15,9,15,10,1],[16,13,16,37,1],[17,9,17,10,1]]);
+      highlightRanges([[12,43,12,55,1],[14,9,14,91,1],[15,9,15,10,1],[16,13,16,71,1],[17,13,17,83,1],[18,9,18,10,1]]);
     </script>
   </body>
 </html>

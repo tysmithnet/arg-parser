@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\projects\arg-parser\ArgParser\ArgParser.Core\ContextExtensions.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ArgParser.Core
+{
+    public static class ContextExtensions
+    {
+        public static IEnumerable&lt;Parser&gt; PathToRoot(this IContext context, string parserId)
+        {
+            var ids = parserId.ToEnumerableOfOne().Concat(context.HierarchyRepository.GetAncestors(parserId));
+            return ids.Select(i =&gt; context.ParserRepository.Get(i)); // todo: error checking
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[9,9,9,10,1],[10,13,10,111,1],[11,13,11,36,1],[11,36,11,67,1],[11,67,11,69,1],[11,13,11,69,1],[12,9,12,10,1]]);
+    </script>
+  </body>
+</html>

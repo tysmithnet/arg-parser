@@ -2,75 +2,41 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>C:\projects\arg-parser\ArgParser\ArgParser.Core\Help\DefaultHelpNodeVisitor.cs</title>
+    <title>C:\projects\arg-parser\ArgParser\ArgParser.Styles\MissingRequiredParameterException.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
 using System;
+using ArgParser.Core;
 
-namespace ArgParser.Core.Help
+namespace ArgParser.Styles
 {
-    public class DefaultHelpNodeVisitor : IHelpNodeVisitor
+    public class MissingRequiredParameterException : ParseException
     {
-            
-        public void Visit(TextNode node)
+        public MissingRequiredParameterException(Parameter requiredParameter, object instance) : base(
+            CreateExceptionMessage(requiredParameter))
         {
-            TextNode?.Invoke(node);
+            RequiredParameter = requiredParameter.ThrowIfArgumentNull(nameof(requiredParameter));
+            Instance = instance.ThrowIfArgumentNull(nameof(instance));
         }
 
-            
-        public void Visit(CodeNode node)
+        private static string CreateExceptionMessage(Parameter parameter)
         {
-            CodeNode?.Invoke(node);
+            if (parameter is Switch casted)
+                return
+                    $&quot;Expected to find required switch=[-{casted.Letter?.ToString() ?? &quot;&lt;no letter&gt;&quot;}, --{casted.Word ?? &quot;&lt;no word&gt;&quot;}], but did not.&quot;;
+            return $&quot;Expected to find required positional but did not.&quot;;
         }
 
-            
-        public void Visit(HeadingNode node)
-        {
-            HeadingNode?.Invoke(node);
-        }
-
-            
-        public void Visit(TableNode node)
-        {
-            TableNode?.Invoke(node);
-            foreach (var tableRowNode in node.Rows) tableRowNode.Accept(this);
-        }
-
-            
-        public void Visit(TableRowNode node)
-        {
-            TableRowNode?.Invoke(node);
-            foreach (var dataNode in node.TableDataNodes) dataNode.Accept(this);
-        }
-
-            
-        public void Visit(TableDataNode node)
-        {
-            TableDataNode?.Invoke(node);
-        }
-
-            
-        public void Visit(RootNode node)
-        {
-            RootNode?.Invoke(node);
-            foreach (var nodeChild in node.Children) nodeChild.Accept(this);
-        }
-
-        public Action&lt;CodeNode&gt; CodeNode { get; set; }
-        public Action&lt;HeadingNode&gt; HeadingNode { get; set; }
-        public Action&lt;RootNode&gt; RootNode { get; set; }
-        public Action&lt;TableDataNode&gt; TableDataNode { get; set; }
-        public Action&lt;TableNode&gt; TableNode { get; set; }
-        public Action&lt;TableRowNode&gt; TableRowNode { get; set; }
-        public Action&lt;TextNode&gt; TextNode { get; set; }
+        public object Instance { get; protected internal set; }
+        public Parameter RequiredParameter { get; protected internal set; }
     }
 }
     </pre>
     <script type="text/javascript">
-      highlightRanges([[9,9,9,10,1],[10,13,10,36,1],[11,9,11,10,1],[15,9,15,10,1],[16,13,16,36,1],[17,9,17,10,1],[21,9,21,10,1],[22,13,22,39,1],[23,9,23,10,1],[27,9,27,10,1],[28,13,28,37,1],[29,13,29,20,1],[29,22,29,38,1],[29,39,29,41,1],[29,42,29,51,1],[29,53,29,79,1],[30,9,30,10,1],[34,9,34,10,1],[35,13,35,40,1],[36,13,36,20,1],[36,22,36,34,1],[36,35,36,37,1],[36,38,36,57,1],[36,59,36,81,1],[37,9,37,10,1],[41,9,41,10,1],[42,13,42,41,1],[43,9,43,10,1],[47,9,47,10,1],[48,13,48,36,1],[49,13,49,20,1],[49,22,49,35,1],[49,36,49,38,1],[49,39,49,52,1],[49,54,49,77,1],[50,9,50,10,1]]);
+      highlightRanges([[8,98,9,55,1],[10,9,10,10,1],[11,13,11,98,1],[12,13,12,71,1],[13,9,13,10,1],[16,9,16,10,1],[17,13,17,44,1],[18,17,19,151,1],[20,13,20,73,1],[21,9,21,10,1]]);
     </script>
   </body>
 </html>

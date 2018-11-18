@@ -2,63 +2,59 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>C:\projects\arg-parser\ArgParser\ArgParser.Core\DefaultIterationInfoFactory.cs</title>
+    <title>C:\projects\arg-parser\ArgParser\ArgParser.Styles.Alba\HelpRequestedParseResultFactory.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
-// ***********************************************************************
-// Assembly         : ArgParser.Core
-// Author           : @tysmithnet
-// Created          : 10-20-2018
-//
-// Last Modified By : @tysmithnet
-// Last Modified On : 10-21-2018
-// ***********************************************************************
-// &lt;copyright file=&quot;DefaultIterationInfoFactory.cs&quot; company=&quot;ArgParser.Core&quot;&gt;
-//     Copyright (c) . All rights reserved.
-// &lt;/copyright&gt;
-// &lt;summary&gt;&lt;/summary&gt;
-// ***********************************************************************
-
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using ArgParser.Core;
+using ArgParser.Styles.ParseStrategy;
 
-namespace ArgParser.Core
+namespace ArgParser.Styles.Alba
 {
-    /// &lt;summary&gt;
-    ///     Class DefaultIterationInfoFactory.
-    /// &lt;/summary&gt;
-    /// &lt;seealso cref=&quot;ArgParser.Core.IIterationInfoFactory&quot; /&gt;
-    public class DefaultIterationInfoFactory : IIterationInfoFactory
+    public class HelpRequestedParseResultFactory : IParseResultFactory
     {
-        /// &lt;summary&gt;
-        ///     Creates the specified arguments.
-        /// &lt;/summary&gt;
-        /// &lt;param name=&quot;args&quot;&gt;The arguments.&lt;/param&gt;
-        /// &lt;returns&gt;IIterationInfo.&lt;/returns&gt;
-            
-        public virtual IIterationInfo Create(string[] args)
+        public HelpRequestedParseResultFactory(IParseResultFactory inner,
+            Func&lt;Dictionary&lt;object, Parser&gt;, IEnumerable&lt;ParseException&gt;, string&gt; helpRequestedCallback,
+            IContext context)
         {
-            var tokens = Lexer.Lex(args);
-            return new DefaultIterationInfo
-            {
-                Tokens = tokens.ToList(),
-                Index = 0,
-                Args = args.ToArray()
-            };
+            Inner = inner.ThrowIfArgumentNull(nameof(inner));
+            IsHelpRequestedCallback = helpRequestedCallback.ThrowIfArgumentNull(nameof(helpRequestedCallback));
+            Context = context.ThrowIfArgumentNull(nameof(context));
         }
 
-        /// &lt;summary&gt;
-        ///     Gets or sets the lexer.
-        /// &lt;/summary&gt;
-        /// &lt;value&gt;The lexer.&lt;/value&gt;
-        protected internal ILexer Lexer { get; set; } = new DefaultLexer();
+        public IParseResult Create(Dictionary&lt;object, Parser&gt; results, IEnumerable&lt;ParseException&gt; parseExceptions)
+        {
+            parseExceptions = parseExceptions.PreventNull().ToList();
+            var helpRequest = IsHelpRequestedCallback(results, parseExceptions);
+            if (helpRequest.IsNotNullOrWhiteSpace())
+            {
+                var template = new ParserHelpTemplate(Context, helpRequest);
+                TemplateRenderer.Render(template);
+                return new ParseResult(null, null);
+            }
+
+            return Inner.Create(results, parseExceptions);
+        }
+
+        public IContext Context { get; set; }
+        public IParseResultFactory Inner { get; set; }
+        public ITemplateRenderer TemplateRenderer { get; set; } = new TemplateRenderer();
+
+        protected internal Func&lt;Dictionary&lt;object, Parser&gt;, IEnumerable&lt;ParseException&gt;, string&gt; IsHelpRequestedCallback
+        {
+            get;
+            set;
+        }
     }
 }
     </pre>
     <script type="text/javascript">
-      highlightRanges([[32,9,32,10,1],[33,13,33,42,1],[34,13,39,15,1],[40,9,40,10,1],[46,57,46,75,1]]);
+      highlightRanges([[11,9,13,30,1],[14,9,14,10,1],[15,13,15,62,1],[16,13,16,112,1],[17,13,17,68,1],[18,9,18,10,1],[21,9,21,10,1],[22,13,22,70,1],[23,13,23,81,1],[24,13,24,53,1],[25,13,25,14,1],[26,17,26,77,1],[27,17,27,51,1],[28,17,28,52,1],[31,13,31,59,1],[32,9,32,10,1],[36,67,36,89,1]]);
     </script>
   </body>
 </html>

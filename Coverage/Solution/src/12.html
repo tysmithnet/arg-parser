@@ -2,31 +2,25 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>C:\projects\arg-parser\ArgParser\ArgParser.Core\Help\CodeNode.cs</title>
+    <title>C:\projects\arg-parser\ArgParser\ArgParser.Styles\Context.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
-namespace ArgParser.Core.Help
-{
-    public class CodeNode : TextNode
-    {
-            
-        public CodeNode(string text) : base(text)
-        {
-        }
+using ArgParser.Core;
 
-            
-        public override void Accept(IHelpNodeVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
+namespace ArgParser.Styles
+{
+    public class Context : IContext
+    {
+        public IHierarchyRepository HierarchyRepository { get; protected internal set; } = new HierarchyRepository();
+        public IParserRepository ParserRepository { get; protected internal set; } = new ParserRepository();
     }
 }
     </pre>
     <script type="text/javascript">
-      highlightRanges([[6,40,6,50,1],[7,9,7,10,1],[8,9,8,10,1],[12,9,12,10,1],[13,13,13,33,1],[14,9,14,10,1]]);
+      highlightRanges([[7,92,7,117,1],[8,86,8,108,1]]);
     </script>
   </body>
 </html>
