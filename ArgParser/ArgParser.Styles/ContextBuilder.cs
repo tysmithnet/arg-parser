@@ -62,10 +62,8 @@ namespace ArgParser.Styles
 
         protected virtual void OnParseStrategyCreated(ParseStrategy parseStrategy)
         {
-            ParseStrategyCreated?.Invoke(this, new ParseStrategyCreatedEventArgs
-            {
-                ParseStrategy = parseStrategy.ThrowIfArgumentNull(nameof(parseStrategy))
-            });
+            ParseStrategyCreated?.Invoke(this,
+                new ParseStrategyCreatedEventArgs(parseStrategy.ThrowIfArgumentNull(nameof(parseStrategy))));
         }
 
         public Context Context { get; protected internal set; }

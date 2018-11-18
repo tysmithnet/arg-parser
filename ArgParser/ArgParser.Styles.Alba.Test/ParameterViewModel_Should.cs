@@ -14,11 +14,7 @@ namespace ArgParser.Styles.Alba.Test
             {
                 IsRequired = true
             };
-            var vm = new ParameterViewModel
-            {
-                Parameter = param,
-                Theme = Theme.Default
-            };
+            var vm = new ParameterViewModel(param, Theme.Default);
 
             // act
             // assert
@@ -33,11 +29,7 @@ namespace ArgParser.Styles.Alba.Test
             {
                 IsRequired = false
             };
-            var vm = new ParameterViewModel
-            {
-                Parameter = param,
-                Theme = Theme.Default
-            };
+            var vm = new ParameterViewModel(param, Theme.Default);
 
             // act
             // assert

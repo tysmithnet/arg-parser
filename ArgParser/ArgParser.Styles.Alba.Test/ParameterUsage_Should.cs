@@ -17,11 +17,7 @@ namespace ArgParser.Styles.Alba.Test
             var builder = DefaultBuilder.CreateDefaultBuilder();
             var parameter = new SingleValueSwitch(builder.Context.ParserRepository.Get("util"), 'v', "value",
                 (o, s) => { });
-            var vm = new ParameterViewModel
-            {
-                Parameter = parameter,
-                Theme = Theme.Default
-            };
+            var vm = new ParameterViewModel(parameter, Theme.Default);
             var usage = new ParameterUsage
             {
                 ViewModel = vm
@@ -44,11 +40,7 @@ namespace ArgParser.Styles.Alba.Test
             var parameter = new SingleValueSwitch(builder.Context.ParserRepository.Get("util"), null, "value",
                 (o, s) => { });
             parameter.Help.ValueAlias = "val";
-            var vm = new ParameterViewModel
-            {
-                Parameter = parameter,
-                Theme = Theme.Default
-            };
+            var vm = new ParameterViewModel(parameter, Theme.Default);
             var usage = new ParameterUsage
             {
                 ViewModel = vm
@@ -71,11 +63,7 @@ namespace ArgParser.Styles.Alba.Test
             var parameter = new SingleValueSwitch(builder.Context.ParserRepository.Get("util"), 'v', null,
                 (o, s) => { });
             parameter.Help.ValueAlias = "val";
-            var vm = new ParameterViewModel
-            {
-                Parameter = parameter,
-                Theme = Theme.Default
-            };
+            var vm = new ParameterViewModel(parameter, Theme.Default);
             var usage = new ParameterUsage
             {
                 ViewModel = vm
@@ -97,11 +85,7 @@ namespace ArgParser.Styles.Alba.Test
             var builder = DefaultBuilder.CreateDefaultBuilder();
             var parameter = new Positional(builder.Context.ParserRepository.Get("util"), (o, strings) => { });
             parameter.Help.ValueAlias = "val";
-            var vm = new ParameterViewModel
-            {
-                Parameter = parameter,
-                Theme = Theme.Default
-            };
+            var vm = new ParameterViewModel(parameter, Theme.Default);
             var usage = new ParameterUsage
             {
                 ViewModel = vm
@@ -123,11 +107,7 @@ namespace ArgParser.Styles.Alba.Test
             var builder = DefaultBuilder.CreateDefaultBuilder();
             var parameter = new BooleanSwitch(builder.Context.ParserRepository.Get("util"), 'v', "value", o => { });
             parameter.Help.ValueAlias = "val";
-            var vm = new ParameterViewModel
-            {
-                Parameter = parameter,
-                Theme = Theme.Default
-            };
+            var vm = new ParameterViewModel(parameter, Theme.Default);
             var usage = new ParameterUsage
             {
                 ViewModel = vm
@@ -147,11 +127,7 @@ namespace ArgParser.Styles.Alba.Test
             var builder = DefaultBuilder.CreateDefaultBuilder();
             var parameter = new Positional(builder.Context.ParserRepository.Get("util"), (o, strings) => { }, 1, 1);
             parameter.Help.ValueAlias = "val";
-            var vm = new ParameterViewModel
-            {
-                Parameter = parameter,
-                Theme = Theme.Default
-            };
+            var vm = new ParameterViewModel(parameter, Theme.Default);
             var usage = new ParameterUsage
             {
                 ViewModel = vm
@@ -174,11 +150,7 @@ namespace ArgParser.Styles.Alba.Test
             var parameter = new ValuesSwitch(builder.Context.ParserRepository.Get("util"), 'v', "value",
                 (o, strings) => { }, 1, 3);
             parameter.Help.ValueAlias = "val";
-            var vm = new ParameterViewModel
-            {
-                Parameter = parameter,
-                Theme = Theme.Default
-            };
+            var vm = new ParameterViewModel(parameter, Theme.Default);
             var usage = new ParameterUsage
             {
                 ViewModel = vm
