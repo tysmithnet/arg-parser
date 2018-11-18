@@ -1,33 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Root CoveredStatements="1219" TotalStatements="1283" CoveragePercent="95" ReportType="NDependXML" DotCoverVersion="2017.3.5">
   <Assembly Name="ArgParser.Core" CoveredStatements="282" TotalStatements="293" CoveragePercent="96">
-    <Namespace Name="ArgParser.Core" CoveredStatements="262" TotalStatements="264" CoveragePercent="99">
-      <Type Name="BasicExtensions" CoveredStatements="34" TotalStatements="34" CoveragePercent="100">
-        <Type Name="&lt;&gt;c" CoveredStatements="1" TotalStatements="1" CoveragePercent="100">
-          <Method Name="&lt;JoinNonNullOrWhiteSpace&gt;b__3_0(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="19" />
-        </Type>
-        <Type Name="&lt;&gt;c__DisplayClass7_0&lt;T&gt;" CoveredStatements="5" TotalStatements="5" CoveragePercent="100">
-          <Method Name="&lt;ToNonGenericAction&gt;b__0(Object,String[])" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="38" />
-        </Type>
-        <Type Name="&lt;&gt;c__DisplayClass8_0&lt;T&gt;" CoveredStatements="6" TotalStatements="6" CoveragePercent="100">
-          <Method Name="&lt;ToNonGenericAction&gt;b__0(Object)" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" FirstStatementLine="52" />
-        </Type>
-        <Method Name="IsNotNullOrWhiteSpace(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="10" />
-        <Method Name="IsNullOrWhiteSpace(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="12" />
-        <Method Name="Join(IEnumerable&lt;String&gt;,String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="15" />
-        <Method Name="JoinNonNullOrWhiteSpace(IEnumerable&lt;String&gt;,String)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="18" />
-        <Method Name="PreventNull&lt;T&gt;(IEnumerable&lt;T&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="22" />
-        <Method Name="ThrowIfArgumentNull&lt;T&gt;(T,String,String)" CoveredStatements="7" TotalStatements="7" CoveragePercent="100" FirstStatementLine="25" />
-        <Method Name="ToEnumerableOfOne&lt;T&gt;(T)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="33" />
-        <Method Name="ToNonGenericAction&lt;T&gt;(Action&lt;T,String[]&gt;)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="36" />
-        <Method Name="ToNonGenericAction&lt;T&gt;(Action&lt;T&gt;)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="48" />
-      </Type>
+    <Namespace Name="ArgParser.Core" CoveredStatements="228" TotalStatements="230" CoveragePercent="99">
       <Type Name="ConsumptionRequest" CoveredStatements="9" TotalStatements="9" CoveragePercent="100">
-        <Method Name=".ctor(IterationInfo,Int32)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="7" />
-        <Method Name="get_Info()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="13" />
-        <Method Name="get_Max()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="14" />
-        <Method Name="set_Info(IterationInfo)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="13" />
-        <Method Name="set_Max(Int32)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="14" />
+        <Method Name=".ctor(IterationInfo,Int32)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="8" />
+        <Method Name="get_Info()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="14" />
+        <Method Name="get_Max()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="15" />
+        <Method Name="set_Info(IterationInfo)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="14" />
+        <Method Name="set_Max(Int32)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="15" />
       </Type>
       <Type Name="ConsumptionRequestExtensions" CoveredStatements="20" TotalStatements="20" CoveragePercent="100">
         <Method Name="AllToBeConsumed(ConsumptionRequest)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="10" />
@@ -38,48 +18,48 @@
         <Method Name="Rest(ConsumptionRequest)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="40" />
       </Type>
       <Type Name="ConsumptionResult" CoveredStatements="24" TotalStatements="24" CoveragePercent="100">
-        <Method Name=".ctor(IterationInfo,Int32,Parameter)" CoveredStatements="7" TotalStatements="7" CoveragePercent="100" FirstStatementLine="24" />
-        <Method Name=".ctor(ParseException[])" CoveredStatements="9" TotalStatements="9" CoveragePercent="100" FirstStatementLine="24" />
-        <Method Name="get_ConsumingParameter()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="21" />
-        <Method Name="get_Info()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="22" />
-        <Method Name="get_NumConsumed()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="23" />
-        <Method Name="get_ParseExceptions()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="24" />
-        <Method Name="set_ConsumingParameter(Parameter)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="21" />
-        <Method Name="set_Info(IterationInfo)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="22" />
-        <Method Name="set_NumConsumed(Int32)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="23" />
-        <Method Name="set_ParseExceptions(IList&lt;ParseException&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="24" />
+        <Method Name=".ctor(IterationInfo,Int32,Parameter)" CoveredStatements="7" TotalStatements="7" CoveragePercent="100" FirstStatementLine="25" />
+        <Method Name=".ctor(ParseException[])" CoveredStatements="9" TotalStatements="9" CoveragePercent="100" FirstStatementLine="25" />
+        <Method Name="get_ConsumingParameter()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="22" />
+        <Method Name="get_Info()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="23" />
+        <Method Name="get_NumConsumed()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="24" />
+        <Method Name="get_ParseExceptions()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="25" />
+        <Method Name="set_ConsumingParameter(Parameter)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="22" />
+        <Method Name="set_Info(IterationInfo)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="23" />
+        <Method Name="set_NumConsumed(Int32)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="24" />
+        <Method Name="set_ParseExceptions(IList&lt;ParseException&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="25" />
       </Type>
       <Type Name="ContextExtensions" CoveredStatements="5" TotalStatements="5" CoveragePercent="100">
         <Type Name="&lt;&gt;c__DisplayClass0_0" CoveredStatements="1" TotalStatements="1" CoveragePercent="100">
-          <Method Name="&lt;PathToRoot&gt;b__0(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="11" />
+          <Method Name="&lt;PathToRoot&gt;b__0(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="12" />
         </Type>
-        <Method Name="PathToRoot(IContext,String)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="9" />
+        <Method Name="PathToRoot(IContext,String)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="10" />
       </Type>
       <Type Name="ForwardProgressException" CoveredStatements="3" TotalStatements="3" CoveragePercent="100">
         <Method Name=".ctor(String)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="5" />
       </Type>
       <Type Name="IterationInfo" CoveredStatements="58" TotalStatements="58" CoveragePercent="100">
         <Type Name="&lt;&gt;c" CoveredStatements="1" TotalStatements="1" CoveragePercent="100">
-          <Method Name="&lt;GetHashCode&gt;b__6_0(Int32,String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="54" />
+          <Method Name="&lt;GetHashCode&gt;b__6_0(Int32,String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="55" />
         </Type>
-        <Method Name=".ctor(String[],Int32)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="9" />
-        <Method Name="CompareTo(IterationInfo)" CoveredStatements="9" TotalStatements="9" CoveragePercent="100" FirstStatementLine="16" />
-        <Method Name="CompareTo(Object)" CoveredStatements="9" TotalStatements="9" CoveragePercent="100" FirstStatementLine="25" />
-        <Method Name="Consume(Int32)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="32" />
-        <Method Name="Equals(IterationInfo)" CoveredStatements="7" TotalStatements="7" CoveragePercent="100" FirstStatementLine="35" />
-        <Method Name="Equals(Object)" CoveredStatements="9" TotalStatements="9" CoveragePercent="100" FirstStatementLine="42" />
-        <Method Name="get_Args()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="75" />
-        <Method Name="get_Current()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="77" />
-        <Method Name="get_Index()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="79" />
-        <Method Name="GetHashCode()" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" FirstStatementLine="50" />
-        <Method Name="op_Equality(IterationInfo,IterationInfo)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="59" />
-        <Method Name="op_GreaterThan(IterationInfo,IterationInfo)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="62" />
-        <Method Name="op_GreaterThanOrEqual(IterationInfo,IterationInfo)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="65" />
-        <Method Name="op_Inequality(IterationInfo,IterationInfo)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="67" />
-        <Method Name="op_LessThan(IterationInfo,IterationInfo)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="70" />
-        <Method Name="op_LessThanOrEqual(IterationInfo,IterationInfo)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="73" />
-        <Method Name="set_Args(String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="75" />
-        <Method Name="set_Index(Int32)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="79" />
+        <Method Name=".ctor(String[],Int32)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="10" />
+        <Method Name="CompareTo(IterationInfo)" CoveredStatements="9" TotalStatements="9" CoveragePercent="100" FirstStatementLine="17" />
+        <Method Name="CompareTo(Object)" CoveredStatements="9" TotalStatements="9" CoveragePercent="100" FirstStatementLine="26" />
+        <Method Name="Consume(Int32)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="33" />
+        <Method Name="Equals(IterationInfo)" CoveredStatements="7" TotalStatements="7" CoveragePercent="100" FirstStatementLine="36" />
+        <Method Name="Equals(Object)" CoveredStatements="9" TotalStatements="9" CoveragePercent="100" FirstStatementLine="43" />
+        <Method Name="get_Args()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="76" />
+        <Method Name="get_Current()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="78" />
+        <Method Name="get_Index()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="80" />
+        <Method Name="GetHashCode()" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" FirstStatementLine="51" />
+        <Method Name="op_Equality(IterationInfo,IterationInfo)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="60" />
+        <Method Name="op_GreaterThan(IterationInfo,IterationInfo)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="63" />
+        <Method Name="op_GreaterThanOrEqual(IterationInfo,IterationInfo)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="66" />
+        <Method Name="op_Inequality(IterationInfo,IterationInfo)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="68" />
+        <Method Name="op_LessThan(IterationInfo,IterationInfo)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="71" />
+        <Method Name="op_LessThanOrEqual(IterationInfo,IterationInfo)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="74" />
+        <Method Name="set_Args(String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="76" />
+        <Method Name="set_Index(Int32)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="80" />
       </Type>
       <Type Name="IterationInfoExtensions" CoveredStatements="15" TotalStatements="15" CoveragePercent="100">
         <Method Name="First(IterationInfo)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="10" />
@@ -91,30 +71,30 @@
         <Method Name="Rest(IterationInfo)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="31" />
       </Type>
       <Type Name="MissingValueException" CoveredStatements="5" TotalStatements="6" CoveragePercent="83">
-        <Method Name=".ctor(Parameter,String)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="5" />
-        <Method Name="get_Parameter()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="10" />
-        <Method Name="set_Parameter(Parameter)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="10" />
+        <Method Name=".ctor(Parameter,String)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="7" />
+        <Method Name="get_Parameter()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="12" />
+        <Method Name="set_Parameter(Parameter)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="12" />
       </Type>
       <Type Name="NoFactoryFunctionException" CoveredStatements="3" TotalStatements="3" CoveragePercent="100">
         <Method Name=".ctor(String)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="5" />
       </Type>
       <Type Name="Parameter" CoveredStatements="41" TotalStatements="41" CoveragePercent="100">
-        <Method Name=".ctor()" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" FirstStatementLine="47" />
-        <Method Name=".ctor(Parser,Action&lt;Object,String[]&gt;)" CoveredStatements="8" TotalStatements="8" CoveragePercent="100" FirstStatementLine="47" />
-        <Method Name="Consume(Object,ConsumptionRequest)" CoveredStatements="12" TotalStatements="12" CoveragePercent="100" FirstStatementLine="22" />
-        <Method Name="get_ConsumeCallback()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="44" />
-        <Method Name="get_HasBeenConsumed()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="45" />
-        <Method Name="get_Help()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="47" />
-        <Method Name="get_MaxAllowed()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="48" />
-        <Method Name="get_MinRequired()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="49" />
-        <Method Name="get_Parser()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="50" />
-        <Method Name="Reset()" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="40" />
-        <Method Name="set_ConsumeCallback(Action&lt;Object,String[]&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="44" />
-        <Method Name="set_HasBeenConsumed(Boolean)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="45" />
-        <Method Name="set_Help(ParameterHelp)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="47" />
-        <Method Name="set_MaxAllowed(Int32)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="48" />
-        <Method Name="set_MinRequired(Int32)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="49" />
-        <Method Name="set_Parser(Parser)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="50" />
+        <Method Name=".ctor()" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" FirstStatementLine="48" />
+        <Method Name=".ctor(Parser,Action&lt;Object,String[]&gt;)" CoveredStatements="8" TotalStatements="8" CoveragePercent="100" FirstStatementLine="48" />
+        <Method Name="Consume(Object,ConsumptionRequest)" CoveredStatements="12" TotalStatements="12" CoveragePercent="100" FirstStatementLine="23" />
+        <Method Name="get_ConsumeCallback()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="45" />
+        <Method Name="get_HasBeenConsumed()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="46" />
+        <Method Name="get_Help()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="48" />
+        <Method Name="get_MaxAllowed()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="49" />
+        <Method Name="get_MinRequired()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="50" />
+        <Method Name="get_Parser()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="51" />
+        <Method Name="Reset()" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="41" />
+        <Method Name="set_ConsumeCallback(Action&lt;Object,String[]&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="45" />
+        <Method Name="set_HasBeenConsumed(Boolean)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="46" />
+        <Method Name="set_Help(ParameterHelp)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="48" />
+        <Method Name="set_MaxAllowed(Int32)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="49" />
+        <Method Name="set_MinRequired(Int32)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="50" />
+        <Method Name="set_Parser(Parser)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="51" />
       </Type>
       <Type Name="ParseException" CoveredStatements="3" TotalStatements="3" CoveragePercent="100">
         <Method Name=".ctor(String)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="7" />
@@ -151,6 +131,28 @@
         <Method Name=".ctor(String)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="5" />
       </Type>
     </Namespace>
+    <Namespace Name="ArgParser.Core.Extensions" CoveredStatements="34" TotalStatements="34" CoveragePercent="100">
+      <Type Name="BasicExtensions" CoveredStatements="34" TotalStatements="34" CoveragePercent="100">
+        <Type Name="&lt;&gt;c" CoveredStatements="1" TotalStatements="1" CoveragePercent="100">
+          <Method Name="&lt;JoinNonNullOrWhiteSpace&gt;b__3_0(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="18" />
+        </Type>
+        <Type Name="&lt;&gt;c__DisplayClass7_0&lt;T&gt;" CoveredStatements="5" TotalStatements="5" CoveragePercent="100">
+          <Method Name="&lt;ToNonGenericAction&gt;b__0(Object,String[])" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="37" />
+        </Type>
+        <Type Name="&lt;&gt;c__DisplayClass8_0&lt;T&gt;" CoveredStatements="6" TotalStatements="6" CoveragePercent="100">
+          <Method Name="&lt;ToNonGenericAction&gt;b__0(Object)" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" FirstStatementLine="51" />
+        </Type>
+        <Method Name="IsNotNullOrWhiteSpace(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="9" />
+        <Method Name="IsNullOrWhiteSpace(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="11" />
+        <Method Name="Join(IEnumerable&lt;String&gt;,String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="14" />
+        <Method Name="JoinNonNullOrWhiteSpace(IEnumerable&lt;String&gt;,String)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="17" />
+        <Method Name="PreventNull&lt;T&gt;(IEnumerable&lt;T&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="21" />
+        <Method Name="ThrowIfArgumentNull&lt;T&gt;(T,String,String)" CoveredStatements="7" TotalStatements="7" CoveragePercent="100" FirstStatementLine="24" />
+        <Method Name="ToEnumerableOfOne&lt;T&gt;(T)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="32" />
+        <Method Name="ToNonGenericAction&lt;T&gt;(Action&lt;T,String[]&gt;)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="35" />
+        <Method Name="ToNonGenericAction&lt;T&gt;(Action&lt;T&gt;)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="47" />
+      </Type>
+    </Namespace>
     <Namespace Name="ArgParser.Core.Help" CoveredStatements="20" TotalStatements="29" CoveragePercent="69">
       <Type Name="Example" CoveredStatements="2" TotalStatements="4" CoveragePercent="50">
         <Method Name="get_Result()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="5" />
@@ -159,12 +161,12 @@
         <Method Name="set_Usage(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="6" />
       </Type>
       <Type Name="FullHelp" CoveredStatements="9" TotalStatements="11" CoveragePercent="82">
-        <Method Name=".ctor()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="15" />
-        <Method Name="AddExample(Example)" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" FirstStatementLine="8" />
-        <Method Name="get_Examples()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="15" />
-        <Method Name="get_LongDescription()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="16" />
-        <Method Name="set_Examples(IList&lt;Example&gt;)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="15" />
-        <Method Name="set_LongDescription(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="16" />
+        <Method Name=".ctor()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="16" />
+        <Method Name="AddExample(Example)" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" FirstStatementLine="9" />
+        <Method Name="get_Examples()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="16" />
+        <Method Name="get_LongDescription()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="17" />
+        <Method Name="set_Examples(IList&lt;Example&gt;)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="16" />
+        <Method Name="set_LongDescription(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="17" />
       </Type>
       <Type Name="ParameterHelp" CoveredStatements="3" TotalStatements="4" CoveragePercent="75">
         <Method Name="get_DefaultValue()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="5" />
@@ -189,7 +191,7 @@
     </Namespace>
   </Assembly>
   <Assembly Name="ArgParser.Styles" CoveredStatements="697" TotalStatements="712" CoveragePercent="98">
-    <Namespace Name="ArgParser.Styles" CoveredStatements="459" TotalStatements="471" CoveragePercent="97">
+    <Namespace Name="ArgParser.Styles" CoveredStatements="697" TotalStatements="712" CoveragePercent="98">
       <Type Name="ArgsMutator" CoveredStatements="47" TotalStatements="47" CoveragePercent="100">
         <Type Name="&lt;&gt;c" CoveredStatements="5" TotalStatements="5" CoveragePercent="100">
           <Method Name="&lt;Mutate&gt;b__1_0(Parser)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="18" />
@@ -209,12 +211,46 @@
       </Type>
       <Type Name="BooleanSwitch" CoveredStatements="6" TotalStatements="6" CoveragePercent="100">
         <Type Name="&lt;&gt;c__DisplayClass0_0" CoveredStatements="1" TotalStatements="1" CoveragePercent="100">
-          <Method Name="&lt;.ctor&gt;b__0(Object,String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="10" />
+          <Method Name="&lt;.ctor&gt;b__0(Object,String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="11" />
         </Type>
-        <Method Name=".ctor(Parser,Nullable&lt;Char&gt;,String,Action&lt;Object&gt;)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="8" />
+        <Method Name=".ctor(Parser,Nullable&lt;Char&gt;,String,Action&lt;Object&gt;)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="9" />
       </Type>
       <Type Name="BooleanSwitch&lt;T&gt;" CoveredStatements="3" TotalStatements="3" CoveragePercent="100">
-        <Method Name=".ctor(Parser,Nullable&lt;Char&gt;,String,Action&lt;T&gt;)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="19" />
+        <Method Name=".ctor(Parser,Nullable&lt;Char&gt;,String,Action&lt;T&gt;)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="20" />
+      </Type>
+      <Type Name="ChainIdentificationRequest" CoveredStatements="9" TotalStatements="9" CoveragePercent="100">
+        <Method Name=".ctor(String[],IContext)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="11" />
+        <Method Name="get_Args()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="8" />
+        <Method Name="get_Context()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="9" />
+        <Method Name="set_Args(String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="8" />
+        <Method Name="set_Context(IContext)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="9" />
+      </Type>
+      <Type Name="ChainIdentificationResult" CoveredStatements="10" TotalStatements="10" CoveragePercent="100">
+        <Method Name=".ctor(IEnumerable&lt;Parser&gt;,String[])" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="14" />
+        <Method Name="get_Chain()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="10" />
+        <Method Name="get_ConsumedArgs()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="11" />
+        <Method Name="get_IdentifiedParser()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="12" />
+        <Method Name="set_Chain(IList&lt;Parser&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="10" />
+        <Method Name="set_ConsumedArgs(String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="11" />
+      </Type>
+      <Type Name="ConsumerSelectionStrategy" CoveredStatements="20" TotalStatements="20" CoveragePercent="100">
+        <Type Name="&lt;&gt;c" CoveredStatements="1" TotalStatements="1" CoveragePercent="100">
+          <Method Name="&lt;Select&gt;b__1_0(ConsumptionResult)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="17" />
+        </Type>
+        <Type Name="&lt;&gt;c__DisplayClass1_0" CoveredStatements="2" TotalStatements="2" CoveragePercent="100">
+          <Method Name="&lt;Select&gt;b__1(ConsumptionResult)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="19" />
+          <Method Name="&lt;Select&gt;b__2(ConsumptionResult)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="23" />
+        </Type>
+        <Method Name=".ctor(IContext)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="9" />
+        <Method Name="get_Context()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="30" />
+        <Method Name="Select(PotentialConsumerResult)" CoveredStatements="11" TotalStatements="11" CoveragePercent="100" FirstStatementLine="15" />
+        <Method Name="set_Context(IContext)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="30" />
+      </Type>
+      <Type Name="ConsumptionRequestFactory" CoveredStatements="22" TotalStatements="22" CoveragePercent="100">
+        <Method Name=".ctor(IContext)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="8" />
+        <Method Name="Create(PotentialConsumerResult,ConsumptionResult)" CoveredStatements="16" TotalStatements="16" CoveragePercent="100" FirstStatementLine="14" />
+        <Method Name="get_Context()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="29" />
+        <Method Name="set_Context(IContext)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="29" />
       </Type>
       <Type Name="Context" CoveredStatements="6" TotalStatements="6" CoveragePercent="100">
         <Method Name=".ctor()" CoveredStatements="2" TotalStatements="2" CoveragePercent="100" FirstStatementLine="7" />
@@ -224,121 +260,157 @@
         <Method Name="set_ParserRepository(IParserRepository)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="8" />
       </Type>
       <Type Name="ContextBuilder" CoveredStatements="48" TotalStatements="50" CoveragePercent="96">
-        <Method Name=".ctor(String)" CoveredStatements="7" TotalStatements="7" CoveragePercent="100" FirstStatementLine="72" />
-        <Method Name="AddParser(String,Action&lt;ParserHelpBuilder&gt;)" CoveredStatements="11" TotalStatements="11" CoveragePercent="100" FirstStatementLine="21" />
-        <Method Name="AddParser&lt;T&gt;(String,Action&lt;ParserHelpBuilder&gt;)" CoveredStatements="11" TotalStatements="11" CoveragePercent="100" FirstStatementLine="35" />
-        <Method Name="CreateParentChildRelationship(String,String)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="50" />
-        <Method Name="get_Context()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="71" />
-        <Method Name="get_HierarchyRepository()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="72" />
-        <Method Name="get_ParserRepository()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="73" />
-        <Method Name="get_RootParserId()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="74" />
-        <Method Name="OnParseStrategyCreated(ParseStrategy)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="64" />
-        <Method Name="Parse(String[])" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" FirstStatementLine="56" />
-        <Method Name="set_Context(Context)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="71" />
-        <Method Name="set_HierarchyRepository(HierarchyRepository)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="72" />
-        <Method Name="set_ParserRepository(ParserRepository)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="73" />
-        <Method Name="set_RootParserId(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="74" />
+        <Method Name=".ctor(String)" CoveredStatements="7" TotalStatements="7" CoveragePercent="100" FirstStatementLine="73" />
+        <Method Name="AddParser(String,Action&lt;ParserHelpBuilder&gt;)" CoveredStatements="11" TotalStatements="11" CoveragePercent="100" FirstStatementLine="22" />
+        <Method Name="AddParser&lt;T&gt;(String,Action&lt;ParserHelpBuilder&gt;)" CoveredStatements="11" TotalStatements="11" CoveragePercent="100" FirstStatementLine="36" />
+        <Method Name="CreateParentChildRelationship(String,String)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="51" />
+        <Method Name="get_Context()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="72" />
+        <Method Name="get_HierarchyRepository()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="73" />
+        <Method Name="get_ParserRepository()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="74" />
+        <Method Name="get_RootParserId()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="75" />
+        <Method Name="OnParseStrategyCreated(ParseStrategy)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="65" />
+        <Method Name="Parse(String[])" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" FirstStatementLine="57" />
+        <Method Name="set_Context(Context)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="72" />
+        <Method Name="set_HierarchyRepository(HierarchyRepository)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="73" />
+        <Method Name="set_ParserRepository(ParserRepository)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="74" />
+        <Method Name="set_RootParserId(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="75" />
       </Type>
-      <Type Name="HierarchyRepository" CoveredStatements="65" TotalStatements="67" CoveragePercent="97">
+      <Type Name="HierarchyNode" CoveredStatements="14" TotalStatements="15" CoveragePercent="93">
+        <Method Name=".ctor(String)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="20" />
+        <Method Name="Add(HierarchyNode)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="15" />
+        <Method Name="get_Children()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="20" />
+        <Method Name="get_Id()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="21" />
+        <Method Name="get_Parent()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="22" />
+        <Method Name="set_Children(IList&lt;HierarchyNode&gt;)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="20" />
+        <Method Name="set_Id(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="21" />
+        <Method Name="set_Parent(HierarchyNode)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="22" />
+      </Type>
+      <Type Name="HierarchyRepository" CoveredStatements="51" TotalStatements="52" CoveragePercent="98">
         <Type Name="&lt;&gt;c" CoveredStatements="2" TotalStatements="2" CoveragePercent="100">
-          <Method Name="&lt;GetChildren&gt;b__3_0(Node)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="53" />
-          <Method Name="&lt;GetRoot&gt;b__4_0(KeyValuePair&lt;String,Node&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="58" />
+          <Method Name="&lt;GetChildren&gt;b__3_0(HierarchyNode)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="54" />
+          <Method Name="&lt;GetRoot&gt;b__4_0(KeyValuePair&lt;String,HierarchyNode&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="59" />
         </Type>
         <Type Name="&lt;&gt;c__DisplayClass1_0" CoveredStatements="1" TotalStatements="1" CoveragePercent="100">
-          <Method Name="&lt;EstablishParentChildRelationship&gt;b__0(Node)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="27" />
+          <Method Name="&lt;EstablishParentChildRelationship&gt;b__0(HierarchyNode)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="28" />
         </Type>
-        <Type Name="Node" CoveredStatements="14" TotalStatements="15" CoveragePercent="93">
-          <Method Name=".ctor(String)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="87" />
-          <Method Name="Add(Node)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="82" />
-          <Method Name="get_Children()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="87" />
-          <Method Name="get_Id()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="88" />
-          <Method Name="get_Parent()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="89" />
-          <Method Name="set_Children(IList&lt;Node&gt;)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="87" />
-          <Method Name="set_Id(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="88" />
-          <Method Name="set_Parent(Node)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="89" />
-        </Type>
-        <Method Name=".ctor()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="72" />
-        <Method Name="AddParser(String)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="10" />
-        <Method Name="EstablishParentChildRelationship(String,String)" CoveredStatements="11" TotalStatements="11" CoveragePercent="100" FirstStatementLine="17" />
-        <Method Name="get_Nodes()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="72" />
-        <Method Name="GetAncestors(String)" CoveredStatements="13" TotalStatements="13" CoveragePercent="100" FirstStatementLine="32" />
-        <Method Name="GetChildren(String)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="49" />
-        <Method Name="GetRoot()" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="57" />
-        <Method Name="IsParent(String,String)" CoveredStatements="7" TotalStatements="7" CoveragePercent="100" FirstStatementLine="64" />
-        <Method Name="set_Nodes(Dictionary&lt;String,Node&gt;)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="72" />
+        <Method Name=".ctor()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="73" />
+        <Method Name="AddParser(String)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="11" />
+        <Method Name="EstablishParentChildRelationship(String,String)" CoveredStatements="11" TotalStatements="11" CoveragePercent="100" FirstStatementLine="18" />
+        <Method Name="get_Nodes()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="73" />
+        <Method Name="GetAncestors(String)" CoveredStatements="13" TotalStatements="13" CoveragePercent="100" FirstStatementLine="33" />
+        <Method Name="GetChildren(String)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="50" />
+        <Method Name="GetRoot()" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="58" />
+        <Method Name="IsParent(String,String)" CoveredStatements="7" TotalStatements="7" CoveragePercent="100" FirstStatementLine="65" />
+        <Method Name="set_Nodes(Dictionary&lt;String,HierarchyNode&gt;)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="73" />
+      </Type>
+      <Type Name="IterationInfoFactory" CoveredStatements="10" TotalStatements="10" CoveragePercent="100">
+        <Method Name=".ctor(IContext)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="8" />
+        <Method Name="Create(IterationInfoRequest)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="14" />
+        <Method Name="get_Context()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="20" />
+        <Method Name="set_Context(IContext)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="20" />
+      </Type>
+      <Type Name="IterationInfoRequest" CoveredStatements="11" TotalStatements="12" CoveragePercent="92">
+        <Method Name=".ctor(ChainIdentificationResult,String[],String[])" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" FirstStatementLine="11" />
+        <Method Name="get_ChainIdentificationResult()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="7" />
+        <Method Name="get_MutatedArgs()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="8" />
+        <Method Name="get_OriginalArgs()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="9" />
+        <Method Name="set_ChainIdentificationResult(ChainIdentificationResult)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="7" />
+        <Method Name="set_MutatedArgs(String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="8" />
+        <Method Name="set_OriginalArgs(String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="9" />
       </Type>
       <Type Name="MissingRequiredParameterException" CoveredStatements="12" TotalStatements="14" CoveragePercent="86">
-        <Method Name=".ctor(Parameter,Object)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="8" />
-        <Method Name="CreateExceptionMessage(Parameter)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="16" />
-        <Method Name="get_Instance()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="23" />
-        <Method Name="get_RequiredParameter()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="24" />
-        <Method Name="set_Instance(Object)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="23" />
-        <Method Name="set_RequiredParameter(Parameter)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="24" />
+        <Method Name=".ctor(Parameter,Object)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="9" />
+        <Method Name="CreateExceptionMessage(Parameter)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="17" />
+        <Method Name="get_Instance()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="24" />
+        <Method Name="get_RequiredParameter()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="25" />
+        <Method Name="set_Instance(Object)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="24" />
+        <Method Name="set_RequiredParameter(Parameter)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="25" />
+      </Type>
+      <Type Name="MutateArgsRequest" CoveredStatements="11" TotalStatements="12" CoveragePercent="92">
+        <Method Name=".ctor(String[],IEnumerable&lt;Parser&gt;,IContext)" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" FirstStatementLine="14" />
+        <Method Name="get_Args()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="10" />
+        <Method Name="get_Chain()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="11" />
+        <Method Name="get_Context()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="12" />
+        <Method Name="set_Args(String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="10" />
+        <Method Name="set_Chain(IList&lt;Parser&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="11" />
+        <Method Name="set_Context(IContext)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="12" />
       </Type>
       <Type Name="ParameterHelpBuilder" CoveredStatements="24" TotalStatements="26" CoveragePercent="92">
-        <Method Name=".ctor(Parameter)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="39" />
-        <Method Name="Build()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="13" />
-        <Method Name="get_Help()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="39" />
-        <Method Name="get_Parameter()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="40" />
-        <Method Name="set_Help(ParameterHelp)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="39" />
-        <Method Name="set_Parameter(Parameter)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="40" />
-        <Method Name="SetDefaultValue(String)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="16" />
-        <Method Name="SetName(String)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="22" />
-        <Method Name="SetShortDescription(String)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="28" />
-        <Method Name="SetValueAlias(String)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="34" />
+        <Method Name=".ctor(Parameter)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="40" />
+        <Method Name="Build()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="14" />
+        <Method Name="get_Help()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="40" />
+        <Method Name="get_Parameter()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="41" />
+        <Method Name="set_Help(ParameterHelp)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="40" />
+        <Method Name="set_Parameter(Parameter)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="41" />
+        <Method Name="SetDefaultValue(String)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="17" />
+        <Method Name="SetName(String)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="23" />
+        <Method Name="SetShortDescription(String)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="29" />
+        <Method Name="SetValueAlias(String)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="35" />
       </Type>
       <Type Name="ParserBuilder" CoveredStatements="48" TotalStatements="48" CoveragePercent="100">
         <Type Name="&lt;&gt;c__DisplayClass3_0" CoveredStatements="1" TotalStatements="1" CoveragePercent="100">
-          <Method Name="&lt;WithPositional&gt;b__0(Object,String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="35" />
+          <Method Name="&lt;WithPositional&gt;b__0(Object,String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="36" />
         </Type>
-        <Method Name=".ctor(ContextBuilder,Parser)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="9" />
-        <Method Name="AddParameterInternal(Parameter,Action&lt;ParameterHelpBuilder&gt;)" CoveredStatements="9" TotalStatements="9" CoveragePercent="100" FirstStatementLine="82" />
-        <Method Name="get_Finish()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="92" />
-        <Method Name="get_Parser()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="93" />
-        <Method Name="set_Finish(ContextBuilder)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="92" />
-        <Method Name="set_Parser(Parser)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="93" />
-        <Method Name="WithBooleanSwitch(Nullable&lt;Char&gt;,String,Action&lt;Object&gt;,Action&lt;ParameterHelpBuilder&gt;,Boolean)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="17" />
-        <Method Name="WithFactoryFunction(Func&lt;Object&gt;)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="27" />
-        <Method Name="WithPositional(Action&lt;Object,String&gt;,Action&lt;ParameterHelpBuilder&gt;,Boolean)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="34" />
-        <Method Name="WithPositionals(Action&lt;Object,String[]&gt;,Int32,Int32,Action&lt;ParameterHelpBuilder&gt;,Boolean)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="45" />
-        <Method Name="WithSingleValueSwitch(Nullable&lt;Char&gt;,String,Action&lt;Object,String&gt;,Action&lt;ParameterHelpBuilder&gt;,Boolean)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="56" />
-        <Method Name="WithValuesSwitch(Nullable&lt;Char&gt;,String,Action&lt;Object,String[]&gt;,Int32,Int32,Action&lt;ParameterHelpBuilder&gt;,Boolean)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="70" />
+        <Method Name=".ctor(ContextBuilder,Parser)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="10" />
+        <Method Name="AddParameterInternal(Parameter,Action&lt;ParameterHelpBuilder&gt;)" CoveredStatements="9" TotalStatements="9" CoveragePercent="100" FirstStatementLine="83" />
+        <Method Name="get_Finish()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="93" />
+        <Method Name="get_Parser()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="94" />
+        <Method Name="set_Finish(ContextBuilder)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="93" />
+        <Method Name="set_Parser(Parser)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="94" />
+        <Method Name="WithBooleanSwitch(Nullable&lt;Char&gt;,String,Action&lt;Object&gt;,Action&lt;ParameterHelpBuilder&gt;,Boolean)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="18" />
+        <Method Name="WithFactoryFunction(Func&lt;Object&gt;)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="28" />
+        <Method Name="WithPositional(Action&lt;Object,String&gt;,Action&lt;ParameterHelpBuilder&gt;,Boolean)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="35" />
+        <Method Name="WithPositionals(Action&lt;Object,String[]&gt;,Int32,Int32,Action&lt;ParameterHelpBuilder&gt;,Boolean)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="46" />
+        <Method Name="WithSingleValueSwitch(Nullable&lt;Char&gt;,String,Action&lt;Object,String&gt;,Action&lt;ParameterHelpBuilder&gt;,Boolean)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="57" />
+        <Method Name="WithValuesSwitch(Nullable&lt;Char&gt;,String,Action&lt;Object,String[]&gt;,Int32,Int32,Action&lt;ParameterHelpBuilder&gt;,Boolean)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="71" />
       </Type>
       <Type Name="ParserBuilder&lt;T&gt;" CoveredStatements="37" TotalStatements="37" CoveragePercent="100">
         <Type Name="&lt;&gt;c__DisplayClass3_0" CoveredStatements="1" TotalStatements="1" CoveragePercent="100">
-          <Method Name="&lt;WithPositional&gt;b__0(T,String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="124" />
+          <Method Name="&lt;WithPositional&gt;b__0(T,String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="125" />
         </Type>
-        <Method Name=".ctor(ContextBuilder,Parser&lt;T&gt;)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="98" />
-        <Method Name="get_Parser()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="168" />
-        <Method Name="set_Parser(Parser&lt;T&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="169" />
-        <Method Name="WithBooleanSwitch(Nullable&lt;Char&gt;,String,Action&lt;T&gt;,Action&lt;ParameterHelpBuilder&gt;,Boolean)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="106" />
-        <Method Name="WithFactoryFunction(Func&lt;T&gt;)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="116" />
-        <Method Name="WithPositional(Action&lt;T,String&gt;,Action&lt;ParameterHelpBuilder&gt;,Boolean)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="123" />
-        <Method Name="WithPositionals(Action&lt;T,String[]&gt;,Int32,Int32,Action&lt;ParameterHelpBuilder&gt;,Boolean)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="134" />
-        <Method Name="WithSingleValueSwitch(Nullable&lt;Char&gt;,String,Action&lt;T,String&gt;,Action&lt;ParameterHelpBuilder&gt;,Boolean)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="145" />
-        <Method Name="WithValuesSwitch(Nullable&lt;Char&gt;,String,Action&lt;T,String[]&gt;,Int32,Int32,Action&lt;ParameterHelpBuilder&gt;,Boolean)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="157" />
+        <Method Name=".ctor(ContextBuilder,Parser&lt;T&gt;)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="99" />
+        <Method Name="get_Parser()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="169" />
+        <Method Name="set_Parser(Parser&lt;T&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="170" />
+        <Method Name="WithBooleanSwitch(Nullable&lt;Char&gt;,String,Action&lt;T&gt;,Action&lt;ParameterHelpBuilder&gt;,Boolean)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="107" />
+        <Method Name="WithFactoryFunction(Func&lt;T&gt;)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="117" />
+        <Method Name="WithPositional(Action&lt;T,String&gt;,Action&lt;ParameterHelpBuilder&gt;,Boolean)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="124" />
+        <Method Name="WithPositionals(Action&lt;T,String[]&gt;,Int32,Int32,Action&lt;ParameterHelpBuilder&gt;,Boolean)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="135" />
+        <Method Name="WithSingleValueSwitch(Nullable&lt;Char&gt;,String,Action&lt;T,String&gt;,Action&lt;ParameterHelpBuilder&gt;,Boolean)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="146" />
+        <Method Name="WithValuesSwitch(Nullable&lt;Char&gt;,String,Action&lt;T,String[]&gt;,Int32,Int32,Action&lt;ParameterHelpBuilder&gt;,Boolean)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="158" />
+      </Type>
+      <Type Name="ParserChainIdentificationStrategy" CoveredStatements="23" TotalStatements="23" CoveragePercent="100">
+        <Method Name=".ctor(IContext)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="10" />
+        <Method Name="get_Context()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="36" />
+        <Method Name="Identify(ChainIdentificationRequest)" CoveredStatements="17" TotalStatements="17" CoveragePercent="100" FirstStatementLine="16" />
+        <Method Name="set_Context(IContext)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="36" />
       </Type>
       <Type Name="ParseResult" CoveredStatements="21" TotalStatements="21" CoveragePercent="100">
-        <Method Name=".ctor(Dictionary&lt;Object,Parser&gt;,IEnumerable&lt;ParseException&gt;)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="10" />
-        <Method Name="get_ParseExceptions()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="29" />
-        <Method Name="get_Results()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="31" />
-        <Method Name="set_ParseExceptions(IList&lt;ParseException&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="29" />
-        <Method Name="set_Results(Dictionary&lt;Object,Parser&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="31" />
-        <Method Name="When&lt;T&gt;(Action&lt;T,Parser&gt;)" CoveredStatements="8" TotalStatements="8" CoveragePercent="100" FirstStatementLine="17" />
-        <Method Name="WhenError(Action&lt;IEnumerable&lt;ParseException&gt;&gt;)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="24" />
+        <Method Name=".ctor(Dictionary&lt;Object,Parser&gt;,IEnumerable&lt;ParseException&gt;)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="11" />
+        <Method Name="get_ParseExceptions()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="30" />
+        <Method Name="get_Results()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="32" />
+        <Method Name="set_ParseExceptions(IList&lt;ParseException&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="30" />
+        <Method Name="set_Results(Dictionary&lt;Object,Parser&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="32" />
+        <Method Name="When&lt;T&gt;(Action&lt;T,Parser&gt;)" CoveredStatements="8" TotalStatements="8" CoveragePercent="100" FirstStatementLine="18" />
+        <Method Name="WhenError(Action&lt;IEnumerable&lt;ParseException&gt;&gt;)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="25" />
+      </Type>
+      <Type Name="ParseResultFactory" CoveredStatements="7" TotalStatements="7" CoveragePercent="100">
+        <Method Name=".ctor(IContext)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="9" />
+        <Method Name="Create(Dictionary&lt;Object,Parser&gt;,IEnumerable&lt;ParseException&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="15" />
+        <Method Name="get_Context()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="17" />
+        <Method Name="set_Context(IContext)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="17" />
       </Type>
       <Type Name="ParserHelpBuilder" CoveredStatements="28" TotalStatements="30" CoveragePercent="93">
-        <Method Name=".ctor(Parser)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="51" />
-        <Method Name="AddExample(String,String,String,String)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="14" />
-        <Method Name="Build()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="25" />
-        <Method Name="get_Help()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="51" />
-        <Method Name="get_Parser()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="52" />
-        <Method Name="set_Help(ParserHelp)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="51" />
-        <Method Name="set_Parser(Parser)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="52" />
-        <Method Name="SetLongDescription(String)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="28" />
-        <Method Name="SetName(String)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="34" />
-        <Method Name="SetShortDescription(String)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="40" />
-        <Method Name="SetVersion(String)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="46" />
+        <Method Name=".ctor(Parser)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="52" />
+        <Method Name="AddExample(String,String,String,String)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="15" />
+        <Method Name="Build()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="26" />
+        <Method Name="get_Help()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="52" />
+        <Method Name="get_Parser()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="53" />
+        <Method Name="set_Help(ParserHelp)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="52" />
+        <Method Name="set_Parser(Parser)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="53" />
+        <Method Name="SetLongDescription(String)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="29" />
+        <Method Name="SetName(String)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="35" />
+        <Method Name="SetShortDescription(String)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="41" />
+        <Method Name="SetVersion(String)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="47" />
       </Type>
       <Type Name="ParserRepository" CoveredStatements="32" TotalStatements="33" CoveragePercent="97">
         <Method Name=".ctor()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="49" />
@@ -351,6 +423,32 @@
         <Method Name="GetAll()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="45" />
         <Method Name="set_FirstAdded(Parser)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="47" />
         <Method Name="set_Parsers(Dictionary&lt;String,Parser&gt;)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="49" />
+      </Type>
+      <Type Name="ParseStrategy" CoveredStatements="77" TotalStatements="78" CoveragePercent="99">
+        <Type Name="&lt;&gt;c" CoveredStatements="1" TotalStatements="1" CoveragePercent="100">
+          <Method Name="&lt;Parse&gt;b__2_0(Parser)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="56" />
+        </Type>
+        <Method Name=".ctor(IContext,String)" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" FirstStatementLine="10" />
+        <Method Name="get_ArgsMutator()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="86" />
+        <Method Name="get_ChainIdentificationStrategy()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="87" />
+        <Method Name="get_ConsumerSelectionStrategy()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="88" />
+        <Method Name="get_ConsumptionRequestFactory()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="89" />
+        <Method Name="get_Context()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="93" />
+        <Method Name="get_IterationInfoFactory()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="97" />
+        <Method Name="get_ParseResultFactory()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="98" />
+        <Method Name="get_PotentialConsumerStrategy()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="99" />
+        <Method Name="get_RootParserId()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="100" />
+        <Method Name="Parse(String[],IContext)" CoveredStatements="29" TotalStatements="29" CoveragePercent="100" FirstStatementLine="20" />
+        <Method Name="set_ArgsMutator(IArgsMutator)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="86" />
+        <Method Name="set_ChainIdentificationStrategy(IParserChainIdentificationStrategy)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="87" />
+        <Method Name="set_ConsumerSelectionStrategy(IConsumerSelectionStrategy)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="88" />
+        <Method Name="set_ConsumptionRequestFactory(IConsumptionRequestFactory)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="89" />
+        <Method Name="set_Context(IContext)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="94" />
+        <Method Name="set_IterationInfoFactory(IIterationInfoFactory)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="97" />
+        <Method Name="set_ParseResultFactory(IParseResultFactory)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="98" />
+        <Method Name="set_PotentialConsumerStrategy(IPotentialConsumerStrategy)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="99" />
+        <Method Name="set_RootParserId(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="100" />
+        <Method Name="SetContext(IContext)" CoveredStatements="24" TotalStatements="24" CoveragePercent="100" FirstStatementLine="61" />
       </Type>
       <Type Name="ParseStrategyCreatedEventArgs" CoveredStatements="2" TotalStatements="2" CoveragePercent="100">
         <Method Name="get_ParseStrategy()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="7" />
@@ -368,6 +466,40 @@
         </Type>
         <Method Name=".ctor(Parser,Action&lt;T,String[]&gt;,Int32,Int32)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="31" />
         <Method Name="Convert(Action&lt;T,String[]&gt;)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" FirstStatementLine="37" />
+      </Type>
+      <Type Name="PotentialConsumerRequest" CoveredStatements="12" TotalStatements="12" CoveragePercent="100">
+        <Method Name=".ctor(ChainIdentificationResult,IterationInfo,Object)" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" FirstStatementLine="12" />
+        <Method Name="get_ChainIdentificationResult()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="8" />
+        <Method Name="get_Info()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="9" />
+        <Method Name="get_Instance()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="10" />
+        <Method Name="set_ChainIdentificationResult(ChainIdentificationResult)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="8" />
+        <Method Name="set_Info(IterationInfo)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="9" />
+        <Method Name="set_Instance(Object)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="10" />
+      </Type>
+      <Type Name="PotentialConsumerResult" CoveredStatements="14" TotalStatements="14" CoveragePercent="100">
+        <Type Name="&lt;&gt;c" CoveredStatements="1" TotalStatements="1" CoveragePercent="100">
+          <Method Name="&lt;get_Success&gt;b__13_0(ConsumptionResult)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="13" />
+        </Type>
+        <Method Name=".ctor(IEnumerable&lt;Parser&gt;,IEnumerable&lt;ConsumptionResult&gt;,IterationInfo)" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" FirstStatementLine="15" />
+        <Method Name="get_Chain()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="10" />
+        <Method Name="get_ConsumptionResults()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="11" />
+        <Method Name="get_Info()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="12" />
+        <Method Name="get_Success()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="13" />
+        <Method Name="set_Chain(IList&lt;Parser&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="10" />
+        <Method Name="set_ConsumptionResults(IList&lt;ConsumptionResult&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="11" />
+        <Method Name="set_Info(IterationInfo)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="12" />
+      </Type>
+      <Type Name="PotentialConsumerStrategy" CoveredStatements="12" TotalStatements="12" CoveragePercent="100">
+        <Type Name="&lt;&gt;c" CoveredStatements="1" TotalStatements="1" CoveragePercent="100">
+          <Method Name="&lt;IdentifyPotentialConsumer&gt;b__1_1(ConsumptionResult)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="18" />
+        </Type>
+        <Type Name="&lt;&gt;c__DisplayClass1_0" CoveredStatements="1" TotalStatements="1" CoveragePercent="100">
+          <Method Name="&lt;IdentifyPotentialConsumer&gt;b__0(Parser)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="17" />
+        </Type>
+        <Method Name=".ctor(IContext)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="9" />
+        <Method Name="get_Context()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="22" />
+        <Method Name="IdentifyPotentialConsumer(PotentialConsumerRequest)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="15" />
+        <Method Name="set_Context(IContext)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="22" />
       </Type>
       <Type Name="SingleValueSwitch" CoveredStatements="6" TotalStatements="6" CoveragePercent="100">
         <Type Name="&lt;&gt;c__DisplayClass0_0" CoveredStatements="1" TotalStatements="1" CoveragePercent="100">
@@ -397,157 +529,25 @@
       </Type>
       <Type Name="ValuesSwitch" CoveredStatements="6" TotalStatements="6" CoveragePercent="100">
         <Type Name="&lt;&gt;c__DisplayClass0_0" CoveredStatements="1" TotalStatements="1" CoveragePercent="100">
-          <Method Name="&lt;.ctor&gt;b__0(Object,String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="12" />
+          <Method Name="&lt;.ctor&gt;b__0(Object,String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="13" />
         </Type>
-        <Method Name=".ctor(Parser,Nullable&lt;Char&gt;,String,Action&lt;Object,String[]&gt;,Int32,Int32)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="11" />
+        <Method Name=".ctor(Parser,Nullable&lt;Char&gt;,String,Action&lt;Object,String[]&gt;,Int32,Int32)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="12" />
       </Type>
       <Type Name="ValuesSwitch&lt;T&gt;" CoveredStatements="5" TotalStatements="5" CoveragePercent="100">
-        <Method Name=".ctor(Parser,Nullable&lt;Char&gt;,String,Action&lt;T,String[]&gt;,Int32,Int32)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="22" />
-      </Type>
-    </Namespace>
-    <Namespace Name="ArgParser.Styles.ParseStrategy" CoveredStatements="238" TotalStatements="241" CoveragePercent="99">
-      <Type Name="ChainIdentificationRequest" CoveredStatements="9" TotalStatements="9" CoveragePercent="100">
-        <Method Name=".ctor(String[],IContext)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="11" />
-        <Method Name="get_Args()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="8" />
-        <Method Name="get_Context()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="9" />
-        <Method Name="set_Args(String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="8" />
-        <Method Name="set_Context(IContext)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="9" />
-      </Type>
-      <Type Name="ChainIdentificationResult" CoveredStatements="10" TotalStatements="10" CoveragePercent="100">
-        <Method Name=".ctor(IEnumerable&lt;Parser&gt;,String[])" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="14" />
-        <Method Name="get_Chain()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="10" />
-        <Method Name="get_ConsumedArgs()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="11" />
-        <Method Name="get_IdentifiedParser()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="12" />
-        <Method Name="set_Chain(IList&lt;Parser&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="10" />
-        <Method Name="set_ConsumedArgs(String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="11" />
-      </Type>
-      <Type Name="ConsumerSelectionStrategy" CoveredStatements="20" TotalStatements="20" CoveragePercent="100">
-        <Type Name="&lt;&gt;c" CoveredStatements="1" TotalStatements="1" CoveragePercent="100">
-          <Method Name="&lt;Select&gt;b__1_0(ConsumptionResult)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="16" />
-        </Type>
-        <Type Name="&lt;&gt;c__DisplayClass1_0" CoveredStatements="2" TotalStatements="2" CoveragePercent="100">
-          <Method Name="&lt;Select&gt;b__1(ConsumptionResult)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="18" />
-          <Method Name="&lt;Select&gt;b__2(ConsumptionResult)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="22" />
-        </Type>
-        <Method Name=".ctor(IContext)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="8" />
-        <Method Name="get_Context()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="29" />
-        <Method Name="Select(PotentialConsumerResult)" CoveredStatements="11" TotalStatements="11" CoveragePercent="100" FirstStatementLine="14" />
-        <Method Name="set_Context(IContext)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="29" />
-      </Type>
-      <Type Name="ConsumptionRequestFactory" CoveredStatements="22" TotalStatements="22" CoveragePercent="100">
-        <Method Name=".ctor(IContext)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="7" />
-        <Method Name="Create(PotentialConsumerResult,ConsumptionResult)" CoveredStatements="16" TotalStatements="16" CoveragePercent="100" FirstStatementLine="13" />
-        <Method Name="get_Context()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="28" />
-        <Method Name="set_Context(IContext)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="28" />
-      </Type>
-      <Type Name="IterationInfoFactory" CoveredStatements="10" TotalStatements="10" CoveragePercent="100">
-        <Method Name=".ctor(IContext)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="7" />
-        <Method Name="Create(IterationInfoRequest)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="13" />
-        <Method Name="get_Context()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="19" />
-        <Method Name="set_Context(IContext)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="19" />
-      </Type>
-      <Type Name="IterationInfoRequest" CoveredStatements="11" TotalStatements="12" CoveragePercent="92">
-        <Method Name=".ctor(ChainIdentificationResult,String[],String[])" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" FirstStatementLine="12" />
-        <Method Name="get_ChainIdentificationResult()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="8" />
-        <Method Name="get_MutatedArgs()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="9" />
-        <Method Name="get_OriginalArgs()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="10" />
-        <Method Name="set_ChainIdentificationResult(ChainIdentificationResult)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="8" />
-        <Method Name="set_MutatedArgs(String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="9" />
-        <Method Name="set_OriginalArgs(String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="10" />
-      </Type>
-      <Type Name="MutateArgsRequest" CoveredStatements="11" TotalStatements="12" CoveragePercent="92">
-        <Method Name=".ctor(String[],IEnumerable&lt;Parser&gt;,IContext)" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" FirstStatementLine="14" />
-        <Method Name="get_Args()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="10" />
-        <Method Name="get_Chain()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="11" />
-        <Method Name="get_Context()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="12" />
-        <Method Name="set_Args(String[])" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="10" />
-        <Method Name="set_Chain(IList&lt;Parser&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="11" />
-        <Method Name="set_Context(IContext)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="12" />
-      </Type>
-      <Type Name="ParserChainIdentificationStrategy" CoveredStatements="23" TotalStatements="23" CoveragePercent="100">
-        <Method Name=".ctor(IContext)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="9" />
-        <Method Name="get_Context()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="35" />
-        <Method Name="Identify(ChainIdentificationRequest)" CoveredStatements="17" TotalStatements="17" CoveragePercent="100" FirstStatementLine="15" />
-        <Method Name="set_Context(IContext)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="35" />
-      </Type>
-      <Type Name="ParseResultFactory" CoveredStatements="7" TotalStatements="7" CoveragePercent="100">
-        <Method Name=".ctor(IContext)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="8" />
-        <Method Name="Create(Dictionary&lt;Object,Parser&gt;,IEnumerable&lt;ParseException&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="14" />
-        <Method Name="get_Context()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="16" />
-        <Method Name="set_Context(IContext)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="16" />
-      </Type>
-      <Type Name="ParseStrategy" CoveredStatements="77" TotalStatements="78" CoveragePercent="99">
-        <Type Name="&lt;&gt;c" CoveredStatements="1" TotalStatements="1" CoveragePercent="100">
-          <Method Name="&lt;Parse&gt;b__2_0(Parser)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="55" />
-        </Type>
-        <Method Name=".ctor(IContext,String)" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" FirstStatementLine="9" />
-        <Method Name="get_ArgsMutator()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="85" />
-        <Method Name="get_ChainIdentificationStrategy()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="86" />
-        <Method Name="get_ConsumerSelectionStrategy()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="87" />
-        <Method Name="get_ConsumptionRequestFactory()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="88" />
-        <Method Name="get_Context()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="92" />
-        <Method Name="get_IterationInfoFactory()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="96" />
-        <Method Name="get_ParseResultFactory()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="97" />
-        <Method Name="get_PotentialConsumerStrategy()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="98" />
-        <Method Name="get_RootParserId()" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="99" />
-        <Method Name="Parse(String[],IContext)" CoveredStatements="29" TotalStatements="29" CoveragePercent="100" FirstStatementLine="19" />
-        <Method Name="set_ArgsMutator(IArgsMutator)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="85" />
-        <Method Name="set_ChainIdentificationStrategy(IParserChainIdentificationStrategy)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="86" />
-        <Method Name="set_ConsumerSelectionStrategy(IConsumerSelectionStrategy)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="87" />
-        <Method Name="set_ConsumptionRequestFactory(IConsumptionRequestFactory)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="88" />
-        <Method Name="set_Context(IContext)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="93" />
-        <Method Name="set_IterationInfoFactory(IIterationInfoFactory)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="96" />
-        <Method Name="set_ParseResultFactory(IParseResultFactory)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="97" />
-        <Method Name="set_PotentialConsumerStrategy(IPotentialConsumerStrategy)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="98" />
-        <Method Name="set_RootParserId(String)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="99" />
-        <Method Name="SetContext(IContext)" CoveredStatements="24" TotalStatements="24" CoveragePercent="100" FirstStatementLine="60" />
-      </Type>
-      <Type Name="PotentialConsumerRequest" CoveredStatements="12" TotalStatements="12" CoveragePercent="100">
-        <Method Name=".ctor(ChainIdentificationResult,IterationInfo,Object)" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" FirstStatementLine="12" />
-        <Method Name="get_ChainIdentificationResult()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="8" />
-        <Method Name="get_Info()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="9" />
-        <Method Name="get_Instance()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="10" />
-        <Method Name="set_ChainIdentificationResult(ChainIdentificationResult)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="8" />
-        <Method Name="set_Info(IterationInfo)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="9" />
-        <Method Name="set_Instance(Object)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="10" />
-      </Type>
-      <Type Name="PotentialConsumerResult" CoveredStatements="14" TotalStatements="14" CoveragePercent="100">
-        <Type Name="&lt;&gt;c" CoveredStatements="1" TotalStatements="1" CoveragePercent="100">
-          <Method Name="&lt;get_Success&gt;b__13_0(ConsumptionResult)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="13" />
-        </Type>
-        <Method Name=".ctor(IEnumerable&lt;Parser&gt;,IEnumerable&lt;ConsumptionResult&gt;,IterationInfo)" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" FirstStatementLine="15" />
-        <Method Name="get_Chain()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="10" />
-        <Method Name="get_ConsumptionResults()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="11" />
-        <Method Name="get_Info()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="12" />
-        <Method Name="get_Success()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="13" />
-        <Method Name="set_Chain(IList&lt;Parser&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="10" />
-        <Method Name="set_ConsumptionResults(IList&lt;ConsumptionResult&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="11" />
-        <Method Name="set_Info(IterationInfo)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="12" />
-      </Type>
-      <Type Name="PotentialConsumerStrategy" CoveredStatements="12" TotalStatements="12" CoveragePercent="100">
-        <Type Name="&lt;&gt;c" CoveredStatements="1" TotalStatements="1" CoveragePercent="100">
-          <Method Name="&lt;IdentifyPotentialConsumer&gt;b__1_1(ConsumptionResult)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="17" />
-        </Type>
-        <Type Name="&lt;&gt;c__DisplayClass1_0" CoveredStatements="1" TotalStatements="1" CoveragePercent="100">
-          <Method Name="&lt;IdentifyPotentialConsumer&gt;b__0(Parser)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="16" />
-        </Type>
-        <Method Name=".ctor(IContext)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="8" />
-        <Method Name="get_Context()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="21" />
-        <Method Name="IdentifyPotentialConsumer(PotentialConsumerRequest)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" FirstStatementLine="14" />
-        <Method Name="set_Context(IContext)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="21" />
+        <Method Name=".ctor(Parser,Nullable&lt;Char&gt;,String,Action&lt;T,String[]&gt;,Int32,Int32)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="23" />
       </Type>
     </Namespace>
   </Assembly>
   <Assembly Name="ArgParser.Styles.Alba" CoveredStatements="240" TotalStatements="278" CoveragePercent="86">
     <Namespace Name="ArgParser.Styles.Alba" CoveredStatements="240" TotalStatements="278" CoveragePercent="86">
       <Type Name="AlbaContext" CoveredStatements="10" TotalStatements="11" CoveragePercent="91">
-        <Method Name=".ctor(IContext)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="15" />
-        <Method Name="get_Context()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="16" />
-        <Method Name="get_HierarchyRepository()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="13" />
-        <Method Name="get_ParserRepository()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="14" />
-        <Method Name="get_ThemeRepository()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="15" />
-        <Method Name="set_Context(IContext)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="16" />
-        <Method Name="set_ThemeRepository(IThemeRepository)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="15" />
+        <Method Name=".ctor(IContext)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="16" />
+        <Method Name="get_Context()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="17" />
+        <Method Name="get_HierarchyRepository()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="14" />
+        <Method Name="get_ParserRepository()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="15" />
+        <Method Name="get_ThemeRepository()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="16" />
+        <Method Name="set_Context(IContext)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="17" />
+        <Method Name="set_ThemeRepository(IThemeRepository)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="16" />
       </Type>
       <Type Name="ContextBuilderExtensions" CoveredStatements="40" TotalStatements="40" CoveragePercent="100">
         <Type Name="&lt;&gt;c__DisplayClass2_0" CoveredStatements="9" TotalStatements="9" CoveragePercent="100">
@@ -577,18 +577,18 @@
         <Method Name="set_TemplateRenderer(ITemplateRenderer)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="36" />
       </Type>
       <Type Name="ParameterUsage" CoveredStatements="66" TotalStatements="67" CoveragePercent="99">
-        <Method Name=".ctor()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="83" />
-        <Method Name="GeneratePositionalSequence(Positional,IInlineSequence)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="18" />
-        <Method Name="GenerateSequence(IInlineSequence)" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" FirstStatementLine="10" />
-        <Method Name="GenerateSwitchSequence(Switch,IInlineSequence)" CoveredStatements="20" TotalStatements="20" CoveragePercent="100" FirstStatementLine="25" />
-        <Method Name="GenerateValueAlias(Parameter)" CoveredStatements="18" TotalStatements="18" CoveragePercent="100" FirstStatementLine="47" />
-        <Method Name="get_GeneratedText()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="81" />
-        <Method Name="get_StringBuilder()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="83" />
-        <Method Name="get_ViewModel()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="82" />
-        <Method Name="set_StringBuilder(StringBuilder)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="83" />
-        <Method Name="set_ViewModel(ParameterViewModel)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="82" />
-        <Method Name="WritePrimary(IInlineSequence,String)" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" FirstStatementLine="66" />
-        <Method Name="WriteSecondary(IInlineSequence,String)" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" FirstStatementLine="74" />
+        <Method Name=".ctor()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="84" />
+        <Method Name="GeneratePositionalSequence(Positional,IInlineSequence)" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" FirstStatementLine="19" />
+        <Method Name="GenerateSequence(IInlineSequence)" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" FirstStatementLine="11" />
+        <Method Name="GenerateSwitchSequence(Switch,IInlineSequence)" CoveredStatements="20" TotalStatements="20" CoveragePercent="100" FirstStatementLine="26" />
+        <Method Name="GenerateValueAlias(Parameter)" CoveredStatements="18" TotalStatements="18" CoveragePercent="100" FirstStatementLine="48" />
+        <Method Name="get_GeneratedText()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="82" />
+        <Method Name="get_StringBuilder()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="84" />
+        <Method Name="get_ViewModel()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="83" />
+        <Method Name="set_StringBuilder(StringBuilder)" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" FirstStatementLine="84" />
+        <Method Name="set_ViewModel(ParameterViewModel)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="83" />
+        <Method Name="WritePrimary(IInlineSequence,String)" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" FirstStatementLine="67" />
+        <Method Name="WriteSecondary(IInlineSequence,String)" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" FirstStatementLine="75" />
       </Type>
       <Type Name="ParameterViewModel" CoveredStatements="9" TotalStatements="9" CoveragePercent="100">
         <Method Name="get_Parameter()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="7" />
@@ -618,13 +618,13 @@
         <Method Name="set_ViewModel(ParserHelpTemplateViewModel)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="55" />
       </Type>
       <Type Name="ParserHelpTemplateViewModel" CoveredStatements="14" TotalStatements="14" CoveragePercent="100">
-        <Method Name="get_BannerColor()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="11" />
-        <Method Name="get_Chain()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="13" />
-        <Method Name="get_ParameterVms()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="14" />
-        <Method Name="get_ParserVm()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="15" />
-        <Method Name="get_SubTitle()" CoveredStatements="8" TotalStatements="8" CoveragePercent="100" FirstStatementLine="20" />
-        <Method Name="set_Chain(IList&lt;ParserViewModel&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="13" />
-        <Method Name="set_ParameterVms(IList&lt;ParameterViewModel&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="14" />
+        <Method Name="get_BannerColor()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="12" />
+        <Method Name="get_Chain()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="14" />
+        <Method Name="get_ParameterVms()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="15" />
+        <Method Name="get_ParserVm()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="16" />
+        <Method Name="get_SubTitle()" CoveredStatements="8" TotalStatements="8" CoveragePercent="100" FirstStatementLine="21" />
+        <Method Name="set_Chain(IList&lt;ParserViewModel&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="14" />
+        <Method Name="set_ParameterVms(IList&lt;ParameterViewModel&gt;)" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="15" />
       </Type>
       <Type Name="ParserViewModel" CoveredStatements="4" TotalStatements="4" CoveragePercent="100">
         <Method Name="get_Parser()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" FirstStatementLine="7" />

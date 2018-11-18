@@ -50,7 +50,7 @@ namespace ArgParser.Core.Test
 
             // act
             // assert
-            mightThrow.Should().Throw<IndexOutOfRangeException>();
+            mightThrow.Should().Throw<ArgumentOutOfRangeException>();
             info1.First().Should().Be("-h");
             info2.First().Should().Be("-v");
             info3.First().Should().Be("a");
@@ -68,7 +68,7 @@ namespace ArgParser.Core.Test
 
             // act
             // assert
-            mightThrow.Should().Throw<IndexOutOfRangeException>();
+            mightThrow.Should().Throw<ArgumentOutOfRangeException>();
             info1.Last().Should().Be("-h");
             info2.Last().Should().Be("something");
             info3.Last().Should().Be("e");
