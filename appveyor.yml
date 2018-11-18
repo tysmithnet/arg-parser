@@ -11,8 +11,6 @@ branches:
 init:
   - git config --global core.autocrlf input
 
-clone_folder: c:\projects\arg-parser
-
 cache:
   - packages -> **\packages.config  
   - '%LocalAppData%\NuGet\Cache'    
