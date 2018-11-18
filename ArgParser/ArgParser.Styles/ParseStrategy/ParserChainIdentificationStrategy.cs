@@ -28,12 +28,7 @@ namespace ArgParser.Styles.ParseStrategy
                 : request.Context.ParserRepository.Get(request.Context.HierarchyRepository.GetRoot())
                     .ToEnumerableOfOne().ToList();
 
-            var res = new ChainIdentificationResult
-            {
-                Chain = chain,
-                IdentifiedParser = chain.Last(),
-                ConsumedArgs = request.Args.Take(ids.Count).ToArray()
-            };
+            var res = new ChainIdentificationResult(chain, request.Args.Take(ids.Count).ToArray());
             return res;
         }
 

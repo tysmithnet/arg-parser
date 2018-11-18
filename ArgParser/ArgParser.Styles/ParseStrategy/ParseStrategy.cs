@@ -17,23 +17,9 @@ namespace ArgParser.Styles.ParseStrategy
 
         public virtual IParseResult Parse(string[] args, IContext context)
         {
-            var chainRes = ChainIdentificationStrategy.Identify(new ChainIdentificationRequest
-            {
-                Args = args,
-                Context = context
-            });
-            var mutatedArgs = ArgsMutator.Mutate(new MutateArgsRequest
-            {
-                Context = context,
-                Args = args,
-                Chain = chainRes.Chain
-            });
-            var info = IterationInfoFactory.Create(new IterationInfoRequest
-            {
-                ChainIdentificationResult = chainRes,
-                MutatedArgs = mutatedArgs,
-                OriginalArgs = args
-            });
+            var chainRes = ChainIdentificationStrategy.Identify(new ChainIdentificationRequest(args, context));
+            var mutatedArgs = ArgsMutator.Mutate(new MutateArgsRequest(args, chainRes.Chain, context));
+            var info = IterationInfoFactory.Create(new IterationInfoRequest(chainRes, mutatedArgs, args));
             if (chainRes.IdentifiedParser.FactoryFunction == null)
                 throw new NoFactoryFunctionException(
                     $"No factory function set on parser={chainRes.IdentifiedParser.Id}");

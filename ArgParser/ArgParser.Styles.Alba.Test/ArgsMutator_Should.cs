@@ -16,12 +16,7 @@ namespace ArgParser.Styles.Alba.Test
                 .WithPositional((o, s) => { })
                 .Finish;
             var mutator = new ArgsMutator(builder.Context);
-            var request = new MutateArgsRequest
-            {
-                Context = builder.Context,
-                Args = "a b".Split(' '),
-                Chain = builder.Context.PathToRoot("root")
-            };
+            var request = new MutateArgsRequest("a b".Split(' '), builder.Context.PathToRoot("root"), builder.Context);
 
             // act
             // assert

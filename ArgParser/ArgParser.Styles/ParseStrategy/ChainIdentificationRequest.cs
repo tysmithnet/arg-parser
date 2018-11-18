@@ -1,4 +1,5 @@
-﻿using ArgParser.Core;
+﻿using System;
+using ArgParser.Core;
 
 namespace ArgParser.Styles.ParseStrategy
 {
@@ -6,5 +7,11 @@ namespace ArgParser.Styles.ParseStrategy
     {
         public string[] Args { get; set; }
         public IContext Context { get; set; }
+
+        public ChainIdentificationRequest(string[] args, IContext context)
+        {
+            Args = args ?? throw new ArgumentNullException(nameof(args));
+            Context = context ?? throw new ArgumentNullException(nameof(context));
+        }
     }
 }
