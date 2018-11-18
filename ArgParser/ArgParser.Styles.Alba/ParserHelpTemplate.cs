@@ -12,14 +12,14 @@ namespace ArgParser.Styles.Alba
         {
             Context = context.ToAlbaContext();
             Parser = context.ParserRepository.Get(parserId);
-            TemplateViewModel = CreateViewModel(context);
+            ViewModel = CreateViewModel(context);
         }
 
         public Document Create()
         {
             using (var fs = File.OpenRead("ParserHelp.xaml"))
             {
-                return ConsoleRenderer.ReadDocumentFromStream(fs, TemplateViewModel, new XamlElementReaderSettings
+                return ConsoleRenderer.ReadDocumentFromStream(fs, ViewModel, new XamlElementReaderSettings
                 {
                     ReferenceAssemblies =
                     {
@@ -50,6 +50,6 @@ namespace ArgParser.Styles.Alba
 
         protected internal AlbaContext Context { get; set; }
         protected internal Parser Parser { get; set; }
-        protected internal ParserHelpTemplateViewModel TemplateViewModel { get; set; }
+        protected internal ParserHelpTemplateViewModel ViewModel { get; set; }
     }
 }

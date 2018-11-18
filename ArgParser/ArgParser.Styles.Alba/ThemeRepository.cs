@@ -7,7 +7,7 @@ namespace ArgParser.Styles.Alba
         protected internal Dictionary<string, Theme> Themes { get; set; } = new Dictionary<string, Theme>();
         public Theme Get(string parserId)
         {
-            return Themes[parserId];
+            return !Themes.ContainsKey(parserId) ? Default : Themes[parserId];
         }
 
         public Theme Default { get; } = Theme.Default;
