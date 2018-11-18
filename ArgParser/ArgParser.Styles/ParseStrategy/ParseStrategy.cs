@@ -29,7 +29,7 @@ namespace ArgParser.Styles.ParseStrategy
                 var potentialConsumerResult = PotentialConsumerStrategy.IdentifyPotentialConsumer(
                     new PotentialConsumerRequest(chainRes, info, instance));
                 if (!potentialConsumerResult.Success)
-                    throw new UnexpectedArgException($"todo: change");
+                    throw new UnexpectedArgException($"Encountered argument={info.Current}");
                 var selected = ConsumerSelectionStrategy.Select(potentialConsumerResult);
                 var consumptionRequest = ConsumptionRequestFactory.Create(potentialConsumerResult, selected);
                 var consumptionResult = selected.ConsumingParameter.Consume(instance, consumptionRequest);
