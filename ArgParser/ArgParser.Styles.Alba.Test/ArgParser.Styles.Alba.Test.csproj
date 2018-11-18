@@ -87,6 +87,7 @@
   <ItemGroup>
     <Compile Include="AlbaContext_Should.cs" />
     <Compile Include="ContextBuilderExtensions_Should.cs" />
+    <Compile Include="ParameterUsage_Should.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
