@@ -10,9 +10,9 @@
     </Div>           
     <Separator Color="{Get ParserVm.Theme.BorderColor}" />
     <Div>
-        <Div Color="{Get ParserVm.Theme.SecondaryTextColor}">Usage: </Div>
+        <Div Color="{Get ParserVm.Theme.DefaultTextColor}">Usage: </Div>
         <Repeater Items="{Get Chain}">
-            <Span Text="{Get Parser.Id}" Color="{Get Theme.DefaultTextColor}" />
+            <Span Text="{Get Parser.Id}" Color="{Get Theme.SecondaryTextColor}" />
             <Span Text=" " />
         </Repeater>
         <Repeater Items="{Get ParameterVms}">
@@ -27,16 +27,16 @@
             <Column Width="Auto"/>
             <Column Width="*"/>
         </Grid.Columns>
-        <Cell Stroke="Single Double">Parameter</Cell>
-        <Cell Stroke="Single Double">Req</Cell>
-        <Cell Stroke="Single Double">Default</Cell>
-        <Cell Stroke="Single Double">Description</Cell>
+        <Cell Stroke="Single Double" Color="{Get ParserVm.Theme.DefaultTextColor}">Parameter</Cell>
+        <Cell Stroke="Single Double" Color="{Get ParserVm.Theme.DefaultTextColor}">Req</Cell>
+        <Cell Stroke="Single Double" Color="{Get ParserVm.Theme.DefaultTextColor}">Default</Cell>
+        <Cell Stroke="Single Double" Color="{Get ParserVm.Theme.DefaultTextColor}">Description</Cell>
         <Repeater Items="{Get ParameterVms}">
             <Cell>
                 <ap:ParameterUsage ViewModel="{Get }"  />
             </Cell>
             <Cell TextAlign="Center">
-                <Span Text="{Get RequiredText}" Color="{Get Theme.DefaultTextColor}" />
+                <Span Text="{Get RequiredText}" Color="{Get Theme.RequiredColor}" />
             </Cell>
             <Cell>
                 <Span Text="{Get Parameter.Help.DefaultValue}" Color="{Get Theme.DefaultTextColor}" />
@@ -48,7 +48,7 @@
     </Grid>
     <Separator Color="{Get ParserVm.Theme.BorderColor}" />
     <Div>
-        <Div Color="{Get ParserVm.Theme.SecondaryTextColor}">Examples:</Div>
+        <Div Color="{Get ParserVm.Theme.DefaultTextColor}">Examples:</Div>
         <List>
             <Repeater Items="{Get ParserVm.Parser.Help.Examples}">
                 <Div>
