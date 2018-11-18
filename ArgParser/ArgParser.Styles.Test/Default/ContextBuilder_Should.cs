@@ -11,7 +11,7 @@ namespace ArgParser.Styles.Test.Default
         public void Add_New_Parsers_To_All_Necessary_Repositories()
         {
             // arrange
-            var builder = new ContextBuilder();
+            var builder = new ContextBuilder("base");
 
             // act
             builder.AddParser("base");
@@ -25,7 +25,7 @@ namespace ArgParser.Styles.Test.Default
         public void Allow_Help_To_Be_Set_When_Adding()
         {
             // arrange
-            var builder = new ContextBuilder();
+            var builder = new ContextBuilder("a");
 
             // act
             var parserBuilder = builder.AddParser("a",
@@ -44,7 +44,7 @@ namespace ArgParser.Styles.Test.Default
             var builder = DefaultBuilder.CreateDefaultBuilder();
 
             // act
-            var result = builder.Parse("util", "-h".Split(' '));
+            var result = builder.Parse("-h".Split(' '));
 
             // assert
             result.When<UtilOptions>((options, parser) =>
@@ -60,7 +60,7 @@ namespace ArgParser.Styles.Test.Default
         {
             // arrange
             var args = "firewall block -p 8080 -m io firefox.exe".Split(' ');
-            var builder = new ContextBuilder()
+            var builder = new ContextBuilder("base")
                 .AddParser<UtilOptions>("base")
                 .WithBooleanSwitch('h', "help", o => o.IsHelpRequested = true)
                 .WithBooleanSwitch(null, "version", o => o.IsVersionRequested = true)
@@ -106,7 +106,7 @@ namespace ArgParser.Styles.Test.Default
                 .CreateParentChildRelationship("firewall", "unblock");
 
             // act
-            var result = builder.Parse("base", args);
+            var result = builder.Parse(args);
 
             // assert
             var isParsed = false;

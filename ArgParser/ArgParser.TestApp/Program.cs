@@ -41,15 +41,25 @@ namespace ArgParser.TestApp
         private static extern IntPtr CommandLineToArgvW(
             [MarshalAs(UnmanagedType.LPWStr)] string lpCmdLine, out int pNumArgs);
 
-
-
         private static void Main(string[] args)
         {
             Console.WriteLine("Enter commands for the fake tool `util` e.g. firewall -h");
             while (true)
             {
-                var builder = DefaultBuilder.CreateDefaultBuilder();
-                var context = builder.BuildContext();
+                var builder = DefaultBuilder.CreateDefaultBuilder()
+                    .AddAutoHelp((parseResults, exceptions) =>
+                    {
+                        foreach (var kvp in parseResults)
+                        {
+                            if (kvp.Key is UtilOptions casted && casted.IsHelpRequested)
+                                return kvp.Value.Id;
+                        }
+
+                        // todo: exception?
+
+                        return null;
+                    });
+                var context = builder.Context;
                 Console.Write($"$ util ");
                 var line = Console.ReadLine();
                 if (line.IsNullOrWhiteSpace())
@@ -58,15 +68,11 @@ namespace ArgParser.TestApp
                 if (args.Length == 0)
                     continue;
                 
-                var result = builder.Parse("util", args);
+                var result = builder.Parse(args);
                 result.When<UtilOptions>((options, parser) =>
                 {
                     Console.WriteLine(options.GetType().FullName);
                     Console.WriteLine(JsonConvert.SerializeObject(options, Formatting.Indented));
-                    if (!options.IsHelpRequested) return;
-                    var helpTemplate = new ParserHelpTemplate(context, parser.Id);
-                    var doc = helpTemplate.Create();
-                    ConsoleRenderer.RenderDocument(doc);
                 });
 
                 result.WhenError(exceptions =>

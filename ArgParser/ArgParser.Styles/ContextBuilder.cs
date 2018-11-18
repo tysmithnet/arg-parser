@@ -5,6 +5,18 @@ namespace ArgParser.Styles
 {
     public class ContextBuilder
     {
+        protected internal string RootParserId { get; set; }
+        
+        public ContextBuilder(string rootParserId)
+        {
+            RootParserId = rootParserId.ThrowIfArgumentNull(nameof(rootParserId));
+            Context = new Context()
+            {
+                HierarchyRepository = HierarchyRepository,
+                ParserRepository = ParserRepository
+            };
+        }
+
         public ParserBuilder AddParser(string id, Action<ParserHelpBuilder> helpSetupCallback = null)
         {
             var parser = ParserRepository.Create(id);
@@ -34,11 +46,7 @@ namespace ArgParser.Styles
             return new ParserBuilder<T>(this, parser);
         }
 
-        public Context BuildContext() => new Context
-        {
-            HierarchyRepository = HierarchyRepository,
-            ParserRepository = ParserRepository
-        };
+        public Context Context { get; protected internal set; }
 
         public ContextBuilder CreateParentChildRelationship(string parent, string child)
         {
@@ -46,14 +54,29 @@ namespace ArgParser.Styles
             return this;
         }
 
-        public IParseResult Parse(string parser, string[] args)
+        public IParseResult Parse(string[] args)
         {
-            var context = BuildContext();
-            var strat = new ParseStrategy(context, parser);
+            var context = Context;
+            var strat = new ParseStrategy(context, RootParserId);
+            OnParseStrategyCreated(strat);
             return strat.Parse(args, context);
         }
 
+        public event EventHandler<ParseStrategyCreatedEventArgs> ParseStrategyCreated; 
         protected internal HierarchyRepository HierarchyRepository { get; set; } = new HierarchyRepository();
         protected internal ParserRepository ParserRepository { get; set; } = new ParserRepository();
+
+        protected virtual void OnParseStrategyCreated(ParseStrategy parseStrategy)
+        {
+            ParseStrategyCreated?.Invoke(this, new ParseStrategyCreatedEventArgs()
+            {
+                ParseStrategy = parseStrategy.ThrowIfArgumentNull(nameof(parseStrategy))
+            });
+        }
+    }
+
+    public class ParseStrategyCreatedEventArgs : EventArgs
+    {
+        public ParseStrategy ParseStrategy { get; set; }
     }
 }
