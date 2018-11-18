@@ -56,6 +56,25 @@ namespace ArgParser.Styles.Test.Default
         }
 
         [Fact]
+        public void Return_Any_Errors_That_Occurred_During_Processing()
+        {
+            // arrange
+            var builder = DefaultBuilder.CreateDefaultBuilder();
+
+            // act
+            var res = builder.Parse("firewall -p -h".Split(' '));
+
+            // assert
+            bool isParsed = false;
+            res.WhenError(exceptions =>
+            {
+                exceptions.Should().HaveCount(1);
+                isParsed = true;
+            });
+            isParsed.Should().BeTrue();
+        }
+
+        [Fact]
         public void Parse_Complicated_Hierarchies()
         {
             // arrange
