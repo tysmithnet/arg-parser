@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ArgParser.Styles
+namespace ArgParser.Styles.Alba
 {
     public abstract class Theme
     {

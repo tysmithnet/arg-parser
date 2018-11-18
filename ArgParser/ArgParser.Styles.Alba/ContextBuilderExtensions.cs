@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ArgParser.Core;
 using HelpRequestCallback =
     System.Func<System.Collections.Generic.Dictionary<object, ArgParser.Core.Parser>,
@@ -19,7 +20,7 @@ namespace ArgParser.Styles.Alba
             builder.ParseStrategyCreated += (sender, args) =>
             {
                 var albaContext = builder.Context.ToAlbaContext();
-                albaContext.Themes = ParserThemes;
+                ParserThemes.ToList().ForEach(kvp => albaContext.ThemeRepository.SetTheme(kvp.Key.Id, kvp.Value));
                 args.ParseStrategy.Context = albaContext;
                 var factory = new HelpRequestedParseResultFactory(args.ParseStrategy.ParseResultFactory, callback,
                     builder.Context);

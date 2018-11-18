@@ -3,9 +3,9 @@ using Alba.CsConsoleFormat;
 
 namespace ArgParser.Styles.Alba
 {
+    [ExcludeFromCodeCoverage]
     internal class TemplateRenderer : ITemplateRenderer
     {
-        [ExcludeFromCodeCoverage]
         public void Render(ITemplate template)
         {
             var doc = template.Create();

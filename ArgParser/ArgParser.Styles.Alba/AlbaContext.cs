@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using ArgParser.Core;
 
 namespace ArgParser.Styles.Alba
@@ -14,6 +13,6 @@ namespace ArgParser.Styles.Alba
         public IHierarchyRepository HierarchyRepository => Context.HierarchyRepository;
         public IParserRepository ParserRepository => Context.ParserRepository;
         protected internal IContext Context { get; set; }
-        protected internal Dictionary<Parser, Theme> Themes { get; set; } = new Dictionary<Parser, Theme>();
+        public IThemeRepository ThemeRepository { get; protected internal set; } = new ThemeRepository();
     }
 }
