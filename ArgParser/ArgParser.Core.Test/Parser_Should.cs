@@ -73,8 +73,10 @@ namespace ArgParser.Core.Test
         public void Provide_A_Generic_Version()
         {
             // arrange
-            var p = new Parser<string>("base");
-            p.FactoryFunction = () => "";
+            var p = new Parser<string>("base")
+            {
+                FactoryFunction = () => ""
+            };
 
             // act
             // assert

@@ -30,8 +30,10 @@ namespace ArgParser.Styles.Test.Default
         public void Indicate_It_Cannot_Consume_If_It_Has_Already_Consumed()
         {
             // arrange
-            var positional = new Positional(new Parser("a"), (o, strings) => { });
-            positional.HasBeenConsumed = true;
+            var positional = new Positional(new Parser("a"), (o, strings) => { })
+            {
+                HasBeenConsumed = true
+            };
             var info = new IterationInfo("a b c".Split(' '));
 
             // act

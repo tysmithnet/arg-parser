@@ -24,10 +24,12 @@ namespace ArgParser.Styles.Alba.Test
                 Parser = parser,
                 Theme = Theme.Default
             };
-            var template = new ParserHelpTemplate(builder.Context, "util");
-            template.ViewModel = new ParserHelpTemplateViewModel()
+            var template = new ParserHelpTemplate(builder.Context, "util")
             {
-                Chain = parserVm.ToEnumerableOfOne().ToList(),
+                ViewModel = new ParserHelpTemplateViewModel()
+                {
+                    Chain = parserVm.ToEnumerableOfOne().ToList(),
+                }
             };
 
             // act
