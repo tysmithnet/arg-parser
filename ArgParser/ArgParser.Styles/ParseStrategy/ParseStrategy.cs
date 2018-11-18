@@ -17,31 +17,43 @@ namespace ArgParser.Styles.ParseStrategy
 
         public virtual IParseResult Parse(string[] args, IContext context)
         {
-            var chainRes = ChainIdentificationStrategy.Identify(new ChainIdentificationRequest(args, context));
-            var mutatedArgs = ArgsMutator.Mutate(new MutateArgsRequest(args, chainRes.Chain, context));
-            var info = IterationInfoFactory.Create(new IterationInfoRequest(chainRes, mutatedArgs, args));
-            if (chainRes.IdentifiedParser.FactoryFunction == null)
-                throw new NoFactoryFunctionException(
-                    $"No factory function set on parser={chainRes.IdentifiedParser.Id}");
-            var instance = chainRes.IdentifiedParser.FactoryFunction();
-            while (!info.IsComplete())
+            ChainIdentificationResult chainRes = null;
+            try
             {
-                var potentialConsumerResult = PotentialConsumerStrategy.IdentifyPotentialConsumer(
-                    new PotentialConsumerRequest(chainRes, info, instance));
-                if (!potentialConsumerResult.Success)
-                    throw new UnexpectedArgException($"Encountered argument={info.Current}");
-                var selected = ConsumerSelectionStrategy.Select(potentialConsumerResult);
-                var consumptionRequest = ConsumptionRequestFactory.Create(potentialConsumerResult, selected);
-                var consumptionResult = selected.ConsumingParameter.Consume(instance, consumptionRequest);
-                if (consumptionResult.ParseExceptions.Any())
-                    return new ParseResult(new Dictionary<object, Parser>(), consumptionResult.ParseExceptions);
-                info = consumptionResult.Info;
-            }
+                chainRes = ChainIdentificationStrategy.Identify(new ChainIdentificationRequest(args, context));
+                var mutatedArgs = ArgsMutator.Mutate(new MutateArgsRequest(args, chainRes.Chain, context));
+                var info = IterationInfoFactory.Create(new IterationInfoRequest(chainRes, mutatedArgs, args));
+                if (chainRes.IdentifiedParser.FactoryFunction == null)
+                    throw new NoFactoryFunctionException(
+                        $"No factory function set on parser={chainRes.IdentifiedParser.Id}");
+                var instance = chainRes.IdentifiedParser.FactoryFunction();
+                while (!info.IsComplete())
+                {
+                    var potentialConsumerResult = PotentialConsumerStrategy.IdentifyPotentialConsumer(
+                        new PotentialConsumerRequest(chainRes, info, instance));
+                    if (!potentialConsumerResult.Success)
+                        throw new UnexpectedArgException($"Encountered unexpected argument={info.Current}");
+                    var selected = ConsumerSelectionStrategy.Select(potentialConsumerResult);
+                    var consumptionRequest = ConsumptionRequestFactory.Create(potentialConsumerResult, selected);
+                    var consumptionResult = selected.ConsumingParameter.Consume(instance, consumptionRequest);
+                    if (consumptionResult.ParseExceptions.Any())
+                        return new ParseResult(new Dictionary<object, Parser>(), consumptionResult.ParseExceptions);
+                    info = consumptionResult.Info;
+                }
 
-            return ParseResultFactory.Create(new Dictionary<object, Parser>
+                return ParseResultFactory.Create(new Dictionary<object, Parser>
+                {
+                    [instance] = chainRes.IdentifiedParser
+                }, null);
+            }
+            catch (ParseException e)
             {
-                [instance] = chainRes.IdentifiedParser
-            }, null);
+                return new ParseResult(null, e.ToEnumerableOfOne());
+            }
+            finally
+            {
+                chainRes?.Chain.ToList().ForEach(p => p.Reset());
+            }
         }
 
         private void SetContext(IContext context)
