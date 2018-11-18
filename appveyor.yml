@@ -21,7 +21,7 @@ platform: Any CPU
 configuration: Release
 
 before_build:
-  - nuget restore
+  - nuget restore ArgParser/ArgParser.sln
 
 build:
   parallel: true
