@@ -2,7 +2,7 @@
 
 namespace ArgParser.Styles
 {
-    public interface IConsumerSelectionStrategy
+    public interface IConsumerSelectionStrategy : IParseStrategyUnit
     {
         ConsumptionResult Select(PotentialConsumerResult result);
     }

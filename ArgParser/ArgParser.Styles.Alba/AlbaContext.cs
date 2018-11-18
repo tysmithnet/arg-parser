@@ -9,7 +9,7 @@ namespace ArgParser.Styles.Alba
         protected internal IContext Context { get; set; }
         public IHierarchyRepository HierarchyRepository => Context.HierarchyRepository;
         public IParserRepository ParserRepository => Context.ParserRepository;
-        protected internal Dictionary<Parser, Theme> Theme { get; set; }
+        protected internal Dictionary<Parser, Theme> Themes { get; set; } = new Dictionary<Parser, Theme>();
         
         public AlbaContext(IContext context)
         {

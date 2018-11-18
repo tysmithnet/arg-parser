@@ -12,7 +12,7 @@ namespace ArgParser.Styles
             Context = context.ThrowIfArgumentNull(nameof(context));
         }
 
-        public IContext Context { get; private set; }
+        public IContext Context { get; set; }
 
         public string[] Mutate(MutateArgsRequest request)
         {

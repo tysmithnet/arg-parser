@@ -11,7 +11,7 @@ namespace ArgParser.Styles
             Context = context;
         }
 
-        public IContext Context { get; private set; }
+        public IContext Context { get; set; }
 
         public ChainIdentificationResult Identify(ChainIdentificationRequest request)
         {
@@ -24,10 +24,13 @@ namespace ArgParser.Styles
                 if (request.Context.HierarchyRepository.IsParent(left, right)) ids.Add(right);
                 else break;
             }
+
+            var chain = ids.Any() ? Context.PathToRoot(ids.Last()).Reverse().ToList() : request.Context.ParserRepository.Get(request.Context.HierarchyRepository.GetRoot()).ToEnumerableOfOne().ToList();
+            
             var res = new ChainIdentificationResult()
             {
-                Chain = Context.PathToRoot(ids.Last()).Reverse(),
-                IdentifiedParser = request.Context.ParserRepository.Get(ids.Last()),
+                Chain = chain,
+                IdentifiedParser = chain.Last(),
                 ConsumedArgs = request.Args.Take(ids.Count).ToArray()
             };
             return res;

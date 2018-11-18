@@ -3,7 +3,7 @@ using ArgParser.Core;
 
 namespace ArgParser.Styles
 {
-    public interface IParseResultFactory
+    public interface IParseResultFactory : IParseStrategyUnit
     {
         IParseResult Create(Dictionary<object, Parser> results, IEnumerable<ParseException> parseExceptions);
     }

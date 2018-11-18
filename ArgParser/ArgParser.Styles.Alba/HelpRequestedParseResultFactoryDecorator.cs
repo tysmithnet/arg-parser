@@ -28,5 +28,7 @@ namespace ArgParser.Styles.Alba
             var res = ParseResultFactory.Create(results, parseExceptions);
             return res;
         }
+
+        public IContext Context { get; set; }
     }
 }

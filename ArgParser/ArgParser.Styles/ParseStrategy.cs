@@ -1,22 +1,49 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using ArgParser.Core;
 
 namespace ArgParser.Styles
 {
     public class ParseStrategy : IParseStrategy
     {
-        public IContext Context { get; set; }
+        private IContext _context;
+
+        public IContext Context
+        {
+            get => _context;
+            set => SetContext(value);
+        }
         public ParseStrategy(IContext context, string rootParserId)
         {
             Context = context.ThrowIfArgumentNull(nameof(context));
             RootParserId = rootParserId.ThrowIfArgumentNull(nameof(rootParserId));
-            ArgsMutator = new ArgsMutator(context);
-            ChainIdentificationStrategy = new ParserChainIdentificationStrategy(context);
-            ConsumerSelectionStrategy = new ConsumerSelectionStrategy(context);
-            ConsumptionRequestFactory = new ConsumptionRequestFactory(context);
-            IterationInfoFactory = new IterationInfoFactory(context);
-            ParseResultFactory = new ParseResultFactory(context);
-            PotentialConsumerStrategy = new PotentialConsumerStrategy(context);
+            SetContext(context);
+        }
+
+        private void SetContext(IContext context)
+        {
+            _context = context;
+            if (ArgsMutator == null)
+                ArgsMutator = new ArgsMutator(context);
+            if (ChainIdentificationStrategy == null)
+                ChainIdentificationStrategy = new ParserChainIdentificationStrategy(context);
+            if (ConsumerSelectionStrategy == null)
+                ConsumerSelectionStrategy = new ConsumerSelectionStrategy(context);
+            if (ConsumptionRequestFactory == null)
+                ConsumptionRequestFactory = new ConsumptionRequestFactory(context);
+            if (IterationInfoFactory == null)
+                IterationInfoFactory = new IterationInfoFactory(context);
+            if (ParseResultFactory == null)
+                ParseResultFactory = new ParseResultFactory(context);
+            if (PotentialConsumerStrategy == null)
+                PotentialConsumerStrategy = new PotentialConsumerStrategy(context);
+            ArgsMutator.Context = context;
+            ChainIdentificationStrategy.Context = context;
+            ConsumerSelectionStrategy.Context = context;
+            ConsumptionRequestFactory.Context = context;
+            IterationInfoFactory.Context = context;
+            ParseResultFactory.Context = context;
+            PotentialConsumerStrategy.Context = context;
         }
 
         public virtual IParseResult Parse(string[] args, IContext context)
@@ -53,6 +80,8 @@ namespace ArgParser.Styles
                 var selected = ConsumerSelectionStrategy.Select(potentialConsumerResult);
                 var consumptionRequest = ConsumptionRequestFactory.Create(potentialConsumerResult, selected);
                 var consumptionResult = selected.ConsumingParameter.Consume(instance, consumptionRequest);
+                if (consumptionResult.ParseExceptions.Any())
+                    return new ParseResult(new Dictionary<object, Parser>(), consumptionResult.ParseExceptions);
                 info = consumptionResult.Info;
             }
 
@@ -69,7 +98,6 @@ namespace ArgParser.Styles
         public IIterationInfoFactory IterationInfoFactory { get; set; }
         public IParseResultFactory ParseResultFactory { get; set; }
         public IPotentialConsumerStrategy PotentialConsumerStrategy { get; set; }
-
         public string RootParserId { get; protected internal set; }
     }
 }

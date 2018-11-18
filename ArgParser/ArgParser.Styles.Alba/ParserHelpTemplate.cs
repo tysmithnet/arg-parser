@@ -9,13 +9,13 @@ namespace ArgParser.Styles.Alba
 {
     public class ParserHelpTemplate
     {
-        protected internal IContext Context { get; set; }
+        protected internal AlbaContext Context { get; set; }
         protected internal Parser Parser { get; set; }
         protected internal ParserHelpTemplateViewModel TemplateViewModel { get; set; }
 
         public ParserHelpTemplate(IContext context, string parserId)
         {
-            Context = context ?? throw new ArgumentNullException(nameof(context));
+            Context = context.ToAlbaContext();
             Parser = context.ParserRepository.Get(parserId);
             TemplateViewModel = CreateViewModel(context);
         }
@@ -26,7 +26,7 @@ namespace ArgParser.Styles.Alba
             vm.Chain = context.PathToRoot(Parser.Id).Reverse().Select(x => new ParserViewModel()
             {
                 Parser = x,
-                Theme = Theme.Warm
+                Theme = Context.Themes.TryGetValue(x, out var theme) ? theme : Theme.Default
             }).ToList();
             vm.ParameterVms = vm.Chain.SelectMany(x => x.Parser.Parameters.Select(y => new ParameterViewModel()
             {

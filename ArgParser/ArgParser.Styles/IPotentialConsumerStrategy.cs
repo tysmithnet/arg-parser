@@ -1,6 +1,6 @@
 ﻿namespace ArgParser.Styles
 {
-    public interface IPotentialConsumerStrategy
+    public interface IPotentialConsumerStrategy : IParseStrategyUnit
     {
         PotentialConsumerResult IdentifyPotentialConsumer(PotentialConsumerRequest request);
     }

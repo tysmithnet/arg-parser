@@ -47,6 +47,7 @@ namespace ArgParser.TestApp
             while (true)
             {
                 var builder = DefaultBuilder.CreateDefaultBuilder()
+                    .RegisterAlba()
                     .AddAutoHelp((parseResults, exceptions) =>
                     {
                         foreach (var kvp in parseResults)
@@ -55,11 +56,19 @@ namespace ArgParser.TestApp
                                 return kvp.Value.Id;
                         }
 
-                        // todo: exception?
+                        var missingValues = exceptions.OfType<MissingValueException>();
+                        var first = missingValues.FirstOrDefault();
+                        return first?.Parameter.Parser.Id;
+                    })
+                    .SetTheme("util", Theme.Create(ConsoleColor.Green, ConsoleColor.DarkGreen, ConsoleColor.Yellow, ConsoleColor.Red, ConsoleColor.Yellow))
+                    .SetTheme("clip", Theme.Create(ConsoleColor.Yellow, ConsoleColor.DarkYellow, ConsoleColor.Gray, ConsoleColor.Red, ConsoleColor.Gray))
+                    .SetTheme("sort", Theme.Create(ConsoleColor.Cyan, ConsoleColor.DarkCyan, ConsoleColor.Green, ConsoleColor.Red, ConsoleColor.Green))
+                    .SetTheme("zip", Theme.Create(ConsoleColor.Blue, ConsoleColor.DarkBlue, ConsoleColor.Cyan, ConsoleColor.Red, ConsoleColor.Cyan))
+                    .SetTheme("convert", Theme.Create(ConsoleColor.Red, ConsoleColor.DarkRed, ConsoleColor.Magenta, ConsoleColor.Red, ConsoleColor.Magenta))
+                    .SetTheme("firewall", Theme.Create(ConsoleColor.Blue, ConsoleColor.Yellow, ConsoleColor.DarkYellow, ConsoleColor.Red, ConsoleColor.DarkYellow))
+                    .SetTheme("block", Theme.Create(ConsoleColor.Green, ConsoleColor.DarkBlue, ConsoleColor.Yellow, ConsoleColor.Red, ConsoleColor.Yellow))
+                    .SetTheme("unblock", Theme.Create(ConsoleColor.White, ConsoleColor.Cyan, ConsoleColor.DarkCyan, ConsoleColor.Red, ConsoleColor.DarkCyan));
 
-                        return null;
-                    });
-                var context = builder.Context;
                 Console.Write($"$ util ");
                 var line = Console.ReadLine();
                 if (line.IsNullOrWhiteSpace())
@@ -78,16 +87,6 @@ namespace ArgParser.TestApp
                 result.WhenError(exceptions =>
                 {
                     exceptions = exceptions.ToList();
-                    foreach (var parseException in exceptions)
-                        if (parseException is MissingRequiredParameterException mrpe &&
-                            mrpe.Instance is UtilOptions options && options.IsHelpRequested)
-                        {
-                            var helpTemplate = new ParserHelpTemplate(context, mrpe.RequiredParameter.Parser.Id);
-                            var doc = helpTemplate.Create();
-                            ConsoleRenderer.RenderDocument(doc);
-                            return;
-                        }
-
                     Console.Error.WriteLine("Error");
                     foreach (var ex in exceptions)
                     {

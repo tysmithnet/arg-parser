@@ -1,6 +1,13 @@
-﻿namespace ArgParser.Styles
+﻿using ArgParser.Core;
+
+namespace ArgParser.Styles
 {
-    public interface IArgsMutator
+    public interface IParseStrategyUnit
+    {
+        IContext Context { get; set; }
+    }
+
+    public interface IArgsMutator : IParseStrategyUnit
     {
         string[] Mutate(MutateArgsRequest request);
     }

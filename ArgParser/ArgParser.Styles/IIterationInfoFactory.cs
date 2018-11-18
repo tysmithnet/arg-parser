@@ -2,7 +2,7 @@
 
 namespace ArgParser.Styles
 {
-    public interface IIterationInfoFactory
+    public interface IIterationInfoFactory : IParseStrategyUnit
     {
         IterationInfo Create(IterationInfoRequest request);
     }

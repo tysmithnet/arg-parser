@@ -10,7 +10,7 @@ namespace ArgParser.Styles.Alba
     {
         public IParseResultFactory Inner { get; set; }
         protected internal Func<Dictionary<object, Parser>, IEnumerable<ParseException>, string> IsHelpRequestedCallback { get; set; }
-        protected internal IContext Context { get; set; }
+        public IContext Context { get; set; }
 
         public HelpRequestedParseResultFactory(IParseResultFactory inner,
             Func<Dictionary<object, Parser>, IEnumerable<ParseException>, string> helpRequestedCallback,
