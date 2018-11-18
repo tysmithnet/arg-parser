@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ArgParser.Testing.Common;
 using FluentAssertions;
 using Xunit;
 
@@ -162,6 +163,18 @@ namespace ArgParser.Styles.Test.Default
             // act
             // assert
             mightThrow.Should().Throw<KeyNotFoundException>();
+        }
+
+        [Fact]
+        public void Return_The_Children_Of_The_Requested_Node()
+        {
+            // arrange
+            var builder = DefaultBuilder.CreateDefaultBuilder();
+
+            // act
+            // assert
+            builder.Context.HierarchyRepository.GetChildren("util").Should()
+                .Contain("clip convert firewall".Split(' '));
         }
     }
 }
