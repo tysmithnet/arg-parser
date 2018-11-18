@@ -9,6 +9,25 @@ namespace ArgParser.Styles.Test.Default
     public class ParserBuilder_Should
     {
         [Fact]
+        public void Allow_A_Factory_Method_To_Be_Assigned()
+        {
+            // arrange
+            var contextBuilder = new ContextBuilder("base");
+            var parser0 = new Parser<string>("base");
+            var parser1 = new Parser("base1");
+            var builder0 = new ParserBuilder<string>(contextBuilder, parser0);
+            var builder1 = new ParserBuilder(contextBuilder, parser1);
+
+            // act
+            builder0.WithFactoryFunction(() => "hi");
+            builder1.WithFactoryFunction(() => "hi");
+
+            // assert
+            parser0.FactoryFunction().Should().Be("hi");
+            parser1.FactoryFunction().Should().Be("hi");
+        }
+
+        [Fact]
         public void Allow_A_Positional_Of_A_Single_String()
         {
             // arrange
