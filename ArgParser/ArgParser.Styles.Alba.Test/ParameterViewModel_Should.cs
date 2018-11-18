@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ArgParser.Core;
+﻿using ArgParser.Core;
 using FluentAssertions;
 using Xunit;
 
@@ -17,7 +12,7 @@ namespace ArgParser.Styles.Alba.Test
             // arrange
             var param = new BooleanSwitch(new Parser("a"), 'b', "bee", o => { });
             param.IsRequired = true;
-            var vm = new ParameterViewModel()
+            var vm = new ParameterViewModel
             {
                 Parameter = param,
                 Theme = Theme.Default
@@ -34,7 +29,7 @@ namespace ArgParser.Styles.Alba.Test
             // arrange
             var param = new BooleanSwitch(new Parser("a"), 'b', "bee", o => { });
             param.IsRequired = false;
-            var vm = new ParameterViewModel()
+            var vm = new ParameterViewModel
             {
                 Parameter = param,
                 Theme = Theme.Default

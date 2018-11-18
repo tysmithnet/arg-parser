@@ -168,7 +168,7 @@ namespace ArgParser.Styles.Alba.Test
             usage.GenerateSequence(mock.Object);
 
             // assert
-            usage.StringBuilder.ToString().Should().Be("[-v, --value val1..val3]");
+            usage.GeneratedText.Should().Be("[-v, --value val1..val3]");
         }
 
         [Fact]
