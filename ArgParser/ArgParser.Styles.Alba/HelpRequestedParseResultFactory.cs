@@ -8,6 +8,8 @@ namespace ArgParser.Styles.Alba
 {
     public class HelpRequestedParseResultFactory : IParseResultFactory
     {
+        public ITemplateRenderer TemplateRenderer { get; set; } = new TemplateRenderer();
+
         public HelpRequestedParseResultFactory(IParseResultFactory inner,
             Func<Dictionary<object, Parser>, IEnumerable<ParseException>, string> helpRequestedCallback,
             IContext context)
@@ -24,9 +26,8 @@ namespace ArgParser.Styles.Alba
             var helpRequest = IsHelpRequestedCallback(results, parseExceptions);
             if (helpRequest.IsNotNullOrWhiteSpace())
             {
-                var writer = new ParserHelpTemplate(Context, helpRequest);
-                var doc = writer.Create();
-                ConsoleRenderer.RenderDocument(doc);
+                var template = new ParserHelpTemplate(Context, helpRequest);
+                TemplateRenderer.Render(template);
                 return new ParseResult(null, null);
             }
 

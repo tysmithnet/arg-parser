@@ -6,7 +6,7 @@ using ArgParser.Core;
 
 namespace ArgParser.Styles.Alba
 {
-    public class ParserHelpTemplate
+    public class ParserHelpTemplate : ITemplate
     {
         public ParserHelpTemplate(IContext context, string parserId)
         {

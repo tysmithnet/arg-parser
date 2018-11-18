@@ -28,4 +28,5 @@ namespace ArgParser.Styles
 
         public IContext Context { get; set; }
     }
+
 }

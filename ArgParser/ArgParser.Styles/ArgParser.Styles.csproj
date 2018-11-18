@@ -8,4 +8,10 @@
     <ProjectReference Include="..\ArgParser.Core\ArgParser.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Alba.CsConsoleFormat">
+      <HintPath>..\..\..\..\Users\master\.nuget\packages\alba.csconsoleformat\1.0.0\lib\netstandard2.0\Alba.CsConsoleFormat.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
