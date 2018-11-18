@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
-using Alba.CsConsoleFormat;
 using ArgParser.Core;
 using ArgParser.Styles;
 using ArgParser.Styles.Alba;
@@ -51,23 +49,37 @@ namespace ArgParser.TestApp
                     .AddAutoHelp((parseResults, exceptions) =>
                     {
                         foreach (var kvp in parseResults)
-                        {
                             if (kvp.Key is UtilOptions casted && casted.IsHelpRequested)
                                 return kvp.Value.Id;
-                        }
 
                         var missingValues = exceptions.OfType<MissingValueException>();
                         var first = missingValues.FirstOrDefault();
                         return first?.Parameter.Parser.Id;
                     })
-                    .SetTheme("util", Theme.Create(ConsoleColor.Green, ConsoleColor.DarkGreen, ConsoleColor.Yellow, ConsoleColor.Red, ConsoleColor.Yellow))
-                    .SetTheme("clip", Theme.Create(ConsoleColor.Yellow, ConsoleColor.DarkYellow, ConsoleColor.Gray, ConsoleColor.Red, ConsoleColor.Gray))
-                    .SetTheme("sort", Theme.Create(ConsoleColor.Cyan, ConsoleColor.DarkCyan, ConsoleColor.Green, ConsoleColor.Red, ConsoleColor.Green))
-                    .SetTheme("zip", Theme.Create(ConsoleColor.Blue, ConsoleColor.DarkBlue, ConsoleColor.Cyan, ConsoleColor.Red, ConsoleColor.Cyan))
-                    .SetTheme("convert", Theme.Create(ConsoleColor.Red, ConsoleColor.DarkRed, ConsoleColor.Magenta, ConsoleColor.Red, ConsoleColor.Magenta))
-                    .SetTheme("firewall", Theme.Create(ConsoleColor.Blue, ConsoleColor.Yellow, ConsoleColor.DarkYellow, ConsoleColor.Red, ConsoleColor.DarkYellow))
-                    .SetTheme("block", Theme.Create(ConsoleColor.Green, ConsoleColor.DarkBlue, ConsoleColor.Yellow, ConsoleColor.Red, ConsoleColor.Yellow))
-                    .SetTheme("unblock", Theme.Create(ConsoleColor.White, ConsoleColor.Cyan, ConsoleColor.DarkCyan, ConsoleColor.Red, ConsoleColor.DarkCyan));
+                    .SetTheme("util",
+                        Theme.Create(ConsoleColor.Green, ConsoleColor.DarkGreen, ConsoleColor.Yellow, ConsoleColor.Red,
+                            ConsoleColor.Yellow))
+                    .SetTheme("clip",
+                        Theme.Create(ConsoleColor.Yellow, ConsoleColor.DarkYellow, ConsoleColor.Gray, ConsoleColor.Red,
+                            ConsoleColor.Gray))
+                    .SetTheme("sort",
+                        Theme.Create(ConsoleColor.Cyan, ConsoleColor.DarkCyan, ConsoleColor.Green, ConsoleColor.Red,
+                            ConsoleColor.Green))
+                    .SetTheme("zip",
+                        Theme.Create(ConsoleColor.Blue, ConsoleColor.DarkBlue, ConsoleColor.Cyan, ConsoleColor.Red,
+                            ConsoleColor.Cyan))
+                    .SetTheme("convert",
+                        Theme.Create(ConsoleColor.Red, ConsoleColor.DarkRed, ConsoleColor.Magenta, ConsoleColor.Red,
+                            ConsoleColor.Magenta))
+                    .SetTheme("firewall",
+                        Theme.Create(ConsoleColor.Blue, ConsoleColor.Yellow, ConsoleColor.DarkYellow, ConsoleColor.Red,
+                            ConsoleColor.DarkYellow))
+                    .SetTheme("block",
+                        Theme.Create(ConsoleColor.Green, ConsoleColor.DarkBlue, ConsoleColor.Yellow, ConsoleColor.Red,
+                            ConsoleColor.Yellow))
+                    .SetTheme("unblock",
+                        Theme.Create(ConsoleColor.White, ConsoleColor.Cyan, ConsoleColor.DarkCyan, ConsoleColor.Red,
+                            ConsoleColor.DarkCyan));
 
                 Console.Write($"$ util ");
                 var line = Console.ReadLine();
@@ -76,7 +88,7 @@ namespace ArgParser.TestApp
                 args = CommandLineToArgs(line).Where(x => !x.IsNullOrWhiteSpace()).ToArray();
                 if (args.Length == 0)
                     continue;
-                
+
                 var result = builder.Parse(args);
                 result.When<UtilOptions>((options, parser) =>
                 {
@@ -88,14 +100,9 @@ namespace ArgParser.TestApp
                 {
                     exceptions = exceptions.ToList();
                     Console.Error.WriteLine("Error");
-                    foreach (var ex in exceptions)
-                    {
-                        Console.Error.WriteLineAsync($"Parse Error: {ex.Message}");
-                    }
+                    foreach (var ex in exceptions) Console.Error.WriteLineAsync($"Parse Error: {ex.Message}");
                 });
             }
         }
     }
-
-   
 }

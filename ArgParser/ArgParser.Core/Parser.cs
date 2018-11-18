@@ -9,7 +9,6 @@ namespace ArgParser.Core
     [DebuggerDisplay("{Id}")]
     public class Parser : IConsumer
     {
-
         public Parser(string id)
         {
             Id = id;
@@ -42,7 +41,6 @@ namespace ArgParser.Core
         public string Id { get; protected internal set; }
         public IEnumerable<Parameter> Parameters => ParametersInternal.ToList();
         protected internal IList<Parameter> ParametersInternal { get; set; } = new List<Parameter>();
-
     }
 
     [DebuggerDisplay("{Id}")]

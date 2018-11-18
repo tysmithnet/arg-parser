@@ -9,8 +9,6 @@ namespace ArgParser.Styles
             Context = context.ThrowIfArgumentNull(nameof(context));
         }
 
-        public IContext Context { get; set; }
-
         public ConsumptionRequest Create(PotentialConsumerResult consumerResult, ConsumptionResult selected)
         {
             for (var i = 1;
@@ -26,5 +24,7 @@ namespace ArgParser.Styles
 
             return new ConsumptionRequest(consumerResult.Info, selected.NumConsumed);
         }
+
+        public IContext Context { get; set; }
     }
 }

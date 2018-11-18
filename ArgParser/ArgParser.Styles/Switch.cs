@@ -36,8 +36,9 @@ namespace ArgParser.Styles
             return Letter.HasValue ? $"-{Letter}" : $"--{Word}";
         }
 
+        public bool IsRequired { get; protected internal set; }
+
         public char? Letter { get; protected internal set; }
         public string Word { get; protected internal set; }
-        public bool IsRequired { get; protected internal set; }
     }
 }

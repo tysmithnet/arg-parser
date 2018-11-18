@@ -8,10 +8,6 @@ namespace ArgParser.Styles.Alba
 {
     public class HelpRequestedParseResultFactory : IParseResultFactory
     {
-        public IParseResultFactory Inner { get; set; }
-        protected internal Func<Dictionary<object, Parser>, IEnumerable<ParseException>, string> IsHelpRequestedCallback { get; set; }
-        public IContext Context { get; set; }
-
         public HelpRequestedParseResultFactory(IParseResultFactory inner,
             Func<Dictionary<object, Parser>, IEnumerable<ParseException>, string> helpRequestedCallback,
             IContext context)
@@ -33,7 +29,17 @@ namespace ArgParser.Styles.Alba
                 ConsoleRenderer.RenderDocument(doc);
                 return new ParseResult(null, null);
             }
+
             return Inner.Create(results, parseExceptions);
+        }
+
+        public IContext Context { get; set; }
+        public IParseResultFactory Inner { get; set; }
+
+        protected internal Func<Dictionary<object, Parser>, IEnumerable<ParseException>, string> IsHelpRequestedCallback
+        {
+            get;
+            set;
         }
     }
 }

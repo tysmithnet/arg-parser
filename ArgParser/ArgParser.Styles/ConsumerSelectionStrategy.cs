@@ -10,8 +10,6 @@ namespace ArgParser.Styles
             Context = context.ThrowIfArgumentNull(nameof(context));
         }
 
-        public IContext Context { get; set; }
-
         public ConsumptionResult Select(PotentialConsumerResult result)
         {
             ConsumptionResult foundResult = null;
@@ -20,11 +18,14 @@ namespace ArgParser.Styles
                 foundResult = switchResults.FirstOrDefault(r => result.Chain.Contains(r.ConsumingParameter.Parser));
 
             if (foundResult == null)
-                foundResult = result.ConsumptionResults.FirstOrDefault(r => result.Chain.Contains(r.ConsumingParameter.Parser));
+                foundResult =
+                    result.ConsumptionResults.FirstOrDefault(r => result.Chain.Contains(r.ConsumingParameter.Parser));
 
             if (foundResult == null)
                 throw new ForwardProgressException($"Expected to find a parser to consume, but found none");
             return foundResult;
         }
+
+        public IContext Context { get; set; }
     }
 }

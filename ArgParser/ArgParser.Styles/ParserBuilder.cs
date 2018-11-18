@@ -22,7 +22,7 @@ namespace ArgParser.Styles
             AddParameterInternal(sw, helpSetupCallback);
             return this;
         }
-        
+
         public ParserBuilder WithFactoryFunction(Func<object> func)
         {
             Parser.FactoryFunction = func.ThrowIfArgumentNull(nameof(func));
@@ -65,7 +65,8 @@ namespace ArgParser.Styles
         }
 
         public ParserBuilder WithValuesSwitch(char? letter, string word, Action<object, string[]> consumeCallback,
-            int min = 1, int max = int.MaxValue, Action<ParameterHelpBuilder> helpSetupCallback = null, bool required = false)
+            int min = 1, int max = int.MaxValue, Action<ParameterHelpBuilder> helpSetupCallback = null,
+            bool required = false)
         {
             var sw = new ValuesSwitch(Parser, letter, word, consumeCallback)
             {
@@ -151,7 +152,8 @@ namespace ArgParser.Styles
         }
 
         public ParserBuilder<T> WithValuesSwitch(char? letter, string word, Action<T, string[]> consumeCallback,
-            int min = 1, int max = int.MaxValue, Action<ParameterHelpBuilder> helpSetupCallback = null, bool required = false)
+            int min = 1, int max = int.MaxValue, Action<ParameterHelpBuilder> helpSetupCallback = null,
+            bool required = false)
         {
             var sw = new ValuesSwitch<T>(Parser, letter, word, consumeCallback)
             {

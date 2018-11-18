@@ -7,19 +7,9 @@ namespace ArgParser.Core
 {
     public static class BasicExtensions
     {
-        public static Stream ToStream(this string source)
-        {
-            var stream = new MemoryStream();
-            var writer = new StreamWriter(stream);
-            writer.Write(source);
-            writer.Flush();
-            writer.Close();
-            stream.Position = 0;
-            return stream;
-        }
+        public static bool IsNotNullOrWhiteSpace(this string source) => !IsNullOrWhiteSpace(source);
 
         public static bool IsNullOrWhiteSpace(this string source) => string.IsNullOrWhiteSpace(source);
-        public static bool IsNotNullOrWhiteSpace(this string source) => !IsNullOrWhiteSpace(source);
 
         public static string Join(this IEnumerable<string> strings, string separator) =>
             string.Join(separator, strings);
@@ -67,6 +57,17 @@ namespace ArgParser.Core
                     throw new ArgumentException(
                         $"Expected to find object of type={typeof(T).FullName}, but found type={instance.GetType().FullName}");
             };
+        }
+
+        public static Stream ToStream(this string source)
+        {
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream);
+            writer.Write(source);
+            writer.Flush();
+            writer.Close();
+            stream.Position = 0;
+            return stream;
         }
     }
 }

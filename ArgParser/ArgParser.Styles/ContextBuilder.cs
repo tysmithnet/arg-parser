@@ -5,17 +5,17 @@ namespace ArgParser.Styles
 {
     public class ContextBuilder
     {
-        protected internal string RootParserId { get; set; }
-        
         public ContextBuilder(string rootParserId)
         {
             RootParserId = rootParserId.ThrowIfArgumentNull(nameof(rootParserId));
-            Context = new Context()
+            Context = new Context
             {
                 HierarchyRepository = HierarchyRepository,
                 ParserRepository = ParserRepository
             };
         }
+
+        public event EventHandler<ParseStrategyCreatedEventArgs> ParseStrategyCreated;
 
         public ParserBuilder AddParser(string id, Action<ParserHelpBuilder> helpSetupCallback = null)
         {
@@ -46,8 +46,6 @@ namespace ArgParser.Styles
             return new ParserBuilder<T>(this, parser);
         }
 
-        public Context Context { get; protected internal set; }
-
         public ContextBuilder CreateParentChildRelationship(string parent, string child)
         {
             HierarchyRepository.EstablishParentChildRelationship(parent, child);
@@ -62,16 +60,17 @@ namespace ArgParser.Styles
             return strat.Parse(args, context);
         }
 
-        public event EventHandler<ParseStrategyCreatedEventArgs> ParseStrategyCreated; 
-        protected internal HierarchyRepository HierarchyRepository { get; set; } = new HierarchyRepository();
-        protected internal ParserRepository ParserRepository { get; set; } = new ParserRepository();
-
         protected virtual void OnParseStrategyCreated(ParseStrategy parseStrategy)
         {
-            ParseStrategyCreated?.Invoke(this, new ParseStrategyCreatedEventArgs()
+            ParseStrategyCreated?.Invoke(this, new ParseStrategyCreatedEventArgs
             {
                 ParseStrategy = parseStrategy.ThrowIfArgumentNull(nameof(parseStrategy))
             });
         }
+
+        public Context Context { get; protected internal set; }
+        protected internal HierarchyRepository HierarchyRepository { get; set; } = new HierarchyRepository();
+        protected internal ParserRepository ParserRepository { get; set; } = new ParserRepository();
+        protected internal string RootParserId { get; set; }
     }
 }

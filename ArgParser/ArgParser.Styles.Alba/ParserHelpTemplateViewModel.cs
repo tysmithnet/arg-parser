@@ -7,12 +7,12 @@ namespace ArgParser.Styles.Alba
 {
     public class ParserHelpTemplateViewModel
     {
-        public ParserViewModel ParserVm => Chain.Last();
-        public IList<ParserViewModel> Chain { get; set; }
-        public IList<ParameterViewModel> ParameterVms { get; set; }
-
         public string BannerColor =>
             $"{ParserVm.Theme.DefaultTextColor} 0; {ParserVm.Theme.SecondaryTextColor}; {ParserVm.Theme.CodeColor} 3";
+
+        public IList<ParserViewModel> Chain { get; set; }
+        public IList<ParameterViewModel> ParameterVms { get; set; }
+        public ParserViewModel ParserVm => Chain.Last();
 
         public string SubTitle
         {
@@ -26,6 +26,5 @@ namespace ArgParser.Styles.Alba
                 return sb.ToString();
             }
         }
-        
     }
 }

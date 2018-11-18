@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using Alba.CsConsoleFormat;
 using ArgParser.Core;
 
@@ -7,15 +6,19 @@ namespace ArgParser.Styles.Alba
 {
     public class ParameterUsage : InlineElement
     {
-        public ParameterViewModel ViewModel { get; set; }
-        protected internal StringBuilder StringBuilder { get; set; } = new StringBuilder();
-
         public override void GenerateSequence(IInlineSequence sequence)
         {
-            if(ViewModel.Parameter is Switch @switch)
+            if (ViewModel.Parameter is Switch @switch)
                 GenerateSwitchSequence(@switch, sequence);
-            else if(ViewModel.Parameter is Positional positional)
+            else if (ViewModel.Parameter is Positional positional)
                 GeneratePositionalSequence(positional, sequence);
+        }
+
+        private void GeneratePositionalSequence(Positional positional, IInlineSequence seq)
+        {
+            WritePrimary(seq, "[");
+            WriteSecondary(seq, GenerateValueAlias(positional));
+            WritePrimary(seq, "]");
         }
 
         private void GenerateSwitchSequence(Switch @switch, IInlineSequence seq)
@@ -36,44 +39,22 @@ namespace ArgParser.Styles.Alba
                 WriteSecondary(seq, $"--{@switch.Word}");
             }
 
-            if (ViewModel.Parameter.MaxAllowed > 1)
-            {
-                WriteSecondary(seq, $" {GenerateValueAlias(@switch)}");
-            }
-            WritePrimary(seq, "]");
-        }
-
-        private void GeneratePositionalSequence(Positional positional, IInlineSequence seq)
-        {
-            WritePrimary(seq, "[");
-            WriteSecondary(seq, GenerateValueAlias(positional));
+            if (ViewModel.Parameter.MaxAllowed > 1) WriteSecondary(seq, $" {GenerateValueAlias(@switch)}");
             WritePrimary(seq, "]");
         }
 
         private string GenerateValueAlias(Parameter parameter)
         {
-            string prefix = "v";
+            var prefix = "v";
             if (parameter is Positional)
                 prefix = "p";
-            if (parameter.Help?.ValueAlias.IsNotNullOrWhiteSpace() ?? false)
-            {
-                prefix = parameter.Help.ValueAlias;
-            }
+            if (parameter.Help?.ValueAlias.IsNotNullOrWhiteSpace() ?? false) prefix = parameter.Help.ValueAlias;
 
             var hi = parameter.MaxAllowed == int.MaxValue ? "N" : $"{parameter.MaxAllowed}";
-            if (parameter is Switch && parameter.MinRequired == 1)
-            {
-                return "";
-            }
-            if (parameter is Switch && parameter.MaxAllowed == 2)
-            {
-                return prefix;
-            }
+            if (parameter is Switch && parameter.MinRequired == 1) return "";
+            if (parameter is Switch && parameter.MaxAllowed == 2) return prefix;
 
-            if (parameter is Positional && parameter.MaxAllowed == 1)
-            {
-                return prefix;
-            }
+            if (parameter is Positional && parameter.MaxAllowed == 1) return prefix;
 
             return $"{prefix}1..{prefix}{hi}";
         }
@@ -95,5 +76,7 @@ namespace ArgParser.Styles.Alba
         }
 
         public override string GeneratedText => StringBuilder.ToString();
+        public ParameterViewModel ViewModel { get; set; }
+        protected internal StringBuilder StringBuilder { get; set; } = new StringBuilder();
     }
 }

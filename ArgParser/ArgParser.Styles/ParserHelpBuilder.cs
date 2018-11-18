@@ -10,6 +10,18 @@ namespace ArgParser.Styles
             Parser = parser.ThrowIfArgumentNull(nameof(parser));
         }
 
+        public ParserHelpBuilder AddExample(string name, string description, string usage, string result)
+        {
+            Help.AddExample(new Example
+            {
+                Name = name,
+                ShortDescription = description,
+                Usage = usage,
+                Result = result
+            });
+            return this;
+        }
+
         public ParserHelp Build() => Help;
 
         public ParserHelpBuilder SetLongDescription(string desc)
@@ -27,18 +39,6 @@ namespace ArgParser.Styles
         public ParserHelpBuilder SetShortDescription(string desc)
         {
             Help.ShortDescription = desc;
-            return this;
-        }
-
-        public ParserHelpBuilder AddExample(string name, string description, string usage, string result)
-        {
-            Help.AddExample(new Example()
-            {
-                Name = name,
-                ShortDescription = description,
-                Usage = usage,
-                Result = result
-            });
             return this;
         }
 

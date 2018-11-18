@@ -6,13 +6,6 @@ namespace ArgParser.Styles
 {
     public class ParseStrategy : IParseStrategy
     {
-        private IContext _context;
-
-        public IContext Context
-        {
-            get => _context;
-            set => SetContext(value);
-        }
         public ParseStrategy(IContext context, string rootParserId)
         {
             Context = context.ThrowIfArgumentNull(nameof(context));
@@ -20,31 +13,7 @@ namespace ArgParser.Styles
             SetContext(context);
         }
 
-        private void SetContext(IContext context)
-        {
-            _context = context;
-            if (ArgsMutator == null)
-                ArgsMutator = new ArgsMutator(context);
-            if (ChainIdentificationStrategy == null)
-                ChainIdentificationStrategy = new ParserChainIdentificationStrategy(context);
-            if (ConsumerSelectionStrategy == null)
-                ConsumerSelectionStrategy = new ConsumerSelectionStrategy(context);
-            if (ConsumptionRequestFactory == null)
-                ConsumptionRequestFactory = new ConsumptionRequestFactory(context);
-            if (IterationInfoFactory == null)
-                IterationInfoFactory = new IterationInfoFactory(context);
-            if (ParseResultFactory == null)
-                ParseResultFactory = new ParseResultFactory(context);
-            if (PotentialConsumerStrategy == null)
-                PotentialConsumerStrategy = new PotentialConsumerStrategy(context);
-            ArgsMutator.Context = context;
-            ChainIdentificationStrategy.Context = context;
-            ConsumerSelectionStrategy.Context = context;
-            ConsumptionRequestFactory.Context = context;
-            IterationInfoFactory.Context = context;
-            ParseResultFactory.Context = context;
-            PotentialConsumerStrategy.Context = context;
-        }
+        private IContext _context;
 
         public virtual IParseResult Parse(string[] args, IContext context)
         {
@@ -91,10 +60,43 @@ namespace ArgParser.Styles
             }, null);
         }
 
+        private void SetContext(IContext context)
+        {
+            _context = context;
+            if (ArgsMutator == null)
+                ArgsMutator = new ArgsMutator(context);
+            if (ChainIdentificationStrategy == null)
+                ChainIdentificationStrategy = new ParserChainIdentificationStrategy(context);
+            if (ConsumerSelectionStrategy == null)
+                ConsumerSelectionStrategy = new ConsumerSelectionStrategy(context);
+            if (ConsumptionRequestFactory == null)
+                ConsumptionRequestFactory = new ConsumptionRequestFactory(context);
+            if (IterationInfoFactory == null)
+                IterationInfoFactory = new IterationInfoFactory(context);
+            if (ParseResultFactory == null)
+                ParseResultFactory = new ParseResultFactory(context);
+            if (PotentialConsumerStrategy == null)
+                PotentialConsumerStrategy = new PotentialConsumerStrategy(context);
+            ArgsMutator.Context = context;
+            ChainIdentificationStrategy.Context = context;
+            ConsumerSelectionStrategy.Context = context;
+            ConsumptionRequestFactory.Context = context;
+            IterationInfoFactory.Context = context;
+            ParseResultFactory.Context = context;
+            PotentialConsumerStrategy.Context = context;
+        }
+
         public IArgsMutator ArgsMutator { get; set; }
         public IParserChainIdentificationStrategy ChainIdentificationStrategy { get; set; }
         public IConsumerSelectionStrategy ConsumerSelectionStrategy { get; set; }
         public IConsumptionRequestFactory ConsumptionRequestFactory { get; set; }
+
+        public IContext Context
+        {
+            get => _context;
+            set => SetContext(value);
+        }
+
         public IIterationInfoFactory IterationInfoFactory { get; set; }
         public IParseResultFactory ParseResultFactory { get; set; }
         public IPotentialConsumerStrategy PotentialConsumerStrategy { get; set; }

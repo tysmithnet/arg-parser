@@ -6,10 +6,7 @@ namespace ArgParser.Core
     {
         public ConsumptionResult(params ParseException[] parseExceptions)
         {
-            foreach (var parseException in parseExceptions.PreventNull())
-            {
-                ParseExceptions.Add(parseException);
-            }
+            foreach (var parseException in parseExceptions.PreventNull()) ParseExceptions.Add(parseException);
         }
 
         public ConsumptionResult(IterationInfo originalInfo, int numConsumed, Parameter consumingParameter)
