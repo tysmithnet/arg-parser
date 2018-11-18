@@ -27,12 +27,7 @@ namespace ArgParser.Styles.ParseStrategy
             while (!info.IsComplete())
             {
                 var potentialConsumerResult = PotentialConsumerStrategy.IdentifyPotentialConsumer(
-                    new PotentialConsumerRequest
-                    {
-                        ChainIdentificationResult = chainRes,
-                        Instance = instance,
-                        Info = info
-                    });
+                    new PotentialConsumerRequest(chainRes, info, instance));
                 if (!potentialConsumerResult.Success)
                     throw new UnexpectedArgException($"todo: change");
                 var selected = ConsumerSelectionStrategy.Select(potentialConsumerResult);

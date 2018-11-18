@@ -15,12 +15,7 @@ namespace ArgParser.Styles.ParseStrategy
             var consumptionResultsForTheParsersWhoCanConsume = request.ChainIdentificationResult.Chain
                 .Select(x => x.CanConsume(request.Instance, request.Info))
                 .Where(x => x.NumConsumed > 0).ToList();
-            return new PotentialConsumerResult
-            {
-                ConsumptionResults = consumptionResultsForTheParsersWhoCanConsume,
-                Chain = request.ChainIdentificationResult.Chain,
-                Info = request.Info
-            };
+            return new PotentialConsumerResult(request.ChainIdentificationResult.Chain,consumptionResultsForTheParsersWhoCanConsume,request.Info);
         }
 
         public IContext Context { get; set; }

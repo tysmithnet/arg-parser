@@ -18,11 +18,8 @@ namespace ArgParser.Styles.Alba.Test
             var strat = new ConsumerSelectionStrategy(builder.Context);
             var info = new IterationInfo("firewall -h".Split(' '));
             var parameter = new BooleanSwitch(new Parser("fake"), 'h', "help", o => { });
-            var result = new PotentialConsumerResult
-            {
-                Chain = builder.Context.PathToRoot("firewall").Reverse().ToList(),
-                Info = info,
-                ConsumptionResults = new[]
+            var result = new PotentialConsumerResult(builder.Context.PathToRoot("firewall").Reverse().ToList(),
+                new[]
                 {
                     new ConsumptionResult
                     {
@@ -30,8 +27,7 @@ namespace ArgParser.Styles.Alba.Test
                         Info = info,
                         ParseExceptions = null
                     }
-                }
-            };
+                }, info);
             Action mightThrow = () => strat.Select(result);
 
             // act

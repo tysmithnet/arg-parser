@@ -40,12 +40,8 @@ public class ParseStrategy_Should
         var mock = new Mock<IPotentialConsumerStrategy>();
         mock.SetupAllProperties();
         mock.Setup(s => s.IdentifyPotentialConsumer(It.IsAny<PotentialConsumerRequest>())).Returns(
-            new PotentialConsumerResult
-            {
-                Chain = builder.Context.PathToRoot("util"),
-                Info = new IterationInfo("-h".Split(' ')),
-                ConsumptionResults = new ConsumptionResult[0]
-            });
+            new PotentialConsumerResult(builder.Context.PathToRoot("util"), new ConsumptionResult[0],
+                new IterationInfo("-h".Split(' '))));
         strat.PotentialConsumerStrategy = mock.Object;
         Action mightThrow = () => strat.Parse("-h".Split(' '), builder.Context);
 
