@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ArgParser.Core;
 using HelpRequestCallback =
     System.Func<System.Collections.Generic.Dictionary<object, ArgParser.Core.Parser>,
@@ -13,16 +14,19 @@ namespace ArgParser.Styles.Alba
 
         internal static readonly Dictionary<Parser, Theme> ParserThemes = new Dictionary<Parser, Theme>();
 
-        public static ContextBuilder AddAutoHelp(this ContextBuilder builder, HelpRequestCallback callback)
+        public static ContextBuilder AddAutoHelp(this ContextBuilder builder, HelpRequestCallback callback, Func<HelpRequestedParseResultFactory, HelpRequestedParseResultFactory> setupCallback = null)
         {
             builder.ParseStrategyCreated += (sender, args) =>
             {
                 var albaContext = builder.Context.ToAlbaContext();
                 albaContext.Themes = ParserThemes;
                 args.ParseStrategy.Context = albaContext;
+                var factory = new HelpRequestedParseResultFactory(args.ParseStrategy.ParseResultFactory, callback,
+                    builder.Context);
+                if (setupCallback != null)
+                    factory = setupCallback(factory);
                 args.ParseStrategy.ParseResultFactory =
-                    new HelpRequestedParseResultFactory(args.ParseStrategy.ParseResultFactory, callback,
-                        builder.Context);
+                    factory;
             };
             return builder;
         }
