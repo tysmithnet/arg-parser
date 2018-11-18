@@ -7,15 +7,19 @@ namespace ArgParser.Styles
 {
     public class ParseResult : IParseResult
     {
-        public ParseResult(IEnumerable<object> parsedInstances, IEnumerable<ParseException> parseExceptions)
+        public ParseResult(Dictionary<object, Parser> results, IEnumerable<ParseException> parseExceptions)
         {
-            ParsedInstances = parsedInstances.PreventNull().ToList();
+            Results = results ?? new Dictionary<object, Parser>();
             ParseExceptions = parseExceptions.PreventNull().ToList();
         }
 
-        public void When<T>(Action<T> handler)
+        public void When<T>(Action<T, Parser> handler)
         {
-            foreach (var instance in ParsedInstances.OfType<T>()) handler(instance);
+            foreach (var kvp in Results)
+            {
+                if (kvp.Key is T casted)
+                    handler(casted, kvp.Value);
+            }
         }
 
         public void WhenError(Action<IEnumerable<ParseException>> handler)
@@ -24,7 +28,7 @@ namespace ArgParser.Styles
                 handler(ParseExceptions);
         }
 
-        protected internal IList<object> ParsedInstances { get; set; }
+        protected internal Dictionary<object, Parser> Results { get; set; }
         protected internal IList<ParseException> ParseExceptions { get; set; }
     }
 }

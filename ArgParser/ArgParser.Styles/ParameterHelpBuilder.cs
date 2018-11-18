@@ -12,6 +12,12 @@ namespace ArgParser.Styles
 
         public ParameterHelp Build() => Help;
 
+        public ParameterHelpBuilder SetDefaultValue(string value)
+        {
+            Parameter.Help.DefaultValue = value;
+            return this;
+        }
+
         public ParameterHelpBuilder SetName(string name)
         {
             Help.Name = name;

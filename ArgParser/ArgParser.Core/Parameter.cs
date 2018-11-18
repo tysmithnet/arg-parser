@@ -9,7 +9,7 @@ namespace ArgParser.Core
 
         protected Parameter(Parser parent, Action<object, string[]> consumeCallback)
         {
-            Parent = parent.ThrowIfArgumentNull(nameof(parent));
+            Parser = parent.ThrowIfArgumentNull(nameof(parent));
             ConsumeCallback = consumeCallback.ThrowIfArgumentNull(nameof(consumeCallback));
         }
 
@@ -21,13 +21,20 @@ namespace ArgParser.Core
 
         public virtual ConsumptionResult Consume(object instance, ConsumptionRequest request)
         {
-            if (request.Max < MinRequired)
-                throw new MissingValueException(
-                    $"Switch {this} expected to have at least {MinRequired} values, but was told it can only have {request.Max}. Are you sure you passed enough values to satisfy the switch?");
-            HasBeenConsumed = true;
-            var values = request.AllToBeConsumed().Take(MaxAllowed).ToArray();
-            ConsumeCallback(instance, values);
-            return new ConsumptionResult(request.Info, values.Length, this);
+            try
+            {
+                if (request.Max < MinRequired)
+                    throw new MissingValueException(this,
+                        $"Switch {this} expected to have at least {MinRequired} values, but was told it can only have {request.Max}. Are you sure you passed enough values to satisfy the switch?");
+                HasBeenConsumed = true;
+                var values = request.AllToBeConsumed().Take(MaxAllowed).ToArray();
+                ConsumeCallback(instance, values);
+                return new ConsumptionResult(request.Info, values.Length, this);
+            }
+            catch (ParseException pe)
+            {
+                return new ConsumptionResult(pe);
+            }
         }
 
         public void Reset()
@@ -41,6 +48,6 @@ namespace ArgParser.Core
         public ParameterHelp Help { get; set; } = new ParameterHelp();
         public int MaxAllowed { get; set; } = int.MaxValue;
         public int MinRequired { get; set; } = 1;
-        public Parser Parent { get; protected internal set; }
+        public Parser Parser { get; protected internal set; }
     }
 }
