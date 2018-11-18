@@ -89,7 +89,7 @@
     <Compile Include="ArgsMutator_Should.cs" />
     <Compile Include="ConsumerSelectionStrategy_Should.cs" />
     <Compile Include="ContextBuilderExtensions_Should.cs" />
-    <Compile Include="HelpRequestedParserResultFactoryDecorator_Should.cs" />
+    <Compile Include="HelpRequestedParserResultFactory_Should.cs" />
     <Compile Include="ParameterUsage_Should.cs" />
     <Compile Include="ParameterViewModel_Should.cs" />
     <Compile Include="ParserHelpTemplate_Should.cs" />
