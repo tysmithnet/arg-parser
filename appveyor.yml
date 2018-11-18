@@ -22,17 +22,18 @@ configuration: Release
 
 before_build:
   - nuget restore ArgParser/ArgParser.sln
+  - dotnet tool install -g coveralls.net --version 1.0.0
 
 build:
   parallel: true
   project: ArgParser/ArgParser.sln
-  verbosity: detailed
-
-artifacts:
-- path: artifacts/packages
-- path: artifacts/test
+  verbosity: minimal
 
 test:
   assemblies:
     - '**\*.Test.dll'
     - '**\*.Tests.dll'
+
+environment:
+  COVERALLS_REPO_TOKEN:
+    secure: dxNQXnuBxcyVeQhaepf3P5NWWpP3tz+9j+gvlduwmBaeoIeyuvfMRRA5JFE/omEs
