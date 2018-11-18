@@ -58,16 +58,5 @@ namespace ArgParser.Core
                         $"Expected to find object of type={typeof(T).FullName}, but found type={instance.GetType().FullName}");
             };
         }
-
-        public static Stream ToStream(this string source)
-        {
-            var stream = new MemoryStream();
-            var writer = new StreamWriter(stream);
-            writer.Write(source);
-            writer.Flush();
-            writer.Close();
-            stream.Position = 0;
-            return stream;
-        }
     }
 }
