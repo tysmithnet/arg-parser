@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ArgParser.Core;
 using FluentAssertions;
 using Xunit;
@@ -45,7 +46,7 @@ namespace ArgParser.Styles.Test.Default
         }
 
         [Fact]
-        public void Throw_If_Not_Given_Enough_Args_To_Consume()
+        public void Not_Throw_If_Not_Given_Enough_Args_But_Return_Them_In_The_Result()
         {
             // arrange
             var list = new List<string[]>();
@@ -55,11 +56,13 @@ namespace ArgParser.Styles.Test.Default
             };
             var info = new IterationInfo("-v v0 v1 v2 v3 -s".Split(' '), 0);
             var request = new ConsumptionRequest(info, 3);
-            Action mightThrow = () => sw.Consume(new object(), request);
+            ConsumptionResult res = null;
+            Action mightThrow = () => res = sw.Consume(new object(), request);
 
             // act
             // assert
-            mightThrow.Should().Throw<MissingValueException>();
+            mightThrow.Should().NotThrow();
+            res.ParseExceptions.Should().HaveCount(1).And.Subject.Single().Should().BeOfType<MissingValueException>();
         }
     }
 }
