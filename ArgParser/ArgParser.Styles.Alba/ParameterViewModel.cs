@@ -21,8 +21,8 @@ namespace ArgParser.Styles.Alba
 
         public ParameterViewModel(Parameter parameter, Theme theme)
         {
-            Parameter = parameter ?? throw new ArgumentNullException(nameof(parameter));
-            Theme = theme ?? throw new ArgumentNullException(nameof(theme));
+            Parameter = parameter.ThrowIfArgumentNull(nameof(parameter));
+            Theme = theme.ThrowIfArgumentNull(nameof(theme));
         }
     }
 }
