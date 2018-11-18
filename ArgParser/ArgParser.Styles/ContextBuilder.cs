@@ -1,5 +1,6 @@
 ﻿using System;
 using ArgParser.Core;
+using ArgParser.Core.Extensions;
 
 namespace ArgParser.Styles
 {
@@ -55,12 +56,12 @@ namespace ArgParser.Styles
         public IParseResult Parse(string[] args)
         {
             var context = Context;
-            var strat = new ParseStrategy.ParseStrategy(context, RootParserId);
+            var strat = new ParseStrategy(context, RootParserId);
             OnParseStrategyCreated(strat);
             return strat.Parse(args, context);
         }
 
-        protected virtual void OnParseStrategyCreated(ParseStrategy.ParseStrategy parseStrategy)
+        protected virtual void OnParseStrategyCreated(ParseStrategy parseStrategy)
         {
             ParseStrategyCreated?.Invoke(this, new ParseStrategyCreatedEventArgs
             {

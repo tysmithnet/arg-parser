@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using ArgParser.Core;
-using ArgParser.Styles.ParseStrategy;
 using ArgParser.Testing.Common;
 using FluentAssertions;
 using Moq;
@@ -16,7 +15,7 @@ namespace ArgParser.Styles.Test.Default
         {
             // arrange
             var builder = DefaultBuilder.CreateDefaultBuilder();
-            var strat = new ParseStrategy.ParseStrategy(builder.Context, "util");
+            var strat = new ParseStrategy(builder.Context, "util");
             var newGuy = new Context();
 
             // act
@@ -38,7 +37,7 @@ namespace ArgParser.Styles.Test.Default
         {
             // arrange
             var builder = DefaultBuilder.CreateDefaultBuilder();
-            var strat = new ParseStrategy.ParseStrategy(builder.Context, "util");
+            var strat = new ParseStrategy(builder.Context, "util");
             var mock = new Mock<IPotentialConsumerStrategy>();
             mock.SetupAllProperties();
             mock.Setup(s => s.IdentifyPotentialConsumer(It.IsAny<PotentialConsumerRequest>())).Returns(
@@ -67,7 +66,7 @@ namespace ArgParser.Styles.Test.Default
             var builder = new ContextBuilder("root")
                 .AddParser("root")
                 .Finish;
-            var strat = new ParseStrategy.ParseStrategy(builder.Context, "root");
+            var strat = new ParseStrategy(builder.Context, "root");
             IParseResult res = null;
             Action mightThrow = () => res = strat.Parse("-h".Split(' '), builder.Context);
 

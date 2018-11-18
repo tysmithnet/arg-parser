@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using ArgParser.Core;
-using ArgParser.Styles.ParseStrategy;
+using ArgParser.Core.Extensions;
 
 namespace ArgParser.Styles
 {

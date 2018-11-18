@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using ArgParser.Core;
-using ArgParser.Styles;
+using ArgParser.Core.Extensions;
 using ArgParser.Styles.Alba;
 using ArgParser.Testing.Common;
 using Newtonsoft.Json;

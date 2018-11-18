@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using ArgParser.Core;
+using ArgParser.Core.Extensions;
 
 namespace ArgParser.Styles
 {

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using ArgParser.Core;
-using ArgParser.Styles.ParseStrategy;
 using ArgParser.Testing.Common;
 using Moq;
 using Xunit;

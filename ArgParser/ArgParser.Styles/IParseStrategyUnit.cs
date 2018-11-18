@@ -1,6 +1,6 @@
 ﻿using ArgParser.Core;
 
-namespace ArgParser.Styles.ParseStrategy
+namespace ArgParser.Styles
 {
     public interface IParseStrategyUnit
     {

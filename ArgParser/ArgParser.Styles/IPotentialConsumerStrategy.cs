@@ -1,4 +1,4 @@
-﻿namespace ArgParser.Styles.ParseStrategy
+﻿namespace ArgParser.Styles
 {
     public interface IPotentialConsumerStrategy : IParseStrategyUnit
     {

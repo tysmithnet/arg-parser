@@ -1,4 +1,6 @@
-﻿namespace ArgParser.Core
+﻿using ArgParser.Core.Extensions;
+
+namespace ArgParser.Core
 {
     public class MissingValueException : ParseException
     {

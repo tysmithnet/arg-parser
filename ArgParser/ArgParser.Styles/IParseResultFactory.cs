@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using ArgParser.Core;
 
-namespace ArgParser.Styles.ParseStrategy
+namespace ArgParser.Styles
 {
     public interface IParseResultFactory : IParseStrategyUnit
     {

@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ArgParser.Core;
+using ArgParser.Core.Extensions;
 
-namespace ArgParser.Styles.ParseStrategy
+namespace ArgParser.Styles
 {
     public class ParserChainIdentificationStrategy : IParserChainIdentificationStrategy
     {

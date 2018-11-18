@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
-namespace ArgParser.Core
+namespace ArgParser.Core.Extensions
 {
     public static class BasicExtensions
     {

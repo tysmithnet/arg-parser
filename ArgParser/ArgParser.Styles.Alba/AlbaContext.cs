@@ -1,5 +1,6 @@
 ﻿using System;
 using ArgParser.Core;
+using ArgParser.Core.Extensions;
 
 namespace ArgParser.Styles.Alba
 {

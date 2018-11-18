@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using ArgParser.Core;
+using ArgParser.Core.Extensions;
 using ArgParser.Testing.Common;
 using FluentAssertions;
 using Xunit;
