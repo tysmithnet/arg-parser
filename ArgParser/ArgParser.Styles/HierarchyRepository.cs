@@ -10,7 +10,7 @@ namespace ArgParser.Styles
         {
             if (Nodes.ContainsKey(parserId))
                 return;
-            Nodes.Add(parserId, new Node(parserId));
+            Nodes.Add(parserId, new HierarchyNode(parserId));
         }
 
         public void EstablishParentChildRelationship(string parentParserId, string childParserId)
@@ -69,24 +69,8 @@ namespace ArgParser.Styles
             return Nodes[childParserId].Parent?.Id == parentParserId;
         }
 
-        protected internal Dictionary<string, Node> Nodes { get; set; } = new Dictionary<string, Node>();
+        protected internal Dictionary<string, HierarchyNode> Nodes { get; set; } = new Dictionary<string, HierarchyNode>();
 
-        protected internal class Node
-        {
-            public Node(string id)
-            {
-                Id = id.ThrowIfArgumentNull(nameof(id));
-            }
 
-            public void Add(Node child)
-            {
-                Children.Add(child);
-                child.Parent = this;
-            }
-
-            public IList<Node> Children { get; set; } = new List<Node>();
-            public string Id { get; set; }
-            public Node Parent { get; set; }
-        }
     }
 }

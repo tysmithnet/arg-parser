@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using Alba.CsConsoleFormat;
 using ArgParser.Core;
 
@@ -7,18 +6,22 @@ namespace ArgParser.Styles.Alba
 {
     public class ParameterUsage : InlineElement
     {
-        public ParameterViewModel ViewModel { get; set; }
-        protected internal StringBuilder StringBuilder { get; set; } = new StringBuilder();
-
         public override void GenerateSequence(IInlineSequence sequence)
         {
-            if(ViewModel.Parameter is Switch @switch)
+            if (ViewModel.Parameter is Switch @switch)
                 GenerateSwitchSequence(@switch, sequence);
-            else if(ViewModel.Parameter is Positional positional)
+            else if (ViewModel.Parameter is Positional positional)
                 GeneratePositionalSequence(positional, sequence);
         }
 
-        private void GenerateSwitchSequence(Switch @switch, IInlineSequence seq)
+        protected internal void GeneratePositionalSequence(Positional positional, IInlineSequence seq)
+        {
+            WritePrimary(seq, "[");
+            WriteSecondary(seq, GenerateValueAlias(positional));
+            WritePrimary(seq, "]");
+        }
+
+        protected internal void GenerateSwitchSequence(Switch @switch, IInlineSequence seq)
         {
             WritePrimary(seq, "[");
             if (@switch.Letter.HasValue && @switch.Word.IsNotNullOrWhiteSpace())
@@ -36,49 +39,30 @@ namespace ArgParser.Styles.Alba
                 WriteSecondary(seq, $"--{@switch.Word}");
             }
 
-            if (ViewModel.Parameter.MaxAllowed > 1)
-            {
-                WriteSecondary(seq, $" {GenerateValueAlias(@switch)}");
-            }
+            if (ViewModel.Parameter.MaxAllowed > 1) WriteSecondary(seq, $" {GenerateValueAlias(@switch)}");
             WritePrimary(seq, "]");
         }
 
-        private void GeneratePositionalSequence(Positional positional, IInlineSequence seq)
+        protected internal string GenerateValueAlias(Parameter parameter)
         {
-            WritePrimary(seq, "[");
-            WriteSecondary(seq, GenerateValueAlias(positional));
-            WritePrimary(seq, "]");
-        }
-
-        private string GenerateValueAlias(Parameter parameter)
-        {
-            string prefix = "v";
+            var prefix = "v";
             if (parameter is Positional)
                 prefix = "p";
-            if (parameter.Help?.ValueAlias.IsNotNullOrWhiteSpace() ?? false)
-            {
-                prefix = parameter.Help.ValueAlias;
-            }
+            if (parameter.Help?.ValueAlias.IsNotNullOrWhiteSpace() ?? false) prefix = parameter.Help.ValueAlias;
 
-            var hi = parameter.MaxAllowed == int.MaxValue ? "N" : $"{parameter.MaxAllowed}";
-            if (parameter is Switch && parameter.MinRequired == 1)
-            {
-                return "";
-            }
-            if (parameter is Switch && parameter.MaxAllowed == 2)
-            {
-                return prefix;
-            }
+            var sub = 1;
+            if (parameter is Positional)
+                sub = 0;
+            var hi = parameter.MaxAllowed == int.MaxValue ? "N" : $"{parameter.MaxAllowed - sub}";
+            if (parameter is Switch && parameter.MaxAllowed == 2) return prefix;
+            if (parameter is Switch && parameter.MinRequired == 1 && parameter.MaxAllowed == 1) return "";
 
-            if (parameter is Positional && parameter.MaxAllowed == 1)
-            {
-                return prefix;
-            }
+            if (parameter is Positional && parameter.MaxAllowed == 1) return prefix;
 
             return $"{prefix}1..{prefix}{hi}";
         }
 
-        private void WritePrimary(IInlineSequence sequence, string text)
+        protected internal void WritePrimary(IInlineSequence sequence, string text)
         {
             sequence.PushColor(ViewModel.Theme.DefaultTextColor);
             sequence.AppendText(text);
@@ -86,7 +70,7 @@ namespace ArgParser.Styles.Alba
             sequence.PopFormatting();
         }
 
-        private void WriteSecondary(IInlineSequence sequence, string text)
+        protected internal void WriteSecondary(IInlineSequence sequence, string text)
         {
             sequence.PushColor(ViewModel.Theme.SecondaryTextColor);
             sequence.AppendText(text);
@@ -95,5 +79,7 @@ namespace ArgParser.Styles.Alba
         }
 
         public override string GeneratedText => StringBuilder.ToString();
+        public ParameterViewModel ViewModel { get; set; }
+        protected internal StringBuilder StringBuilder { get; set; } = new StringBuilder();
     }
 }

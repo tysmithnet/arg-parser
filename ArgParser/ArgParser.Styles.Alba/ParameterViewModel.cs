@@ -5,7 +5,6 @@ namespace ArgParser.Styles.Alba
     public class ParameterViewModel
     {
         public Parameter Parameter { get; set; }
-        public Theme Theme { get; set; }
 
         public string RequiredText
         {
@@ -16,5 +15,7 @@ namespace ArgParser.Styles.Alba
                 return "";
             }
         }
+
+        public Theme Theme { get; set; }
     }
 }

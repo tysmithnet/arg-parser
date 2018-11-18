@@ -2,31 +2,69 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>C:\projects\arg-parser\ArgParser\ArgParser.Core\Help\TableDataNode.cs</title>
+    <title>C:\projects\arg-parser\ArgParser\ArgParser.Styles\ParserHelpBuilder.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
-namespace ArgParser.Core.Help
+using ArgParser.Core;
+using ArgParser.Core.Help;
+
+namespace ArgParser.Styles
 {
-    public class TableDataNode : TextNode
+    public class ParserHelpBuilder
     {
-            
-        public TableDataNode(string text) : base(text)
+        public ParserHelpBuilder(Parser parser)
         {
+            Parser = parser.ThrowIfArgumentNull(nameof(parser));
         }
 
-            
-        public virtual void Accept(IHelpNodeVisitor visitor)
+        public ParserHelpBuilder AddExample(string name, string description, string usage, string result)
         {
-            visitor.Visit(this);
+            Help.AddExample(new Example
+            {
+                Name = name,
+                ShortDescription = description,
+                Usage = usage,
+                Result = result
+            });
+            return this;
         }
+
+        public ParserHelp Build() =&gt; Help;
+
+        public ParserHelpBuilder SetLongDescription(string desc)
+        {
+            Help.LongDescription = desc;
+            return this;
+        }
+
+        public ParserHelpBuilder SetName(string name)
+        {
+            Help.Name = name;
+            return this;
+        }
+
+        public ParserHelpBuilder SetShortDescription(string desc)
+        {
+            Help.ShortDescription = desc;
+            return this;
+        }
+
+        public ParserHelpBuilder SetVersion(string version)
+        {
+            Help.Version = version;
+            return this;
+        }
+
+        protected internal ParserHelp Help { get; set; } = new ParserHelp();
+        protected internal Parser Parser { get; set; }
     }
 }
     </pre>
     <script type="text/javascript">
-      highlightRanges([[6,45,6,55,1],[7,9,7,10,1],[8,9,8,10,1],[12,9,12,10,1],[13,13,13,33,1],[14,9,14,10,1]]);
+      highlightRanges([[8,9,8,48,1],[9,9,9,10,1],[10,13,10,65,1],[11,9,11,10,1],[14,9,14,10,1],[15,13,21,16,1],[22,13,22,25,1],[23,9,23,10,1],[25,38,25,42,1],[28,9,28,10,1],[29,13,29,41,1],[30,13,30,25,1],[31,9,31,10,1],[34,9,34,10,1],[35,13,35,30,1],[36,13,36,25,1],[37,9,37,10,1],[40,9,40,10,1],[41,13,41,42,1],[42,13,42,25,1],[43,9,43,10,1],[46,9,46,10,1],[47,13,47,36,1],[48,13,48,25,1],[49,9,49,10,1],[51,60,51,76,1]]);
     </script>
   </body>
 </html>

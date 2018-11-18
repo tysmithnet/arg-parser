@@ -6,7 +6,7 @@ namespace ArgParser.Core
     {
         public ConsumptionRequest(IterationInfo info, int max = 1)
         {
-            Info = info ?? throw new ArgumentNullException(nameof(info));
+            Info = info.ThrowIfArgumentNull(nameof(info));
             Max = max;
         }
 

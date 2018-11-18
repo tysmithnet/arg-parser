@@ -12,14 +12,13 @@ namespace ArgParser.Styles
             Context = context.ThrowIfArgumentNull(nameof(context));
         }
 
-        public IContext Context { get; set; }
-
         public string[] Mutate(MutateArgsRequest request)
         {
             var allSwitchesForChain = request.Chain.SelectMany(x => x.Parameters).OfType<Switch>().ToList();
             var booleanSwitches = allSwitchesForChain.OfType<BooleanSwitch>().ToList();
             var others = allSwitchesForChain.Except(booleanSwitches).ToList();
-            var booleanLetters = booleanSwitches.Where(s => s.Letter.HasValue).Select(x => x.Letter.Value.ToString()).Join("");
+            var booleanLetters = booleanSwitches.Where(s => s.Letter.HasValue).Select(x => x.Letter.Value.ToString())
+                .Join("");
             var otherLetters = others.Where(s => s.Letter.HasValue).Select(x => x.Letter.Value.ToString()).Join("");
             if (!booleanLetters.Any())
                 return request.Args;
@@ -30,7 +29,6 @@ namespace ArgParser.Styles
                 groups = request.Args.Where(a => Regex.IsMatch(a, $"-[{booleanLetters}]+")).ToList();
             var copy = request.Args.ToList();
             foreach (var g in groups)
-            {
                 for (var i = 0; i < copy.Count; i++)
                 {
                     var c = copy[i];
@@ -38,15 +36,13 @@ namespace ArgParser.Styles
                     {
                         copy.RemoveAt(i);
                         var letters = c.Substring(1).ToCharArray().Reverse();
-                        foreach (var letter in letters)
-                        {
-                            copy.Insert(i, $"-{letter}");
-                        }
+                        foreach (var letter in letters) copy.Insert(i, $"-{letter}");
                     }
                 }
-            }
 
             return copy.ToArray();
         }
+
+        public IContext Context { get; set; }
     }
 }

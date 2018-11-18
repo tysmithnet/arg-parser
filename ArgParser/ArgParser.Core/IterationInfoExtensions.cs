@@ -9,7 +9,7 @@ namespace ArgParser.Core
         public static string First(this IterationInfo info)
         {
             if (info.Args.Length == 0)
-                throw new IndexOutOfRangeException($"Info does not have any args");
+                throw new ArgumentOutOfRangeException(nameof(info.Args), $"Info does not have any args");
             return info.Args.First();
         }
 
@@ -22,7 +22,7 @@ namespace ArgParser.Core
         public static string Last(this IterationInfo info)
         {
             if (info.Args.Length == 0)
-                throw new IndexOutOfRangeException($"Info does not have any args");
+                throw new ArgumentOutOfRangeException(nameof(info.Args), $"Info does not have any args");
             return info.Args.Last();
         }
 

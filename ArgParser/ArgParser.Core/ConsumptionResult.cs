@@ -6,10 +6,7 @@ namespace ArgParser.Core
     {
         public ConsumptionResult(params ParseException[] parseExceptions)
         {
-            foreach (var parseException in parseExceptions.PreventNull())
-            {
-                ParseExceptions.Add(parseException);
-            }
+            foreach (var parseException in parseExceptions.PreventNull()) ParseExceptions.Add(parseException);
         }
 
         public ConsumptionResult(IterationInfo originalInfo, int numConsumed, Parameter consumingParameter)
@@ -21,8 +18,8 @@ namespace ArgParser.Core
             ConsumingParameter = consumingParameter;
         }
 
-        public Parameter ConsumingParameter { get; protected internal set; }
-        public IterationInfo Info { get; protected internal set; }
+        public Parameter ConsumingParameter { get; set; }
+        public IterationInfo Info { get; set; }
         public int NumConsumed { get; protected internal set; }
         public IList<ParseException> ParseExceptions { get; set; } = new List<ParseException>();
     }

@@ -13,7 +13,7 @@ namespace ArgParser.Core
         {
             var from = request.AllToBeConsumed().ToList();
             if (!from.Any())
-                throw new IndexOutOfRangeException();
+                throw new ArgumentOutOfRangeException();
             return from.First();
         }
 
@@ -24,14 +24,14 @@ namespace ArgParser.Core
         {
             var from = request.AllToBeConsumed().ToList();
             if (!from.Any())
-                throw new IndexOutOfRangeException();
+                throw new ArgumentOutOfRangeException();
             return from.Last();
         }
 
         public static string Next(this ConsumptionRequest request)
         {
             if (request.Max < 2)
-                throw new IndexOutOfRangeException(
+                throw new ArgumentOutOfRangeException(nameof(request.Max),
                     "Cannot get next arg because it is outside the range of consumable values");
             return request.Info.Args[request.Info.Index + 1];
         }

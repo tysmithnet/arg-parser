@@ -10,11 +10,9 @@ namespace ArgParser.Styles
             Context = context.ThrowIfArgumentNull(nameof(context));
         }
 
-        public IContext Context { get; set; }
+        public IParseResult Create(Dictionary<object, Parser> results, IEnumerable<ParseException> parseExceptions) =>
+            new ParseResult(results, parseExceptions);
 
-        public IParseResult Create(Dictionary<object, Parser> results, IEnumerable<ParseException> parseExceptions)
-        {
-            return new ParseResult(results, parseExceptions);
-        }
+        public IContext Context { get; set; }
     }
 }

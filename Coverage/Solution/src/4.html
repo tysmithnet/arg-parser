@@ -2,69 +2,100 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>C:\projects\arg-parser\ArgParser\ArgParser.Core\DefaultLexer.cs</title>
+    <title>C:\projects\arg-parser\ArgParser\ArgParser.Styles.Alba\ParameterUsage.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
-// ***********************************************************************
-// Assembly         : ArgParser.Core
-// Author           : @tysmithnet
-// Created          : 10-20-2018
-//
-// Last Modified By : @tysmithnet
-// Last Modified On : 10-21-2018
-// ***********************************************************************
-// &lt;copyright file=&quot;DefaultLexer.cs&quot; company=&quot;ArgParser.Core&quot;&gt;
-//     Copyright (c) . All rights reserved.
-// &lt;/copyright&gt;
-// &lt;summary&gt;&lt;/summary&gt;
-// ***********************************************************************
+using System.Text;
+using Alba.CsConsoleFormat;
+using ArgParser.Core;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace ArgParser.Core
+namespace ArgParser.Styles.Alba
 {
-    /// &lt;summary&gt;
-    ///     Class DefaultLexer.
-    /// &lt;/summary&gt;
-    /// &lt;seealso cref=&quot;ArgParser.Core.ILexer&quot; /&gt;
-    public class DefaultLexer : ILexer
+    public class ParameterUsage : InlineElement
     {
-        /// &lt;summary&gt;
-        ///     Lexes the specified arguments.
-        /// &lt;/summary&gt;
-        /// &lt;param name=&quot;args&quot;&gt;The arguments.&lt;/param&gt;
-        /// &lt;returns&gt;IEnumerable&amp;lt;IToken&amp;gt;.&lt;/returns&gt;
-            
-        public IEnumerable&lt;IToken&gt; Lex(string[] args)
+        public override void GenerateSequence(IInlineSequence sequence)
         {
-            return args?.Select(a =&gt; new DefaultToken(a)).ToList().PreventNull();
-        }
-    }
-
-    public class DefaultLexer&lt;T&gt; : DefaultLexer, ILexer&lt;T&gt; where T : IToken
-    {
-            
-        public DefaultLexer(Func&lt;string, T&gt; factoryFunc)
-        {
-            FactoryFunc = factoryFunc ?? throw new ArgumentNullException(nameof(factoryFunc));
+            if (ViewModel.Parameter is Switch @switch)
+                GenerateSwitchSequence(@switch, sequence);
+            else if (ViewModel.Parameter is Positional positional)
+                GeneratePositionalSequence(positional, sequence);
         }
 
-        public new IEnumerable&lt;T&gt; Lex(string[] args)
+        protected internal void GeneratePositionalSequence(Positional positional, IInlineSequence seq)
         {
-            return args?.Select(x =&gt; FactoryFunc(x)).PreventNull();
+            WritePrimary(seq, &quot;[&quot;);
+            WriteSecondary(seq, GenerateValueAlias(positional));
+            WritePrimary(seq, &quot;]&quot;);
         }
 
-        public Func&lt;string, T&gt; FactoryFunc { get; set; }
+        protected internal void GenerateSwitchSequence(Switch @switch, IInlineSequence seq)
+        {
+            WritePrimary(seq, &quot;[&quot;);
+            if (@switch.Letter.HasValue &amp;&amp; @switch.Word.IsNotNullOrWhiteSpace())
+            {
+                WriteSecondary(seq, $&quot;-{@switch.Letter}&quot;);
+                WritePrimary(seq, &quot;, &quot;);
+                WriteSecondary(seq, $&quot;--{@switch.Word}&quot;);
+            }
+            else if (@switch.Letter.HasValue)
+            {
+                WriteSecondary(seq, $&quot;-{@switch.Letter}&quot;);
+            }
+            else if (@switch.Word.IsNotNullOrWhiteSpace())
+            {
+                WriteSecondary(seq, $&quot;--{@switch.Word}&quot;);
+            }
+
+            if (ViewModel.Parameter.MaxAllowed &gt; 1) WriteSecondary(seq, $&quot; {GenerateValueAlias(@switch)}&quot;);
+            WritePrimary(seq, &quot;]&quot;);
+        }
+
+        protected internal string GenerateValueAlias(Parameter parameter)
+        {
+            var prefix = &quot;v&quot;;
+            if (parameter is Positional)
+                prefix = &quot;p&quot;;
+            if (parameter.Help?.ValueAlias.IsNotNullOrWhiteSpace() ?? false) prefix = parameter.Help.ValueAlias;
+
+            var sub = 1;
+            if (parameter is Positional)
+                sub = 0;
+            var hi = parameter.MaxAllowed == int.MaxValue ? &quot;N&quot; : $&quot;{parameter.MaxAllowed - sub}&quot;;
+            if (parameter is Switch &amp;&amp; parameter.MaxAllowed == 2) return prefix;
+            if (parameter is Switch &amp;&amp; parameter.MinRequired == 1 &amp;&amp; parameter.MaxAllowed == 1) return &quot;&quot;;
+
+            if (parameter is Positional &amp;&amp; parameter.MaxAllowed == 1) return prefix;
+
+            return $&quot;{prefix}1..{prefix}{hi}&quot;;
+        }
+
+        protected internal void WritePrimary(IInlineSequence sequence, string text)
+        {
+            sequence.PushColor(ViewModel.Theme.DefaultTextColor);
+            sequence.AppendText(text);
+            StringBuilder.Append(text);
+            sequence.PopFormatting();
+        }
+
+        protected internal void WriteSecondary(IInlineSequence sequence, string text)
+        {
+            sequence.PushColor(ViewModel.Theme.SecondaryTextColor);
+            sequence.AppendText(text);
+            StringBuilder.Append(text);
+            sequence.PopFormatting();
+        }
+
+        public override string GeneratedText =&gt; StringBuilder.ToString();
+        public ParameterViewModel ViewModel { get; set; }
+        protected internal StringBuilder StringBuilder { get; set; } = new StringBuilder();
     }
 }
     </pre>
     <script type="text/javascript">
-      highlightRanges([[34,9,34,10,1],[35,13,35,38,1],[35,38,35,57,1],[35,57,35,82,1],[35,13,35,82,1],[36,9,36,10,1],[42,9,42,57,1],[43,9,43,10,1],[44,13,44,95,1],[45,9,45,10,1],[48,9,48,10,1],[49,13,49,38,1],[49,38,49,52,1],[49,52,49,68,1],[49,13,49,68,1],[50,9,50,10,1]]);
+      highlightRanges([[10,9,10,10,1],[11,13,11,55,1],[12,17,12,59,1],[13,18,13,67,1],[14,17,14,66,1],[15,9,15,10,1],[18,9,18,10,1],[19,13,19,36,1],[20,13,20,65,1],[21,13,21,36,1],[22,9,22,10,1],[25,9,25,10,1],[26,13,26,36,1],[27,13,27,81,1],[28,13,28,14,1],[29,17,29,59,1],[30,17,30,41,1],[31,17,31,58,1],[32,13,32,14,1],[33,18,33,46,1],[34,13,34,14,1],[35,17,35,59,1],[36,13,36,14,1],[37,18,37,59,1],[38,13,38,14,1],[39,17,39,58,1],[40,13,40,14,1],[42,13,42,52,1],[42,53,42,108,1],[43,13,43,36,1],[44,9,44,10,1],[47,9,47,10,1],[48,13,48,30,1],[49,13,49,41,1],[50,17,50,30,1],[51,13,51,77,1],[51,78,51,113,1],[53,13,53,25,1],[54,13,54,41,1],[55,17,55,25,1],[56,13,56,99,1],[57,13,57,66,1],[57,67,57,81,1],[58,13,58,96,1],[58,97,58,107,1],[60,13,60,70,1],[60,71,60,85,1],[62,13,62,47,1],[63,9,63,10,1],[66,9,66,10,1],[67,13,67,66,1],[68,13,68,39,1],[69,13,69,40,1],[70,13,70,38,1],[71,9,71,10,1],[74,9,74,10,1],[75,13,75,68,1],[76,13,76,39,1],[77,13,77,40,1],[78,13,78,38,1],[79,9,79,10,1],[81,49,81,73,1],[83,72,83,91,1]]);
     </script>
   </body>
 </html>

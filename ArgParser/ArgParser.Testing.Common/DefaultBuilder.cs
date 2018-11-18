@@ -21,12 +21,14 @@ namespace ArgParser.Testing.Common
                 {
                     help
                         .SetName("Help")
+                        .SetDefaultValue("false")
                         .SetShortDescription("Get help on commands");
                 })
                 .WithBooleanSwitch(null, "version", o => o.IsVersionRequested = true, help =>
                 {
                     help
                         .SetName("Version")
+                        .SetDefaultValue("false")
                         .SetShortDescription("Display the current version");
                 })
                 .Finish

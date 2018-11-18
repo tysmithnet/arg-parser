@@ -2,38 +2,45 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>C:\projects\arg-parser\ArgParser\ArgParser.Core\DefaultParseResult.cs</title>
+    <title>C:\projects\arg-parser\ArgParser\ArgParser.Styles.Alba\ParserHelpTemplateViewModel.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using ArgParser.Core;
 
-namespace ArgParser.Core
+namespace ArgParser.Styles.Alba
 {
-    public class DefaultParseResult : IParseResult
+    public class ParserHelpTemplateViewModel
     {
-            
-        public DefaultParseResult(IList&lt;object&gt; parsedInstances)
-        {
-            ParsedInstances = parsedInstances ?? throw new ArgumentNullException(nameof(parsedInstances));
-        }
+        public string BannerColor =&gt;
+            $&quot;{ParserVm.Theme.DefaultTextColor} 0; {ParserVm.Theme.SecondaryTextColor}; {ParserVm.Theme.CodeColor} 3&quot;;
 
-            
-        public void When&lt;T&gt;(Action&lt;T&gt; handler)
-        {
-            foreach (var parsedInstance in ParsedInstances.OfType&lt;T&gt;()) handler(parsedInstance);
-        }
+        public IList&lt;ParserViewModel&gt; Chain { get; set; }
+        public IList&lt;ParameterViewModel&gt; ParameterVms { get; set; }
+        public ParserViewModel ParserVm =&gt; Chain.Last();
 
-        public IList&lt;object&gt; ParsedInstances { get; set; }
+        public string SubTitle
+        {
+            get
+            {
+                var sb = new StringBuilder(ParserVm.Parser.Id);
+                if (ParserVm.Parser.Help.Version.IsNotNullOrWhiteSpace())
+                    sb.Append($&quot; - {ParserVm.Parser.Help.Version}&quot;);
+                if (ParserVm.Parser.Help.ShortDescription.IsNotNullOrWhiteSpace())
+                    sb.Append($&quot; - {ParserVm.Parser.Help.ShortDescription}&quot;);
+                return sb.ToString();
+            }
+        }
     }
 }
     </pre>
     <script type="text/javascript">
-      highlightRanges([[10,9,10,65,1],[11,9,11,10,1],[12,13,12,107,1],[13,9,13,10,1],[17,9,17,10,1],[18,13,18,20,1],[18,22,18,40,1],[18,41,18,43,1],[18,44,18,71,1],[18,73,18,97,1],[19,9,19,10,1]]);
+      highlightRanges([[11,13,11,118,1],[15,44,15,56,1],[20,13,20,14,1],[21,17,21,64,1],[22,17,22,74,1],[23,21,23,69,1],[24,17,24,83,1],[25,21,25,78,1],[26,17,26,38,1],[27,13,27,14,1]]);
     </script>
   </body>
 </html>

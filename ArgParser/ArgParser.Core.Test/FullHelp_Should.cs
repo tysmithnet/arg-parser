@@ -1,5 +1,4 @@
 ﻿using System;
-using ArgParser.Core.Help;
 using FluentAssertions;
 using Xunit;
 

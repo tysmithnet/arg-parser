@@ -2,102 +2,72 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>C:\projects\arg-parser\ArgParser\ArgParser.Core\DefaultParser.cs</title>
+    <title>C:\projects\arg-parser\ArgParser\ArgParser.Styles.Alba\ParserHelpTemplate.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
-// ***********************************************************************
-// Assembly         : ArgParser.Core
-// Author           : @tysmithnet
-// Created          : 10-20-2018
-//
-// Last Modified By : @tysmithnet
-// Last Modified On : 10-21-2018
-// ***********************************************************************
-// &lt;copyright file=&quot;DefaultParser.cs&quot; company=&quot;ArgParser.Core&quot;&gt;
-//     Copyright (c) . All rights reserved.
-// &lt;/copyright&gt;
-// &lt;summary&gt;&lt;/summary&gt;
-// ***********************************************************************
-
-using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using ArgParser.Core.Help;
+using Alba.CsConsoleFormat;
+using Alba.CsConsoleFormat.ColorfulConsole;
+using ArgParser.Core;
 
-namespace ArgParser.Core
+namespace ArgParser.Styles.Alba
 {
-    public class DefaultParser&lt;T&gt; : DefaultParser, IParser&lt;T&gt;, IParameterContainer&lt;T&gt;
+    public class ParserHelpTemplate : ITemplate
     {
-        public virtual void AddParameter(IParameter&lt;T&gt; parameter, IGenericHelp help = null)
+        public ParserHelpTemplate(IContext context, string parserId)
         {
-            base.AddParameter(parameter, help);
+            Context = context.ToAlbaContext();
+            Parser = context.ParserRepository.Get(parserId);
+            ViewModel = CreateViewModel(context);
         }
 
-        public virtual bool CanConsume&lt;TSub&gt;(TSub instance, IIterationInfo info) where TSub : T =&gt;
-            base.CanConsume(instance, info);
-
-        public virtual IIterationInfo Consume&lt;TSub&gt;(TSub instance, IIterationInfo info) where TSub : T =&gt;
-            base.Consume(instance, info);
-    }
-
-    public class DefaultParser : IParser, IParameterContainer
-    {
-        public virtual void AddHelp(IGenericHelp help)
+        public Document Create()
         {
-            Help = help;
-            HelpBuilder.AddGenericHelp(help);
+            using (var fs = File.OpenRead(&quot;ParserHelp.xaml&quot;))
+            {
+                return ConsoleRenderer.ReadDocumentFromStream(fs, ViewModel, new XamlElementReaderSettings
+                {
+                    ReferenceAssemblies =
+                    {
+                        typeof(FigletDiv).Assembly,
+                        typeof(ParserHelpTemplate).Assembly,
+                        typeof(Parser).Assembly
+                    }
+                });
+            }
         }
 
-        public virtual void AddParameter(IParameter parameter, IGenericHelp help = null)
+        private ParserHelpTemplateViewModel CreateViewModel(IContext context)
         {
-            Parameters.Add(parameter);
-            if (help == null)
-                return;
-            HelpBuilder.AddParameter(help.Name,
-                help.Examples?.SelectMany(e =&gt; e?.Usage).Where(x =&gt; !x.IsNullOrWhiteSpace()).ToArray(),
-                help.ShortDescription);
+            var albaContext = context.ToAlbaContext();
+            var vm = new ParserHelpTemplateViewModel
+            {
+                Chain = albaContext.PathToRoot(Parser.Id).Reverse().Select(x =&gt; new ParserViewModel
+                {
+                    Parser = x,
+                    Theme = albaContext.ThemeRepository.Get(x.Id)
+                }).ToList()
+            };
+            vm.ParameterVms = vm.Chain.SelectMany(x =&gt; x.Parser.Parameters.Select(y =&gt; new ParameterViewModel
+            {
+                Parameter = y,
+                Theme = x.Theme
+            })).ToList();
+            return vm;
         }
 
-        public virtual bool CanConsume(object instance, IIterationInfo info)
-        {
-            var canSelf = Parameters
-                .Any(p =&gt; p.CanConsume(instance, info));
-            var canBase = BaseParser?.CanConsume(instance, info) ?? false;
-            return canSelf || canBase;
-        }
-
-        public virtual IIterationInfo Consume(object instance, IIterationInfo info)
-        {
-            var first = Parameters.FirstOrDefault(p =&gt; p.CanConsume(instance, info));
-            var result = first?.Consume(instance, info) ?? BaseParser?.Consume(instance, info);
-            if (result == null)
-                throw new InvalidOperationException(
-                    $&quot;CanConsume determined that instance: {instance}, could be consumed, but failed during consumption&quot;);
-            return result;
-        }
-
-            
-        public void Reset()
-        {
-            ;
-        }
-
-        public IParser BaseParser { get; set; }
-
-            
-        public IGenericHelp Help { get; protected internal set; }
-
-        public DefaultHelpBuilder HelpBuilder { get; set; } = new DefaultHelpBuilder();
-
-        public IList&lt;IParameter&gt; Parameters { get; set; } = new List&lt;IParameter&gt;();
+        protected internal AlbaContext Context { get; set; }
+        protected internal Parser Parser { get; set; }
+        protected internal ParserHelpTemplateViewModel ViewModel { get; set; }
     }
 }
     </pre>
     <script type="text/javascript">
-      highlightRanges([[25,9,25,10,1],[26,13,26,48,1],[27,9,27,10,1],[30,13,30,44,1],[33,13,33,41,1],[39,9,39,10,1],[40,13,40,25,1],[41,13,41,46,1],[42,9,42,10,1],[45,9,45,10,1],[46,13,46,39,1],[47,13,47,30,1],[48,17,48,24,1],[49,13,50,48,1],[50,48,50,56,1],[50,56,50,69,1],[50,69,50,92,1],[50,92,51,40,1],[49,13,51,40,1],[52,9,52,10,1],[55,9,55,10,1],[56,13,57,27,1],[57,27,57,55,1],[57,55,57,57,1],[56,13,57,57,1],[58,13,58,75,1],[59,13,59,39,1],[60,9,60,10,1],[63,9,63,10,1],[64,13,64,56,1],[64,56,64,84,1],[64,84,64,86,1],[64,13,64,86,1],[65,13,65,96,1],[66,13,66,32,1],[67,17,68,123,1],[69,13,69,27,1],[70,9,70,10,1],[74,9,74,10,1],[75,13,75,14,1],[76,9,76,10,1],[83,63,83,87,1],[85,61,85,83,1]]);
+      highlightRanges([[11,9,11,69,1],[12,9,12,10,1],[13,13,13,47,1],[14,13,14,61,1],[15,13,15,50,1],[16,9,16,10,1],[19,9,19,10,1],[20,20,20,61,1],[21,13,21,14,1],[22,17,30,20,1],[32,9,32,10,1],[35,9,35,10,1],[36,13,36,55,1],[37,13,39,81,1],[39,81,43,18,1],[43,18,44,15,1],[37,13,44,15,1],[45,13,45,56,1],[45,56,45,88,1],[45,88,49,14,1],[49,14,49,15,1],[45,56,49,15,1],[49,15,49,26,1],[45,13,49,26,1],[50,13,50,23,1],[51,9,51,10,1]]);
     </script>
   </body>
 </html>

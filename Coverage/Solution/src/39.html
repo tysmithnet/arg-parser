@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\projects\arg-parser\ArgParser\ArgParser.Styles\ParseStrategy\PotentialConsumerStrategy.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.Linq;
+using ArgParser.Core;
+
+namespace ArgParser.Styles.ParseStrategy
+{
+    public class PotentialConsumerStrategy : IPotentialConsumerStrategy
+    {
+        public PotentialConsumerStrategy(IContext context)
+        {
+            Context = context.ThrowIfArgumentNull(nameof(context));
+        }
+
+        public PotentialConsumerResult IdentifyPotentialConsumer(PotentialConsumerRequest request)
+        {
+            var consumptionResultsForTheParsersWhoCanConsume = request.ChainIdentificationResult.Chain
+                .Select(x =&gt; x.CanConsume(request.Instance, request.Info))
+                .Where(x =&gt; x.NumConsumed &gt; 0).ToList();
+            return new PotentialConsumerResult(request.ChainIdentificationResult.Chain,consumptionResultsForTheParsersWhoCanConsume,request.Info);
+        }
+
+        public IContext Context { get; set; }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[8,9,8,59,1],[9,9,9,10,1],[10,13,10,68,1],[11,9,11,10,1],[14,9,14,10,1],[15,13,16,30,1],[16,30,16,74,1],[16,74,17,29,1],[17,29,17,46,1],[17,46,17,57,1],[15,13,17,57,1],[18,13,18,147,1],[19,9,19,10,1]]);
+    </script>
+  </body>
+</html>

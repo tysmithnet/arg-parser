@@ -6,18 +6,54 @@ namespace ArgParser.Styles
 {
     public class ParseStrategy : IParseStrategy
     {
-        private IContext _context;
-
-        public IContext Context
-        {
-            get => _context;
-            set => SetContext(value);
-        }
         public ParseStrategy(IContext context, string rootParserId)
         {
             Context = context.ThrowIfArgumentNull(nameof(context));
             RootParserId = rootParserId.ThrowIfArgumentNull(nameof(rootParserId));
             SetContext(context);
+        }
+
+        private IContext _context;
+
+        public virtual IParseResult Parse(string[] args, IContext context)
+        {
+            ChainIdentificationResult chainRes = null;
+            try
+            {
+                chainRes = ChainIdentificationStrategy.Identify(new ChainIdentificationRequest(args, context));
+                var mutatedArgs = ArgsMutator.Mutate(new MutateArgsRequest(args, chainRes.Chain, context));
+                var info = IterationInfoFactory.Create(new IterationInfoRequest(chainRes, mutatedArgs, args));
+                if (chainRes.IdentifiedParser.FactoryFunction == null)
+                    throw new NoFactoryFunctionException(
+                        $"No factory function set on parser={chainRes.IdentifiedParser.Id}");
+                var instance = chainRes.IdentifiedParser.FactoryFunction();
+                while (!info.IsComplete())
+                {
+                    var potentialConsumerResult = PotentialConsumerStrategy.IdentifyPotentialConsumer(
+                        new PotentialConsumerRequest(chainRes, info, instance));
+                    if (!potentialConsumerResult.Success)
+                        throw new UnexpectedArgException($"Encountered unexpected argument={info.Current}");
+                    var selected = ConsumerSelectionStrategy.Select(potentialConsumerResult);
+                    var consumptionRequest = ConsumptionRequestFactory.Create(potentialConsumerResult, selected);
+                    var consumptionResult = selected.ConsumingParameter.Consume(instance, consumptionRequest);
+                    if (consumptionResult.ParseExceptions.Any())
+                        return new ParseResult(new Dictionary<object, Parser>(), consumptionResult.ParseExceptions);
+                    info = consumptionResult.Info;
+                }
+
+                return ParseResultFactory.Create(new Dictionary<object, Parser>
+                {
+                    [instance] = chainRes.IdentifiedParser
+                }, null);
+            }
+            catch (ParseException e)
+            {
+                return new ParseResult(null, e.ToEnumerableOfOne());
+            }
+            finally
+            {
+                chainRes?.Chain.ToList().ForEach(p => p.Reset());
+            }
         }
 
         private void SetContext(IContext context)
@@ -46,55 +82,17 @@ namespace ArgParser.Styles
             PotentialConsumerStrategy.Context = context;
         }
 
-        public virtual IParseResult Parse(string[] args, IContext context)
-        {
-            var chainRes = ChainIdentificationStrategy.Identify(new ChainIdentificationRequest
-            {
-                Args = args,
-                Context = context
-            });
-            var mutatedArgs = ArgsMutator.Mutate(new MutateArgsRequest
-            {
-                Context = context,
-                Args = args,
-                Chain = chainRes.Chain
-            });
-            var info = IterationInfoFactory.Create(new IterationInfoRequest
-            {
-                ChainIdentificationResult = chainRes,
-                MutatedArgs = mutatedArgs,
-                OriginalArgs = args
-            });
-            var instance = chainRes.IdentifiedParser.FactoryFunction();
-            while (!info.IsComplete())
-            {
-                var potentialConsumerResult = PotentialConsumerStrategy.IdentifyPotentialConsumer(
-                    new PotentialConsumerRequest
-                    {
-                        ChainIdentificationResult = chainRes,
-                        Instance = instance,
-                        Info = info
-                    });
-                if (!potentialConsumerResult.Success)
-                    throw new UnexpectedArgException($"todo: change");
-                var selected = ConsumerSelectionStrategy.Select(potentialConsumerResult);
-                var consumptionRequest = ConsumptionRequestFactory.Create(potentialConsumerResult, selected);
-                var consumptionResult = selected.ConsumingParameter.Consume(instance, consumptionRequest);
-                if (consumptionResult.ParseExceptions.Any())
-                    return new ParseResult(new Dictionary<object, Parser>(), consumptionResult.ParseExceptions);
-                info = consumptionResult.Info;
-            }
-
-            return ParseResultFactory.Create(new Dictionary<object, Parser>
-            {
-                [instance] = chainRes.IdentifiedParser
-            }, null);
-        }
-
         public IArgsMutator ArgsMutator { get; set; }
         public IParserChainIdentificationStrategy ChainIdentificationStrategy { get; set; }
         public IConsumerSelectionStrategy ConsumerSelectionStrategy { get; set; }
         public IConsumptionRequestFactory ConsumptionRequestFactory { get; set; }
+
+        public IContext Context
+        {
+            get => _context;
+            set => SetContext(value);
+        }
+
         public IIterationInfoFactory IterationInfoFactory { get; set; }
         public IParseResultFactory ParseResultFactory { get; set; }
         public IPotentialConsumerStrategy PotentialConsumerStrategy { get; set; }

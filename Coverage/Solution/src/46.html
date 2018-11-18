@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\projects\arg-parser\ArgParser\ArgParser.Core\IterationInfo.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ArgParser.Core
+{
+    public class IterationInfo : IEquatable&lt;IterationInfo&gt;, IComparable&lt;IterationInfo&gt;, IComparable
+    {
+        public IterationInfo(string[] args, int index = 0)
+        {
+            Args = args.ThrowIfArgumentNull(nameof(args));
+            Index = index;
+        }
+
+        public int CompareTo(IterationInfo other)
+        {
+            if (ReferenceEquals(this, other)) return 0;
+            if (ReferenceEquals(null, other)) return 1;
+            if (!Args.SequenceEqual(other.Args))
+                throw new InvalidOperationException($&quot;Both IterationInfo instances must have the same args to compare&quot;);
+            return Index.CompareTo(other.Index);
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return 1;
+            if (ReferenceEquals(this, obj)) return 0;
+            if (!(obj is IterationInfo)) throw new ArgumentException($&quot;Object must be of type {nameof(IterationInfo)}&quot;);
+            return CompareTo((IterationInfo) obj);
+        }
+
+        public IterationInfo Consume(int num) =&gt; new IterationInfo(Args, Index + num);
+
+        public bool Equals(IterationInfo other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Index == other.Index &amp;&amp; Args.SequenceEqual(other.Args);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != GetType()) return false;
+            return Equals((IterationInfo) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = (Index + 1) % 31337;
+                hashCode = Args.Aggregate(hashCode, (i, s) =&gt; i ^= s.GetHashCode());
+                return hashCode;
+            }
+        }
+
+        public static bool operator ==(IterationInfo left, IterationInfo right) =&gt; Equals(left, right);
+
+        public static bool operator &gt;(IterationInfo left, IterationInfo right) =&gt;
+            Comparer&lt;IterationInfo&gt;.Default.Compare(left, right) &gt; 0;
+
+        public static bool operator &gt;=(IterationInfo left, IterationInfo right) =&gt;
+            Comparer&lt;IterationInfo&gt;.Default.Compare(left, right) &gt;= 0;
+
+        public static bool operator !=(IterationInfo left, IterationInfo right) =&gt; !Equals(left, right);
+
+        public static bool operator &lt;(IterationInfo left, IterationInfo right) =&gt;
+            Comparer&lt;IterationInfo&gt;.Default.Compare(left, right) &lt; 0;
+
+        public static bool operator &lt;=(IterationInfo left, IterationInfo right) =&gt;
+            Comparer&lt;IterationInfo&gt;.Default.Compare(left, right) &lt;= 0;
+
+        public string[] Args { get; protected internal set; }
+
+        public string Current =&gt; Args[Index];
+
+        public int Index { get; set; }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[9,9,9,59,1],[10,9,10,10,1],[11,13,11,59,1],[12,13,12,27,1],[13,9,13,10,1],[16,9,16,10,1],[17,13,17,46,1],[17,47,17,56,1],[18,13,18,46,1],[18,47,18,56,1],[19,13,19,49,1],[20,17,20,121,1],[21,13,21,49,1],[22,9,22,10,1],[25,9,25,10,1],[26,13,26,44,1],[26,45,26,54,1],[27,13,27,44,1],[27,45,27,54,1],[28,13,28,41,1],[28,42,28,121,1],[29,13,29,51,1],[30,9,30,10,1],[32,50,32,86,1],[35,9,35,10,1],[36,13,36,46,1],[36,47,36,60,1],[37,13,37,46,1],[37,47,37,59,1],[38,13,38,75,1],[39,9,39,10,1],[42,9,42,10,1],[43,13,43,44,1],[43,45,43,58,1],[44,13,44,44,1],[44,45,44,57,1],[45,13,45,44,1],[45,45,45,58,1],[46,13,46,48,1],[47,9,47,10,1],[50,9,50,10,1],[52,13,52,14,1],[53,17,53,52,1],[54,17,54,63,1],[54,63,54,83,1],[54,83,54,85,1],[54,17,54,85,1],[55,17,55,33,1],[57,9,57,10,1],[59,84,59,103,1],[62,13,62,69,1],[65,13,65,70,1],[67,84,67,104,1],[70,13,70,69,1],[73,13,73,70,1],[77,34,77,45,1]]);
+    </script>
+  </body>
+</html>

@@ -2,33 +2,187 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>C:\projects\arg-parser\ArgParser\ArgParser.Core\Help\HeadingNode.cs</title>
+    <title>C:\projects\arg-parser\ArgParser\ArgParser.Styles\ParserBuilder.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
-namespace ArgParser.Core.Help
+using System;
+using System.Linq;
+using ArgParser.Core;
+
+namespace ArgParser.Styles
 {
-    public class HeadingNode : TextNode
+    public class ParserBuilder
     {
-            
-        public HeadingNode(string text) : base(text)
+        public ParserBuilder(ContextBuilder parent, Parser parser)
         {
+            Finish = parent.ThrowIfArgumentNull(nameof(parent));
+            Parser = parser.ThrowIfArgumentNull(nameof(parser));
         }
 
-            
-        public override void Accept(IHelpNodeVisitor visitor)
+        public ParserBuilder WithBooleanSwitch(char? letter, string word, Action&lt;object&gt; consumeCallback,
+            Action&lt;ParameterHelpBuilder&gt; helpSetupCallback = null, bool required = false)
         {
-            visitor.Visit(this);
+            var sw = new BooleanSwitch(Parser, letter, word, consumeCallback)
+            {
+                IsRequired = required
+            };
+            AddParameterInternal(sw, helpSetupCallback);
+            return this;
         }
 
-        public int Size { get; set; }
+        public ParserBuilder WithFactoryFunction(Func&lt;object&gt; func)
+        {
+            Parser.FactoryFunction = func.ThrowIfArgumentNull(nameof(func));
+            return this;
+        }
+
+        public ParserBuilder WithPositional(Action&lt;object, string&gt; consumeCallback,
+            Action&lt;ParameterHelpBuilder&gt; helpSetupCallback = null, bool required = false)
+        {
+            var sw = new Positional(Parser, (o, strings) =&gt; consumeCallback(o, strings.Single()), 1, 1)
+            {
+                IsRequired = required
+            };
+            AddParameterInternal(sw, helpSetupCallback);
+            return this;
+        }
+
+        public ParserBuilder WithPositionals(Action&lt;object, string[]&gt; consumeCallback, int min = 1,
+            int max = int.MaxValue, Action&lt;ParameterHelpBuilder&gt; helpSetupCallback = null, bool required = false)
+        {
+            var sw = new Positional(Parser, consumeCallback, min, max)
+            {
+                IsRequired = required
+            };
+            AddParameterInternal(sw, helpSetupCallback);
+            return this;
+        }
+
+        public ParserBuilder WithSingleValueSwitch(char? letter, string word, Action&lt;object, string&gt; consumeCallback,
+            Action&lt;ParameterHelpBuilder&gt; helpSetupCallback = null, bool required = false)
+        {
+            var sw = new SingleValueSwitch(Parser, letter, word, consumeCallback)
+            {
+                MinRequired = 1,
+                MaxAllowed = 1,
+                IsRequired = required
+            };
+            AddParameterInternal(sw, helpSetupCallback);
+            return this;
+        }
+
+        public ParserBuilder WithValuesSwitch(char? letter, string word, Action&lt;object, string[]&gt; consumeCallback,
+            int min = 1, int max = int.MaxValue, Action&lt;ParameterHelpBuilder&gt; helpSetupCallback = null,
+            bool required = false)
+        {
+            var sw = new ValuesSwitch(Parser, letter, word, consumeCallback)
+            {
+                MinRequired = min,
+                MaxAllowed = max,
+                IsRequired = required
+            };
+            AddParameterInternal(sw, helpSetupCallback);
+            return this;
+        }
+
+        protected void AddParameterInternal(Parameter parameter, Action&lt;ParameterHelpBuilder&gt; helpSetupCallback = null)
+        {
+            Parser.AddParameter(parameter);
+            if (helpSetupCallback != null)
+            {
+                var builder = new ParameterHelpBuilder(parameter);
+                helpSetupCallback(builder);
+                parameter.Help = builder.Build();
+            }
+        }
+
+        public ContextBuilder Finish { get; protected internal set; }
+        public Parser Parser { get; protected internal set; }
+    }
+
+    public class ParserBuilder&lt;T&gt; : ParserBuilder
+    {
+        public ParserBuilder(ContextBuilder parent, Parser&lt;T&gt; parser) : base(parent, parser)
+        {
+            Finish = parent.ThrowIfArgumentNull(nameof(parent));
+            Parser = parser.ThrowIfArgumentNull(nameof(parser));
+        }
+
+        public ParserBuilder&lt;T&gt; WithBooleanSwitch(char? letter, string word, Action&lt;T&gt; consumeCallback,
+            Action&lt;ParameterHelpBuilder&gt; helpSetupCallback = null, bool required = false)
+        {
+            var sw = new BooleanSwitch&lt;T&gt;(Parser, letter, word, consumeCallback)
+            {
+                IsRequired = required
+            };
+            AddParameterInternal(sw, helpSetupCallback);
+            return this;
+        }
+
+        public ParserBuilder&lt;T&gt; WithFactoryFunction(Func&lt;T&gt; func)
+        {
+            Parser.FactoryFunction = func.ThrowIfArgumentNull(nameof(func));
+            return this;
+        }
+
+        public ParserBuilder&lt;T&gt; WithPositional(Action&lt;T, string&gt; consumeCallback,
+            Action&lt;ParameterHelpBuilder&gt; helpSetupCallback = null, bool required = false)
+        {
+            var sw = new Positional&lt;T&gt;(Parser, (o, strings) =&gt; consumeCallback(o, strings.Single()), 1, 1)
+            {
+                IsRequired = required
+            };
+            AddParameterInternal(sw, helpSetupCallback);
+            return this;
+        }
+
+        public ParserBuilder&lt;T&gt; WithPositionals(Action&lt;T, string[]&gt; consumeCallback, int min = 1,
+            int max = int.MaxValue, Action&lt;ParameterHelpBuilder&gt; helpSetupCallback = null, bool required = false)
+        {
+            var sw = new Positional&lt;T&gt;(Parser, consumeCallback, min, max)
+            {
+                IsRequired = required
+            };
+            AddParameterInternal(sw, helpSetupCallback);
+            return this;
+        }
+
+        public ParserBuilder&lt;T&gt; WithSingleValueSwitch(char? letter, string word, Action&lt;T, string&gt; consumeCallback,
+            Action&lt;ParameterHelpBuilder&gt; helpSetupCallback = null, bool required = false)
+        {
+            var sw = new SingleValueSwitch&lt;T&gt;(Parser, letter, word, consumeCallback)
+            {
+                IsRequired = required
+            };
+            AddParameterInternal(sw, helpSetupCallback);
+            return this;
+        }
+
+        public ParserBuilder&lt;T&gt; WithValuesSwitch(char? letter, string word, Action&lt;T, string[]&gt; consumeCallback,
+            int min = 1, int max = int.MaxValue, Action&lt;ParameterHelpBuilder&gt; helpSetupCallback = null,
+            bool required = false)
+        {
+            var sw = new ValuesSwitch&lt;T&gt;(Parser, letter, word, consumeCallback)
+            {
+                IsRequired = required
+            };
+            AddParameterInternal(sw, helpSetupCallback);
+            return this;
+        }
+
+        public new Parser&lt;T&gt; Parser
+        {
+            get =&gt; base.Parser as Parser&lt;T&gt;;
+            set =&gt; base.Parser = value;
+        }
     }
 }
     </pre>
     <script type="text/javascript">
-      highlightRanges([[6,43,6,53,1],[7,9,7,10,1],[8,9,8,10,1],[12,9,12,10,1],[13,13,13,33,1],[14,9,14,10,1]]);
+      highlightRanges([[9,9,9,67,1],[10,9,10,10,1],[11,13,11,65,1],[12,13,12,65,1],[13,9,13,10,1],[17,9,17,10,1],[18,13,21,15,1],[22,13,22,57,1],[23,13,23,25,1],[24,9,24,10,1],[27,9,27,10,1],[28,13,28,77,1],[29,13,29,25,1],[30,9,30,10,1],[34,9,34,10,1],[35,13,35,61,1],[35,61,35,97,1],[35,97,38,15,1],[35,13,38,15,1],[39,13,39,57,1],[40,13,40,25,1],[41,9,41,10,1],[45,9,45,10,1],[46,13,49,15,1],[50,13,50,57,1],[51,13,51,25,1],[52,9,52,10,1],[56,9,56,10,1],[57,13,62,15,1],[63,13,63,57,1],[64,13,64,25,1],[65,9,65,10,1],[70,9,70,10,1],[71,13,76,15,1],[77,13,77,57,1],[78,13,78,25,1],[79,9,79,10,1],[82,9,82,10,1],[83,13,83,44,1],[84,13,84,43,1],[85,13,85,14,1],[86,17,86,67,1],[87,17,87,44,1],[88,17,88,50,1],[89,13,89,14,1],[90,9,90,10,1],[98,73,98,93,1],[99,9,99,10,1],[100,13,100,65,1],[101,13,101,65,1],[102,9,102,10,1],[106,9,106,10,1],[107,13,110,15,1],[111,13,111,57,1],[112,13,112,25,1],[113,9,113,10,1],[116,9,116,10,1],[117,13,117,77,1],[118,13,118,25,1],[119,9,119,10,1],[123,9,123,10,1],[124,13,124,64,1],[124,64,124,100,1],[124,100,127,15,1],[124,13,127,15,1],[128,13,128,57,1],[129,13,129,25,1],[130,9,130,10,1],[134,9,134,10,1],[135,13,138,15,1],[139,13,139,57,1],[140,13,140,25,1],[141,9,141,10,1],[145,9,145,10,1],[146,13,149,15,1],[150,13,150,57,1],[151,13,151,25,1],[152,9,152,10,1],[157,9,157,10,1],[158,13,161,15,1],[162,13,162,57,1],[163,13,163,25,1],[164,9,164,10,1],[168,20,168,44,1],[169,20,169,39,1]]);
     </script>
   </body>
 </html>

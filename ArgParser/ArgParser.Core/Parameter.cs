@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Linq;
-using ArgParser.Core.Help;
 
 namespace ArgParser.Core
 {
     public abstract class Parameter : IConsumer
     {
-
         protected Parameter(Parser parent, Action<object, string[]> consumeCallback)
         {
             Parser = parent.ThrowIfArgumentNull(nameof(parent));

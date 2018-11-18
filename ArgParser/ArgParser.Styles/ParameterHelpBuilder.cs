@@ -1,5 +1,4 @@
 ﻿using ArgParser.Core;
-using ArgParser.Core.Help;
 
 namespace ArgParser.Styles
 {
@@ -14,7 +13,7 @@ namespace ArgParser.Styles
 
         public ParameterHelpBuilder SetDefaultValue(string value)
         {
-            Parameter.Help.DefaultValue = value;
+            Help.DefaultValue = value;
             return this;
         }
 

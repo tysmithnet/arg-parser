@@ -1,25 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Alba.CsConsoleFormat;
 using ArgParser.Core;
 
 namespace ArgParser.Styles.Alba
 {
     public class HelpRequestedParseResultFactory : IParseResultFactory
     {
-        public IParseResultFactory Inner { get; set; }
-        protected internal Func<Dictionary<object, Parser>, IEnumerable<ParseException>, string> IsHelpRequestedCallback { get; set; }
-        public IContext Context { get; set; }
-
         public HelpRequestedParseResultFactory(IParseResultFactory inner,
             Func<Dictionary<object, Parser>, IEnumerable<ParseException>, string> helpRequestedCallback,
             IContext context)
         {
-            Inner = inner ?? throw new ArgumentNullException(nameof(inner));
-            IsHelpRequestedCallback = helpRequestedCallback ??
-                                      throw new ArgumentNullException(nameof(helpRequestedCallback));
-            Context = context ?? throw new ArgumentNullException(nameof(context));
+            Inner = inner.ThrowIfArgumentNull(nameof(inner));
+            IsHelpRequestedCallback = helpRequestedCallback.ThrowIfArgumentNull(nameof(helpRequestedCallback));
+            Context = context.ThrowIfArgumentNull(nameof(context));
         }
 
         public IParseResult Create(Dictionary<object, Parser> results, IEnumerable<ParseException> parseExceptions)
@@ -28,12 +22,22 @@ namespace ArgParser.Styles.Alba
             var helpRequest = IsHelpRequestedCallback(results, parseExceptions);
             if (helpRequest.IsNotNullOrWhiteSpace())
             {
-                var writer = new ParserHelpTemplate(Context, helpRequest);
-                var doc = writer.Create();
-                ConsoleRenderer.RenderDocument(doc);
+                var template = new ParserHelpTemplate(Context, helpRequest);
+                TemplateRenderer.Render(template);
                 return new ParseResult(null, null);
             }
+
             return Inner.Create(results, parseExceptions);
+        }
+
+        public IContext Context { get; set; }
+        public IParseResultFactory Inner { get; set; }
+        public ITemplateRenderer TemplateRenderer { get; set; } = new TemplateRenderer();
+
+        protected internal Func<Dictionary<object, Parser>, IEnumerable<ParseException>, string> IsHelpRequestedCallback
+        {
+            get;
+            set;
         }
     }
 }

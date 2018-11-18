@@ -16,10 +16,8 @@ namespace ArgParser.Styles
         public void When<T>(Action<T, Parser> handler)
         {
             foreach (var kvp in Results)
-            {
                 if (kvp.Key is T casted)
                     handler(casted, kvp.Value);
-            }
         }
 
         public void WhenError(Action<IEnumerable<ParseException>> handler)
@@ -28,7 +26,8 @@ namespace ArgParser.Styles
                 handler(ParseExceptions);
         }
 
-        protected internal Dictionary<object, Parser> Results { get; set; }
         protected internal IList<ParseException> ParseExceptions { get; set; }
+
+        protected internal Dictionary<object, Parser> Results { get; set; }
     }
 }

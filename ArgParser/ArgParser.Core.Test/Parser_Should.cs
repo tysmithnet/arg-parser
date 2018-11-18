@@ -37,6 +37,23 @@ namespace ArgParser.Core.Test
         }
 
         [Fact]
+        public void Reset_All_Parameters_When_Reset()
+        {
+            // arrange
+            var mock = new Mock<Parameter>();
+            mock.SetupAllProperties();
+            mock.Object.HasBeenConsumed = true;
+            var parser = new Parser("a");
+            parser.AddParameter(mock.Object);
+
+            // act
+            parser.Reset();
+
+            // assert
+            mock.Object.HasBeenConsumed.Should().BeFalse();
+        }
+
+        [Fact]
         public void Indicate_It_Can_Consume_When_One_Of_Its_Parameters_Can_Consume()
         {
             // arrange
@@ -56,8 +73,10 @@ namespace ArgParser.Core.Test
         public void Provide_A_Generic_Version()
         {
             // arrange
-            var p = new Parser<string>("base");
-            p.FactoryFunction = () => "";
+            var p = new Parser<string>("base")
+            {
+                FactoryFunction = () => ""
+            };
 
             // act
             // assert

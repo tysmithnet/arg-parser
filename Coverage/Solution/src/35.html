@@ -2,36 +2,33 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>C:\projects\arg-parser\ArgParser\ArgParser.Flavors\Git\SingleValueSwitch.cs</title>
+    <title>C:\projects\arg-parser\ArgParser\ArgParser.Styles\ParseStrategy\ParseResultFactory.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
-using System;
+using System.Collections.Generic;
 using ArgParser.Core;
 
-namespace ArgParser.Flavors.Git
+namespace ArgParser.Styles.ParseStrategy
 {
-    public class SingleValueSwitch : Switch
+    public class ParseResultFactory : IParseResultFactory
     {
-            
-        public override IIterationInfo Consume(object instance, IIterationInfo info)
+        public ParseResultFactory(IContext context)
         {
-            ConsumeCallback(instance, info.Next.Raw); // todo: check
-            HasBeenConsumed = true;
-            return info.Consume(2);
+            Context = context.ThrowIfArgumentNull(nameof(context));
         }
 
-        public Action&lt;object, string&gt; ConsumeCallback { get; set; }
+        public IParseResult Create(Dictionary&lt;object, Parser&gt; results, IEnumerable&lt;ParseException&gt; parseExceptions) =&gt;
+            new ParseResult(results, parseExceptions);
 
-            
-        public override bool HasBeenConsumed { get; set; }
+        public IContext Context { get; set; }
     }
 }
     </pre>
     <script type="text/javascript">
-      highlightRanges([[10,9,10,10,1],[11,13,11,54,1],[12,13,12,36,1],[13,13,13,36,1],[14,9,14,10,1]]);
+      highlightRanges([[8,9,8,52,1],[9,9,9,10,1],[10,13,10,68,1],[11,9,11,10,1],[14,13,14,54,1]]);
     </script>
   </body>
 </html>

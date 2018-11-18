@@ -2,54 +2,36 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>C:\projects\arg-parser\ArgParser\ArgParser.Flavors\Git\Positional.cs</title>
+    <title>C:\projects\arg-parser\ArgParser\ArgParser.Styles\ParseStrategy\MutateArgsRequest.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using ArgParser.Core;
 
-namespace ArgParser.Flavors.Git
+namespace ArgParser.Styles.ParseStrategy
 {
-    public class Positional : GitParameter
+    public class MutateArgsRequest
     {
-            
-        public override bool CanConsume(object instance, IIterationInfo info)
+        public string[] Args { get; set; }
+        public IList&lt;Parser&gt; Chain { get; set; }
+        public IContext Context { get; set; }
+
+        public MutateArgsRequest(string[] args, IEnumerable&lt;Parser&gt; chain, IContext context)
         {
-            if (IsConsumed)
-                return false;
-            var ar = info.FromNowOn().Select(x =&gt; x.ToGitToken()).TakeWhile(t =&gt; !t.IsAnyMatch).ToArray();
-            return ar.Length &gt;= Min;
+            Args = args.ThrowIfArgumentNull(nameof(args));
+            Chain = chain.ThrowIfArgumentNull(nameof(chain)).ToList();
+            Context = context.ThrowIfArgumentNull(nameof(context));
         }
-
-            
-        public override IIterationInfo Consume(object instance, IIterationInfo info)
-        {
-            var tokens = info.FromNowOn().Select(x =&gt; x.ToGitToken()).TakeWhile(t =&gt; !t.IsAnyMatch).Take(Max)
-                .Select(t =&gt; t.Raw)
-                .ToArray();
-            // todo: check count
-            ConsumeCallback(instance, tokens);
-            IsConsumed = true;
-            return info.Consume(tokens.Length);
-        }
-
-        public Action&lt;object, string[]&gt; ConsumeCallback { get; set; }
-
-            
-        public override bool HasBeenConsumed { get; set; }
-
-        public bool IsConsumed { get; set; }
-        public int Max { get; set; } = int.MaxValue;
-        public int Min { get; set; } = 1;
     }
 }
     </pre>
     <script type="text/javascript">
-      highlightRanges([[11,9,11,10,1],[12,13,12,28,1],[13,17,13,30,1],[14,13,14,51,1],[14,51,14,65,1],[14,65,14,82,1],[14,82,14,95,1],[14,95,14,107,1],[14,13,14,107,1],[15,13,15,37,1],[16,9,16,10,1],[20,9,20,10,1],[21,13,21,55,1],[21,55,21,69,1],[21,69,21,86,1],[21,86,21,99,1],[21,99,22,30,1],[22,30,22,35,1],[22,35,23,28,1],[21,13,23,28,1],[25,13,25,47,1],[26,13,26,31,1],[27,13,27,48,1],[28,9,28,10,1],[36,40,36,52,1],[37,40,37,41,1]]);
+      highlightRanges([[14,9,14,93,1],[15,9,15,10,1],[16,13,16,59,1],[17,13,17,71,1],[18,13,18,68,1],[19,9,19,10,1]]);
     </script>
   </body>
 </html>

@@ -66,7 +66,7 @@ namespace ArgParser.Core.Test
 
             // act
             // assert
-            mightThrow.Should().Throw<IndexOutOfRangeException>();
+            mightThrow.Should().Throw<ArgumentOutOfRangeException>();
             req1.First().Should().Be("-h");
             req2.First().Should().Be("-v");
             req3.First().Should().Be("-v");
@@ -90,7 +90,7 @@ namespace ArgParser.Core.Test
 
             // act
             // assert
-            mightThrow.Should().Throw<IndexOutOfRangeException>();
+            mightThrow.Should().Throw<ArgumentOutOfRangeException>();
             req1.Last().Should().Be("-h");
             req2.Last().Should().Be("-v");
             req3.Last().Should().Be("something");
@@ -116,9 +116,9 @@ namespace ArgParser.Core.Test
 
             // act
             // assert
-            mightThrow0.Should().Throw<IndexOutOfRangeException>();
-            mightThrow1.Should().Throw<IndexOutOfRangeException>();
-            mightThrow2.Should().Throw<IndexOutOfRangeException>();
+            mightThrow0.Should().Throw<ArgumentOutOfRangeException>();
+            mightThrow1.Should().Throw<ArgumentOutOfRangeException>();
+            mightThrow2.Should().Throw<ArgumentOutOfRangeException>();
             req3.Next().Should().Be("something");
             req4.Next().Should().Be("b");
         }

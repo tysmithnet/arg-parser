@@ -35,7 +35,7 @@
             <Cell>
                 <ap:ParameterUsage ViewModel="{Get }"  />
             </Cell>
-            <Cell>
+            <Cell TextAlign="Center">
                 <Span Text="{Get RequiredText}" />
             </Cell>
             <Cell>
