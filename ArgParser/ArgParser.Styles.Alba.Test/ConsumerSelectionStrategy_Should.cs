@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ArgParser.Core;
 using ArgParser.Styles.ParseStrategy;
 using ArgParser.Testing.Common;
@@ -21,13 +18,13 @@ namespace ArgParser.Styles.Alba.Test
             var strat = new ConsumerSelectionStrategy(builder.Context);
             var info = new IterationInfo("firewall -h".Split(' '));
             var parameter = new BooleanSwitch(new Parser("fake"), 'h', "help", o => { });
-            var result = new PotentialConsumerResult()
+            var result = new PotentialConsumerResult
             {
                 Chain = builder.Context.PathToRoot("firewall").Reverse().ToList(),
                 Info = info,
-                ConsumptionResults = new []
+                ConsumptionResults = new[]
                 {
-                    new ConsumptionResult()
+                    new ConsumptionResult
                     {
                         ConsumingParameter = parameter,
                         Info = info,

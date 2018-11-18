@@ -93,6 +93,7 @@
     <Compile Include="ParameterViewModel_Should.cs" />
     <Compile Include="ParserHelpTemplate_Should.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Theme_Should.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ArgParser.Core\ArgParser.Core.csproj">
