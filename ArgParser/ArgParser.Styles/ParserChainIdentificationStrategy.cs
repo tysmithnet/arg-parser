@@ -8,7 +8,7 @@ namespace ArgParser.Styles
     {
         public ParserChainIdentificationStrategy(IContext context)
         {
-            Context = context;
+            Context = context; // todo: strategies shouldn't have a context
         }
 
         public ChainIdentificationResult Identify(ChainIdentificationRequest request)
@@ -24,7 +24,7 @@ namespace ArgParser.Styles
                     return history;
                 
                 var cur = args[index];
-                var potentials = cur.ToEnumerableOfOne().Concat(Context.AliasRepository.Lookup(cur));
+                var potentials = cur.ToEnumerableOfOne().Concat(request.Context.AliasRepository.Lookup(cur));
                 var results = new List<List<string>>();
                 foreach (var potential in potentials)
                 {

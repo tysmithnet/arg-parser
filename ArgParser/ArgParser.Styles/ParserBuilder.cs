@@ -107,6 +107,12 @@ namespace ArgParser.Styles
             Parser = parser.ThrowIfArgumentNull(nameof(parser));
         }
 
+        public new ParserBuilder<T> WithAlias(string alias)
+        {
+            base.WithAlias(alias);
+            return this;
+        }
+
         public ParserBuilder<T> WithBooleanSwitch(char? letter, string word, Action<T> consumeCallback,
             Action<ParameterHelpBuilder> helpSetupCallback = null, bool required = false)
         {

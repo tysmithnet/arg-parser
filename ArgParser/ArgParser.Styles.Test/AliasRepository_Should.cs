@@ -31,6 +31,19 @@ namespace ArgParser.Styles.Test
         }
 
         [Fact]
+        public void Return_True_Only_If_A_Parser_Has_An_Alias()
+        {
+            // arrange
+            var repo = new AliasRepository();
+            repo.SetAlias("a", "1");
+            
+            // act
+            // assert
+            repo.HasAlias("a").Should().BeTrue();
+            repo.HasAlias("b").Should().BeFalse();
+        }
+
+        [Fact]
         public void Return_The_Most_Recently_Set_Alias()
         {
             // arrange

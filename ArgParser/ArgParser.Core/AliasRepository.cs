@@ -7,5 +7,6 @@ namespace ArgParser.Core
         IEnumerable<string> Lookup(string alias);
         string GetAlias(string parserId);
         void SetAlias(string parserId, string alias);
+        bool HasAlias(string parserId);
     }
 }

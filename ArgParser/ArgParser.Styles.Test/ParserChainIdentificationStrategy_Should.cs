@@ -69,6 +69,36 @@ namespace ArgParser.Styles.Test
         }
 
         [Fact]
+        public void Allow_Either_The_Alias_Or_The_Id_To_Be_Used()
+        {
+            // arrange
+            var builder = new ContextBuilder("a")
+                .AddParser("a")
+                .Finish
+                .AddParser("b")
+                .WithAlias("C")
+                .Finish
+                .AddParser("c")
+                .WithAlias("C")
+                .Finish
+                .AddParser("d")
+                .Finish
+                .CreateParentChildRelationship("a", "b")
+                .CreateParentChildRelationship("b", "c")
+                .CreateParentChildRelationship("c", "d");
+
+            var strat = new ParserChainIdentificationStrategy(builder.Context);
+            var request = new ChainIdentificationRequest("b C d".Split(' '), builder.Context);
+
+            // act
+            var res = strat.Identify(request);
+
+            // assert
+            res.Chain.Should().BeEquivalentTo("a b c d".Split(' ').Select(x => builder.Context.ParserRepository.Get(x)));
+            res.ConsumedArgs.Should().BeEquivalentTo("b C d".Split(' '));
+        }
+
+        [Fact]
         public void Throw_If_There_Is_An_Ambiguous_Match()
         {
             // arrange

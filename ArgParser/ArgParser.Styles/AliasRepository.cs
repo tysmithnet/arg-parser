@@ -11,12 +11,16 @@ namespace ArgParser.Styles
             return Aliases.Where(kvp => kvp.Value == alias).Select(x => x.Key);
         }
 
-        public string GetAlias(string parserId) =>
-            Aliases.TryGetValue(parserId, out var registeredAlias) ? registeredAlias : parserId;
+        public string GetAlias(string parserId) => Aliases[parserId];
 
         public void SetAlias(string parserId, string alias)
         {
             Aliases[parserId] = alias;
+        }
+
+        public bool HasAlias(string parserId)
+        {
+            return Aliases.ContainsKey(parserId);
         }
 
         protected internal Dictionary<string, string> Aliases { get; set; } = new Dictionary<string, string>();

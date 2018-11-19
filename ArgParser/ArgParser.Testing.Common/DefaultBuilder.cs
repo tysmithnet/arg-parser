@@ -38,6 +38,7 @@ namespace ArgParser.Testing.Common
                         .SetName("Clipboard")
                         .SetShortDescription("Interact with the clipboard");
                 })
+                .WithAlias("clip")
                 .WithFactoryFunction(() => new ClipboardOptions())
                 .WithBooleanSwitch('o', "overwrite", o => o.IsOverwriteClipboard = true, help =>
                 {
