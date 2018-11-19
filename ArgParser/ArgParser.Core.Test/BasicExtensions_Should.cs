@@ -59,6 +59,26 @@ namespace ArgParser.Core.Test
         }
 
         [Fact]
+        public void Not_Throw_If_Given_Bad_Value_To_Converted_Action()
+        {
+            // arrange
+            var isExecuted0 = false;
+            var isExecuted1 = false;
+            Action<string, string[]> action0 = (s1, strings) => { isExecuted0 = true; };
+            Action<string> action1 = s => { isExecuted1 = true; };
+
+            // act
+            var converted0 = action0.ToNonGenericAction();
+            var converted1 = action1.ToNonGenericAction();
+            Action mightThrow0 = () => converted0(new object(), new string[0]);
+            Action mightThrow1 = () => converted1(new object());
+
+            // assert
+            mightThrow0.Should().NotThrow();
+            mightThrow1.Should().NotThrow();
+        }
+
+        [Fact]
         public void Return_An_Empty_Enumerable_When_Preventing_Null()
         {
             // arrange
@@ -84,7 +104,7 @@ namespace ArgParser.Core.Test
         }
 
         [Fact]
-        public void Throw_If_Given_Bad_Value_To_Converted_Action()
+        public void Throw_If_Given_Bad_Value_To_Converted_Action_If_Strict_Is_Enabled()
         {
             // arrange
             var isExecuted0 = false;
@@ -93,8 +113,8 @@ namespace ArgParser.Core.Test
             Action<string> action1 = s => { isExecuted1 = true; };
 
             // act
-            var converted0 = action0.ToNonGenericAction();
-            var converted1 = action1.ToNonGenericAction();
+            var converted0 = action0.ToNonGenericAction(true);
+            var converted1 = action1.ToNonGenericAction(true);
             Action mightThrow0 = () => converted0(new object(), new string[0]);
             Action mightThrow1 = () => converted1(new object());
 

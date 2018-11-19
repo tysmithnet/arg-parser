@@ -1,11 +1,39 @@
-﻿using System.Collections.Generic;
+﻿// ***********************************************************************
+// Assembly         : ArgParser.Styles.Alba
+// Author           : @tysmithnet
+// Created          : 11-17-2018
+//
+// Last Modified By : @tysmithnet
+// Last Modified On : 11-18-2018
+// ***********************************************************************
+// <copyright file="ThemeRepository.cs" company="ArgParser.Styles.Alba">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+
+using System.Collections.Generic;
 
 namespace ArgParser.Styles.Alba
 {
+    /// <summary>
+    ///     Default IThemeRepository
+    /// </summary>
+    /// <seealso cref="ArgParser.Styles.Alba.IThemeRepository" />
     public class ThemeRepository : IThemeRepository
     {
+        /// <summary>
+        ///     Gets the specified parser identifier.
+        /// </summary>
+        /// <param name="parserId">The parser identifier.</param>
+        /// <returns>Theme.</returns>
         public Theme Get(string parserId) => !Themes.ContainsKey(parserId) ? Default : Themes[parserId];
 
+        /// <summary>
+        ///     Sets the theme.
+        /// </summary>
+        /// <param name="parserId">The parser identifier.</param>
+        /// <param name="theme">The theme.</param>
         public void SetTheme(string parserId, Theme theme)
         {
             if (!Themes.ContainsKey(parserId))
@@ -13,7 +41,16 @@ namespace ArgParser.Styles.Alba
             Themes[parserId] = theme;
         }
 
+        /// <summary>
+        ///     Gets the default.
+        /// </summary>
+        /// <value>The default.</value>
         public Theme Default { get; } = Theme.Default;
+
+        /// <summary>
+        ///     Gets or sets the themes.
+        /// </summary>
+        /// <value>The themes.</value>
         protected internal Dictionary<string, Theme> Themes { get; set; } = new Dictionary<string, Theme>();
     }
 }

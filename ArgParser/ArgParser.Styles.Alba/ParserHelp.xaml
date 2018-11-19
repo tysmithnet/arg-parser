@@ -10,7 +10,6 @@
     </Div>           
     <Separator Color="{Get ParserVm.Theme.BorderColor}" />
     <Div>
-        <Div Color="{Get ParserVm.Theme.DefaultTextColor}">Usage: </Div>
         <Repeater Items="{Get Chain}">
             <Span Text="{Get DisplayString}" Color="{Get Theme.SecondaryTextColor}" />
             <Span Text=" " />
@@ -19,7 +18,22 @@
             <ap:ParameterUsage ViewModel="{Get }" />
         </Repeater>
     </Div>
-    <Separator Color="{Get ParserVm.Theme.BorderColor}" />
+    <Grid Color="{Get ParserVm.Theme.BorderColor}">
+        <Grid.Columns>
+            <Column Width="Auto"/>
+            <Column Width="*"/>
+        </Grid.Columns>
+        <Cell  Color="{Get ParserVm.Theme.DefaultTextColor}">Sub Command</Cell>
+        <Cell  Color="{Get ParserVm.Theme.DefaultTextColor}">Description</Cell>
+        <Repeater Items="{Get SubCommands}">
+            <Cell >
+                <Span Color="{Get Theme.CodeColor}" Text="{Get DisplayString}"/>
+            </Cell>
+            <Cell >
+                <Span Color="{Get Theme.CodeColor}" Text="{Get Parser.Help.ShortDescription}"/>
+            </Cell>
+        </Repeater>
+    </Grid>
     <Grid Color="{Get ParserVm.Theme.BorderColor}">
         <Grid.Columns>
             <Column Width="Auto"/>
@@ -27,45 +41,42 @@
             <Column Width="Auto"/>
             <Column Width="*"/>
         </Grid.Columns>
-        <Cell Stroke="Single Double" Color="{Get ParserVm.Theme.DefaultTextColor}">Parameter</Cell>
-        <Cell Stroke="Single Double" Color="{Get ParserVm.Theme.DefaultTextColor}">Req</Cell>
-        <Cell Stroke="Single Double" Color="{Get ParserVm.Theme.DefaultTextColor}">Default</Cell>
-        <Cell Stroke="Single Double" Color="{Get ParserVm.Theme.DefaultTextColor}">Description</Cell>
+        <Cell  Color="{Get ParserVm.Theme.DefaultTextColor}">Parameter</Cell>
+        <Cell  Color="{Get ParserVm.Theme.DefaultTextColor}">Req</Cell>
+        <Cell  Color="{Get ParserVm.Theme.DefaultTextColor}">Default</Cell>
+        <Cell  Color="{Get ParserVm.Theme.DefaultTextColor}">Description</Cell>
         <Repeater Items="{Get ParameterVms}">
-            <Cell>
+            <Cell >
                 <ap:ParameterUsage ViewModel="{Get }"  />
             </Cell>
-            <Cell TextAlign="Center">
+            <Cell  TextAlign="Center">
                 <Span Text="{Get RequiredText}" Color="{Get Theme.RequiredColor}" />
             </Cell>
-            <Cell>
+            <Cell >
                 <Span Text="{Get Parameter.Help.DefaultValue}" Color="{Get Theme.DefaultTextColor}" />
             </Cell>
-            <Cell>
+            <Cell >
                 <Span Text="{Get Parameter.Help.ShortDescription}" Color="{Get Theme.DefaultTextColor}" />
             </Cell>
         </Repeater>
     </Grid>
-    <Separator Color="{Get ParserVm.Theme.BorderColor}" />
     <Div>
         <Div Color="{Get ParserVm.Theme.DefaultTextColor}">Examples:</Div>
-        <List>
-            <Repeater Items="{Get ParserVm.Parser.Help.Examples}">
+        <Repeater Items="{Get ParserVm.Parser.Help.Examples}">
+            <Div>
                 <Div>
-                    <Div>
-                        <Span Text="{Get Name}" />
-                        <Span Text=" - "/>
-                        <Span Text="{Get ShortDescription}" />
-                    </Div>
-                    <Div>
-                        <Span Text="{Get Usage}" />
-                    </Div>
-                    <Div>
-                        <Span Text="{Get Result}" />
-                    </Div>
+                    <Span Text="{Get Name}" />
+                    <Span Text=" - "/>
+                    <Span Text="{Get ShortDescription}" />
                 </Div>
-            </Repeater>
-        </List>
+                <Div>
+                    <Span Text="{Get Usage}" />
+                </Div>
+                <Div>
+                    <Span Text="{Get Result}" />
+                </Div>
+            </Div>
+        </Repeater>
     </Div>
 </Document>
 

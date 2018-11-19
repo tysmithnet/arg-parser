@@ -53,7 +53,7 @@ namespace ArgParser.TestApp
 
                         var missingValues = exceptions.OfType<MissingValueException>();
                         var first = missingValues.FirstOrDefault();
-                        return first?.Parameter.Parser.Id;
+                        return first?.Parser.Id;
                     })
                     .SetTheme("util",
                         Theme.Create(ConsoleColor.Green, ConsoleColor.DarkGreen, ConsoleColor.Yellow, ConsoleColor.Red,
