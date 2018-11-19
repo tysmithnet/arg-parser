@@ -33,7 +33,7 @@ test_script:
     mkdir c:\temp -erroraction silentlycontinue;
     dotnet tool install coveralls.net --global;
     iex "C:\projects\arg-parser\ArgParser\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:C:\projects\arg-parser\ArgParser\packages\xunit.runner.console.2.4.1\tools\net472\xunit.console.exe ""-targetargs:C:\projects\arg-parser\ArgParser\ArgParser.Core.Test\bin\Debug\ArgParser.Core.Test.dll C:\projects\arg-parser\ArgParser\ArgParser.Styles.Test\bin\Debug\ArgParser.Styles.Test.dll C:\projects\arg-parser\ArgParser\ArgParser.Styles.Alba.Test\bin\Debug\ArgParser.Styles.Alba.Test.dll -noshadow"" -output:c:\temp\coverage.xml -filter:""+[ArgParser*]*"" -coverbytest:*.Test.dll";
-    iex "C:\projects\arg-parser\ArgParser\packages\coveralls.io.1.4.2\tools\coveralls.net.exe --opencover c:\temp\coverage.xml -r $env.COVERALLS_REPO_TOKEN";
+    iex "C:\projects\arg-parser\ArgParser\packages\coveralls.io.1.4.2\tools\coveralls.net.exe --opencover c:\temp\coverage.xml -r $env:COVERALLS_REPO_TOKEN";
 
 
 environment:
