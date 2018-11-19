@@ -25,8 +25,7 @@ namespace ArgParser.Core
         ///     Initializes a new instance of the <see cref="ForwardProgressException" /> class.
         /// </summary>
         /// <param name="location">The location.</param>
-        /// <param name="message">The message.</param>
-        public ForwardProgressException(IterationInfo location, string message) : base(message)
+        public ForwardProgressException(IterationInfo location) : base($"Expected to find a parser to consume, but found none")
         {
             Location = location.ThrowIfArgumentNull(nameof(location));
         }
