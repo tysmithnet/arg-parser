@@ -15,7 +15,7 @@ namespace ArgParser.Styles
         {
             var args = request.ThrowIfArgumentNull(nameof(request)).Args.PreventNull().ToArray();
             if(!args.Any())
-                return new ChainIdentificationResult(new Parser[0], new string[0]);
+                return new ChainIdentificationResult(Context.RootParser().ToEnumerableOfOne(), new string[0]);
 
             List<string> Helper(List<string> history)
             {

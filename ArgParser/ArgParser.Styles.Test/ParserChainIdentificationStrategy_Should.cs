@@ -114,6 +114,25 @@ namespace ArgParser.Styles.Test
         }
 
         [Fact]
+        public void Return_The_Root_If_There_Are_No_Args()
+        {
+            // arrange
+            var builder = new ContextBuilder("a")
+                .AddParser("a")
+                .Finish;
+
+            var strat = new ParserChainIdentificationStrategy(builder.Context);
+            var request = new ChainIdentificationRequest(new string[0], builder.Context);
+
+            // act
+            var res = strat.Identify(request);
+
+            // assert
+            res.Chain.Single().Should().Be(builder.Context.RootParser());
+            res.ConsumedArgs.Should().BeEmpty();
+        }
+
+        [Fact]
         public void Work_When_No_Aliases_Are_Defined()
         {
             // arrange
