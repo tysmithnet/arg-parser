@@ -1,18 +1,24 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using ArgParser.Core;
 
 namespace ArgParser.Styles
 {
     public class AliasRepository : IAliasRepository
     {
+        public IEnumerable<string> Lookup(string alias)
+        {
+            return Aliases.Where(kvp => kvp.Value == alias).Select(x => x.Key);
+        }
+
         public string GetAlias(string parserId) =>
-            Alias.TryGetValue(parserId, out var registeredAlias) ? registeredAlias : parserId;
+            Aliases.TryGetValue(parserId, out var registeredAlias) ? registeredAlias : parserId;
 
         public void SetAlias(string parserId, string alias)
         {
-            Alias[parserId] = alias;
+            Aliases[parserId] = alias;
         }
 
-        protected internal Dictionary<string, string> Alias { get; set; } = new Dictionary<string, string>();
+        protected internal Dictionary<string, string> Aliases { get; set; } = new Dictionary<string, string>();
     }
 }

@@ -11,7 +11,8 @@ namespace ArgParser.Styles
             Context = new Context
             {
                 HierarchyRepository = HierarchyRepository,
-                ParserRepository = ParserRepository
+                ParserRepository = ParserRepository,
+                AliasRepository = AliasRepository
             };
         }
 

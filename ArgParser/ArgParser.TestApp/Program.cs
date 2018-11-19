@@ -58,7 +58,7 @@ namespace ArgParser.TestApp
                     .SetTheme("util",
                         Theme.Create(ConsoleColor.Green, ConsoleColor.DarkGreen, ConsoleColor.Yellow, ConsoleColor.Red,
                             ConsoleColor.Yellow))
-                    .SetTheme("clip",
+                    .SetTheme("clipboard",
                         Theme.Create(ConsoleColor.Yellow, ConsoleColor.DarkYellow, ConsoleColor.Gray, ConsoleColor.Red,
                             ConsoleColor.Gray))
                     .SetTheme("sort",

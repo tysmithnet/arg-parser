@@ -82,6 +82,7 @@
     <Compile Include="HierarchyRepository_Should.cs" />
     <Compile Include="MissingRequiredParameterException_Should.cs" />
     <Compile Include="ParserBuilder_Should.cs" />
+    <Compile Include="ParserChainIdentificationStrategy_Should.cs" />
     <Compile Include="ParserRepository_Should.cs" />
     <Compile Include="ParseStrategy_Should.cs" />
     <Compile Include="Positional_Should.cs" />

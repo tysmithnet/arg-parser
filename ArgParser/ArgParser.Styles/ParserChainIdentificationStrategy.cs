@@ -13,23 +13,43 @@ namespace ArgParser.Styles
 
         public ChainIdentificationResult Identify(ChainIdentificationRequest request)
         {
-            var ids = new List<string>();
-            var rootId = request.Context.HierarchyRepository.GetRoot();
-            for (var i = 0; i < request.Args.Length; i++)
+            var args = request.ThrowIfArgumentNull(nameof(request)).Args.PreventNull().ToArray();
+            if(!args.Any())
+                return new ChainIdentificationResult(new Parser[0], new string[0]);
+
+            List<string> Helper(List<string> history)
             {
-                var left = i == 0 ? rootId : request.Args[i - 1];
-                var right = request.Args[i];
-                if (request.Context.HierarchyRepository.IsParent(left, right)) ids.Add(right);
-                else break;
+                var index = history.Count;
+                if (index > args.Length)
+                    return history;
+                
+                var cur = args[index];
+                var potentials = cur.ToEnumerableOfOne().Concat(Context.AliasRepository.Lookup(cur));
+                var results = new List<List<string>>();
+                foreach (var potential in potentials)
+                {
+                    var left = history.Any() ? history.Last() : Context.HierarchyRepository.GetRoot();
+                    var right = potential;
+                    if (!Context.HierarchyRepository.IsParent(left, right)) continue;
+                    var copy = history.ToList();
+                    copy.Add(right);
+                    results.Add(Helper(copy));
+                }
+
+                if (!results.Any())
+                    return history.ToList();
+
+                var bestMatch = results.GroupBy(x => x.Count).OrderByDescending(x => x.Key).First();
+                if(bestMatch.Key > 1)
+                    throw new AmbiguousCommandException(bestMatch.Select(x => x.ToList()).ToList());
+                return bestMatch.Single().ToList();
             }
 
-            var chain = ids.Any()
-                ? Context.PathToRoot(ids.Last()).Reverse().ToList()
-                : request.Context.ParserRepository.Get(request.Context.HierarchyRepository.GetRoot())
-                    .ToEnumerableOfOne().ToList();
-
-            var res = new ChainIdentificationResult(chain, request.Args.Take(ids.Count).ToArray());
-            return res;
+            var found = Helper(new List<string>());
+            if (!found.Any())
+                return new ChainIdentificationResult(Context.RootParser().ToEnumerableOfOne(), new string[0]);
+            var chain = Context.PathToRoot(found.Last()).Reverse().ToList();
+            return new ChainIdentificationResult(chain, args.Take(chain.Count).ToArray());
         }
 
         public IContext Context { get; set; }

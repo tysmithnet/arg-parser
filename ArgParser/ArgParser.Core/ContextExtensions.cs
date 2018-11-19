@@ -10,5 +10,11 @@ namespace ArgParser.Core
             var ids = parserId.ToEnumerableOfOne().Concat(context.HierarchyRepository.GetAncestors(parserId));
             return ids.Select(i => context.ParserRepository.Get(i)); // todo: error checking
         }
+
+        public static Parser RootParser(this IContext context)
+        {
+            var rootId = context.ThrowIfArgumentNull(nameof(context)).HierarchyRepository.GetRoot();
+            return context.ParserRepository.Get(rootId);
+        }
     }
 }

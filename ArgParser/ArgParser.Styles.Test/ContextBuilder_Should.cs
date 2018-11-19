@@ -65,7 +65,7 @@ namespace ArgParser.Styles.Test
                 .WithBooleanSwitch('h', "help", o => o.IsHelpRequested = true)
                 .WithBooleanSwitch(null, "version", o => o.IsVersionRequested = true)
                 .Finish
-                .AddParser<ClipboardOptions>("clip")
+                .AddParser<ClipboardOptions>("clipboard")
                 .WithBooleanSwitch('o', "overwrite", o => o.IsOverwriteClipboard = true)
                 .Finish
                 .AddParser<SortOptions>("sort")
@@ -97,11 +97,11 @@ namespace ArgParser.Styles.Test
                 .WithSingleValueSwitch('f', "format", (o, s) => o.Format = s)
                 .WithPositionals((o, s) => o.InputFiles = s)
                 .Finish
-                .CreateParentChildRelationship("base", "clip")
+                .CreateParentChildRelationship("base", "clipboard")
                 .CreateParentChildRelationship("base", "firewall")
                 .CreateParentChildRelationship("base", "convert")
-                .CreateParentChildRelationship("clip", "sort")
-                .CreateParentChildRelationship("clip", "zip")
+                .CreateParentChildRelationship("clipboard", "sort")
+                .CreateParentChildRelationship("clipboard", "zip")
                 .CreateParentChildRelationship("firewall", "block")
                 .CreateParentChildRelationship("firewall", "unblock");
 

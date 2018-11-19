@@ -32,7 +32,7 @@ namespace ArgParser.Testing.Common
                         .SetShortDescription("Display the current version");
                 })
                 .Finish
-                .AddParser<ClipboardOptions>("clip", help =>
+                .AddParser<ClipboardOptions>("clipboard", help =>
                 {
                     help
                         .SetName("Clipboard")
@@ -154,11 +154,11 @@ namespace ArgParser.Testing.Common
                         .SetShortDescription("Input files to convert");
                 }, required: true)
                 .Finish
-                .CreateParentChildRelationship("util", "clip")
+                .CreateParentChildRelationship("util", "clipboard")
                 .CreateParentChildRelationship("util", "firewall")
                 .CreateParentChildRelationship("util", "convert")
-                .CreateParentChildRelationship("clip", "sort")
-                .CreateParentChildRelationship("clip", "zip")
+                .CreateParentChildRelationship("clipboard", "sort")
+                .CreateParentChildRelationship("clipboard", "zip")
                 .CreateParentChildRelationship("firewall", "block")
                 .CreateParentChildRelationship("firewall", "unblock");
         }
