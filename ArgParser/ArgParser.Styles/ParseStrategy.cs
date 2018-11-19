@@ -15,13 +15,13 @@ namespace ArgParser.Styles
 
         private IContext _context;
 
-        public virtual IParseResult Parse(string[] args, IContext context)
+        public virtual IParseResult Parse(string[] args)
         {
             ChainIdentificationResult chainRes = null;
             try
             {
-                chainRes = ChainIdentificationStrategy.Identify(new ChainIdentificationRequest(args, context));
-                var mutatedArgs = ArgsMutator.Mutate(new MutateArgsRequest(args, chainRes.Chain, context));
+                chainRes = ChainIdentificationStrategy.Identify(new ChainIdentificationRequest(args, Context));
+                var mutatedArgs = ArgsMutator.Mutate(new MutateArgsRequest(args, chainRes.Chain, Context));
                 var info = IterationInfoFactory.Create(new IterationInfoRequest(chainRes, mutatedArgs, args));
                 if (chainRes.IdentifiedParser.FactoryFunction == null)
                     throw new NoFactoryFunctionException(

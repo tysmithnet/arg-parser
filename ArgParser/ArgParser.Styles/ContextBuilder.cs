@@ -58,7 +58,7 @@ namespace ArgParser.Styles
             var context = Context;
             var strat = new ParseStrategy(context, RootParserId);
             OnParseStrategyCreated(strat);
-            return strat.Parse(args, context);
+            return strat.Parse(args);
         }
 
         protected virtual void OnParseStrategyCreated(ParseStrategy parseStrategy)

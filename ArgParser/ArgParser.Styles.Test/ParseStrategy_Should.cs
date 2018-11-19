@@ -45,7 +45,7 @@ namespace ArgParser.Styles.Test
                     new IterationInfo("-h".Split(' '))));
             strat.PotentialConsumerStrategy = mock.Object;
             IParseResult res = null;
-            Action mightThrow = () => res = strat.Parse("-h".Split(' '), builder.Context);
+            Action mightThrow = () => res = strat.Parse("-h".Split(' '));
 
             // act
             // assert
@@ -68,7 +68,7 @@ namespace ArgParser.Styles.Test
                 .Finish;
             var strat = new ParseStrategy(builder.Context, "root");
             IParseResult res = null;
-            Action mightThrow = () => res = strat.Parse("-h".Split(' '), builder.Context);
+            Action mightThrow = () => res = strat.Parse("-h".Split(' '));
 
             // act
             // assert
