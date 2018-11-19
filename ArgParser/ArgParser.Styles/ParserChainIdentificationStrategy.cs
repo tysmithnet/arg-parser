@@ -20,7 +20,7 @@ namespace ArgParser.Styles
             List<string> Helper(List<string> history)
             {
                 var index = history.Count;
-                if (index > args.Length)
+                if (index >= args.Length)
                     return history;
                 
                 var cur = args[index];
@@ -40,8 +40,8 @@ namespace ArgParser.Styles
                     return history.ToList();
 
                 var bestMatch = results.GroupBy(x => x.Count).OrderByDescending(x => x.Key).First();
-                if(bestMatch.Key > 1)
-                    throw new AmbiguousCommandException(bestMatch.Select(x => x.ToList()).ToList());
+                if(bestMatch.Count() > 1)
+                    throw new AmbiguousCommandChainException(bestMatch.Select(x => x.ToList()).ToList());
                 return bestMatch.Single().ToList();
             }
 
@@ -49,7 +49,7 @@ namespace ArgParser.Styles
             if (!found.Any())
                 return new ChainIdentificationResult(Context.RootParser().ToEnumerableOfOne(), new string[0]);
             var chain = Context.PathToRoot(found.Last()).Reverse().ToList();
-            return new ChainIdentificationResult(chain, args.Take(chain.Count).ToArray());
+            return new ChainIdentificationResult(chain, args.Take(chain.Count - 1).ToArray());
         }
 
         public IContext Context { get; set; }
