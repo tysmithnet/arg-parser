@@ -1,0 +1,39 @@
+image: Visual Studio 2017
+
+version: 1.0.{build}
+
+branches:
+  only:
+    - master
+    - develop
+
+init:
+  - git config --global core.autocrlf input
+
+platform: Any CPU
+
+configuration: Debug
+
+before_build:
+  - nuget restore ArgParser/ArgParser.sln
+
+build:
+  parallel: true
+  project: ArgParser/ArgParser.sln
+  verbosity: minimal
+
+test:
+  assemblies:
+    - '**\*.Test.dll'
+    - '**\*.Tests.dll'
+
+test_script:
+- ps: >-
+    mkdir c:\temp -erroraction silentlycontinue;
+    iex "C:\projects\arg-parser\ArgParser\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:C:\projects\arg-parser\ArgParser\packages\xunit.runner.console.2.4.1\tools\net472\xunit.console.exe ""-targetargs:C:\projects\arg-parser\ArgParser\ArgParser.Core.Test\bin\Debug\ArgParser.Core.Test.dll C:\projects\arg-parser\ArgParser\ArgParser.Styles.Test\bin\Debug\ArgParser.Styles.Test.dll C:\projects\arg-parser\ArgParser\ArgParser.Styles.Alba.Test\bin\Debug\ArgParser.Styles.Alba.Test.dll -noshadow"" -output:c:\temp\coverage.xml -filter:""+[ArgParser*]*"" -coverbytest:*.Test.dll";
+    iex "C:\projects\arg-parser\ArgParser\packages\coveralls.io.1.4.2\tools\coveralls.net.exe --opencover c:\temp\coverage.xml -r $env:COVERALLS_REPO_TOKEN";
+
+
+environment:
+  COVERALLS_REPO_TOKEN:
+    secure: dxNQXnuBxcyVeQhaepf3P5NWWpP3tz+9j+gvlduwmBaeoIeyuvfMRRA5JFE/omEs
