@@ -4,5 +4,6 @@
     {
         IHierarchyRepository HierarchyRepository { get; }
         IParserRepository ParserRepository { get; }
+        IAliasRepository AliasRepository { get; }
     }
 }

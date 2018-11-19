@@ -4,7 +4,7 @@
           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
           xmlns:ap="clr-namespace:ArgParser.Styles.Alba;assembly=ArgParser.Styles.Alba, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
           xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <colorful:FigletDiv Text="{Get ParserVm.Parser.Id}" ColorGradient="{Get BannerColor}"/>
+    <colorful:FigletDiv Text="{Get ParserVm.Parser.Help.Name}" ColorGradient="{Get BannerColor}"/>
     <Div>
         <Span Text="{Get SubTitle}" Color="{Get ParserVm.Theme.DefaultTextColor}"/>
     </Div>           
@@ -12,7 +12,7 @@
     <Div>
         <Div Color="{Get ParserVm.Theme.DefaultTextColor}">Usage: </Div>
         <Repeater Items="{Get Chain}">
-            <Span Text="{Get Parser.Id}" Color="{Get Theme.SecondaryTextColor}" />
+            <Span Text="{Get DisplayString}" Color="{Get Theme.SecondaryTextColor}" />
             <Span Text=" " />
         </Repeater>
         <Repeater Items="{Get ParameterVms}">

@@ -117,7 +117,7 @@ namespace ArgParser.Styles.Test
             // act
             // assert
             builder.Context.HierarchyRepository.GetChildren("util").Should()
-                .Contain("clip convert firewall".Split(' '));
+                .Contain("clipboard convert firewall".Split(' '));
         }
 
         [Fact]

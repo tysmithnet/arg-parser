@@ -77,11 +77,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AliasRepository_Should.cs" />
     <Compile Include="BooleanSwitch_Should.cs" />
     <Compile Include="ContextBuilder_Should.cs" />
     <Compile Include="HierarchyRepository_Should.cs" />
     <Compile Include="MissingRequiredParameterException_Should.cs" />
     <Compile Include="ParserBuilder_Should.cs" />
+    <Compile Include="ParserChainIdentificationStrategy_Should.cs" />
     <Compile Include="ParserRepository_Should.cs" />
     <Compile Include="ParseStrategy_Should.cs" />
     <Compile Include="Positional_Should.cs" />

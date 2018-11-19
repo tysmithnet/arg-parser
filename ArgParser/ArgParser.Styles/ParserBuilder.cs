@@ -23,6 +23,12 @@ namespace ArgParser.Styles
             return this;
         }
 
+        public ParserBuilder WithAlias(string alias)
+        {
+            Finish.AliasRepository.SetAlias(Parser.Id, alias);
+            return this;
+        }
+
         public ParserBuilder WithFactoryFunction(Func<object> func)
         {
             Parser.FactoryFunction = func.ThrowIfArgumentNull(nameof(func));
@@ -99,6 +105,12 @@ namespace ArgParser.Styles
         {
             Finish = parent.ThrowIfArgumentNull(nameof(parent));
             Parser = parser.ThrowIfArgumentNull(nameof(parser));
+        }
+
+        public new ParserBuilder<T> WithAlias(string alias)
+        {
+            base.WithAlias(alias);
+            return this;
         }
 
         public ParserBuilder<T> WithBooleanSwitch(char? letter, string word, Action<T> consumeCallback,

@@ -10,6 +10,8 @@ namespace ArgParser.Styles.Alba.Test
 {
     public class ContextBuilderExtensions_Should
     {
+
+
         [Fact]
         public void Allow_Auto_Help_To_Be_Registered()
         {
