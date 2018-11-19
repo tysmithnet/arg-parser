@@ -23,6 +23,12 @@ namespace ArgParser.Styles
             return this;
         }
 
+        public ParserBuilder WithAlias(string alias)
+        {
+            Finish.AliasRepository.SetAlias(Parser.Id, alias);
+            return this;
+        }
+
         public ParserBuilder WithFactoryFunction(Func<object> func)
         {
             Parser.FactoryFunction = func.ThrowIfArgumentNull(nameof(func));
