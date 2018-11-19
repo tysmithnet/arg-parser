@@ -1,11 +1,32 @@
-﻿using System.Collections.Generic;
+﻿// ***********************************************************************
+// Assembly         : ArgParser.Styles
+// Author           : @tysmithnet
+// Created          : 11-12-2018
+//
+// Last Modified By : @tysmithnet
+// Last Modified On : 11-18-2018
+// ***********************************************************************
+// <copyright file="HierarchyRepository.cs" company="ArgParser.Styles">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+using System.Collections.Generic;
 using System.Linq;
 using ArgParser.Core;
 
 namespace ArgParser.Styles
 {
+    /// <summary>
+    /// Default hierarchy repository that allows only parent-child relationships
+    /// </summary>
+    /// <seealso cref="ArgParser.Core.IHierarchyRepository" />
     public class HierarchyRepository : IHierarchyRepository
     {
+        /// <summary>
+        /// Adds the parser.
+        /// </summary>
+        /// <param name="parserId">The parser identifier.</param>
         public void AddParser(string parserId)
         {
             if (Nodes.ContainsKey(parserId))
@@ -13,6 +34,13 @@ namespace ArgParser.Styles
             Nodes.Add(parserId, new HierarchyNode(parserId));
         }
 
+        /// <summary>
+        /// Establishes a parent child relationship between parsers.
+        /// </summary>
+        /// <param name="parentParserId">The parent parser identifier.</param>
+        /// <param name="childParserId">The child parser identifier.</param>
+        /// <exception cref="KeyNotFoundException">
+        /// </exception>
         public void EstablishParentChildRelationship(string parentParserId, string childParserId)
         {
             parentParserId.ThrowIfArgumentNull(nameof(parentParserId));
@@ -28,6 +56,12 @@ namespace ArgParser.Styles
                 parent.Add(Nodes[childParserId]);
         }
 
+        /// <summary>
+        /// Gets the ancestors of a parser
+        /// </summary>
+        /// <param name="parserId">The parser identifier.</param>
+        /// <returns>IEnumerable&lt;System.String&gt;.</returns>
+        /// <exception cref="KeyNotFoundException"></exception>
         public IEnumerable<string> GetAncestors(string parserId)
         {
             parserId.ThrowIfArgumentNull(nameof(parserId));
@@ -45,6 +79,12 @@ namespace ArgParser.Styles
             return results;
         }
 
+        /// <summary>
+        /// Gets the children id's of a parser
+        /// </summary>
+        /// <param name="parserId">The parser identifier.</param>
+        /// <returns>IEnumerable&lt;System.String&gt;.</returns>
+        /// <exception cref="KeyNotFoundException"></exception>
         public IEnumerable<string> GetChildren(string parserId)
         {
             if (!Nodes.ContainsKey(parserId))
@@ -53,6 +93,10 @@ namespace ArgParser.Styles
             return Nodes[parserId].Children.Select(x => x.Id);
         }
 
+        /// <summary>
+        /// Gets the root parser
+        /// </summary>
+        /// <returns>The root parser id</returns>
         public string GetRoot()
         {
             var allChildren = Nodes.SelectMany(pair => pair.Value.Children);
@@ -60,6 +104,12 @@ namespace ArgParser.Styles
             return root.Id;
         }
 
+        /// <summary>
+        /// Determines whether the specified parent parser identifier is parent.
+        /// </summary>
+        /// <param name="parentParserId">The parent parser identifier.</param>
+        /// <param name="childParserId">The child parser identifier.</param>
+        /// <returns><c>true</c> if the specified parent parser identifier is parent; otherwise, <c>false</c>.</returns>
         public bool IsParent(string parentParserId, string childParserId)
         {
             if (childParserId == null)
@@ -69,8 +119,10 @@ namespace ArgParser.Styles
             return Nodes[childParserId].Parent?.Id == parentParserId;
         }
 
+        /// <summary>
+        /// Gets or sets the nodes.
+        /// </summary>
+        /// <value>The nodes.</value>
         protected internal Dictionary<string, HierarchyNode> Nodes { get; set; } = new Dictionary<string, HierarchyNode>();
-
-
     }
 }
