@@ -11,18 +11,19 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ArgParser.Core
 {
     /// <summary>
-    /// Convenience extension methods for IContext instances
+    ///     Convenience extension methods for IContext instances
     /// </summary>
     public static class ContextExtensions
     {
         /// <summary>
-        /// Returns the parsers from the provided to the root, both ends inclusive
+        ///     Returns the parsers from the provided to the root, both ends inclusive
         /// </summary>
         /// <param name="context">The context.</param>
         /// <param name="parserId">The parser identifier.</param>
@@ -34,7 +35,7 @@ namespace ArgParser.Core
         }
 
         /// <summary>
-        /// Finds the rot parser for a context
+        ///     Finds the rot parser for a context
         /// </summary>
         /// <param name="context">The context.</param>
         /// <returns>The root parser</returns>

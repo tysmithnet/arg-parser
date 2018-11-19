@@ -11,20 +11,22 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace ArgParser.Core
 {
     /// <summary>
-    /// Represents basic help
+    ///     Represents basic help
     /// </summary>
     public class SimpleHelp
     {
         /// <summary>
-        /// Gets or sets the name
+        ///     Gets or sets the name
         /// </summary>
         /// <value>The name.</value>
         public string Name { get; set; }
+
         /// <summary>
-        /// Gets or sets the short description. This should be about 12 items or less.
+        ///     Gets or sets the short description. This should be about 12 items or less.
         /// </summary>
         /// <value>The short description.</value>
         public string ShortDescription { get; set; }

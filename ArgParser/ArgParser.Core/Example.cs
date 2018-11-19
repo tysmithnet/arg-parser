@@ -11,21 +11,23 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace ArgParser.Core
 {
     /// <summary>
-    /// Represents a generic example
+    ///     Represents a generic example
     /// </summary>
     /// <seealso cref="ArgParser.Core.SimpleHelp" />
     public class Example : SimpleHelp
     {
         /// <summary>
-        /// Gets or sets the result.
+        ///     Gets or sets the result.
         /// </summary>
         /// <value>The result.</value>
         public string Result { get; set; }
+
         /// <summary>
-        /// Gets or sets the usage.
+        ///     Gets or sets the usage.
         /// </summary>
         /// <value>The usage.</value>
         public string Usage { get; set; }

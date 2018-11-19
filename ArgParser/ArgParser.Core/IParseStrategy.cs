@@ -11,15 +11,16 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace ArgParser.Core
 {
     /// <summary>
-    /// Represents an object that knows how to parse arguments
+    ///     Represents an object that knows how to parse arguments
     /// </summary>
     public interface IParseStrategy
     {
         /// <summary>
-        /// Parses the specified arguments.
+        ///     Parses the specified arguments.
         /// </summary>
         /// <param name="args">The arguments.</param>
         /// <returns>The result of the parsing</returns>

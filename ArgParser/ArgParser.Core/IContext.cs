@@ -11,28 +11,31 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace ArgParser.Core
 {
     /// <summary>
-    /// Represents the environment in which parsing occurs. It is a collection
-    /// of high level interfaces that provide access to core features.
+    ///     Represents the environment in which parsing occurs. It is a collection
+    ///     of high level interfaces that provide access to core features.
     /// </summary>
     public interface IContext
     {
         /// <summary>
-        /// Gets the hierarchy repository.
-        /// </summary>
-        /// <value>The hierarchy repository.</value>
-        IHierarchyRepository HierarchyRepository { get; }
-        /// <summary>
-        /// Gets the parser repository.
-        /// </summary>
-        /// <value>The parser repository.</value>
-        IParserRepository ParserRepository { get; }
-        /// <summary>
-        /// Gets the alias repository.
+        ///     Gets the alias repository.
         /// </summary>
         /// <value>The alias repository.</value>
         IAliasRepository AliasRepository { get; }
+
+        /// <summary>
+        ///     Gets the hierarchy repository.
+        /// </summary>
+        /// <value>The hierarchy repository.</value>
+        IHierarchyRepository HierarchyRepository { get; }
+
+        /// <summary>
+        ///     Gets the parser repository.
+        /// </summary>
+        /// <value>The parser repository.</value>
+        IParserRepository ParserRepository { get; }
     }
 }

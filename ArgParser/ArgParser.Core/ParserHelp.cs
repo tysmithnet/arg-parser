@@ -11,26 +11,29 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace ArgParser.Core
 {
     /// <summary>
-    /// Represents generic help for a parser
+    ///     Represents generic help for a parser
     /// </summary>
     /// <seealso cref="ArgParser.Core.FullHelp" />
     public class ParserHelp : FullHelp
     {
         /// <summary>
-        /// Gets or sets the author.
+        ///     Gets or sets the author.
         /// </summary>
         /// <value>The author.</value>
         public string Author { get; set; }
+
         /// <summary>
-        /// Gets or sets the repository URL.
+        ///     Gets or sets the repository URL.
         /// </summary>
         /// <value>The repository URL.</value>
         public string RepositoryUrl { get; set; }
+
         /// <summary>
-        /// Gets or sets the version.
+        ///     Gets or sets the version.
         /// </summary>
         /// <value>The version.</value>
         public string Version { get; set; }

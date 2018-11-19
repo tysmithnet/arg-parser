@@ -11,6 +11,7 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -19,15 +20,15 @@ using System.Linq;
 namespace ArgParser.Core
 {
     /// <summary>
-    /// Represents a named aggregate consumer that is capable of producing
-    /// an instance of some type and consuming arguments to populate it
+    ///     Represents a named aggregate consumer that is capable of producing
+    ///     an instance of some type and consuming arguments to populate it
     /// </summary>
     /// <seealso cref="ArgParser.Core.IConsumer" />
     [DebuggerDisplay("{Id}")]
     public class Parser : IConsumer
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Parser"/> class.
+        ///     Initializes a new instance of the <see cref="Parser" /> class.
         /// </summary>
         /// <param name="id">The identifier.</param>
         public Parser(string id)
@@ -36,7 +37,7 @@ namespace ArgParser.Core
         }
 
         /// <summary>
-        /// Adds a parameter.
+        ///     Adds a parameter.
         /// </summary>
         /// <param name="parameter">The parameter.</param>
         public void AddParameter(Parameter parameter)
@@ -45,7 +46,7 @@ namespace ArgParser.Core
         }
 
         /// <summary>
-        /// Determines whether this instance can consume the args and populate the provided instance
+        ///     Determines whether this instance can consume the args and populate the provided instance
         /// </summary>
         /// <param name="instance">The instance.</param>
         /// <param name="info">The information.</param>
@@ -57,7 +58,7 @@ namespace ArgParser.Core
         }
 
         /// <summary>
-        /// Consumes the args and populate the provided instance
+        ///     Consumes the args and populate the provided instance
         /// </summary>
         /// <param name="instance">The instance.</param>
         /// <param name="request">The request.</param>
@@ -69,7 +70,7 @@ namespace ArgParser.Core
         }
 
         /// <summary>
-        /// Resets this instance.
+        ///     Resets this instance.
         /// </summary>
         public void Reset()
         {
@@ -77,35 +78,39 @@ namespace ArgParser.Core
         }
 
         /// <summary>
-        /// Gets or sets the factory function.
+        ///     Gets or sets the factory function.
         /// </summary>
         /// <value>The factory function.</value>
         public Func<object> FactoryFunction { get; set; }
+
         /// <summary>
-        /// Gets or sets the help.
+        ///     Gets or sets the help.
         /// </summary>
         /// <value>The help.</value>
         public ParserHelp Help { get; set; } = new ParserHelp();
+
         /// <summary>
-        /// Gets or sets the identifier.
+        ///     Gets or sets the identifier.
         /// </summary>
         /// <value>The identifier.</value>
         public string Id { get; protected internal set; }
+
         /// <summary>
-        /// Gets the parameters.
+        ///     Gets the parameters.
         /// </summary>
         /// <value>The parameters.</value>
         public IEnumerable<Parameter> Parameters => ParametersInternal.ToList();
+
         /// <summary>
-        /// Gets or sets the internal parameter collection
+        ///     Gets or sets the internal parameter collection
         /// </summary>
         /// <value>The parameters internal.</value>
         protected internal IList<Parameter> ParametersInternal { get; set; } = new List<Parameter>();
     }
 
     /// <summary>
-    /// Represents a named aggregate consumer that is capable of producing
-    /// an instance of some type and consuming arguments to populate it
+    ///     Represents a named aggregate consumer that is capable of producing
+    ///     an instance of some type and consuming arguments to populate it
     /// </summary>
     /// <typeparam name="T">The type of the instance this parser can create</typeparam>
     /// <seealso cref="ArgParser.Core.Parser" />
@@ -113,7 +118,7 @@ namespace ArgParser.Core
     public class Parser<T> : Parser
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Parser{T}"/> class.
+        ///     Initializes a new instance of the <see cref="Parser{T}" /> class.
         /// </summary>
         /// <param name="id">The identifier.</param>
         public Parser(string id) : base(id)
@@ -121,7 +126,7 @@ namespace ArgParser.Core
         }
 
         /// <summary>
-        /// Gets or sets the factory function.
+        ///     Gets or sets the factory function.
         /// </summary>
         /// <value>The factory function.</value>
         public new Func<T> FactoryFunction

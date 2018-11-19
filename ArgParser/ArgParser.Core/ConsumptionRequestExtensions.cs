@@ -11,6 +11,7 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,12 +19,12 @@ using System.Linq;
 namespace ArgParser.Core
 {
     /// <summary>
-    /// Convenience methods for retrieving information from ConsumptionRequest instances
+    ///     Convenience methods for retrieving information from ConsumptionRequest instances
     /// </summary>
     public static class ConsumptionRequestExtensions
     {
         /// <summary>
-        /// Returns all args to be consumed
+        ///     Returns all args to be consumed
         /// </summary>
         /// <param name="request">The request.</param>
         /// <returns>Args to be consumed</returns>
@@ -31,7 +32,7 @@ namespace ArgParser.Core
             request.Info.Args.Skip(request.Info.Index).Take(request.Max);
 
         /// <summary>
-        /// Returns the first arg to be consumed
+        ///     Returns the first arg to be consumed
         /// </summary>
         /// <param name="request">The request.</param>
         /// <returns>The first arg to be consumed</returns>
@@ -45,7 +46,7 @@ namespace ArgParser.Core
         }
 
         /// <summary>
-        /// Determines whether the specified request has a second argument.
+        ///     Determines whether the specified request has a second argument.
         /// </summary>
         /// <param name="request">The request.</param>
         /// <returns><c>true</c> if the specified request has a second argument; otherwise, <c>false</c>.</returns>
@@ -53,7 +54,7 @@ namespace ArgParser.Core
             request.Info.Index + 1 < request.Info.Index + request.Max;
 
         /// <summary>
-        /// Gets the last arg allowed to be consumed
+        ///     Gets the last arg allowed to be consumed
         /// </summary>
         /// <param name="request">The request.</param>
         /// <returns>The last arg allowed to be consumed</returns>
@@ -67,11 +68,14 @@ namespace ArgParser.Core
         }
 
         /// <summary>
-        /// Returns the next arg
+        ///     Returns the next arg
         /// </summary>
         /// <param name="request">The request.</param>
         /// <returns>The next arg</returns>
-        /// <exception cref="ArgumentOutOfRangeException">Max - Cannot get next arg because it is outside the range of consumable values</exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     Max - Cannot get next arg because it is outside the range of consumable
+        ///     values
+        /// </exception>
         public static string Next(this ConsumptionRequest request)
         {
             if (request.Max < 2)
@@ -81,7 +85,7 @@ namespace ArgParser.Core
         }
 
         /// <summary>
-        /// Gets the rest of the args allowed to be consumed
+        ///     Gets the rest of the args allowed to be consumed
         /// </summary>
         /// <param name="request">The request.</param>
         /// <returns>The rest of the args allowed to be consumed</returns>

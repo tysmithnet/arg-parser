@@ -11,43 +11,45 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace ArgParser.Core
 {
     /// <summary>
-    /// Represents an object that is capable of consuming args and populating an instance
+    ///     Represents an object that is capable of consuming args and populating an instance
     /// </summary>
     public interface IConsumer
     {
         /// <summary>
-        /// Determines whether this instance can consume the args and populate the provided instance
+        ///     Determines whether this instance can consume the args and populate the provided instance
         /// </summary>
         /// <param name="instance">The instance.</param>
         /// <param name="info">The information.</param>
         /// <returns>ConsumptionResult.</returns>
         ConsumptionResult CanConsume(object instance, IterationInfo info);
+
         /// <summary>
-        /// Consumes the args and populate the provided instance
+        ///     Consumes the args and populate the provided instance
         /// </summary>
         /// <param name="instance">The instance.</param>
         /// <param name="request">The request.</param>
         /// <returns>ConsumptionResult.</returns>
         ConsumptionResult Consume(object instance, ConsumptionRequest request);
+
         /// <summary>
-        /// Resets this instance.
+        ///     Resets this instance.
         /// </summary>
         void Reset();
     }
 
     /// <summary>
-    /// Represents an object that is capable of consuming args and populating an instance
+    ///     Represents an object that is capable of consuming args and populating an instance
     /// </summary>
     /// <typeparam name="T">The type of instances this is capable of populating</typeparam>
     /// <seealso cref="ArgParser.Core.IConsumer" />
     public interface IConsumer<in T> : IConsumer
     {
-
         /// <summary>
-        /// Determines whether this instance can consume the specified instance.
+        ///     Determines whether this instance can consume the specified instance.
         /// </summary>
         /// <param name="instance">The instance.</param>
         /// <param name="info">The information.</param>
@@ -55,7 +57,7 @@ namespace ArgParser.Core
         ConsumptionResult CanConsume(T instance, IterationInfo info);
 
         /// <summary>
-        /// Consumes the args and populate the provided instance
+        ///     Consumes the args and populate the provided instance
         /// </summary>
         /// <param name="instance">The instance.</param>
         /// <param name="request">The request.</param>

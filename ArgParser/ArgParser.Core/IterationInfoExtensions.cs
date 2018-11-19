@@ -11,6 +11,7 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,12 +19,12 @@ using System.Linq;
 namespace ArgParser.Core
 {
     /// <summary>
-    /// Convenience extensions for IterationInfo
+    ///     Convenience extensions for IterationInfo
     /// </summary>
     public static class IterationInfoExtensions
     {
         /// <summary>
-        /// Returns the argument in the sequence
+        ///     Returns the argument in the sequence
         /// </summary>
         /// <param name="info">The information.</param>
         /// <returns>System.String.</returns>
@@ -36,28 +37,28 @@ namespace ArgParser.Core
         }
 
         /// <summary>
-        /// Returns the arguments at the readhead and beyond
+        ///     Returns the arguments at the readhead and beyond
         /// </summary>
         /// <param name="info">The information.</param>
         /// <returns>IEnumerable&lt;System.String&gt;.</returns>
         public static IEnumerable<string> FromNowOn(this IterationInfo info) => info.Args.Skip(info.Index);
 
         /// <summary>
-        /// Determines whether there is another argument after the read head
+        ///     Determines whether there is another argument after the read head
         /// </summary>
         /// <param name="info">The information.</param>
         /// <returns><c>true</c> if the specified information has next; otherwise, <c>false</c>.</returns>
         public static bool HasNext(this IterationInfo info) => info.Index + 1 < info.Args.Length;
 
         /// <summary>
-        /// Determines whether the specified information has reached the end
+        ///     Determines whether the specified information has reached the end
         /// </summary>
         /// <param name="info">The information.</param>
         /// <returns><c>true</c> if the specified information is complete; otherwise, <c>false</c>.</returns>
         public static bool IsComplete(this IterationInfo info) => info.Index >= info.Args.Length;
 
         /// <summary>
-        /// Returns the last arg in the sequence
+        ///     Returns the last arg in the sequence
         /// </summary>
         /// <param name="info">The information.</param>
         /// <returns>System.String.</returns>
@@ -70,14 +71,14 @@ namespace ArgParser.Core
         }
 
         /// <summary>
-        /// Returns the next arg after the read head
+        ///     Returns the next arg after the read head
         /// </summary>
         /// <param name="info">The information.</param>
         /// <returns>System.String.</returns>
         public static string Next(this IterationInfo info) => info.Args[info.Index + 1];
 
         /// <summary>
-        /// Returns the args from the read head to the end
+        ///     Returns the args from the read head to the end
         /// </summary>
         /// <param name="info">The information.</param>
         /// <returns>IEnumerable&lt;System.String&gt;.</returns>

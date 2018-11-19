@@ -11,17 +11,16 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
-using System;
 
 namespace ArgParser.Core
 {
     /// <summary>
-    /// A request to consume arguments
+    ///     A request to consume arguments
     /// </summary>
     public class ConsumptionRequest
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConsumptionRequest"/> class.
+        ///     Initializes a new instance of the <see cref="ConsumptionRequest" /> class.
         /// </summary>
         /// <param name="info">The iteration info for where to start consuming.</param>
         /// <param name="max">The maximum number of arguments to be consumed.</param>
@@ -32,12 +31,13 @@ namespace ArgParser.Core
         }
 
         /// <summary>
-        /// Gets or sets the iteration information.
+        ///     Gets or sets the iteration information.
         /// </summary>
         /// <value>The information.</value>
         public IterationInfo Info { get; protected internal set; }
+
         /// <summary>
-        /// Gets or sets the maximum number of arguments to be consumed.
+        ///     Gets or sets the maximum number of arguments to be consumed.
         /// </summary>
         /// <value>The maximum.</value>
         public int Max { get; protected internal set; }

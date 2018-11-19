@@ -11,18 +11,18 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace ArgParser.Core
 {
     /// <summary>
-    /// Represents a scenario in which an argument was encountered that could not be processed
-    /// by any consumer
+    ///     Represents a scenario in which an argument was encountered that could not be processed
+    ///     by any consumer
     /// </summary>
     /// <seealso cref="ArgParser.Core.ParseException" />
     public class MissingValueException : ParseException
     {
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="MissingValueException" /> class.
+        ///     Initializes a new instance of the <see cref="MissingValueException" /> class.
         /// </summary>
         /// <param name="parser">The parser.</param>
         /// <param name="message">The message.</param>
@@ -32,7 +32,7 @@ namespace ArgParser.Core
         }
 
         /// <summary>
-        /// Gets or sets the parser.
+        ///     Gets or sets the parser.
         /// </summary>
         /// <value>The parser.</value>
         public Parser Parser { get; protected internal set; }

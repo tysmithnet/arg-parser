@@ -11,17 +11,18 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System.Collections.Generic;
 
 namespace ArgParser.Core
 {
     /// <summary>
-    /// Represents a the result of a consumer's consumption process.
+    ///     Represents a the result of a consumer's consumption process.
     /// </summary>
     public class ConsumptionResult
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConsumptionResult"/> class.
+        ///     Initializes a new instance of the <see cref="ConsumptionResult" /> class.
         /// </summary>
         /// <param name="parseExceptions">The parse exceptions.</param>
         public ConsumptionResult(params ParseException[] parseExceptions)
@@ -30,7 +31,7 @@ namespace ArgParser.Core
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConsumptionResult"/> class.
+        ///     Initializes a new instance of the <see cref="ConsumptionResult" /> class.
         /// </summary>
         /// <param name="originalInfo">The original information.</param>
         /// <param name="numConsumed">The number consumed.</param>
@@ -45,22 +46,25 @@ namespace ArgParser.Core
         }
 
         /// <summary>
-        /// Gets or sets the consuming parameter.
+        ///     Gets or sets the consuming parameter.
         /// </summary>
         /// <value>The consuming parameter.</value>
         public Parameter ConsumingParameter { get; protected internal set; }
+
         /// <summary>
-        /// Gets or sets the iteration information AFTER the consumption
+        ///     Gets or sets the iteration information AFTER the consumption
         /// </summary>
         /// <value>The information.</value>
         public IterationInfo Info { get; protected internal set; }
+
         /// <summary>
-        /// Gets or sets the number of args consumed during the process
+        ///     Gets or sets the number of args consumed during the process
         /// </summary>
         /// <value>The number consumed.</value>
         public int NumConsumed { get; protected internal set; }
+
         /// <summary>
-        /// Gets or sets the parse exceptions that occurred during processing
+        ///     Gets or sets the parse exceptions that occurred during processing
         /// </summary>
         /// <value>The parse exceptions.</value>
         public IList<ParseException> ParseExceptions { get; protected internal set; } = new List<ParseException>();

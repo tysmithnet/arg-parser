@@ -11,16 +11,17 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace ArgParser.Core
 {
     /// <summary>
-    /// An exception that arises when a parser is needed and it does not have a factory function
+    ///     An exception that arises when a parser is needed and it does not have a factory function
     /// </summary>
     /// <seealso cref="ArgParser.Core.ParseException" />
     public class NoFactoryFunctionException : ParseException
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="NoFactoryFunctionException"/> class.
+        ///     Initializes a new instance of the <see cref="NoFactoryFunctionException" /> class.
         /// </summary>
         /// <param name="parser">The parser.</param>
         public NoFactoryFunctionException(Parser parser) : base($"No factory function set on parser={parser.Id}")
@@ -29,7 +30,7 @@ namespace ArgParser.Core
         }
 
         /// <summary>
-        /// Gets or sets the parser.
+        ///     Gets or sets the parser.
         /// </summary>
         /// <value>The parser.</value>
         public Parser Parser { get; protected internal set; }

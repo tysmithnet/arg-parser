@@ -11,18 +11,19 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System;
 
 namespace ArgParser.Core
 {
     /// <summary>
-    /// An exception related to the parsing of arguments into options
+    ///     An exception related to the parsing of arguments into options
     /// </summary>
     /// <seealso cref="System.Exception" />
     public class ParseException : Exception
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ParseException"/> class.
+        ///     Initializes a new instance of the <see cref="ParseException" /> class.
         /// </summary>
         /// <param name="message">The message that describes the error.</param>
         public ParseException(string message) : base(message)

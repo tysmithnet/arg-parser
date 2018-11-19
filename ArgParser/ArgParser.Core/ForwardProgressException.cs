@@ -11,17 +11,18 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace ArgParser.Core
 {
     /// <summary>
-    /// An exception that arises when the iteration does make forward progress
-    /// on every consumption. This is to prevent indefinite parsing.
+    ///     An exception that arises when the iteration does make forward progress
+    ///     on every consumption. This is to prevent indefinite parsing.
     /// </summary>
     /// <seealso cref="ArgParser.Core.ParseException" />
     public class ForwardProgressException : ParseException
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ForwardProgressException"/> class.
+        ///     Initializes a new instance of the <see cref="ForwardProgressException" /> class.
         /// </summary>
         /// <param name="location">The location.</param>
         /// <param name="message">The message.</param>
@@ -31,7 +32,7 @@ namespace ArgParser.Core
         }
 
         /// <summary>
-        /// Gets or sets the location.
+        ///     Gets or sets the location.
         /// </summary>
         /// <value>The location.</value>
         public IterationInfo Location { get; protected internal set; }

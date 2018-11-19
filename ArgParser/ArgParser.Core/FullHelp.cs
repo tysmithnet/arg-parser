@@ -11,18 +11,19 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System.Collections.Generic;
 
 namespace ArgParser.Core
 {
     /// <summary>
-    /// Represents a more advanced generic help
+    ///     Represents a more advanced generic help
     /// </summary>
     /// <seealso cref="ArgParser.Core.SimpleHelp" />
     public class FullHelp : SimpleHelp
     {
         /// <summary>
-        /// Adds an example
+        ///     Adds an example
         /// </summary>
         /// <param name="example">The example.</param>
         public void AddExample(Example example)
@@ -34,12 +35,13 @@ namespace ArgParser.Core
         }
 
         /// <summary>
-        /// Gets or sets the examples.
+        ///     Gets or sets the examples.
         /// </summary>
         /// <value>The examples.</value>
         public IList<Example> Examples { get; protected internal set; } = new List<Example>();
+
         /// <summary>
-        /// Gets or sets the long description.
+        ///     Gets or sets the long description.
         /// </summary>
         /// <value>The long description.</value>
         public string LongDescription { get; set; }
