@@ -11,14 +11,9 @@ branches:
 init:
   - git config --global core.autocrlf input
 
-cache:
-  - packages -> **\packages.config  
-  - '%LocalAppData%\NuGet\Cache'    
-  - '%LocalAppData%\NuGet\v3-cache' 
-
 platform: Any CPU
 
-configuration: Release
+configuration: Debug
 
 before_build:
   - nuget restore ArgParser/ArgParser.sln
