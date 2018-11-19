@@ -36,10 +36,9 @@ namespace ArgParser.Styles.Alba
             var albaContext = context.ToAlbaContext();
             var vm = new ParserHelpTemplateViewModel
             {
-                Chain = albaContext.PathToRoot(Parser.Id).Reverse().Select(x => new ParserViewModel
+                Chain = albaContext.PathToRoot(Parser.Id).Reverse().Select(x => new ParserViewModel(x, albaContext.ThemeRepository.Get(x.Id))
                 {
-                    Parser = x,
-                    Theme = albaContext.ThemeRepository.Get(x.Id)
+                    Alias = context.AliasRepository.HasAlias(x.Id) ? context.AliasRepository.GetAlias(x.Id) : null
                 }).ToList()
             };
             vm.ParameterVms = vm.Chain.SelectMany(x => x.Parser.Parameters.Select(y => new ParameterViewModel(y, x.Theme))).ToList();

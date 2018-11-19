@@ -16,7 +16,6 @@ namespace ArgParser.Styles.Alba.Test
             // act
             // assert
             context.AliasRepository.HasAlias("a").Should().BeTrue();
-
         }
     }
 }
