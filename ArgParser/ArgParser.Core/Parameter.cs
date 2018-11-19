@@ -61,7 +61,7 @@ namespace ArgParser.Core
             try
             {
                 if (request.Max < MinRequired)
-                    throw new MissingValueException(this,
+                    throw new MissingValueException(Parser,
                         $"Switch {this} expected to have at least {MinRequired} values, but was told it can only have {request.Max}. Are you sure you passed enough values to satisfy the switch?");
                 HasBeenConsumed = true;
                 var values = request.AllToBeConsumed().Take(MaxAllowed).ToArray();

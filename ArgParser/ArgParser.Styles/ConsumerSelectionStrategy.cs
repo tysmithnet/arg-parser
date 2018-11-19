@@ -22,7 +22,7 @@ namespace ArgParser.Styles
                     result.ConsumptionResults.FirstOrDefault(r => result.Chain.Contains(r.ConsumingParameter.Parser));
 
             if (foundResult == null)
-                throw new ForwardProgressException($"Expected to find a parser to consume, but found none");
+                throw new ForwardProgressException(result.Info, $"Expected to find a parser to consume, but found none");
             return foundResult;
         }
 

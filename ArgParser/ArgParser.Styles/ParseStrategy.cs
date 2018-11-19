@@ -24,15 +24,14 @@ namespace ArgParser.Styles
                 var mutatedArgs = ArgsMutator.Mutate(new MutateArgsRequest(args, chainRes.Chain, Context));
                 var info = IterationInfoFactory.Create(new IterationInfoRequest(chainRes, mutatedArgs, args));
                 if (chainRes.IdentifiedParser.FactoryFunction == null)
-                    throw new NoFactoryFunctionException(
-                        $"No factory function set on parser={chainRes.IdentifiedParser.Id}");
+                    throw new NoFactoryFunctionException(chainRes.IdentifiedParser);
                 var instance = chainRes.IdentifiedParser.FactoryFunction();
                 while (!info.IsComplete())
                 {
-                    var potentialConsumerResult = PotentialConsumerStrategy.IdentifyPotentialConsumer(
-                        new PotentialConsumerRequest(chainRes, info, instance));
+                    var potentialConsumerRequest = new PotentialConsumerRequest(chainRes, info, instance);
+                    var potentialConsumerResult = PotentialConsumerStrategy.IdentifyPotentialConsumer(potentialConsumerRequest);
                     if (!potentialConsumerResult.Success)
-                        throw new UnexpectedArgException($"Encountered unexpected argument={info.Current}");
+                        throw new UnexpectedArgException(info);
                     var selected = ConsumerSelectionStrategy.Select(potentialConsumerResult);
                     var consumptionRequest = ConsumptionRequestFactory.Create(potentialConsumerResult, selected);
                     var consumptionResult = selected.ConsumingParameter.Consume(instance, consumptionRequest);
