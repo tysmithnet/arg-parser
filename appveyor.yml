@@ -31,8 +31,8 @@ test:
 test_script:
 - ps: >-
     dotnet tool install coveralls.net --global;
-    iex "C:\projects\arg-parser\ArgParser\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:C:\projects\arg-parser\ArgParser\packages\xunit.runner.console.2.4.1\tools\net472\xunit.console.exe ""-targetargs:C:\projects\arg-parser\ArgParser\ArgParser.Core.Test\bin\Debug\ArgParser.Core.Test.dll C:\projects\arg-parser\ArgParser\ArgParser.Styles.Test\bin\Debug\ArgParser.Styles.Test.dll C:\projects\arg-parser\ArgParser\ArgParser.Styles.Alba.Test\bin\Debug\ArgParser.Styles.Alba.Test.dll -noshadow"" -output:opencoverCoverage.xml -filter:""+[ArgParser*]*"" -coverbytest:*.Test.dll";
-    iex "csmacnz.coveralls.exe --opencover -i opencoverCoverage.xml --repoToken $env:COVERALLS_REPO_TOKEN --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_JOB_ID";
+    iex "C:\projects\arg-parser\ArgParser\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:C:\projects\arg-parser\ArgParser\packages\xunit.runner.console.2.4.1\tools\net472\xunit.console.exe ""-targetargs:C:\projects\arg-parser\ArgParser\ArgParser.Core.Test\bin\Debug\ArgParser.Core.Test.dll C:\projects\arg-parser\ArgParser\ArgParser.Styles.Test\bin\Debug\ArgParser.Styles.Test.dll C:\projects\arg-parser\ArgParser\ArgParser.Styles.Alba.Test\bin\Debug\ArgParser.Styles.Alba.Test.dll -noshadow"" -output:c:\temp\opencoverCoverage.xml -filter:""+[ArgParser*]*"" -coverbytest:*.Test.dll";
+    iex "csmacnz.coveralls.exe --opencover -i c:\temp\opencoverCoverage.xml --repoToken $env:COVERALLS_REPO_TOKEN --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_JOB_ID";
 
 
 environment:
