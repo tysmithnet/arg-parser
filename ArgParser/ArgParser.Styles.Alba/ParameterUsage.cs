@@ -1,11 +1,33 @@
-﻿using System.Text;
+﻿// ***********************************************************************
+// Assembly         : ArgParser.Styles.Alba
+// Author           : @tysmithnet
+// Created          : 11-17-2018
+//
+// Last Modified By : @tysmithnet
+// Last Modified On : 11-18-2018
+// ***********************************************************************
+// <copyright file="ParameterUsage.cs" company="ArgParser.Styles.Alba">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+
+using System.Text;
 using Alba.CsConsoleFormat;
 using ArgParser.Core;
 
 namespace ArgParser.Styles.Alba
 {
+    /// <summary>
+    ///     An Element that will render the usage for a Parameter
+    /// </summary>
+    /// <seealso cref="Alba.CsConsoleFormat.InlineElement" />
     public class ParameterUsage : InlineElement
     {
+        /// <summary>
+        ///     Generates the sequence.
+        /// </summary>
+        /// <param name="sequence">The sequence.</param>
         public override void GenerateSequence(IInlineSequence sequence)
         {
             if (ViewModel.Parameter is Switch @switch)
@@ -14,6 +36,11 @@ namespace ArgParser.Styles.Alba
                 GeneratePositionalSequence(positional, sequence);
         }
 
+        /// <summary>
+        ///     Generates the positional sequence.
+        /// </summary>
+        /// <param name="positional">The positional.</param>
+        /// <param name="seq">The seq.</param>
         protected internal void GeneratePositionalSequence(Positional positional, IInlineSequence seq)
         {
             WritePrimary(seq, "[");
@@ -21,6 +48,11 @@ namespace ArgParser.Styles.Alba
             WritePrimary(seq, "]");
         }
 
+        /// <summary>
+        ///     Generates the switch sequence.
+        /// </summary>
+        /// <param name="switch">The switch.</param>
+        /// <param name="seq">The seq.</param>
         protected internal void GenerateSwitchSequence(Switch @switch, IInlineSequence seq)
         {
             WritePrimary(seq, "[");
@@ -43,6 +75,11 @@ namespace ArgParser.Styles.Alba
             WritePrimary(seq, "]");
         }
 
+        /// <summary>
+        ///     Generates the value alias.
+        /// </summary>
+        /// <param name="parameter">The parameter.</param>
+        /// <returns>System.String.</returns>
         protected internal string GenerateValueAlias(Parameter parameter)
         {
             var prefix = "v";
@@ -62,6 +99,11 @@ namespace ArgParser.Styles.Alba
             return $"{prefix}1..{prefix}{hi}";
         }
 
+        /// <summary>
+        ///     Writes something using the primary color
+        /// </summary>
+        /// <param name="sequence">The sequence.</param>
+        /// <param name="text">The text.</param>
         protected internal void WritePrimary(IInlineSequence sequence, string text)
         {
             sequence.PushColor(ViewModel.Theme.DefaultTextColor);
@@ -70,6 +112,11 @@ namespace ArgParser.Styles.Alba
             sequence.PopFormatting();
         }
 
+        /// <summary>
+        ///     Writes something using the secondary color
+        /// </summary>
+        /// <param name="sequence">The sequence.</param>
+        /// <param name="text">The text.</param>
         protected internal void WriteSecondary(IInlineSequence sequence, string text)
         {
             sequence.PushColor(ViewModel.Theme.SecondaryTextColor);
@@ -78,8 +125,22 @@ namespace ArgParser.Styles.Alba
             sequence.PopFormatting();
         }
 
+        /// <summary>
+        ///     Gets the generated text.
+        /// </summary>
+        /// <value>The generated text.</value>
         public override string GeneratedText => StringBuilder.ToString();
+
+        /// <summary>
+        ///     Gets or sets the view model.
+        /// </summary>
+        /// <value>The view model.</value>
         public ParameterViewModel ViewModel { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the string builder.
+        /// </summary>
+        /// <value>The string builder.</value>
         protected internal StringBuilder StringBuilder { get; set; } = new StringBuilder();
     }
 }
