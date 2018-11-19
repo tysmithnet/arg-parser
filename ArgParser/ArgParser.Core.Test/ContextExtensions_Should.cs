@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -27,7 +23,8 @@ namespace ArgParser.Core.Test
 
             // act
             // assert
-            contextMock.Object.PathToRoot("child").Select(p => p.Id).Should().BeEquivalentTo(new[] {"child", "parent", "grandparent"});
+            contextMock.Object.PathToRoot("child").Select(p => p.Id).Should()
+                .BeEquivalentTo("child", "parent", "grandparent");
         }
     }
 }
