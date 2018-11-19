@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using ArgParser.Core;
 using ArgParser.Testing.Common;
 using FluentAssertions;
@@ -18,10 +19,7 @@ namespace ArgParser.Styles.Alba.Test
             var parserVm = new ParserViewModel(parser, Theme.Default);
             var template = new ParserHelpTemplate(builder.Context, "util")
             {
-                ViewModel = new ParserHelpTemplateViewModel
-                {
-                    Chain = parserVm.ToEnumerableOfOne().ToList()
-                }
+                ViewModel = new ParserHelpTemplateViewModel(parserVm.ToEnumerableOfOne().ToList(), new List<ParameterViewModel>(), new List<ParserViewModel>())
             };
 
             // act

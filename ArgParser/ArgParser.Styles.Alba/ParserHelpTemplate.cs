@@ -66,17 +66,27 @@ namespace ArgParser.Styles.Alba
         protected internal ParserHelpTemplateViewModel CreateViewModel(IContext context)
         {
             var albaContext = context.ToAlbaContext();
-            var vm = new ParserHelpTemplateViewModel
-            {
-                Chain = albaContext.PathToRoot(Parser.Id).Reverse().Select(x =>
-                    new ParserViewModel(x, albaContext.ThemeRepository.Get(x.Id))
-                    {
-                        Alias = context.AliasRepository.HasAlias(x.Id) ? context.AliasRepository.GetAlias(x.Id) : null
-                    }).ToList()
-            };
-            vm.ParameterVms = vm.Chain
+            var parserViewModels = albaContext.PathToRoot(Parser.Id).Reverse().Select(x =>
+                new ParserViewModel(x, albaContext.ThemeRepository.Get(x.Id))
+                {
+                    Alias = context.AliasRepository.HasAlias(x.Id) ? context.AliasRepository.GetAlias(x.Id) : null
+                }).ToList();
+
+
+            var parameterViewModels = parserViewModels
                 .SelectMany(x => x.Parser.Parameters.Select(y => new ParameterViewModel(y, x.Theme))).ToList();
-            return vm;
+
+            var subCommandViewModels = albaContext.Context.HierarchyRepository.GetChildren(Parser.Id).Select(x =>
+            {
+                var parser = albaContext.ParserRepository.Get(x);
+                var theme = albaContext.ThemeRepository.Get(x);
+                return new ParserViewModel(parser, theme)
+                {
+                    Alias = albaContext.AliasRepository.HasAlias(parser.Id) ? albaContext.AliasRepository.GetAlias(parser.Id) : parser.Id
+                };
+            }).ToList();
+
+            return new ParserHelpTemplateViewModel(parserViewModels, parameterViewModels, subCommandViewModels);
         }
 
         /// <summary>

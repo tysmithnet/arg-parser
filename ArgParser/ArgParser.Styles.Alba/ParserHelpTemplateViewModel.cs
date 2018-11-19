@@ -12,6 +12,7 @@
 // <summary></summary>
 // ***********************************************************************
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,6 +25,27 @@ namespace ArgParser.Styles.Alba
     /// </summary>
     public class ParserHelpTemplateViewModel
     {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="ParserHelpTemplateViewModel" /> class.
+        /// </summary>
+        /// <param name="chain">The chain.</param>
+        /// <param name="parameterVms">The parameter VMS.</param>
+        /// <param name="subCommands">The sub commands.</param>
+        /// <exception cref="ArgumentNullException">
+        ///     chain
+        ///     or
+        ///     parameterVms
+        ///     or
+        ///     subCommands
+        /// </exception>
+        public ParserHelpTemplateViewModel(IList<ParserViewModel> chain, IList<ParameterViewModel> parameterVms,
+            IList<ParserViewModel> subCommands)
+        {
+            Chain = chain ?? throw new ArgumentNullException(nameof(chain));
+            ParameterVms = parameterVms ?? throw new ArgumentNullException(nameof(parameterVms));
+            SubCommands = subCommands ?? throw new ArgumentNullException(nameof(subCommands));
+        }
+
         /// <summary>
         ///     Gets the color of the banner.
         /// </summary>
@@ -48,6 +70,12 @@ namespace ArgParser.Styles.Alba
         /// </summary>
         /// <value>The parser vm.</value>
         public ParserViewModel ParserVm => Chain.Last();
+
+        /// <summary>
+        ///     Gets or sets the sub commands.
+        /// </summary>
+        /// <value>The sub commands.</value>
+        public IList<ParserViewModel> SubCommands { get; protected internal set; }
 
         /// <summary>
         ///     Gets the sub title.

@@ -34,8 +34,8 @@ namespace ArgParser.Styles.Alba
         /// </exception>
         public ParserViewModel(Parser parser, Theme theme)
         {
-            Parser = parser ?? throw new ArgumentNullException(nameof(parser));
-            Theme = theme ?? throw new ArgumentNullException(nameof(theme));
+            Parser = parser.ThrowIfArgumentNull(nameof(parser));
+            Theme = theme.ThrowIfArgumentNull(nameof(theme));
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace ArgParser.Styles.Alba
         ///     Gets the display string.
         /// </summary>
         /// <value>The display string.</value>
-        public string DisplayString => Alias.IsNotNullOrWhiteSpace() ? Alias : Parser.Id;
+        public string DisplayString => Alias.IsNullOrWhiteSpace() ? Parser.Id : Alias;
 
         /// <summary>
         ///     Gets or sets the parser.
