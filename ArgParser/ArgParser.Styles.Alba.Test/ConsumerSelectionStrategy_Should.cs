@@ -20,7 +20,7 @@ namespace ArgParser.Styles.Alba.Test
             var result = new PotentialConsumerResult(builder.Context.PathToRoot("firewall").Reverse().ToList(),
                 new[]
                 {
-                    new ConsumptionResult(info, 0, parameter), 
+                    new ConsumptionResult(info, 0, parameter)
                 }, info);
             Action mightThrow = () => strat.Select(result);
 
