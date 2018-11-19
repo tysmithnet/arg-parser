@@ -11,18 +11,19 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System.Collections.Generic;
 using ArgParser.Core;
 
 namespace ArgParser.Styles
 {
     /// <summary>
-    /// Represents a parser in the global relationship pool of parsers
+    ///     Represents a parser in the global relationship pool of parsers
     /// </summary>
     public class HierarchyNode
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="HierarchyNode"/> class.
+        ///     Initializes a new instance of the <see cref="HierarchyNode" /> class.
         /// </summary>
         /// <param name="id">The identifier.</param>
         public HierarchyNode(string id)
@@ -31,7 +32,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Adds the specified child.
+        ///     Adds the specified child.
         /// </summary>
         /// <param name="child">The child.</param>
         public void Add(HierarchyNode child)
@@ -41,17 +42,19 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Gets or sets the children.
+        ///     Gets or sets the children.
         /// </summary>
         /// <value>The children.</value>
         public IList<HierarchyNode> Children { get; protected internal set; } = new List<HierarchyNode>();
+
         /// <summary>
-        /// Gets or sets the identifier.
+        ///     Gets or sets the identifier.
         /// </summary>
         /// <value>The identifier.</value>
         public string Id { get; protected internal set; }
+
         /// <summary>
-        /// Gets or sets the parent.
+        ///     Gets or sets the parent.
         /// </summary>
         /// <value>The parent.</value>
         public HierarchyNode Parent { get; protected internal set; }

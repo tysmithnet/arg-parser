@@ -11,6 +11,7 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -19,14 +20,14 @@ using ArgParser.Core;
 namespace ArgParser.Styles
 {
     /// <summary>
-    /// Something capable of mutating arguments based on the request. It will split apart groups of boolean parameters
-    /// and massage the format of arguments.
+    ///     Something capable of mutating arguments based on the request. It will split apart groups of boolean parameters
+    ///     and massage the format of arguments.
     /// </summary>
     /// <seealso cref="ArgParser.Styles.IArgsMutator" />
     public class ArgsMutator : IArgsMutator
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ArgsMutator"/> class.
+        ///     Initializes a new instance of the <see cref="ArgsMutator" /> class.
         /// </summary>
         /// <param name="context">The context.</param>
         public ArgsMutator(IContext context)
@@ -35,7 +36,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Mutates the arguments based on the request
+        ///     Mutates the arguments based on the request
         /// </summary>
         /// <param name="request">The request.</param>
         /// <returns>Mutated arguments</returns>
@@ -71,7 +72,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Gets or sets the context.
+        ///     Gets or sets the context.
         /// </summary>
         /// <value>The context.</value>
         public IContext Context { get; set; }

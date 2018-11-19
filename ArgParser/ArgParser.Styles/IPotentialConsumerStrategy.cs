@@ -11,16 +11,17 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace ArgParser.Styles
 {
     /// <summary>
-    /// Interface IPotentialConsumerStrategy
+    ///     Interface IPotentialConsumerStrategy
     /// </summary>
     /// <seealso cref="ArgParser.Styles.IParseStrategyUnit" />
     public interface IPotentialConsumerStrategy : IParseStrategyUnit
     {
         /// <summary>
-        /// Identifies the potential consumer.
+        ///     Identifies the potential consumer.
         /// </summary>
         /// <param name="request">The request.</param>
         /// <returns>PotentialConsumerResult.</returns>

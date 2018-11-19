@@ -11,19 +11,20 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System.Linq;
 using ArgParser.Core;
 
 namespace ArgParser.Styles
 {
     /// <summary>
-    /// Consumer selection strategy that will prioritize switches over positionals
+    ///     Consumer selection strategy that will prioritize switches over positionals
     /// </summary>
     /// <seealso cref="ArgParser.Styles.IConsumerSelectionStrategy" />
     public class ConsumerSelectionStrategy : IConsumerSelectionStrategy
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConsumerSelectionStrategy"/> class.
+        ///     Initializes a new instance of the <see cref="ConsumerSelectionStrategy" /> class.
         /// </summary>
         /// <param name="context">The context.</param>
         public ConsumerSelectionStrategy(IContext context)
@@ -32,7 +33,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Selects the specified result.
+        ///     Selects the specified result.
         /// </summary>
         /// <param name="result">The result.</param>
         /// <returns>ConsumptionResult.</returns>
@@ -46,7 +47,9 @@ namespace ArgParser.Styles
 
             if (foundResult == null)
                 foundResult =
-                    result.ConsumptionResults.FirstOrDefault(r => result.Chain.Contains(r.ConsumingParameter.Parser)); // todo: why first? why not by most args or least args consumed
+                    result.ConsumptionResults.FirstOrDefault(r =>
+                        result.Chain.Contains(r.ConsumingParameter
+                            .Parser)); // todo: why first? why not by most args or least args consumed
 
             if (foundResult == null)
                 throw new ForwardProgressException(result.Info);
@@ -54,7 +57,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Gets or sets the context.
+        ///     Gets or sets the context.
         /// </summary>
         /// <value>The context.</value>
         public IContext Context { get; set; }

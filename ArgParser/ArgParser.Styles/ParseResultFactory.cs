@@ -11,19 +11,20 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System.Collections.Generic;
 using ArgParser.Core;
 
 namespace ArgParser.Styles
 {
     /// <summary>
-    /// Default IParseResultFactory implementation
+    ///     Default IParseResultFactory implementation
     /// </summary>
     /// <seealso cref="ArgParser.Styles.IParseResultFactory" />
     public class ParseResultFactory : IParseResultFactory
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ParseResultFactory"/> class.
+        ///     Initializes a new instance of the <see cref="ParseResultFactory" /> class.
         /// </summary>
         /// <param name="context">The context.</param>
         public ParseResultFactory(IContext context)
@@ -32,7 +33,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Creates the specified results.
+        ///     Creates the specified results.
         /// </summary>
         /// <param name="results">The results.</param>
         /// <param name="parseExceptions">The parse exceptions.</param>
@@ -41,7 +42,7 @@ namespace ArgParser.Styles
             new ParseResult(results, parseExceptions);
 
         /// <summary>
-        /// Gets or sets the context.
+        ///     Gets or sets the context.
         /// </summary>
         /// <value>The context.</value>
         public IContext Context { get; set; }

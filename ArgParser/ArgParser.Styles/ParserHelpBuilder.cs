@@ -11,17 +11,18 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using ArgParser.Core;
 
 namespace ArgParser.Styles
 {
     /// <summary>
-    /// Builder pattern for ParserHelp
+    ///     Builder pattern for ParserHelp
     /// </summary>
     public class ParserHelpBuilder
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ParserHelpBuilder"/> class.
+        ///     Initializes a new instance of the <see cref="ParserHelpBuilder" /> class.
         /// </summary>
         /// <param name="parser">The parser.</param>
         public ParserHelpBuilder(Parser parser)
@@ -30,7 +31,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Adds the example.
+        ///     Adds the example.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="description">The description.</param>
@@ -50,13 +51,13 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Builds this instance.
+        ///     Builds this instance.
         /// </summary>
         /// <returns>ParserHelp.</returns>
         public ParserHelp Build() => Help;
 
         /// <summary>
-        /// Sets the long description.
+        ///     Sets the long description.
         /// </summary>
         /// <param name="desc">The desc.</param>
         /// <returns>ParserHelpBuilder.</returns>
@@ -67,7 +68,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Sets the name.
+        ///     Sets the name.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns>ParserHelpBuilder.</returns>
@@ -78,7 +79,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Sets the short description.
+        ///     Sets the short description.
         /// </summary>
         /// <param name="desc">The desc.</param>
         /// <returns>ParserHelpBuilder.</returns>
@@ -89,7 +90,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Sets the version.
+        ///     Sets the version.
         /// </summary>
         /// <param name="version">The version.</param>
         /// <returns>ParserHelpBuilder.</returns>
@@ -100,12 +101,13 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Gets or sets the help.
+        ///     Gets or sets the help.
         /// </summary>
         /// <value>The help.</value>
         protected internal ParserHelp Help { get; set; } = new ParserHelp();
+
         /// <summary>
-        /// Gets or sets the parser.
+        ///     Gets or sets the parser.
         /// </summary>
         /// <value>The parser.</value>
         protected internal Parser Parser { get; set; }

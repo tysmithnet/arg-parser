@@ -11,6 +11,7 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System.Collections.Generic;
 using System.Linq;
 using ArgParser.Core;
@@ -18,28 +19,12 @@ using ArgParser.Core;
 namespace ArgParser.Styles
 {
     /// <summary>
-    /// Represents the result of a parser chain identification
+    ///     Represents the result of a parser chain identification
     /// </summary>
     public class ChainIdentificationResult
     {
         /// <summary>
-        /// Gets or sets the chain.
-        /// </summary>
-        /// <value>The chain.</value>
-        public IList<Parser> Chain { get; protected internal set; }
-        /// <summary>
-        /// Gets or sets the consumed arguments.
-        /// </summary>
-        /// <value>The consumed arguments.</value>
-        public string[] ConsumedArgs { get; protected internal set; }
-        /// <summary>
-        /// Gets the identified parser.
-        /// </summary>
-        /// <value>The identified parser.</value>
-        public Parser IdentifiedParser => Chain.Last();
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ChainIdentificationResult"/> class.
+        ///     Initializes a new instance of the <see cref="ChainIdentificationResult" /> class.
         /// </summary>
         /// <param name="chain">The chain.</param>
         /// <param name="consumedArgs">The consumed arguments.</param>
@@ -48,5 +33,23 @@ namespace ArgParser.Styles
             Chain = chain.ThrowIfArgumentNull(nameof(chain)).ToList();
             ConsumedArgs = consumedArgs.ThrowIfArgumentNull(nameof(consumedArgs));
         }
+
+        /// <summary>
+        ///     Gets or sets the chain.
+        /// </summary>
+        /// <value>The chain.</value>
+        public IList<Parser> Chain { get; protected internal set; }
+
+        /// <summary>
+        ///     Gets or sets the consumed arguments.
+        /// </summary>
+        /// <value>The consumed arguments.</value>
+        public string[] ConsumedArgs { get; protected internal set; }
+
+        /// <summary>
+        ///     Gets the identified parser.
+        /// </summary>
+        /// <value>The identified parser.</value>
+        public Parser IdentifiedParser => Chain.Last();
     }
 }

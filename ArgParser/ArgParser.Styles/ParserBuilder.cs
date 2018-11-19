@@ -11,6 +11,7 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System;
 using System.Linq;
 using ArgParser.Core;
@@ -18,12 +19,12 @@ using ArgParser.Core;
 namespace ArgParser.Styles
 {
     /// <summary>
-    /// Builder pattern for Parser
+    ///     Builder pattern for Parser
     /// </summary>
     public class ParserBuilder
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ParserBuilder" /> class.
+        ///     Initializes a new instance of the <see cref="ParserBuilder" /> class.
         /// </summary>
         /// <param name="parent">The parent.</param>
         /// <param name="parser">The parser.</param>
@@ -34,7 +35,18 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Adds a boolean switch
+        ///     Sets the alias
+        /// </summary>
+        /// <param name="alias">The alias.</param>
+        /// <returns>ParserBuilder.</returns>
+        public ParserBuilder WithAlias(string alias)
+        {
+            Finish.AliasRepository.SetAlias(Parser.Id, alias);
+            return this;
+        }
+
+        /// <summary>
+        ///     Adds a boolean switch
         /// </summary>
         /// <param name="letter">The letter.</param>
         /// <param name="word">The word.</param>
@@ -54,18 +66,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Sets the alias
-        /// </summary>
-        /// <param name="alias">The alias.</param>
-        /// <returns>ParserBuilder.</returns>
-        public ParserBuilder WithAlias(string alias)
-        {
-            Finish.AliasRepository.SetAlias(Parser.Id, alias);
-            return this;
-        }
-
-        /// <summary>
-        /// Sets the factory function
+        ///     Sets the factory function
         /// </summary>
         /// <param name="func">The function.</param>
         /// <returns>ParserBuilder.</returns>
@@ -76,7 +77,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Adds a positional that has only 1 value
+        ///     Adds a positional that has only 1 value
         /// </summary>
         /// <param name="consumeCallback">The consume callback.</param>
         /// <param name="helpSetupCallback">The help setup callback.</param>
@@ -94,7 +95,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Adds a positional that can have multiple values
+        ///     Adds a positional that can have multiple values
         /// </summary>
         /// <param name="consumeCallback">The consume callback.</param>
         /// <param name="min">The minimum.</param>
@@ -114,7 +115,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Adds a SingleValueSwitch
+        ///     Adds a SingleValueSwitch
         /// </summary>
         /// <param name="letter">The letter.</param>
         /// <param name="word">The word.</param>
@@ -136,7 +137,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Adds a ValuesSwitch
+        ///     Adds a ValuesSwitch
         /// </summary>
         /// <param name="letter">The letter.</param>
         /// <param name="word">The word.</param>
@@ -161,7 +162,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Adds the parameter
+        ///     Adds the parameter
         /// </summary>
         /// <param name="parameter">The parameter.</param>
         /// <param name="helpSetupCallback">The help setup callback.</param>
@@ -177,28 +178,27 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Gets or sets the finish.
+        ///     Gets or sets the finish.
         /// </summary>
         /// <value>The finish.</value>
         public ContextBuilder Finish { get; protected internal set; }
+
         /// <summary>
-        /// Gets or sets the parser.
+        ///     Gets or sets the parser.
         /// </summary>
         /// <value>The parser.</value>
         public Parser Parser { get; protected internal set; }
     }
 
-
     /// <summary>
-    /// Class ParserBuilder.
+    ///     Class ParserBuilder.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <seealso cref="ArgParser.Styles.ParserBuilder" />
     public class ParserBuilder<T> : ParserBuilder
     {
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="ParserBuilder{T}"/> class.
+        ///     Initializes a new instance of the <see cref="ParserBuilder{T}" /> class.
         /// </summary>
         /// <param name="parent">The parent.</param>
         /// <param name="parser">The parser.</param>
@@ -208,9 +208,8 @@ namespace ArgParser.Styles
             Parser = parser.ThrowIfArgumentNull(nameof(parser));
         }
 
-
         /// <summary>
-        /// Sets the alias
+        ///     Sets the alias
         /// </summary>
         /// <param name="alias">The alias.</param>
         /// <returns>ParserBuilder&lt;T&gt;.</returns>
@@ -220,9 +219,8 @@ namespace ArgParser.Styles
             return this;
         }
 
-
         /// <summary>
-        /// Adds a boolean switch
+        ///     Adds a boolean switch
         /// </summary>
         /// <param name="letter">The letter.</param>
         /// <param name="word">The word.</param>
@@ -242,7 +240,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Sets the factory function
+        ///     Sets the factory function
         /// </summary>
         /// <param name="func">The function.</param>
         /// <returns>ParserBuilder&lt;T&gt;.</returns>
@@ -252,9 +250,8 @@ namespace ArgParser.Styles
             return this;
         }
 
-
         /// <summary>
-        /// Adds a positional with 1 value
+        ///     Adds a positional with 1 value
         /// </summary>
         /// <param name="consumeCallback">The consume callback.</param>
         /// <param name="helpSetupCallback">The help setup callback.</param>
@@ -271,9 +268,8 @@ namespace ArgParser.Styles
             return this;
         }
 
-
         /// <summary>
-        /// Adds a positional with multiple values
+        ///     Adds a positional with multiple values
         /// </summary>
         /// <param name="consumeCallback">The consume callback.</param>
         /// <param name="min">The minimum.</param>
@@ -292,9 +288,8 @@ namespace ArgParser.Styles
             return this;
         }
 
-
         /// <summary>
-        /// Adds a SingleValueSwitch
+        ///     Adds a SingleValueSwitch
         /// </summary>
         /// <param name="letter">The letter.</param>
         /// <param name="word">The word.</param>
@@ -313,9 +308,8 @@ namespace ArgParser.Styles
             return this;
         }
 
-
         /// <summary>
-        /// Adds a ValuesSwitch
+        ///     Adds a ValuesSwitch
         /// </summary>
         /// <param name="letter">The letter.</param>
         /// <param name="word">The word.</param>
@@ -337,9 +331,8 @@ namespace ArgParser.Styles
             return this;
         }
 
-
         /// <summary>
-        /// Gets or sets the parser.
+        ///     Gets or sets the parser.
         /// </summary>
         /// <value>The parser.</value>
         public new Parser<T> Parser

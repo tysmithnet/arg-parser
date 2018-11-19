@@ -11,6 +11,7 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System;
 using System.Collections.Generic;
 using ArgParser.Core;
@@ -18,13 +19,13 @@ using ArgParser.Core;
 namespace ArgParser.Styles
 {
     /// <summary>
-    /// Default IParserRepository implementation
+    ///     Default IParserRepository implementation
     /// </summary>
     /// <seealso cref="ArgParser.Core.IParserRepository" />
     public class ParserRepository : IParserRepository
     {
         /// <summary>
-        /// Creates a parser with the specified id
+        ///     Creates a parser with the specified id
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>The created parser</returns>
@@ -41,7 +42,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Creates a parser with the specified id
+        ///     Creates a parser with the specified id
         /// </summary>
         /// <typeparam name="T">The type of the instance the parser can create</typeparam>
         /// <param name="id">The identifier.</param>
@@ -59,7 +60,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Gets the parser with the specified id
+        ///     Gets the parser with the specified id
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>Existing Parser.</returns>
@@ -73,7 +74,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Gets the parser with the specified id
+        ///     Gets the parser with the specified id
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="id">The identifier.</param>
@@ -85,20 +86,20 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Gets all.
+        ///     Gets all.
         /// </summary>
         /// <returns>IEnumerable&lt;Parser&gt;.</returns>
         /// <!-- Badly formed XML comment ignored for member "M:ArgParser.Core.IParserRepository.GetAll" -->
         public IEnumerable<Parser> GetAll() => Parsers.Values;
 
         /// <summary>
-        /// Gets or sets the first added.
+        ///     Gets or sets the first added.
         /// </summary>
         /// <value>The first added.</value>
         protected internal Parser FirstAdded { get; set; }
 
         /// <summary>
-        /// Gets or sets the parsers.
+        ///     Gets or sets the parsers.
         /// </summary>
         /// <value>The parsers.</value>
         protected internal Dictionary<string, Parser> Parsers { get; set; } = new Dictionary<string, Parser>();

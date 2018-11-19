@@ -11,6 +11,7 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System;
 using System.Linq;
 using ArgParser.Core;
@@ -18,13 +19,13 @@ using ArgParser.Core;
 namespace ArgParser.Styles
 {
     /// <summary>
-    /// Represents a switch that requires 2 parts: the switch and the list of values
+    ///     Represents a switch that requires 2 parts: the switch and the list of values
     /// </summary>
     /// <seealso cref="ArgParser.Styles.Switch" />
     public class ValuesSwitch : Switch
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ValuesSwitch"/> class.
+        ///     Initializes a new instance of the <see cref="ValuesSwitch" /> class.
         /// </summary>
         /// <param name="parent">The parent.</param>
         /// <param name="letter">The letter.</param>
@@ -43,14 +44,14 @@ namespace ArgParser.Styles
     }
 
     /// <summary>
-    /// Represents a switch that requires 2 parts: the switch and the list of values
+    ///     Represents a switch that requires 2 parts: the switch and the list of values
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <seealso cref="ArgParser.Styles.Switch" />
     public class ValuesSwitch<T> : Switch
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ValuesSwitch{T}"/> class.
+        ///     Initializes a new instance of the <see cref="ValuesSwitch{T}" /> class.
         /// </summary>
         /// <param name="parent">The parent.</param>
         /// <param name="letter">The letter.</param>

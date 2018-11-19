@@ -11,6 +11,7 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System.Collections.Generic;
 using System.Linq;
 using ArgParser.Core;
@@ -18,13 +19,13 @@ using ArgParser.Core;
 namespace ArgParser.Styles
 {
     /// <summary>
-    /// Chain identifcation strategy that will allow for aliases to be used
+    ///     Chain identifcation strategy that will allow for aliases to be used
     /// </summary>
     /// <seealso cref="ArgParser.Styles.IParserChainIdentificationStrategy" />
     public class ParserChainIdentificationStrategy : IParserChainIdentificationStrategy
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ParserChainIdentificationStrategy"/> class.
+        ///     Initializes a new instance of the <see cref="ParserChainIdentificationStrategy" /> class.
         /// </summary>
         /// <param name="context">The context.</param>
         public ParserChainIdentificationStrategy(IContext context)
@@ -33,14 +34,14 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Identifies the parser chain from the request
+        ///     Identifies the parser chain from the request
         /// </summary>
         /// <param name="request">The request.</param>
         /// <returns>ChainIdentificationResult.</returns>
         public ChainIdentificationResult Identify(ChainIdentificationRequest request)
         {
             var args = request.ThrowIfArgumentNull(nameof(request)).Args.PreventNull().ToArray();
-            if(!args.Any())
+            if (!args.Any())
                 return new ChainIdentificationResult(Context.RootParser().ToEnumerableOfOne(), new string[0]);
 
             List<string> Helper(List<string> history)
@@ -48,7 +49,7 @@ namespace ArgParser.Styles
                 var index = history.Count;
                 if (index >= args.Length)
                     return history;
-                
+
                 var cur = args[index];
                 var potentials = cur.ToEnumerableOfOne().Concat(request.Context.AliasRepository.Lookup(cur));
                 var results = new List<List<string>>();
@@ -66,7 +67,7 @@ namespace ArgParser.Styles
                     return history.ToList();
 
                 var bestMatch = results.GroupBy(x => x.Count).OrderByDescending(x => x.Key).First();
-                if(bestMatch.Count() > 1)
+                if (bestMatch.Count() > 1)
                     throw new AmbiguousCommandChainException(bestMatch.Select(x => x.ToList()).ToList());
                 return bestMatch.Single().ToList();
             }
@@ -79,7 +80,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Gets or sets the context.
+        ///     Gets or sets the context.
         /// </summary>
         /// <value>The context.</value>
         public IContext Context { get; set; }

@@ -11,18 +11,19 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using ArgParser.Core;
 
 namespace ArgParser.Styles
 {
     /// <summary>
-    /// Default iteration info factory
+    ///     Default iteration info factory
     /// </summary>
     /// <seealso cref="ArgParser.Styles.IIterationInfoFactory" />
     public class IterationInfoFactory : IIterationInfoFactory
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="IterationInfoFactory"/> class.
+        ///     Initializes a new instance of the <see cref="IterationInfoFactory" /> class.
         /// </summary>
         /// <param name="context">The context.</param>
         public IterationInfoFactory(IContext context)
@@ -31,7 +32,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Creates an IterationInfo from the supplied request
+        ///     Creates an IterationInfo from the supplied request
         /// </summary>
         /// <param name="request">The request.</param>
         /// <returns>IterationInfo.</returns>
@@ -43,7 +44,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Gets or sets the context.
+        ///     Gets or sets the context.
         /// </summary>
         /// <value>The context.</value>
         public IContext Context { get; set; }

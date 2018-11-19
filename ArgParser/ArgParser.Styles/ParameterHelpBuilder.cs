@@ -11,17 +11,18 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using ArgParser.Core;
 
 namespace ArgParser.Styles
 {
     /// <summary>
-    /// Builder pattern for ParameterHelp
+    ///     Builder pattern for ParameterHelp
     /// </summary>
     public class ParameterHelpBuilder
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ParameterHelpBuilder"/> class.
+        ///     Initializes a new instance of the <see cref="ParameterHelpBuilder" /> class.
         /// </summary>
         /// <param name="parameter">The parameter.</param>
         public ParameterHelpBuilder(Parameter parameter)
@@ -30,13 +31,13 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Builds this instance.
+        ///     Builds this instance.
         /// </summary>
         /// <returns>ParameterHelp.</returns>
         public ParameterHelp Build() => Help;
 
         /// <summary>
-        /// Sets the default value.
+        ///     Sets the default value.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>ParameterHelpBuilder.</returns>
@@ -47,7 +48,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Sets the name.
+        ///     Sets the name.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns>ParameterHelpBuilder.</returns>
@@ -58,7 +59,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Sets the short description.
+        ///     Sets the short description.
         /// </summary>
         /// <param name="desc">The desc.</param>
         /// <returns>ParameterHelpBuilder.</returns>
@@ -69,7 +70,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Sets the value alias.
+        ///     Sets the value alias.
         /// </summary>
         /// <param name="alias">The alias.</param>
         /// <returns>ParameterHelpBuilder.</returns>
@@ -80,12 +81,13 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Gets or sets the help.
+        ///     Gets or sets the help.
         /// </summary>
         /// <value>The help.</value>
         protected internal ParameterHelp Help { get; set; } = new ParameterHelp();
+
         /// <summary>
-        /// Gets or sets the parameter.
+        ///     Gets or sets the parameter.
         /// </summary>
         /// <value>The parameter.</value>
         protected internal Parameter Parameter { get; set; }

@@ -11,19 +11,20 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System;
 using ArgParser.Core;
 
 namespace ArgParser.Styles
 {
     /// <summary>
-    /// Represents a switch that takes 0 additional values
+    ///     Represents a switch that takes 0 additional values
     /// </summary>
     /// <seealso cref="ArgParser.Styles.Switch" />
     public class BooleanSwitch : Switch
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="BooleanSwitch"/> class.
+        ///     Initializes a new instance of the <see cref="BooleanSwitch" /> class.
         /// </summary>
         /// <param name="parent">The parent.</param>
         /// <param name="letter">The letter.</param>
@@ -39,14 +40,14 @@ namespace ArgParser.Styles
     }
 
     /// <summary>
-    /// Represents a switch that takes 0 additional values
+    ///     Represents a switch that takes 0 additional values
     /// </summary>
     /// <typeparam name="T">The type of the instance this instance can populate</typeparam>
     /// <seealso cref="ArgParser.Styles.BooleanSwitch" />
     public class BooleanSwitch<T> : BooleanSwitch
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="BooleanSwitch{T}"/> class.
+        ///     Initializes a new instance of the <see cref="BooleanSwitch{T}" /> class.
         /// </summary>
         /// <param name="parent">The parent.</param>
         /// <param name="letter">The letter.</param>

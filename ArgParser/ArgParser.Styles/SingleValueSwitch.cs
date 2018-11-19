@@ -11,6 +11,7 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System;
 using System.Linq;
 using ArgParser.Core;
@@ -18,14 +19,14 @@ using ArgParser.Core;
 namespace ArgParser.Styles
 {
     /// <summary>
-    /// Represents a switch that requires 2 parts: the switch and the value
-    /// e.g. git commit -m somemessage
+    ///     Represents a switch that requires 2 parts: the switch and the value
+    ///     e.g. git commit -m somemessage
     /// </summary>
     /// <seealso cref="ArgParser.Styles.Switch" />
     public class SingleValueSwitch : Switch
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SingleValueSwitch"/> class.
+        ///     Initializes a new instance of the <see cref="SingleValueSwitch" /> class.
         /// </summary>
         /// <param name="parent">The parent.</param>
         /// <param name="letter">The letter.</param>
@@ -41,14 +42,14 @@ namespace ArgParser.Styles
     }
 
     /// <summary>
-    /// Represents a switch that requires 2 parts: the switch and the value
+    ///     Represents a switch that requires 2 parts: the switch and the value
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <seealso cref="ArgParser.Styles.SingleValueSwitch" />
     public class SingleValueSwitch<T> : SingleValueSwitch
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SingleValueSwitch{T}"/> class.
+        ///     Initializes a new instance of the <see cref="SingleValueSwitch{T}" /> class.
         /// </summary>
         /// <param name="parent">The parent.</param>
         /// <param name="letter">The letter.</param>
@@ -61,7 +62,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Converts the specified action.
+        ///     Converts the specified action.
         /// </summary>
         /// <param name="action">The action.</param>
         /// <returns>Action&lt;System.Object, System.String&gt;.</returns>

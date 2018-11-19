@@ -11,19 +11,20 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System.Collections.Generic;
 using ArgParser.Core;
 
 namespace ArgParser.Styles
 {
     /// <summary>
-    /// Represents something that is capable of creating IParseResult
+    ///     Represents something that is capable of creating IParseResult
     /// </summary>
     /// <seealso cref="ArgParser.Styles.IParseStrategyUnit" />
     public interface IParseResultFactory : IParseStrategyUnit
     {
         /// <summary>
-        /// Creates the specified results.
+        ///     Creates the specified results.
         /// </summary>
         /// <param name="results">The results.</param>
         /// <param name="parseExceptions">The parse exceptions.</param>

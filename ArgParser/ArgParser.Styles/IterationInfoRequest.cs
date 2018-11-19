@@ -11,33 +11,18 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using ArgParser.Core;
 
 namespace ArgParser.Styles
 {
     /// <summary>
-    /// Represents a request to create iteration info
+    ///     Represents a request to create iteration info
     /// </summary>
     public class IterationInfoRequest
     {
         /// <summary>
-        /// Gets or sets the chain identification result.
-        /// </summary>
-        /// <value>The chain identification result.</value>
-        public ChainIdentificationResult ChainIdentificationResult { get; protected internal set; }
-        /// <summary>
-        /// Gets or sets the mutated arguments.
-        /// </summary>
-        /// <value>The mutated arguments.</value>
-        public string[] MutatedArgs { get; protected internal set; }
-        /// <summary>
-        /// Gets or sets the original arguments.
-        /// </summary>
-        /// <value>The original arguments.</value>
-        public string[] OriginalArgs { get; protected internal set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="IterationInfoRequest"/> class.
+        ///     Initializes a new instance of the <see cref="IterationInfoRequest" /> class.
         /// </summary>
         /// <param name="chainIdentificationResult">The chain identification result.</param>
         /// <param name="mutatedArgs">The mutated arguments.</param>
@@ -45,9 +30,28 @@ namespace ArgParser.Styles
         public IterationInfoRequest(ChainIdentificationResult chainIdentificationResult, string[] mutatedArgs,
             string[] originalArgs)
         {
-            ChainIdentificationResult = chainIdentificationResult.ThrowIfArgumentNull(nameof(chainIdentificationResult));
+            ChainIdentificationResult =
+                chainIdentificationResult.ThrowIfArgumentNull(nameof(chainIdentificationResult));
             MutatedArgs = mutatedArgs.ThrowIfArgumentNull(nameof(mutatedArgs));
             OriginalArgs = originalArgs.ThrowIfArgumentNull(nameof(originalArgs));
         }
+
+        /// <summary>
+        ///     Gets or sets the chain identification result.
+        /// </summary>
+        /// <value>The chain identification result.</value>
+        public ChainIdentificationResult ChainIdentificationResult { get; protected internal set; }
+
+        /// <summary>
+        ///     Gets or sets the mutated arguments.
+        /// </summary>
+        /// <value>The mutated arguments.</value>
+        public string[] MutatedArgs { get; protected internal set; }
+
+        /// <summary>
+        ///     Gets or sets the original arguments.
+        /// </summary>
+        /// <value>The original arguments.</value>
+        public string[] OriginalArgs { get; protected internal set; }
     }
 }

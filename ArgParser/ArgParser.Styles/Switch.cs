@@ -11,6 +11,7 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System;
 using System.Linq;
 using ArgParser.Core;
@@ -18,15 +19,15 @@ using ArgParser.Core;
 namespace ArgParser.Styles
 {
     /// <summary>
-    /// Represents a parameter that has a text indicator that some number of proceeding
-    /// args are of some significance. For example, -h, --value
+    ///     Represents a parameter that has a text indicator that some number of proceeding
+    ///     args are of some significance. For example, -h, --value
     /// </summary>
     /// <seealso cref="ArgParser.Core.Parameter" />
     /// <seealso cref="ArgParser.Styles.IRequirable" />
     public abstract class Switch : Parameter, IRequirable
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Switch"/> class.
+        ///     Initializes a new instance of the <see cref="Switch" /> class.
         /// </summary>
         /// <param name="parent">The parent.</param>
         /// <param name="letter">The letter.</param>
@@ -43,7 +44,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Determines whether this parameter can consume the specified instance.
+        ///     Determines whether this parameter can consume the specified instance.
         /// </summary>
         /// <param name="instance">The instance.</param>
         /// <param name="info">The information.</param>
@@ -59,21 +60,21 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Determines whether the letter matches the info.
+        ///     Determines whether the letter matches the info.
         /// </summary>
         /// <param name="info">The information.</param>
         /// <returns><c>true</c> if [is letter match] [the specified information]; otherwise, <c>false</c>.</returns>
         public virtual bool IsLetterMatch(IterationInfo info) => Letter.HasValue && info.Current == $"-{Letter}";
 
         /// <summary>
-        /// Determines whether the word matches the info
+        ///     Determines whether the word matches the info
         /// </summary>
         /// <param name="info">The information.</param>
         /// <returns><c>true</c> if [is word match] [the specified information]; otherwise, <c>false</c>.</returns>
         public virtual bool IsWordMatch(IterationInfo info) => Word != null && info.Current == $"--{Word}";
 
         /// <summary>
-        /// Returns a <see cref="System.String" /> that represents this instance.
+        ///     Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
         /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
         public override string ToString()
@@ -84,18 +85,19 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Gets a value indicating whether this instance is required.
+        ///     Gets a value indicating whether this instance is required.
         /// </summary>
         /// <value><c>true</c> if this instance is required; otherwise, <c>false</c>.</value>
         public bool IsRequired { get; set; }
 
         /// <summary>
-        /// Gets or sets the letter.
+        ///     Gets or sets the letter.
         /// </summary>
         /// <value>The letter.</value>
         public char? Letter { get; protected internal set; }
+
         /// <summary>
-        /// Gets or sets the word.
+        ///     Gets or sets the word.
         /// </summary>
         /// <value>The word.</value>
         public string Word { get; protected internal set; }

@@ -11,16 +11,17 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace ArgParser.Styles
 {
     /// <summary>
-    /// Represents something that is capable of identifying the parsers needed to process the arguments
+    ///     Represents something that is capable of identifying the parsers needed to process the arguments
     /// </summary>
     /// <seealso cref="ArgParser.Styles.IParseStrategyUnit" />
     public interface IParserChainIdentificationStrategy : IParseStrategyUnit
     {
         /// <summary>
-        /// Identifies the specified request.
+        ///     Identifies the specified request.
         /// </summary>
         /// <param name="request">The request.</param>
         /// <returns>ChainIdentificationResult.</returns>

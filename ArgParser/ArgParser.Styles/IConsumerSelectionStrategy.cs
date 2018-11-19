@@ -11,19 +11,20 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using ArgParser.Core;
 
 namespace ArgParser.Styles
 {
     /// <summary>
-    /// Represents an object that is capable of selecting a potential consumption
-    /// result out of a field of potentially many consumption results.
+    ///     Represents an object that is capable of selecting a potential consumption
+    ///     result out of a field of potentially many consumption results.
     /// </summary>
     /// <seealso cref="ArgParser.Styles.IParseStrategyUnit" />
     public interface IConsumerSelectionStrategy : IParseStrategyUnit
     {
         /// <summary>
-        /// Selects the specified result.
+        ///     Selects the specified result.
         /// </summary>
         /// <param name="result">The result.</param>
         /// <returns>ConsumptionResult.</returns>

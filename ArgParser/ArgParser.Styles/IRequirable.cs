@@ -11,15 +11,16 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace ArgParser.Styles
 {
     /// <summary>
-    /// Represents something that can be required
+    ///     Represents something that can be required
     /// </summary>
     public interface IRequirable
     {
         /// <summary>
-        /// Gets a value indicating whether this instance is required.
+        ///     Gets a value indicating whether this instance is required.
         /// </summary>
         /// <value><c>true</c> if this instance is required; otherwise, <c>false</c>.</value>
         bool IsRequired { get; }

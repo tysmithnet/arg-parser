@@ -11,18 +11,19 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using ArgParser.Core;
 
 namespace ArgParser.Styles
 {
     /// <summary>
-    /// Consumption request factory that will limit the number consumed to the next identifiable consumer
+    ///     Consumption request factory that will limit the number consumed to the next identifiable consumer
     /// </summary>
     /// <seealso cref="ArgParser.Styles.IConsumptionRequestFactory" />
     public class ConsumptionRequestFactory : IConsumptionRequestFactory
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConsumptionRequestFactory"/> class.
+        ///     Initializes a new instance of the <see cref="ConsumptionRequestFactory" /> class.
         /// </summary>
         /// <param name="context">The context.</param>
         public ConsumptionRequestFactory(IContext context)
@@ -31,7 +32,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Creates a request based off the results of potential consumption
+        ///     Creates a request based off the results of potential consumption
         /// </summary>
         /// <param name="consumerResult">The consumer result.</param>
         /// <param name="selected">The selected.</param>
@@ -53,7 +54,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Gets or sets the context.
+        ///     Gets or sets the context.
         /// </summary>
         /// <value>The context.</value>
         public IContext Context { get; set; }

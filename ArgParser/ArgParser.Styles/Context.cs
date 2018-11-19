@@ -11,30 +11,33 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using ArgParser.Core;
 
 namespace ArgParser.Styles
 {
     /// <summary>
-    /// Default context implementation
+    ///     Default context implementation
     /// </summary>
     /// <seealso cref="ArgParser.Core.IContext" />
     public class Context : IContext
     {
         /// <summary>
-        /// Gets the hierarchy repository.
-        /// </summary>
-        /// <value>The hierarchy repository.</value>
-        public IHierarchyRepository HierarchyRepository { get; protected internal set; } = new HierarchyRepository();
-        /// <summary>
-        /// Gets the parser repository.
-        /// </summary>
-        /// <value>The parser repository.</value>
-        public IParserRepository ParserRepository { get; protected internal set; } = new ParserRepository();
-        /// <summary>
-        /// Gets the alias repository.
+        ///     Gets the alias repository.
         /// </summary>
         /// <value>The alias repository.</value>
         public IAliasRepository AliasRepository { get; protected internal set; } = new AliasRepository();
+
+        /// <summary>
+        ///     Gets the hierarchy repository.
+        /// </summary>
+        /// <value>The hierarchy repository.</value>
+        public IHierarchyRepository HierarchyRepository { get; protected internal set; } = new HierarchyRepository();
+
+        /// <summary>
+        ///     Gets the parser repository.
+        /// </summary>
+        /// <value>The parser repository.</value>
+        public IParserRepository ParserRepository { get; protected internal set; } = new ParserRepository();
     }
 }

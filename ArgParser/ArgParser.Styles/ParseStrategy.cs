@@ -11,6 +11,7 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System.Collections.Generic;
 using System.Linq;
 using ArgParser.Core;
@@ -18,25 +19,25 @@ using ArgParser.Core;
 namespace ArgParser.Styles
 {
     /// <summary>
-    /// Default IParseStrategy implementation
-    /// <remarks>
-    /// Steps:
-    /// 1. Identify the parser chain
-    /// 2. Mutate the args for those parsers
-    /// 3. Create the iteration info from the results of the first steps
-    /// 4. Create an instance from the most derived parser
-    /// 5. Get potential consumption results
-    /// 6. Evaluate them for the best option
-    /// 7. Create a consumption request for the identified consumer
-    /// 8. Ask the consumer to process the consumption request
-    /// 9. Repeat 5-8 until the args are consumed
-    /// </remarks>
+    ///     Default IParseStrategy implementation
+    ///     <remarks>
+    ///         Steps:
+    ///         1. Identify the parser chain
+    ///         2. Mutate the args for those parsers
+    ///         3. Create the iteration info from the results of the first steps
+    ///         4. Create an instance from the most derived parser
+    ///         5. Get potential consumption results
+    ///         6. Evaluate them for the best option
+    ///         7. Create a consumption request for the identified consumer
+    ///         8. Ask the consumer to process the consumption request
+    ///         9. Repeat 5-8 until the args are consumed
+    ///     </remarks>
     /// </summary>
     /// <seealso cref="ArgParser.Core.IParseStrategy" />
     public class ParseStrategy : IParseStrategy
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ParseStrategy"/> class.
+        ///     Initializes a new instance of the <see cref="ParseStrategy" /> class.
         /// </summary>
         /// <param name="context">The context.</param>
         /// <param name="rootParserId">The root parser identifier.</param>
@@ -48,12 +49,12 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// The context
+        ///     The context
         /// </summary>
         private IContext _context;
 
         /// <summary>
-        /// Parses the specified arguments.
+        ///     Parses the specified arguments.
         /// </summary>
         /// <param name="args">The arguments.</param>
         /// <returns>The result of the parsing</returns>
@@ -73,7 +74,8 @@ namespace ArgParser.Styles
                 while (!info.IsComplete())
                 {
                     var potentialConsumerRequest = new PotentialConsumerRequest(chainRes, info, instance);
-                    var potentialConsumerResult = PotentialConsumerStrategy.IdentifyPotentialConsumer(potentialConsumerRequest);
+                    var potentialConsumerResult =
+                        PotentialConsumerStrategy.IdentifyPotentialConsumer(potentialConsumerRequest);
                     if (!potentialConsumerResult.Success)
                         throw new UnexpectedArgException(info);
                     var selected = ConsumerSelectionStrategy.Select(potentialConsumerResult);
@@ -100,7 +102,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Sets the context.
+        ///     Sets the context.
         /// </summary>
         /// <param name="context">The context.</param>
         private void SetContext(IContext context)
@@ -130,28 +132,31 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Gets or sets the arguments mutator.
+        ///     Gets or sets the arguments mutator.
         /// </summary>
         /// <value>The arguments mutator.</value>
         public IArgsMutator ArgsMutator { get; set; }
+
         /// <summary>
-        /// Gets or sets the chain identification strategy.
+        ///     Gets or sets the chain identification strategy.
         /// </summary>
         /// <value>The chain identification strategy.</value>
         public IParserChainIdentificationStrategy ChainIdentificationStrategy { get; set; }
+
         /// <summary>
-        /// Gets or sets the consumer selection strategy.
+        ///     Gets or sets the consumer selection strategy.
         /// </summary>
         /// <value>The consumer selection strategy.</value>
         public IConsumerSelectionStrategy ConsumerSelectionStrategy { get; set; }
+
         /// <summary>
-        /// Gets or sets the consumption request factory.
+        ///     Gets or sets the consumption request factory.
         /// </summary>
         /// <value>The consumption request factory.</value>
         public IConsumptionRequestFactory ConsumptionRequestFactory { get; set; }
 
         /// <summary>
-        /// Gets or sets the context.
+        ///     Gets or sets the context.
         /// </summary>
         /// <value>The context.</value>
         public IContext Context
@@ -161,22 +166,25 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Gets or sets the iteration information factory.
+        ///     Gets or sets the iteration information factory.
         /// </summary>
         /// <value>The iteration information factory.</value>
         public IIterationInfoFactory IterationInfoFactory { get; set; }
+
         /// <summary>
-        /// Gets or sets the parse result factory.
+        ///     Gets or sets the parse result factory.
         /// </summary>
         /// <value>The parse result factory.</value>
         public IParseResultFactory ParseResultFactory { get; set; }
+
         /// <summary>
-        /// Gets or sets the potential consumer strategy.
+        ///     Gets or sets the potential consumer strategy.
         /// </summary>
         /// <value>The potential consumer strategy.</value>
         public IPotentialConsumerStrategy PotentialConsumerStrategy { get; set; }
+
         /// <summary>
-        /// Gets or sets the root parser identifier.
+        ///     Gets or sets the root parser identifier.
         /// </summary>
         /// <value>The root parser identifier.</value>
         public string RootParserId { get; protected internal set; }

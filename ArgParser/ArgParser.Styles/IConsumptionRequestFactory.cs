@@ -11,19 +11,20 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using ArgParser.Core;
 
 namespace ArgParser.Styles
 {
     /// <summary>
-    /// Represents something capable of creating a consumption request from the results
-    /// of potential consumption identification
+    ///     Represents something capable of creating a consumption request from the results
+    ///     of potential consumption identification
     /// </summary>
     /// <seealso cref="ArgParser.Styles.IParseStrategyUnit" />
     public interface IConsumptionRequestFactory : IParseStrategyUnit
     {
         /// <summary>
-        /// Creates a request based off the results of potential consumption
+        ///     Creates a request based off the results of potential consumption
         /// </summary>
         /// <param name="consumerResult">The consumer result.</param>
         /// <param name="selected">The selected.</param>

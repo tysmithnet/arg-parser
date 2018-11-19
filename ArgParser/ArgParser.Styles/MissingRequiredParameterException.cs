@@ -11,20 +11,20 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
-using System;
+
 using ArgParser.Core;
 
 namespace ArgParser.Styles
 {
     /// <summary>
-    /// Exception that occurs when a parameter was marked as required but it was not consumed in the creation
-    /// of the instance
+    ///     Exception that occurs when a parameter was marked as required but it was not consumed in the creation
+    ///     of the instance
     /// </summary>
     /// <seealso cref="ArgParser.Core.ParseException" />
     public class MissingRequiredParameterException : ParseException
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="MissingRequiredParameterException"/> class.
+        ///     Initializes a new instance of the <see cref="MissingRequiredParameterException" /> class.
         /// </summary>
         /// <param name="requiredParameter">The required parameter.</param>
         /// <param name="instance">The instance.</param>
@@ -36,7 +36,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Creates the exception message.
+        ///     Creates the exception message.
         /// </summary>
         /// <param name="parameter">The parameter.</param>
         /// <returns>System.String.</returns>
@@ -49,12 +49,13 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Gets or sets the instance.
+        ///     Gets or sets the instance.
         /// </summary>
         /// <value>The instance.</value>
         public object Instance { get; protected internal set; }
+
         /// <summary>
-        /// Gets or sets the required parameter.
+        ///     Gets or sets the required parameter.
         /// </summary>
         /// <value>The required parameter.</value>
         public Parameter RequiredParameter { get; protected internal set; }

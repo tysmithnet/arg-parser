@@ -11,18 +11,19 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System;
 using ArgParser.Core;
 
 namespace ArgParser.Styles
 {
     /// <summary>
-    /// Builder pattern for Context
+    ///     Builder pattern for Context
     /// </summary>
     public class ContextBuilder
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ContextBuilder"/> class.
+        ///     Initializes a new instance of the <see cref="ContextBuilder" /> class.
         /// </summary>
         /// <param name="rootParserId">The root parser identifier.</param>
         public ContextBuilder(string rootParserId)
@@ -37,13 +38,13 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Occurs when a new parse strategy has been created. Use this if you are interested in controlling
-        /// the finer points of parsing
+        ///     Occurs when a new parse strategy has been created. Use this if you are interested in controlling
+        ///     the finer points of parsing
         /// </summary>
         public event EventHandler<ParseStrategyCreatedEventArgs> ParseStrategyCreated;
 
         /// <summary>
-        /// Adds a parser.
+        ///     Adds a parser.
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="helpSetupCallback">The help setup callback.</param>
@@ -63,7 +64,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Adds a parser.
+        ///     Adds a parser.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="id">The identifier.</param>
@@ -85,7 +86,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Creates a parent child relationship.
+        ///     Creates a parent child relationship.
         /// </summary>
         /// <param name="parent">The parent.</param>
         /// <param name="child">The child.</param>
@@ -97,7 +98,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Parses the specified arguments.
+        ///     Parses the specified arguments.
         /// </summary>
         /// <param name="args">The arguments.</param>
         /// <returns>IParseResult.</returns>
@@ -110,7 +111,7 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Called when a new parse strategy has been created for use
+        ///     Called when a new parse strategy has been created for use
         /// </summary>
         /// <param name="parseStrategy">The parse strategy.</param>
         protected virtual void OnParseStrategyCreated(ParseStrategy parseStrategy)
@@ -120,28 +121,31 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        /// Gets or sets the context.
+        ///     Gets or sets the context.
         /// </summary>
         /// <value>The context.</value>
         public Context Context { get; protected internal set; }
+
         /// <summary>
-        /// Gets or sets the hierarchy repository.
-        /// </summary>
-        /// <value>The hierarchy repository.</value>
-        protected internal HierarchyRepository HierarchyRepository { get; set; } = new HierarchyRepository();
-        /// <summary>
-        /// Gets or sets the parser repository.
-        /// </summary>
-        /// <value>The parser repository.</value>
-        protected internal ParserRepository ParserRepository { get; set; } = new ParserRepository();
-        /// <summary>
-        /// Gets or sets the alias repository.
+        ///     Gets or sets the alias repository.
         /// </summary>
         /// <value>The alias repository.</value>
         protected internal AliasRepository AliasRepository { get; set; } = new AliasRepository();
 
         /// <summary>
-        /// Gets or sets the root parser identifier.
+        ///     Gets or sets the hierarchy repository.
+        /// </summary>
+        /// <value>The hierarchy repository.</value>
+        protected internal HierarchyRepository HierarchyRepository { get; set; } = new HierarchyRepository();
+
+        /// <summary>
+        ///     Gets or sets the parser repository.
+        /// </summary>
+        /// <value>The parser repository.</value>
+        protected internal ParserRepository ParserRepository { get; set; } = new ParserRepository();
+
+        /// <summary>
+        ///     Gets or sets the root parser identifier.
         /// </summary>
         /// <value>The root parser identifier.</value>
         protected internal string RootParserId { get; set; }

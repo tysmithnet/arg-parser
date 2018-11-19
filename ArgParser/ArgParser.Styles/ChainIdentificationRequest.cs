@@ -11,28 +11,18 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using ArgParser.Core;
 
 namespace ArgParser.Styles
 {
     /// <summary>
-    /// Request to identify the chain of parsers capable of consuming some arguments
+    ///     Request to identify the chain of parsers capable of consuming some arguments
     /// </summary>
     public class ChainIdentificationRequest
     {
         /// <summary>
-        /// Gets or sets the arguments.
-        /// </summary>
-        /// <value>The arguments.</value>
-        public string[] Args { get; protected internal set; }
-        /// <summary>
-        /// Gets or sets the context.
-        /// </summary>
-        /// <value>The context.</value>
-        public IContext Context { get; protected internal set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ChainIdentificationRequest"/> class.
+        ///     Initializes a new instance of the <see cref="ChainIdentificationRequest" /> class.
         /// </summary>
         /// <param name="args">The arguments.</param>
         /// <param name="context">The context.</param>
@@ -41,5 +31,17 @@ namespace ArgParser.Styles
             Args = args.ThrowIfArgumentNull(nameof(args));
             Context = context.ThrowIfArgumentNull(nameof(context));
         }
+
+        /// <summary>
+        ///     Gets or sets the arguments.
+        /// </summary>
+        /// <value>The arguments.</value>
+        public string[] Args { get; protected internal set; }
+
+        /// <summary>
+        ///     Gets or sets the context.
+        /// </summary>
+        /// <value>The context.</value>
+        public IContext Context { get; protected internal set; }
     }
 }

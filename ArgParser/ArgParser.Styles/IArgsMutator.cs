@@ -11,16 +11,17 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace ArgParser.Styles
 {
     /// <summary>
-    /// Represents an object that is capable of mutating arguments prior to consumption
+    ///     Represents an object that is capable of mutating arguments prior to consumption
     /// </summary>
     /// <seealso cref="ArgParser.Styles.IParseStrategyUnit" />
     public interface IArgsMutator : IParseStrategyUnit
     {
         /// <summary>
-        /// Mutates the arguments based on the request
+        ///     Mutates the arguments based on the request
         /// </summary>
         /// <param name="request">The request.</param>
         /// <returns>Mutated arguments</returns>
