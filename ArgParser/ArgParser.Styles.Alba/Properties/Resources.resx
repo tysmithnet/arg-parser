@@ -1,0 +1,910 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="acrobatic" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\acrobatic.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="alligator" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\alligator.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="alligator2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\alligator2.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="alligator3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\alligator3.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="alpha" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\alpha.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="alphabet" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\alphabet.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="amc3line" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\amc3line.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="amc3liv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\amc3liv1.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="amcaaa01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\amcaaa01.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="amcneko" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\amcneko.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="amcrazo2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\amcrazo2.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="amcrazor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\amcrazor.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="amcslash" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\amcslash.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="amcslder" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\amcslder.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="amcthin" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\amcthin.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="amctubes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\amctubes.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="amcun1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\amcun1.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="arrows" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\arrows.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ascii_new_roman" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ascii_new_roman.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="avatar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\avatar.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="B1FF" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\B1FF.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="banner" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\banner.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="banner3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\banner3.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="banner3_D" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\banner3-D.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="banner4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\banner4.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="barbwire" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\barbwire.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="basic" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\basic.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="bear" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bear.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="bell" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bell.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="benjamin" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\benjamin.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="big" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\big.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="bigchief" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bigchief.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="bigfig" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bigfig.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="binary" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\binary.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="block" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\block.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="blocks" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\blocks.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="bolger" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bolger.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="braced" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\braced.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="bright" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bright.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="broadway" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\broadway.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="broadway_kb" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\broadway_kb.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="bubble" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bubble.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="bulbhead" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bulbhead.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="calgphy2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\calgphy2.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="caligraphy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\caligraphy.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="cards" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cards.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="catwalk" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\catwalk.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="chiseled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\chiseled.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="chunky" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\chunky.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="coinstak" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\coinstak.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="cola" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cola.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="colossal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\colossal.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="computer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\computer.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="contessa" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\contessa.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="contrast" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\contrast.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="cosmic" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cosmic.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="cosmike" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cosmike.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="crawford" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\crawford.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="crazy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\crazy.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="cricket" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cricket.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="cyberlarge" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cyberlarge.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="cybermedium" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cybermedium.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="cybersmall" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cybersmall.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="cygnet" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cygnet.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="DANC4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DANC4.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="dancingfont" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\dancingfont.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="defleppard" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\defleppard.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="diamond" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\diamond.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="dietcola" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\dietcola.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="digital" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\digital.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="doh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\doh.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="doom" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\doom.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="dosrebel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\dosrebel.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="dotmatrix" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\dotmatrix.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="doubleshorts" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\doubleshorts.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="drpepper" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\drpepper.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="dwhistled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\dwhistled.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="eftichess" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\eftichess.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="eftifont" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\eftifont.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="eftipiti" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\eftipiti.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="eftirobot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\eftirobot.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="eftitalic" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\eftitalic.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="eftiwall" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\eftiwall.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="eftiwater" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\eftiwater.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="epic" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\epic.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="fender" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fender.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="filter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\filter.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="fire_font_k" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fire_font-k.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="fire_font_s" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fire_font-s.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="flipped" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\flipped.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="flowerpower" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\flowerpower.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="fourtops" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fourtops.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="fraktur" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fraktur.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="funface" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\funface.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="funfaces" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\funfaces.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="fuzzy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fuzzy.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="georgi16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\georgi16.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Georgia11" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Georgia11.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ghost" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ghost.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ghoulish" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ghoulish.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="glenyn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\glenyn.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="goofy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\goofy.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="gothic" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\gothic.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="graceful" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\graceful.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="gradient" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\gradient.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="graffiti" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\graffiti.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="greek" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\greek.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="heart_left" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\heart_left.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="heart_right" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\heart_right.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="henry3d" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\henry3d.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="hex" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\hex.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="hieroglyphs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\hieroglyphs.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="hollywood" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\hollywood.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="horizontalleft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\horizontalleft.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="horizontalright" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\horizontalright.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ICL_1900" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ICL-1900.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="impossible" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\impossible.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="invita" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\invita.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="isometric1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\isometric1.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="isometric2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\isometric2.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="isometric3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\isometric3.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="isometric4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\isometric4.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="italic" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\italic.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ivrit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ivrit.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="jacky" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\jacky.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="jazmine" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\jazmine.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="jerusalem" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\jerusalem.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="katakana" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\katakana.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="kban" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\kban.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="keyboard" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\keyboard.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="knob" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\knob.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="konto" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\konto.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="kontoslant" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\kontoslant.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="larry3d" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\larry3d.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lcd" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\lcd.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lean" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\lean.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="letters" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\letters.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lildevil" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\lildevil.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lineblocks" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\lineblocks.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="linux" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\linux.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lockergnome" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\lockergnome.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="madrid" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\madrid.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="marquee" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\marquee.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="maxfour" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\maxfour.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="merlin1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\merlin1.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="merlin2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\merlin2.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mike" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\mike.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mini" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\mini.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mirror" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\mirror.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mnemonic" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\mnemonic.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="modular" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\modular.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="morse" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\morse.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="morse2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\morse2.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="moscow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\moscow.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mshebrew210" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\mshebrew210.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="muzzle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\muzzle.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="nancyj" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\nancyj.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="nancyj_fancy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\nancyj-fancy.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="nancyj_improved" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\nancyj-improved.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="nancyj_underlined" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\nancyj-underlined.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="nipples" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\nipples.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="nscript" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\nscript.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ntgreek" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ntgreek.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="nvscript" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\nvscript.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="o8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\o8.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="octal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\octal.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ogre" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ogre.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="oldbanner" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\oldbanner.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="os2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\os2.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="pawp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pawp.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="peaks" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\peaks.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="peaksslant" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\peaksslant.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="pebbles" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pebbles.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="pepper" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pepper.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="poison" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\poison.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="puffy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\puffy.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="puzzle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\puzzle.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="pyramid" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pyramid.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="rammstein" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\rammstein.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="rectangles" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\rectangles.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="red_phoenix" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\red_phoenix.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="relief" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\relief.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="relief2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\relief2.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="reverse" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\reverse.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="roman" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\roman.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="rot13" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\rot13.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="rotated" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\rotated.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="rounded" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\rounded.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="rowancap" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\rowancap.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="rozzo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\rozzo.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="runic" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\runic.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="runyc" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\runyc.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="santaclara" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\santaclara.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="sblood" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sblood.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="script" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\script.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="serifcap" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\serifcap.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="shadow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shadow.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="shimrod" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shimrod.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="slant" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\slant.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="slide" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\slide.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="slscript" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\slscript.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="small" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\small.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="smallcaps" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\smallcaps.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="smisome1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\smisome1.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="smkeyboard" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\smkeyboard.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="smpoison" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\smpoison.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="smscript" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\smscript.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="smshadow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\smshadow.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="smslant" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\smslant.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="smtengwar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\smtengwar.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="soft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\soft.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="speed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\speed.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="spliff" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\spliff.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="stacey" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stacey.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="stampate" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stampate.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="stampatello" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stampatello.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="standard" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\standard.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="starstrips" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\starstrips.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="starwars" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\starwars.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="stellar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stellar.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="stforek" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stforek.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="stop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stop.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="straight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\straight.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="sub_zero" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sub-zero.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="swampland" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\swampland.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="swan" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\swan.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="sweet" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sweet.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="s_relief" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\s-relief.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="tanja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\tanja.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="tengwar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\tengwar.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="term" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\term.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="test1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\test1.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="thick" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\thick.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="thin" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\thin.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="threepoint" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\threepoint.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ticks" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ticks.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ticksslant" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ticksslant.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="tiles" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\tiles.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="tinker_toy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\tinker-toy.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="tombstone" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\tombstone.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="train" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\train.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="trek" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\trek.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="tsalagi" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\tsalagi.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="tubular" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\tubular.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="twisted" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\twisted.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="twopoint" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\twopoint.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="univers" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\univers.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="usaflag" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\usaflag.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="varsity" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\varsity.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="wavy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\wavy.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="weird" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\weird.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="wetletter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\wetletter.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="whimsy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\whimsy.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="wow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\wow.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="_1row" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\1row.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="_3d_diagonal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\3d_diagonal.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="_3x5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\3x5.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="_3_d" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\3-d.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="_4max" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\4max.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="_5lineoblique" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\5lineoblique.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="_decimal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\decimal.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="_double" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\double.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="_short" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\short.flf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+</root>
