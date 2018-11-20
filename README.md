@@ -5,13 +5,20 @@ An extensible framework for complex argument parsing and help text generation.
 TBD
 
 ### Why?
-Most existing libraries attempt to solve the problem of populating objects through arguments attempt to do so using attributes and reflection. I find this approach to be restrictive and not conducive to extension. Extension is important because there a seemingly infinite amount of styles for how args should be interpretted.
+Most existing libraries in this space do so using attributes and reflection. I find this approach to be restrictive and not conducive to extension. Extension is important because there a seemingly infinite amount of styles for how args should be interpretted.
  - switch style
    - `-h`, `--help`, `/?`, `-help`, `--value=something`, `value:something`
  - groupable parameters
    - `git commit -am something`
  - sub commands
    - `dotnet new`
+ - count switches
+   - `-vvv`
+
+### Goal
+> Provide a framework that allows for the creation of any type of argument parser, and a set of extensions that allow the user to opt into common styles.
+
+It needs to be fairly trivial to create parsers for some of the most commonly used commands: git, find, dotnet along with similar help generation.
 
 ### Links
 TBD
