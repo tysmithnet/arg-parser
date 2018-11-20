@@ -1,0 +1,3 @@
+[submodule "arg-parser.wiki"]
+	path = arg-parser.wiki
+	url = ../arg-parser.wiki.git
