@@ -63,6 +63,12 @@ namespace ArgParser.Styles.Alba
             };
 
         /// <summary>
+        ///     Gets or sets the banner font.
+        /// </summary>
+        /// <value>The banner font.</value>
+        public virtual Font BannerFont { get; protected internal set; } = Font.Roman;
+
+        /// <summary>
         ///     Gets or sets the color of the border.
         /// </summary>
         /// <value>The color of the border.</value>
