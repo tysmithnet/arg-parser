@@ -58,6 +58,7 @@ after_test:
     iex """$msbuildexe"" C:\projects\arg-parser\ArgParser\ArgParser.sln";
     iex """$sonarexe"" end /d:""sonar.login=$env:SONARQUBE_TOKEN""";
 
+
 environment:
   COVERALLS_REPO_TOKEN:
     secure: dxNQXnuBxcyVeQhaepf3P5NWWpP3tz+9j+gvlduwmBaeoIeyuvfMRRA5JFE/omEs
