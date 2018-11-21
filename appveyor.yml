@@ -18,13 +18,13 @@ before_build:
   - mkdir c:\temp -erroraction silentlycontinue;
   - nuget restore ArgParser/ArgParser.sln
   - ps: >-
-    $url = "https://github.com/SonarSource/sonar-scanner-msbuild/releases/download/4.4.2.1543/sonar-scanner-msbuild-4.4.2.1543-net46.zip"; 
-    $zip = "C:\temp\sonar.zip"; 
-    $sonardir = "C:\temp\sonar\"; 
-    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; 
-    $client = New-Object System.Net.WebClient; 
-    $client.DownloadFile($url, $zip);
-    Expand-Archive -LiteralPath $zip -DestinationPath $sonardir; 
+      $url = "https://github.com/SonarSource/sonar-scanner-msbuild/releases/download/4.4.2.1543/sonar-scanner-msbuild-4.4.2.1543-net46.zip"; 
+      $zip = "C:\temp\sonar.zip"; 
+      $sonardir = "C:\temp\sonar\"; 
+      [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; 
+      $client = New-Object System.Net.WebClient; 
+      $client.DownloadFile($url, $zip);
+      Expand-Archive -LiteralPath $zip -DestinationPath $sonardir; 
 
 build:
   parallel: true
