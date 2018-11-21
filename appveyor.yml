@@ -55,7 +55,7 @@ after_test:
     $client.DownloadFile($url, $zip);
     Expand-Archive -LiteralPath $zip -DestinationPath $sonardir; 
     iex "$sonarexe begin /k:""tysmithnet_arg-parser"" /d:""sonar.host.url=https://sonarqube.com"" /d:sonar.cs.opencover.reportsPaths=""$coveragefile"" /d:sonar.login=""$env:SONARQUBE_TOKEN"""; 
-    & $exe $sln
+    & $exe $sln;
     iex "$sonarexe end /d:sonar.login=""$env:SONARQUBE_TOKEN"""; 
 
 environment:
