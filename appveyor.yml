@@ -47,13 +47,15 @@ after_test:
     $sonardir = "C:\temp\sonar\"; 
     $sonarexe = "C:\temp\sonar\SonarScanner.MSBuild.exe"; 
     $sonardir = "C:\temp\sonar\";
+    $sln = "C:\projects\arg-parser\ArgParser\ArgParser.sln";
+    $exe = "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\amd64\MSBuild.exe";
 
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; 
     $client = New-Object System.Net.WebClient; 
     $client.DownloadFile($url, $zip);
     Expand-Archive -LiteralPath $zip -DestinationPath $sonardir; 
     iex "$sonarexe begin /k:""tysmithnet_arg-parser"" /d:""sonar.host.url=https://sonarqube.com"" /d:sonar.cs.opencover.reportsPaths=""$coveragefile"" /d:sonar.login=""$env:SONARQUBE_TOKEN"""; 
-    iex "msbuild ""C:\projects\arg-parser\ArgParser\ArgParser.sln"" /m /verbosity:minimal /logger:""C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"""; 
+    & $exe $sln
     iex "$sonarexe end /d:sonar.login=""$env:SONARQUBE_TOKEN"""; 
 
 environment:
