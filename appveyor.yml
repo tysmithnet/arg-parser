@@ -49,8 +49,6 @@ after_test:
     $msbuildexe = "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\amd64\MSBuild.exe"; 
     $sonardir = "C:\temp\sonar\";
 
-    rm -Force $zip;
-    rm -Recurse -Force $sonardir;
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; 
     $client = New-Object System.Net.WebClient; 
     $client.DownloadFile($url, $zip);
