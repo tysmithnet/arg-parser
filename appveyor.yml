@@ -40,22 +40,23 @@ test_script:
 
 after_test:
 - ps: >-
-    Write-Host -ForegroundColor Green "ANALYZING...";
-    $coveragefile = "c:\temp\coverage.xml";
-    $url = "https://github.com/SonarSource/sonar-scanner-msbuild/releases/download/4.4.2.1543/sonar-scanner-msbuild-4.4.2.1543-net46.zip";
-    $zip = "C:\temp\sonar.zip";
-    $sonardir = "C:\temp\sonar\";
-    $sonareexe = "C:\temp\sonar\SonarQube.Scanner.MSBuild.exe";
-    $msbuildexe = "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\amd64\MSBuild.exe";
+    Write-Host -ForegroundColor Green "ANALYZING..."; 
+    $coveragefile = "c:\temp\coverage.xml"; 
+    $url = "https://github.com/SonarSource/sonar-scanner-msbuild/releases/download/4.4.2.1543/sonar-scanner-msbuild-4.4.2.1543-net46.zip"; 
+    $zip = "C:\temp\sonar.zip"; 
+    $sonardir = "C:\temp\sonar\"; 
+    $sonarexe = "C:\temp\sonar\SonarQube.Scanner.MSBuild.exe"; 
+    $msbuildexe = "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\amd64\MSBuild.exe"; 
     $sonardir = "C:\temp\sonar\";
 
-    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;
-    $client = New-Object System.Net.WebClient;
+    rm -Force $zip;
+    rm -Recurse -Force $sonardir;
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; 
+    $client = New-Object System.Net.WebClient; 
     $client.DownloadFile($url, $zip);
-    
-    Expand-Archive -LiteralPath $zip -DestinationPath $sonardir;
-    iex """$sonarexe"" begin /k:""tysmithnet_arg-parser"" /d:""sonar.host.url=https://sonarqube.com"" /d:sonar.cs.opencover.reportsPaths=""$coveragefile"" /d:""sonar.login=$env:SONARQUBE_TOKEN""";
-    iex """$msbuildexe"" C:\projects\arg-parser\ArgParser\ArgParser.sln";
+    Expand-Archive -LiteralPath $zip -DestinationPath $sonardir; 
+    iex "$sonarexe begin /k:""tysmithnet_arg-parser"" /d:""sonar.host.url=https://sonarqube.com"" /d:sonar.cs.opencover.reportsPaths=""$coveragefile"" /d:""sonar.login=$env:SONARQUBE_TOKEN"""; 
+    iex """$msbuildexe"" C:\projects\arg-parser\ArgParser\ArgParser.sln"; 
     iex """$sonarexe"" end /d:""sonar.login=$env:SONARQUBE_TOKEN""";
 
 
