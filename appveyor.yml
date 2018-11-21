@@ -30,6 +30,7 @@ test:
 
 test_script:
 - ps: >-
+    Write-Host -ForegroundColor Green "TESTING...";
     $xunitexe = "C:\projects\arg-parser\ArgParser\packages\xunit.runner.console.2.4.1\tools\net472\xunit.console.exe";
     $targetargs = "-targetargs:C:\projects\arg-parser\ArgParser\ArgParser.Core.Test\bin\Debug\ArgParser.Core.Test.dll C:\projects\arg-parser\ArgParser\ArgParser.Styles.Test\bin\Debug\ArgParser.Styles.Test.dll C:\projects\arg-parser\ArgParser\ArgParser.Styles.Alba.Test\bin\Debug\ArgParser.Styles.Alba.Test.dll -noshadow";
     $coveragefile = "c:\temp\coverage.xml";
@@ -39,14 +40,20 @@ test_script:
 
 after_test:
 - ps: >-
+    Write-Host -ForegroundColor Green "ANALYZING...";
     $coveragefile = "c:\temp\coverage.xml";
     $url = "https://github.com/SonarSource/sonar-scanner-msbuild/releases/download/4.4.2.1543/sonar-scanner-msbuild-4.4.2.1543-net46.zip";
     $zip = "C:\temp\sonar.zip";
     $sonardir = "C:\temp\sonar\";
     $sonareexe = "C:\temp\sonar\SonarQube.Scanner.MSBuild.exe";
     $msbuildexe = "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\amd64\MSBuild.exe";
-    (New-Object System.Net.WebClient).DownloadFile($url, $zip);
-    [System.IO.Compression.ZipFile]::ExtractToDirectory($zip, $sonardir);
+    $sonardir = "C:\temp\sonar\";
+
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;
+    $client = New-Object System.Net.WebClient;
+    $client.DownloadFile($url, $zip);
+    
+    Expand-Archive -LiteralPath $zip -DestinationPath $sonardir;
     iex """$sonarexe"" begin /k:""tysmithnet_arg-parser"" /d:""sonar.host.url=https://sonarqube.com"" /d:sonar.cs.opencover.reportsPaths=""$coveragefile"" /d:""sonar.login=$env:SONARQUBE_TOKEN""";
     iex """$msbuildexe"" C:\projects\arg-parser\ArgParser\ArgParser.sln";
     iex """$sonarexe"" end /d:""sonar.login=$env:SONARQUBE_TOKEN""";
