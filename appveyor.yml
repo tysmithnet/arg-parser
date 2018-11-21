@@ -54,7 +54,7 @@ after_test:
     Expand-Archive -LiteralPath $zip -DestinationPath $sonardir; 
     iex "$sonarexe begin /k:""tysmithnet_arg-parser"" /d:""sonar.host.url=https://sonarqube.com"" /d:sonar.cs.opencover.reportsPaths=""$coveragefile"" /d:sonar.login=""$env:SONARQUBE_TOKEN"""; 
     iex "msbuild ""C:\projects\arg-parser\ArgParser\ArgParser.sln"" /m /verbosity:minimal /logger:""C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"""; 
-    iex "$sonarexe end /k:""tysmithnet_arg-parser"" /d:""sonar.host.url=https://sonarqube.com"" /d:sonar.login=""$env:SONARQUBE_TOKEN"""; 
+    iex "$sonarexe end /d:sonar.login=""$env:SONARQUBE_TOKEN"""; 
 
 environment:
   COVERALLS_REPO_TOKEN:
