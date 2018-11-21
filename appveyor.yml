@@ -30,7 +30,7 @@ test:
 
 test_script:
 - ps: >-
-    $xunitexe = C:\projects\arg-parser\ArgParser\packages\xunit.runner.console.2.4.1\tools\net472\xunit.console.exe;
+    $xunitexe = "C:\projects\arg-parser\ArgParser\packages\xunit.runner.console.2.4.1\tools\net472\xunit.console.exe";
     $targetargs = "-targetargs:C:\projects\arg-parser\ArgParser\ArgParser.Core.Test\bin\Debug\ArgParser.Core.Test.dll C:\projects\arg-parser\ArgParser\ArgParser.Styles.Test\bin\Debug\ArgParser.Styles.Test.dll C:\projects\arg-parser\ArgParser\ArgParser.Styles.Alba.Test\bin\Debug\ArgParser.Styles.Alba.Test.dll -noshadow";
     $coveragefile = "c:\temp\coverage.xml";
     $filter = "+[ArgParser*]*";
