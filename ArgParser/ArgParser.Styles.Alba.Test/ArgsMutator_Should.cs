@@ -10,7 +10,7 @@ namespace ArgParser.Styles.Alba.Test
         public void Short_Circuit_If_There_Are_No_Boolean_Parameters()
         {
             // arrange
-            var builder = new ContextBuilder("root")
+            var builder = new ContextBuilder()
                 .AddParser("root")
                 .WithPositional((o, s) => { })
                 .Finish;

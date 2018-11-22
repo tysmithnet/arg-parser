@@ -15,7 +15,7 @@ namespace ArgParser.Styles.Test
         {
             // arrange
             var builder = DefaultBuilder.CreateDefaultBuilder();
-            var strat = new ParseStrategy(builder.Context, "util");
+            var strat = new ParseStrategy(builder.Context);
             var newGuy = new Context();
 
             // act
@@ -37,7 +37,7 @@ namespace ArgParser.Styles.Test
         {
             // arrange
             var builder = DefaultBuilder.CreateDefaultBuilder();
-            var strat = new ParseStrategy(builder.Context, "util");
+            var strat = new ParseStrategy(builder.Context);
             var mock = new Mock<IPotentialConsumerStrategy>();
             mock.SetupAllProperties();
             mock.Setup(s => s.IdentifyPotentialConsumer(It.IsAny<PotentialConsumerRequest>())).Returns(
@@ -63,10 +63,10 @@ namespace ArgParser.Styles.Test
         public void Not_Throw_If_No_Factory_Function_Set()
         {
             // arrange
-            var builder = new ContextBuilder("root")
+            var builder = new ContextBuilder()
                 .AddParser("root")
                 .Finish;
-            var strat = new ParseStrategy(builder.Context, "root");
+            var strat = new ParseStrategy(builder.Context);
             IParseResult res = null;
             Action mightThrow = () => res = strat.Parse("-h".Split(' '));
 

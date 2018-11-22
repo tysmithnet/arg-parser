@@ -41,10 +41,10 @@ namespace ArgParser.Styles
         /// </summary>
         /// <param name="context">The context.</param>
         /// <param name="rootParserId">The root parser identifier.</param>
-        public ParseStrategy(IContext context, string rootParserId)
+        public ParseStrategy(IContext context)
         {
             Context = context.ThrowIfArgumentNull(nameof(context));
-            RootParserId = rootParserId.ThrowIfArgumentNull(nameof(rootParserId));
+            RootParserId = context.HierarchyRepository.GetRoot();
             SetContext(context);
         }
 

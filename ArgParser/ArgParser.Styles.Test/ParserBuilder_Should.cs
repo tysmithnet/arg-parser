@@ -12,7 +12,7 @@ namespace ArgParser.Styles.Test
         public void Allow_A_Factory_Method_To_Be_Assigned()
         {
             // arrange
-            var contextBuilder = new ContextBuilder("base");
+            var contextBuilder = new ContextBuilder();
             var parser0 = new Parser<string>("base");
             var parser1 = new Parser("base1");
             var builder0 = new ParserBuilder<string>(contextBuilder, parser0);
@@ -31,7 +31,7 @@ namespace ArgParser.Styles.Test
         public void Allow_A_Positional_Of_A_Single_String()
         {
             // arrange
-            var contextBuilder = new ContextBuilder("base");
+            var contextBuilder = new ContextBuilder();
             var parser0 = new Parser<string>("base");
             var builder0 = new ParserBuilder<string>(contextBuilder, parser0);
             var parser1 = new Parser("base");
@@ -50,7 +50,7 @@ namespace ArgParser.Styles.Test
         public void Allow_A_Positional_Of_Multiple_Values()
         {
             // arrange
-            var contextBuilder = new ContextBuilder("base");
+            var contextBuilder = new ContextBuilder();
             var parser0 = new Parser<string>("base");
             var builder0 = new ParserBuilder<string>(contextBuilder, parser0);
             var parser1 = new Parser("base");
@@ -69,7 +69,7 @@ namespace ArgParser.Styles.Test
         public void Allow_Boolean_Switches()
         {
             // arrange
-            var contextBuilder = new ContextBuilder("base");
+            var contextBuilder = new ContextBuilder();
             var parser0 = new Parser<string>("base");
             var builder0 = new ParserBuilder<string>(contextBuilder, parser0);
             var parser1 = new Parser("base");
@@ -88,7 +88,7 @@ namespace ArgParser.Styles.Test
         public void Allow_Boolean_Switches_To_Be_Added()
         {
             // arrange
-            var contextBuilder = new ContextBuilder("base");
+            var contextBuilder = new ContextBuilder();
             var parser = new Parser("base");
             var builder = new ParserBuilder(contextBuilder, parser);
             var parseCount = 0;
@@ -106,7 +106,7 @@ namespace ArgParser.Styles.Test
         public void Allow_Help_To_Be_Added()
         {
             // arrange
-            var contextBuilder = new ContextBuilder("a");
+            var contextBuilder = new ContextBuilder();
             var parser = new Parser("a");
             var parserBuilder = new ParserBuilder(contextBuilder, parser);
             parserBuilder.WithBooleanSwitch('h', "help", o => { },
@@ -122,7 +122,7 @@ namespace ArgParser.Styles.Test
         public void Allow_Multi_Value_Switches()
         {
             // arrange
-            var contextBuilder = new ContextBuilder("base");
+            var contextBuilder = new ContextBuilder();
             var parser0 = new Parser<string>("base");
             var builder0 = new ParserBuilder<string>(contextBuilder, parser0);
             var parser1 = new Parser("base");
@@ -141,7 +141,7 @@ namespace ArgParser.Styles.Test
         public void Allow_Single_Value_Switches()
         {
             // arrange
-            var contextBuilder = new ContextBuilder("base");
+            var contextBuilder = new ContextBuilder();
             var parser0 = new Parser<string>("base");
             var builder0 = new ParserBuilder<string>(contextBuilder, parser0);
             var parser1 = new Parser("base");
@@ -160,7 +160,7 @@ namespace ArgParser.Styles.Test
         public void Provide_A_Generic_Version()
         {
             // arrange
-            var contextBuilder = new ContextBuilder("base");
+            var contextBuilder = new ContextBuilder();
             var parser = new Parser<string>("base");
             var builder = new ParserBuilder<string>(contextBuilder, parser);
 
@@ -173,7 +173,7 @@ namespace ArgParser.Styles.Test
         public void Return_The_Same_ContextBuilder_It_Was_Created_With()
         {
             // arrange
-            var contextBuilder = new ContextBuilder("base");
+            var contextBuilder = new ContextBuilder();
             var parser = new Parser("base");
             var builder = new ParserBuilder(contextBuilder, parser);
 
@@ -186,7 +186,7 @@ namespace ArgParser.Styles.Test
         public void Throw_If_Multiple_Strings_Passed_To_The_Single_String_Callback()
         {
             // arrange
-            var contextBuilder = new ContextBuilder("base");
+            var contextBuilder = new ContextBuilder();
             var parser0 = new Parser<string>("base");
             var builder0 = new ParserBuilder<string>(contextBuilder, parser0);
             var parser1 = new Parser("base");

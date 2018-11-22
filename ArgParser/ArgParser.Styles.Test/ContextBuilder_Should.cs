@@ -11,7 +11,7 @@ namespace ArgParser.Styles.Test
         public void Add_New_Parsers_To_All_Necessary_Repositories()
         {
             // arrange
-            var builder = new ContextBuilder("base");
+            var builder = new ContextBuilder();
 
             // act
             builder.AddParser("base");
@@ -25,7 +25,7 @@ namespace ArgParser.Styles.Test
         public void Allow_Help_To_Be_Set_When_Adding()
         {
             // arrange
-            var builder = new ContextBuilder("a");
+            var builder = new ContextBuilder();
 
             // act
             var parserBuilder = builder.AddParser("a",
@@ -60,7 +60,7 @@ namespace ArgParser.Styles.Test
         {
             // arrange
             var args = "firewall block -p 8080 -m io firefox.exe".Split(' ');
-            var builder = new ContextBuilder("base")
+            var builder = new ContextBuilder()
                 .AddParser<UtilOptions>("base")
                 .WithBooleanSwitch('h', "help", o => o.IsHelpRequested = true)
                 .WithBooleanSwitch(null, "version", o => o.IsVersionRequested = true)

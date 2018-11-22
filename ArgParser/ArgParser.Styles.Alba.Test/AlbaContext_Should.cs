@@ -9,9 +9,11 @@ namespace ArgParser.Styles.Alba.Test
         public void Proxy_For_The_Inner_Context()
         {
             // arrange
-            var inner = new Context();
-            inner.AliasRepository.SetAlias("a", "1");
-            var context = new AlbaContext(inner);
+            var builder = new ContextBuilder()
+                .AddParser("a")
+                .WithAlias("1")
+                .Finish;
+            var context = new AlbaContext(builder.Context);
 
             // act
             // assert

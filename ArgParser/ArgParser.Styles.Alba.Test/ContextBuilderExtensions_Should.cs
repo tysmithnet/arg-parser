@@ -43,7 +43,7 @@ namespace ArgParser.Styles.Alba.Test
         public void Allow_Context_Builders_To_Register()
         {
             // arrange
-            var contextBuilder = new ContextBuilder("root")
+            var contextBuilder = new ContextBuilder()
                 .RegisterAlba();
 
             // act
@@ -55,7 +55,7 @@ namespace ArgParser.Styles.Alba.Test
         public void Allow_Themes_To_Be_Added_When_Creating_Generic_Parsers()
         {
             // arrange
-            var builder = new ContextBuilder("root")
+            var builder = new ContextBuilder()
                 .AddParser<object>("root")
                 .WithTheme(Theme.Warm);
 
@@ -68,7 +68,7 @@ namespace ArgParser.Styles.Alba.Test
         public void Allow_Themes_To_Be_Added_When_Creating_Parsers()
         {
             // arrange
-            var builder = new ContextBuilder("root")
+            var builder = new ContextBuilder()
                 .AddParser("root")
                 .WithTheme(Theme.Warm);
 

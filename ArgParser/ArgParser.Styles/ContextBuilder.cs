@@ -26,9 +26,8 @@ namespace ArgParser.Styles
         ///     Initializes a new instance of the <see cref="ContextBuilder" /> class.
         /// </summary>
         /// <param name="rootParserId">The root parser identifier.</param>
-        public ContextBuilder(string rootParserId)
+        public ContextBuilder()
         {
-            RootParserId = rootParserId.ThrowIfArgumentNull(nameof(rootParserId));
             Context = new Context
             {
                 HierarchyRepository = HierarchyRepository,
@@ -105,7 +104,7 @@ namespace ArgParser.Styles
         public IParseResult Parse(string[] args)
         {
             var context = Context;
-            var strat = new ParseStrategy(context, RootParserId);
+            var strat = new ParseStrategy(context);
             OnParseStrategyCreated(strat);
             return strat.Parse(args);
         }

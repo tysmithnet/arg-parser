@@ -16,7 +16,7 @@ namespace ArgParser.Styles.Test
         public void Allow_Aliases_To_Be_Used()
         {
             // arrange
-            var builder = new ContextBuilder("a")
+            var builder = new ContextBuilder()
                 .AddParser("a")
                 .Finish
                 .AddParser("b")
@@ -42,7 +42,7 @@ namespace ArgParser.Styles.Test
         public void Find_The_Correct_Alias_If_Multiple_Exist()
         {
             // arrange
-            var builder = new ContextBuilder("a")
+            var builder = new ContextBuilder()
                 .AddParser("a")
                 .Finish
                 .AddParser("b")
@@ -72,7 +72,7 @@ namespace ArgParser.Styles.Test
         public void Allow_Either_The_Alias_Or_The_Id_To_Be_Used()
         {
             // arrange
-            var builder = new ContextBuilder("a")
+            var builder = new ContextBuilder()
                 .AddParser("a")
                 .Finish
                 .AddParser("b")
@@ -102,7 +102,7 @@ namespace ArgParser.Styles.Test
         public void Throw_If_There_Is_An_Ambiguous_Match()
         {
             // arrange
-            var builder = new ContextBuilder("a")
+            var builder = new ContextBuilder()
                 .AddParser("a")
                 .Finish
                 .AddParser("b")
@@ -128,7 +128,7 @@ namespace ArgParser.Styles.Test
         public void Return_The_Root_If_There_Are_No_Commands()
         {
             // arrange
-            var builder = new ContextBuilder("a")
+            var builder = new ContextBuilder()
                 .AddParser("a")
                 .Finish;
 
@@ -147,7 +147,7 @@ namespace ArgParser.Styles.Test
         public void Return_The_Root_If_There_Are_No_Args()
         {
             // arrange
-            var builder = new ContextBuilder("a")
+            var builder = new ContextBuilder()
                 .AddParser("a")
                 .Finish;
 
@@ -166,7 +166,7 @@ namespace ArgParser.Styles.Test
         public void Work_When_No_Aliases_Are_Defined()
         {
             // arrange
-            var builder = new ContextBuilder("a")
+            var builder = new ContextBuilder()
                 .AddParser("a")
                 .Finish
                 .AddParser("b")
