@@ -13,6 +13,7 @@
 // ***********************************************************************
 
 using System;
+using Figgle;
 
 namespace ArgParser.Styles.Alba
 {
@@ -66,7 +67,7 @@ namespace ArgParser.Styles.Alba
         ///     Gets or sets the banner font.
         /// </summary>
         /// <value>The banner font.</value>
-        public virtual Font BannerFont { get; protected internal set; } = Font.Roman;
+        public virtual FiggleFont BannerFont { get; protected internal set; } = FiggleFonts.Poison;
 
         /// <summary>
         ///     Gets or sets the color of the border.
