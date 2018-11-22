@@ -29,21 +29,21 @@ namespace ArgParser.Styles
         /// </summary>
         /// <param name="parserId">The parser identifier.</param>
         /// <returns>The alias for the provided parser</returns>
-        public string GetAlias(string parserId) => Aliases[parserId];
+        public virtual string GetAlias(string parserId) => Aliases[parserId];
 
         /// <summary>
         ///     Determines whether the specified parser identifier has an alias.
         /// </summary>
         /// <param name="parserId">The parser identifier.</param>
         /// <returns><c>true</c> if the specified parser identifier has an alias; otherwise, <c>false</c>.</returns>
-        public bool HasAlias(string parserId) => Aliases.ContainsKey(parserId);
+        public virtual bool HasAlias(string parserId) => Aliases.ContainsKey(parserId);
 
         /// <summary>
         ///     Finds any parser ids that the provided alias exists for
         /// </summary>
         /// <param name="alias">The alias.</param>
         /// <returns>Any parser ids that the provided alias exists for</returns>
-        public IEnumerable<string> Lookup(string alias)
+        public virtual IEnumerable<string> Lookup(string alias)
         {
             return Aliases.Where(kvp => kvp.Value == alias).Select(x => x.Key);
         }
@@ -53,7 +53,7 @@ namespace ArgParser.Styles
         /// </summary>
         /// <param name="parserId">The parser identifier.</param>
         /// <param name="alias">The alias.</param>
-        public void SetAlias(string parserId, string alias)
+        public virtual void SetAlias(string parserId, string alias)
         {
             Aliases[parserId] = alias;
         }

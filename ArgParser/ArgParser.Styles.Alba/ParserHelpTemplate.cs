@@ -42,7 +42,7 @@ namespace ArgParser.Styles.Alba
         ///     Creates this instance.
         /// </summary>
         /// <returns>Document.</returns>
-        public Document Create()
+        public virtual Document Create()
         {
             using (var fs = File.OpenRead("ParserHelp.xaml"))
             {
@@ -63,7 +63,7 @@ namespace ArgParser.Styles.Alba
         /// </summary>
         /// <param name="context">The context.</param>
         /// <returns>ParserHelpTemplateViewModel.</returns>
-        protected internal ParserHelpTemplateViewModel CreateViewModel(IContext context)
+        public virtual ParserHelpTemplateViewModel CreateViewModel(IContext context)
         {
             var albaContext = context.ToAlbaContext();
             var parserViewModels = albaContext.PathToRoot(Parser.Id).Reverse().Select(x =>
@@ -93,18 +93,18 @@ namespace ArgParser.Styles.Alba
         ///     Gets or sets the context.
         /// </summary>
         /// <value>The context.</value>
-        protected internal AlbaContext Context { get; set; }
+        public AlbaContext Context { get; set; }
 
         /// <summary>
         ///     Gets or sets the parser.
         /// </summary>
         /// <value>The parser.</value>
-        protected internal Parser Parser { get; set; }
+        public Parser Parser { get; set; }
 
         /// <summary>
         ///     Gets or sets the view model.
         /// </summary>
         /// <value>The view model.</value>
-        protected internal ParserHelpTemplateViewModel ViewModel { get; set; }
+        public ParserHelpTemplateViewModel ViewModel { get; set; }
     }
 }

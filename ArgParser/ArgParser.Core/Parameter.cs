@@ -78,7 +78,7 @@ namespace ArgParser.Core
         /// <summary>
         ///     Resets this instance.
         /// </summary>
-        public void Reset()
+        public virtual void Reset()
         {
             HasBeenConsumed = false;
         }

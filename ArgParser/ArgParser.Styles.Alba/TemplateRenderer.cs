@@ -28,7 +28,7 @@ namespace ArgParser.Styles.Alba
         ///     Renders the specified template.
         /// </summary>
         /// <param name="template">The template.</param>
-        public void Render(ITemplate template)
+        public virtual void Render(ITemplate template)
         {
             var doc = template.Create();
             ConsoleRenderer.RenderDocument(doc);

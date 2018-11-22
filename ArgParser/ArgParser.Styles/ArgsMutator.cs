@@ -40,7 +40,7 @@ namespace ArgParser.Styles
         /// </summary>
         /// <param name="request">The request.</param>
         /// <returns>Mutated arguments</returns>
-        public string[] Mutate(MutateArgsRequest request)
+        public virtual string[] Mutate(MutateArgsRequest request)
         {
             var allSwitchesForChain = request.Chain.SelectMany(x => x.Parameters).OfType<Switch>().ToList();
             var booleanSwitches = allSwitchesForChain.OfType<BooleanSwitch>().ToList();

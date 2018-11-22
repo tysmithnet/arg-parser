@@ -50,7 +50,7 @@ namespace ArgParser.Styles.Alba
         ///     Gets the color of the banner.
         /// </summary>
         /// <value>The color of the banner.</value>
-        public string BannerColor =>
+        public virtual string BannerColor =>
             $"{ParserVm.Theme.DefaultTextColor} 0; {ParserVm.Theme.SecondaryTextColor}; {ParserVm.Theme.CodeColor} 3";
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace ArgParser.Styles.Alba
         ///     Gets the sub title.
         /// </summary>
         /// <value>The sub title.</value>
-        public string SubTitle
+        public virtual string SubTitle
         {
             get
             {

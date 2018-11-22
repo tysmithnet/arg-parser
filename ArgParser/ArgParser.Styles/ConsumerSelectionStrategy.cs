@@ -38,7 +38,7 @@ namespace ArgParser.Styles
         /// <param name="result">The result.</param>
         /// <returns>ConsumptionResult.</returns>
         /// <exception cref="ForwardProgressException"></exception>
-        public ConsumptionResult Select(PotentialConsumerResult result)
+        public virtual ConsumptionResult Select(PotentialConsumerResult result)
         {
             ConsumptionResult foundResult = null;
             var switchResults = result.ConsumptionResults.Where(r => r.ConsumingParameter is Switch).ToList();

@@ -39,7 +39,7 @@ namespace ArgParser.Styles
         /// </summary>
         /// <param name="alias">The alias.</param>
         /// <returns>ParserBuilder.</returns>
-        public ParserBuilder WithAlias(string alias)
+        public virtual ParserBuilder WithAlias(string alias)
         {
             Finish.AliasRepository.SetAlias(Parser.Id, alias);
             return this;
@@ -54,7 +54,7 @@ namespace ArgParser.Styles
         /// <param name="helpSetupCallback">The help setup callback.</param>
         /// <param name="required">if set to <c>true</c> [required].</param>
         /// <returns>ParserBuilder.</returns>
-        public ParserBuilder WithBooleanSwitch(char? letter, string word, Action<object> consumeCallback,
+        public virtual ParserBuilder WithBooleanSwitch(char? letter, string word, Action<object> consumeCallback,
             Action<ParameterHelpBuilder> helpSetupCallback = null, bool required = false)
         {
             var sw = new BooleanSwitch(Parser, letter, word, consumeCallback)
@@ -70,7 +70,7 @@ namespace ArgParser.Styles
         /// </summary>
         /// <param name="func">The function.</param>
         /// <returns>ParserBuilder.</returns>
-        public ParserBuilder WithFactoryFunction(Func<object> func)
+        public virtual ParserBuilder WithFactoryFunction(Func<object> func)
         {
             Parser.FactoryFunction = func.ThrowIfArgumentNull(nameof(func));
             return this;

@@ -41,7 +41,7 @@ namespace ArgParser.Styles
         /// </summary>
         /// <typeparam name="T">The type of a parsed instance of interest</typeparam>
         /// <param name="handler">The handler.</param>
-        public void When<T>(Action<T, Parser> handler)
+        public virtual void When<T>(Action<T, Parser> handler)
         {
             foreach (var kvp in Results)
                 if (kvp.Key is T casted)
@@ -52,7 +52,7 @@ namespace ArgParser.Styles
         ///     Executes a handler on all parse exceptions that occurred during processing
         /// </summary>
         /// <param name="handler">The handler.</param>
-        public void WhenError(Action<IEnumerable<ParseException>> handler)
+        public virtual void WhenError(Action<IEnumerable<ParseException>> handler)
         {
             if (ParseExceptions.Any())
                 handler(ParseExceptions);

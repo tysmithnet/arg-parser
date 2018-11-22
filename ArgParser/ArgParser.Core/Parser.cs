@@ -40,7 +40,7 @@ namespace ArgParser.Core
         ///     Adds a parameter.
         /// </summary>
         /// <param name="parameter">The parameter.</param>
-        public void AddParameter(Parameter parameter)
+        public virtual void AddParameter(Parameter parameter)
         {
             ParametersInternal.Add(parameter);
         }
@@ -72,7 +72,7 @@ namespace ArgParser.Core
         /// <summary>
         ///     Resets this instance.
         /// </summary>
-        public void Reset()
+        public virtual void Reset()
         {
             foreach (var parameter in Parameters) parameter.Reset();
         }

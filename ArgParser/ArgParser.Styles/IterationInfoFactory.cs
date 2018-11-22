@@ -36,7 +36,7 @@ namespace ArgParser.Styles
         /// </summary>
         /// <param name="request">The request.</param>
         /// <returns>IterationInfo.</returns>
-        public IterationInfo Create(IterationInfoRequest request)
+        public virtual IterationInfo Create(IterationInfoRequest request)
         {
             var consumed = request.ChainIdentificationResult.ConsumedArgs;
             return new IterationInfo(request.MutatedArgs,

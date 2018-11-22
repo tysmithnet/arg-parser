@@ -42,7 +42,7 @@ namespace ArgParser.Styles
         /// <param name="childParserId">The child parser identifier.</param>
         /// <exception cref="KeyNotFoundException">
         /// </exception>
-        public void EstablishParentChildRelationship(string parentParserId, string childParserId)
+        public virtual void EstablishParentChildRelationship(string parentParserId, string childParserId)
         {
             parentParserId.ThrowIfArgumentNull(nameof(parentParserId));
             childParserId.ThrowIfArgumentNull(nameof(childParserId));
@@ -63,7 +63,7 @@ namespace ArgParser.Styles
         /// <param name="parserId">The parser identifier.</param>
         /// <returns>IEnumerable&lt;System.String&gt;.</returns>
         /// <exception cref="KeyNotFoundException"></exception>
-        public IEnumerable<string> GetAncestors(string parserId)
+        public virtual IEnumerable<string> GetAncestors(string parserId)
         {
             parserId.ThrowIfArgumentNull(nameof(parserId));
             if (!Nodes.ContainsKey(parserId))
@@ -86,7 +86,7 @@ namespace ArgParser.Styles
         /// <param name="parserId">The parser identifier.</param>
         /// <returns>IEnumerable&lt;System.String&gt;.</returns>
         /// <exception cref="KeyNotFoundException"></exception>
-        public IEnumerable<string> GetChildren(string parserId)
+        public virtual IEnumerable<string> GetChildren(string parserId)
         {
             if (!Nodes.ContainsKey(parserId))
                 throw new KeyNotFoundException(
@@ -98,7 +98,7 @@ namespace ArgParser.Styles
         ///     Gets the root parser
         /// </summary>
         /// <returns>The root parser id</returns>
-        public string GetRoot()
+        public virtual string GetRoot()
         {
             var allChildren = Nodes.SelectMany(pair => pair.Value.Children);
             var root = Nodes.Values.Except(allChildren).Single();
@@ -111,7 +111,7 @@ namespace ArgParser.Styles
         /// <param name="parentParserId">The parent parser identifier.</param>
         /// <param name="childParserId">The child parser identifier.</param>
         /// <returns><c>true</c> if the specified parent parser identifier is parent; otherwise, <c>false</c>.</returns>
-        public bool IsParent(string parentParserId, string childParserId)
+        public virtual bool IsParent(string parentParserId, string childParserId)
         {
             if (childParserId == null)
                 return false;

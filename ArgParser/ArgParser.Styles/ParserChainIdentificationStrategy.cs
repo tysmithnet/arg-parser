@@ -38,7 +38,7 @@ namespace ArgParser.Styles
         /// </summary>
         /// <param name="request">The request.</param>
         /// <returns>ChainIdentificationResult.</returns>
-        public ChainIdentificationResult Identify(ChainIdentificationRequest request)
+        public virtual ChainIdentificationResult Identify(ChainIdentificationRequest request)
         {
             var args = request.ThrowIfArgumentNull(nameof(request)).Args.PreventNull().ToArray();
             if (!args.Any())

@@ -47,7 +47,7 @@ namespace ArgParser.Styles.Alba
         /// <param name="results">The results.</param>
         /// <param name="parseExceptions">The parse exceptions.</param>
         /// <returns>IParseResult.</returns>
-        public IParseResult Create(Dictionary<object, Parser> results, IEnumerable<ParseException> parseExceptions)
+        public virtual IParseResult Create(Dictionary<object, Parser> results, IEnumerable<ParseException> parseExceptions)
         {
             parseExceptions = parseExceptions.PreventNull().ToList();
             var helpRequest = IsHelpRequestedCallback(results, parseExceptions);

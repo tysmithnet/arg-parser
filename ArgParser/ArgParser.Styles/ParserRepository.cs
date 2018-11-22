@@ -30,7 +30,7 @@ namespace ArgParser.Styles
         /// <param name="id">The identifier.</param>
         /// <returns>The created parser</returns>
         /// <exception cref="ArgumentException"></exception>
-        public Parser Create(string id)
+        public virtual Parser Create(string id)
         {
             if (Parsers.ContainsKey(id))
                 throw new ArgumentException($"Parser already exists with id={id}");
@@ -48,7 +48,7 @@ namespace ArgParser.Styles
         /// <param name="id">The identifier.</param>
         /// <returns>The created parser</returns>
         /// <exception cref="ArgumentException"></exception>
-        public Parser<T> Create<T>(string id)
+        public virtual Parser<T> Create<T>(string id)
         {
             if (Parsers.ContainsKey(id)) // todo: duplicate code
                 throw new ArgumentException($"Parser already exists with id={id}");
@@ -65,7 +65,7 @@ namespace ArgParser.Styles
         /// <param name="id">The identifier.</param>
         /// <returns>Existing Parser.</returns>
         /// <exception cref="KeyNotFoundException"></exception>
-        public Parser Get(string id)
+        public virtual Parser Get(string id)
         {
             if (!Parsers.ContainsKey(id))
                 throw new KeyNotFoundException(
@@ -79,7 +79,7 @@ namespace ArgParser.Styles
         /// <typeparam name="T"></typeparam>
         /// <param name="id">The identifier.</param>
         /// <returns>Existing parser</returns>
-        public Parser<T> Get<T>(string id)
+        public virtual Parser<T> Get<T>(string id)
         {
             var parser = Get(id);
             return (Parser<T>) parser;
@@ -89,8 +89,7 @@ namespace ArgParser.Styles
         ///     Gets all.
         /// </summary>
         /// <returns>IEnumerable&lt;Parser&gt;.</returns>
-        /// <!-- Badly formed XML comment ignored for member "M:ArgParser.Core.IParserRepository.GetAll" -->
-        public IEnumerable<Parser> GetAll() => Parsers.Values;
+        public virtual IEnumerable<Parser> GetAll() => Parsers.Values;
 
         /// <summary>
         ///     Gets or sets the first added.

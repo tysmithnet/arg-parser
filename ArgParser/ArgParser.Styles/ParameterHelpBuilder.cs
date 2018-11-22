@@ -25,7 +25,7 @@ namespace ArgParser.Styles
         ///     Initializes a new instance of the <see cref="ParameterHelpBuilder" /> class.
         /// </summary>
         /// <param name="parameter">The parameter.</param>
-        public ParameterHelpBuilder(Parameter parameter)
+        public  ParameterHelpBuilder(Parameter parameter)
         {
             Parameter = parameter.ThrowIfArgumentNull(nameof(parameter));
         }
@@ -34,14 +34,14 @@ namespace ArgParser.Styles
         ///     Builds this instance.
         /// </summary>
         /// <returns>ParameterHelp.</returns>
-        public ParameterHelp Build() => Help;
+        public virtual ParameterHelp Build() => Help;
 
         /// <summary>
         ///     Sets the default value.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>ParameterHelpBuilder.</returns>
-        public ParameterHelpBuilder SetDefaultValue(string value)
+        public virtual ParameterHelpBuilder SetDefaultValue(string value)
         {
             Help.DefaultValue = value;
             return this;
@@ -52,7 +52,7 @@ namespace ArgParser.Styles
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns>ParameterHelpBuilder.</returns>
-        public ParameterHelpBuilder SetName(string name)
+        public virtual ParameterHelpBuilder SetName(string name)
         {
             Help.Name = name;
             return this;
@@ -63,7 +63,7 @@ namespace ArgParser.Styles
         /// </summary>
         /// <param name="desc">The desc.</param>
         /// <returns>ParameterHelpBuilder.</returns>
-        public ParameterHelpBuilder SetShortDescription(string desc)
+        public virtual ParameterHelpBuilder SetShortDescription(string desc)
         {
             Help.ShortDescription = desc;
             return this;
@@ -74,7 +74,7 @@ namespace ArgParser.Styles
         /// </summary>
         /// <param name="alias">The alias.</param>
         /// <returns>ParameterHelpBuilder.</returns>
-        public ParameterHelpBuilder SetValueAlias(string alias)
+        public virtual ParameterHelpBuilder SetValueAlias(string alias)
         {
             Help.ValueAlias = alias;
             return this;

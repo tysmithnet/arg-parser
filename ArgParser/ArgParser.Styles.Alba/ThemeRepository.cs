@@ -27,14 +27,14 @@ namespace ArgParser.Styles.Alba
         /// </summary>
         /// <param name="parserId">The parser identifier.</param>
         /// <returns>Theme.</returns>
-        public Theme Get(string parserId) => !Themes.ContainsKey(parserId) ? Default : Themes[parserId];
+        public virtual Theme Get(string parserId) => !Themes.ContainsKey(parserId) ? Default : Themes[parserId];
 
         /// <summary>
         ///     Sets the theme.
         /// </summary>
         /// <param name="parserId">The parser identifier.</param>
         /// <param name="theme">The theme.</param>
-        public void SetTheme(string parserId, Theme theme)
+        public virtual void SetTheme(string parserId, Theme theme)
         {
             if (!Themes.ContainsKey(parserId))
                 Themes.Add(parserId, theme);

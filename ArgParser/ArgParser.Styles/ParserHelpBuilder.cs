@@ -38,7 +38,7 @@ namespace ArgParser.Styles
         /// <param name="usage">The usage.</param>
         /// <param name="result">The result.</param>
         /// <returns>ParserHelpBuilder.</returns>
-        public ParserHelpBuilder AddExample(string name, string description, string usage, string result)
+        public virtual ParserHelpBuilder AddExample(string name, string description, string usage, string result)
         {
             Help.AddExample(new Example
             {
@@ -61,7 +61,7 @@ namespace ArgParser.Styles
         /// </summary>
         /// <param name="desc">The desc.</param>
         /// <returns>ParserHelpBuilder.</returns>
-        public ParserHelpBuilder SetLongDescription(string desc)
+        public virtual ParserHelpBuilder SetLongDescription(string desc)
         {
             Help.LongDescription = desc;
             return this;
@@ -72,7 +72,7 @@ namespace ArgParser.Styles
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns>ParserHelpBuilder.</returns>
-        public ParserHelpBuilder SetName(string name)
+        public virtual ParserHelpBuilder SetName(string name)
         {
             Help.Name = name;
             return this;
@@ -83,7 +83,7 @@ namespace ArgParser.Styles
         /// </summary>
         /// <param name="desc">The desc.</param>
         /// <returns>ParserHelpBuilder.</returns>
-        public ParserHelpBuilder SetShortDescription(string desc)
+        public virtual ParserHelpBuilder SetShortDescription(string desc)
         {
             Help.ShortDescription = desc;
             return this;
@@ -94,7 +94,7 @@ namespace ArgParser.Styles
         /// </summary>
         /// <param name="version">The version.</param>
         /// <returns>ParserHelpBuilder.</returns>
-        public ParserHelpBuilder SetVersion(string version)
+        public virtual ParserHelpBuilder SetVersion(string version)
         {
             Help.Version = version;
             return this;

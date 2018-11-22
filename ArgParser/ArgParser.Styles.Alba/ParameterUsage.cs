@@ -41,7 +41,7 @@ namespace ArgParser.Styles.Alba
         /// </summary>
         /// <param name="positional">The positional.</param>
         /// <param name="seq">The seq.</param>
-        protected internal void GeneratePositionalSequence(Positional positional, IInlineSequence seq)
+        public virtual void GeneratePositionalSequence(Positional positional, IInlineSequence seq)
         {
             WritePrimary(seq, "[");
             WriteSecondary(seq, GenerateValueAlias(positional));
@@ -53,7 +53,7 @@ namespace ArgParser.Styles.Alba
         /// </summary>
         /// <param name="switch">The switch.</param>
         /// <param name="seq">The seq.</param>
-        protected internal void GenerateSwitchSequence(Switch @switch, IInlineSequence seq)
+        public virtual void GenerateSwitchSequence(Switch @switch, IInlineSequence seq)
         {
             WritePrimary(seq, "[");
             if (@switch.Letter.HasValue && @switch.Word.IsNotNullOrWhiteSpace())
@@ -80,7 +80,7 @@ namespace ArgParser.Styles.Alba
         /// </summary>
         /// <param name="parameter">The parameter.</param>
         /// <returns>System.String.</returns>
-        protected internal string GenerateValueAlias(Parameter parameter)
+        public virtual string GenerateValueAlias(Parameter parameter)
         {
             var prefix = "v";
             if (parameter is Positional)
@@ -104,7 +104,7 @@ namespace ArgParser.Styles.Alba
         /// </summary>
         /// <param name="sequence">The sequence.</param>
         /// <param name="text">The text.</param>
-        protected internal void WritePrimary(IInlineSequence sequence, string text)
+        public virtual void WritePrimary(IInlineSequence sequence, string text)
         {
             sequence.PushColor(ViewModel.Theme.DefaultTextColor);
             sequence.AppendText(text);
@@ -117,7 +117,7 @@ namespace ArgParser.Styles.Alba
         /// </summary>
         /// <param name="sequence">The sequence.</param>
         /// <param name="text">The text.</param>
-        protected internal void WriteSecondary(IInlineSequence sequence, string text)
+        public virtual void WriteSecondary(IInlineSequence sequence, string text)
         {
             sequence.PushColor(ViewModel.Theme.SecondaryTextColor);
             sequence.AppendText(text);
@@ -141,6 +141,6 @@ namespace ArgParser.Styles.Alba
         ///     Gets or sets the string builder.
         /// </summary>
         /// <value>The string builder.</value>
-        protected internal StringBuilder StringBuilder { get; set; } = new StringBuilder();
+        public StringBuilder StringBuilder { get; set; } = new StringBuilder();
     }
 }
