@@ -94,6 +94,7 @@
   <ItemGroup>
     <Compile Include="AlbaContext_Should.cs" />
     <Compile Include="ArgsMutator_Should.cs" />
+    <Compile Include="BannerArtDiv_Should.cs" />
     <Compile Include="ConsumerSelectionStrategy_Should.cs" />
     <Compile Include="ContextBuilderExtensions_Should.cs" />
     <Compile Include="HelpRequestedParserResultFactory_Should.cs" />
