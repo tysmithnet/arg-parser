@@ -35,7 +35,6 @@ namespace ArgParser.Styles.Alba
         {
             Context = context.ToAlbaContext();
             Parser = context.ParserRepository.Get(parserId);
-            ViewModel = CreateViewModel(context);
         }
 
         /// <summary>
@@ -44,9 +43,10 @@ namespace ArgParser.Styles.Alba
         /// <returns>Document.</returns>
         public virtual Document Create()
         {
+            var vm = CreateViewModel(Context);
             using (var fs = File.OpenRead("ParserHelp.xaml"))
             {
-                return ConsoleRenderer.ReadDocumentFromStream(fs, ViewModel, new XamlElementReaderSettings
+                return ConsoleRenderer.ReadDocumentFromStream(fs, vm, new XamlElementReaderSettings
                 {
                     ReferenceAssemblies =
                     {

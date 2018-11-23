@@ -95,7 +95,12 @@ namespace ArgParser.Styles.Alba
         /// </summary>
         /// <param name="context">The context.</param>
         /// <returns>AlbaContext.</returns>
-        public static AlbaContext ToAlbaContext(this IContext context) => AlbaContexts[context];
+        public static AlbaContext ToAlbaContext(this IContext context)
+        {
+            if(!AlbaContexts.ContainsKey(context))
+                AlbaContexts[context] = new AlbaContext(context);
+            return AlbaContexts[context];
+        }
 
         /// <summary>
         ///     Sets the theme.

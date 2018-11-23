@@ -36,7 +36,7 @@ namespace ArgParser.Styles.Alba
         ///     Gets or sets the font.
         /// </summary>
         /// <value>The font.</value>
-        public FiggleFont Font { get; set; }
+        public FiggleFont Font { get; set; } = FiggleFonts.Basic;
 
         /// <summary>
         ///     Generates the visual elements.
