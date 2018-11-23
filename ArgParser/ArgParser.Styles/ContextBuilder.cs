@@ -142,11 +142,5 @@ namespace ArgParser.Styles
         /// </summary>
         /// <value>The parser repository.</value>
         protected internal ParserRepository ParserRepository { get; set; } = new ParserRepository();
-
-        /// <summary>
-        ///     Gets or sets the root parser identifier.
-        /// </summary>
-        /// <value>The root parser identifier.</value>
-        protected internal string RootParserId { get; set; }
     }
 }

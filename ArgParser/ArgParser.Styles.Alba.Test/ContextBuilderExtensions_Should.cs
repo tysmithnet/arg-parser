@@ -105,7 +105,7 @@ namespace ArgParser.Styles.Alba.Test
         }
 
         [Fact]
-        public void Throw_If_Asking_For_An_Unregistered_Context()
+        public void Not_Throw_If_Asking_For_An_Unregistered_Context()
         {
             // arrange
             var builder = DefaultBuilder.CreateDefaultBuilder();
@@ -113,7 +113,7 @@ namespace ArgParser.Styles.Alba.Test
 
             // act
             // assert
-            mightThrow0.Should().Throw<KeyNotFoundException>();
+            mightThrow0.Should().NotThrow();
         }
     }
 }
