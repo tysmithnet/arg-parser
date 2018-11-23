@@ -73,6 +73,7 @@ namespace ArgParser.Core.Test
             var mock = new Mock<Parameter>();
             mock.SetupAllProperties();
             mock.Object.HasBeenConsumed = true;
+            mock.CallBase = true;
             var parser = new Parser("a");
             parser.AddParameter(mock.Object);
 
