@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Alba.CsConsoleFormat;
 using ArgParser.Core;
 
 namespace ArgParser.Styles.Alba
@@ -52,6 +53,12 @@ namespace ArgParser.Styles.Alba
         /// <value>The color of the banner.</value>
         public virtual string BannerColor =>
             $"{ParserVm.Theme.DefaultTextColor} 0; {ParserVm.Theme.SecondaryTextColor}; {ParserVm.Theme.CodeColor} 3";
+
+        /// <summary>
+        ///     Gets the line thickness.
+        /// </summary>
+        /// <value>The line thickness.</value>
+        public LineThickness LineThickness => new LineThickness(LineWidth.Single, LineWidth.Single);
 
         /// <summary>
         ///     Gets or sets the chain.

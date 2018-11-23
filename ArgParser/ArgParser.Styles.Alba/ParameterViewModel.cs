@@ -12,6 +12,7 @@
 // <summary></summary>
 // ***********************************************************************
 
+using Alba.CsConsoleFormat;
 using ArgParser.Core;
 
 namespace ArgParser.Styles.Alba
@@ -57,5 +58,11 @@ namespace ArgParser.Styles.Alba
         /// </summary>
         /// <value>The theme.</value>
         public Theme Theme { get; protected internal set; }
+
+        /// <summary>
+        ///     Gets or sets the line thickness.
+        /// </summary>
+        /// <value>The line thickness.</value>
+        public LineThickness LineThickness { get; set; } = new LineThickness(LineWidth.Single, LineWidth.Single);
     }
 }

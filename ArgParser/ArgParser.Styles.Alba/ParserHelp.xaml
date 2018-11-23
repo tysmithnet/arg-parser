@@ -18,44 +18,44 @@
             <ap:ParameterUsage ViewModel="{Get }" />
         </Repeater>
     </Div>
-    <Grid Color="{Get ParserVm.Theme.BorderColor}">
+    <Grid Color="{Get ParserVm.Theme.BorderColor}" Stroke="{Get LineThickness}">
         <Grid.Columns>
             <Column Width="Auto"/>
             <Column Width="*"/>
         </Grid.Columns>
-        <Cell  Color="{Get ParserVm.Theme.DefaultTextColor}">Sub Command</Cell>
-        <Cell  Color="{Get ParserVm.Theme.DefaultTextColor}">Description</Cell>
+        <Cell  Color="{Get ParserVm.Theme.DefaultTextColor}" Stroke="{Get LineThickness}">Sub Command</Cell>
+        <Cell  Color="{Get ParserVm.Theme.DefaultTextColor}" Stroke="{Get LineThickness}">Description</Cell>
         <Repeater Items="{Get SubCommands}">
-            <Cell >
+            <Cell Stroke="{Get LineThickness}">
                 <Span Color="{Get Theme.CodeColor}" Text="{Get DisplayString}"/>
             </Cell>
-            <Cell >
+            <Cell Stroke="{Get LineThickness}">
                 <Span Color="{Get Theme.CodeColor}" Text="{Get Parser.Help.ShortDescription}"/>
             </Cell>
         </Repeater>
     </Grid>
-    <Grid Color="{Get ParserVm.Theme.BorderColor}">
+    <Grid Color="{Get ParserVm.Theme.BorderColor}" Stroke="{Get LineThickness}">
         <Grid.Columns>
             <Column Width="Auto"/>
             <Column Width="Auto"/>
             <Column Width="Auto"/>
             <Column Width="*"/>
         </Grid.Columns>
-        <Cell  Color="{Get ParserVm.Theme.DefaultTextColor}">Parameter</Cell>
-        <Cell  Color="{Get ParserVm.Theme.DefaultTextColor}">Req</Cell>
-        <Cell  Color="{Get ParserVm.Theme.DefaultTextColor}">Default</Cell>
-        <Cell  Color="{Get ParserVm.Theme.DefaultTextColor}">Description</Cell>
+        <Cell Stroke="{Get LineThickness}" Color="{Get ParserVm.Theme.DefaultTextColor}">Parameter</Cell>
+        <Cell Stroke="{Get LineThickness}" Color="{Get ParserVm.Theme.DefaultTextColor}">Req</Cell>
+        <Cell Stroke="{Get LineThickness}" Color="{Get ParserVm.Theme.DefaultTextColor}">Default</Cell>
+        <Cell Stroke="{Get LineThickness}" Color="{Get ParserVm.Theme.DefaultTextColor}">Description</Cell>
         <Repeater Items="{Get ParameterVms}">
-            <Cell >
+            <Cell Stroke="{Get LineThickness}">
                 <ap:ParameterUsage ViewModel="{Get }"  />
             </Cell>
-            <Cell  TextAlign="Center">
+            <Cell  TextAlign="Center" Stroke="{Get LineThickness}">
                 <Span Text="{Get RequiredText}" Color="{Get Theme.RequiredColor}" />
             </Cell>
-            <Cell >
+            <Cell Stroke="{Get LineThickness}">
                 <Span Text="{Get Parameter.Help.DefaultValue}" Color="{Get Theme.DefaultTextColor}" />
             </Cell>
-            <Cell >
+            <Cell Stroke="{Get LineThickness}">
                 <Span Text="{Get Parameter.Help.ShortDescription}" Color="{Get Theme.DefaultTextColor}" />
             </Cell>
         </Repeater>
