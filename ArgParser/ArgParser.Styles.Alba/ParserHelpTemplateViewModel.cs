@@ -46,14 +46,7 @@ namespace ArgParser.Styles.Alba
             ParameterVms = parameterVms ?? throw new ArgumentNullException(nameof(parameterVms));
             SubCommands = subCommands ?? throw new ArgumentNullException(nameof(subCommands));
         }
-
-        /// <summary>
-        ///     Gets the color of the banner.
-        /// </summary>
-        /// <value>The color of the banner.</value>
-        public virtual string BannerColor =>
-            $"{ParserVm.Theme.DefaultTextColor} 0; {ParserVm.Theme.SecondaryTextColor}; {ParserVm.Theme.CodeColor} 3";
-
+        
         /// <summary>
         ///     Gets the line thickness.
         /// </summary>
