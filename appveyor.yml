@@ -50,7 +50,7 @@ after_test:
   - ps: Write-Host -ForegroundColor Green "ANALYZING...";
   - cmd: C:\temp\sonar\SonarScanner.MSBuild.exe begin /k:"tysmithnet_arg-parser" /d:sonar.organization="tysmithnet-github" /d:sonar.branch.name="%APPVEYOR_REPO_BRANCH%" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="%SONARQUBE_TOKEN%" /d:sonar.cs.opencover.reportsPaths="c:\temp\coverage.xml"
   - cmd: >-
-      "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\amd64\MSBuild.exe" /t:Rebuild C:\projects\arg-parser\ArgPArser\ArgParser.sln 
+      "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\amd64\MSBuild.exe" /v:quiet /t:Rebuild C:\projects\arg-parser\ArgPArser\ArgParser.sln 
   - cmd: C:\temp\sonar\SonarScanner.MSBuild.exe end /d:sonar.login="%SONARQUBE_TOKEN%"      
 
 environment:
