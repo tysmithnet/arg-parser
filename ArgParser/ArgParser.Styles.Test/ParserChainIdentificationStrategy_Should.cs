@@ -121,7 +121,7 @@ namespace ArgParser.Styles.Test
             // act
             
             // assert
-            mightThrow.Should().Throw<AmbiguousCommandChainException>();
+            mightThrow.Should().Throw<AmbiguousCommandChainException>().And.MatchingSequences.Should().HaveCount(2);
         }
 
         [Fact]

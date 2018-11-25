@@ -13,6 +13,7 @@
 // ***********************************************************************
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Figgle;
 
 namespace ArgParser.Styles.Alba
@@ -20,6 +21,7 @@ namespace ArgParser.Styles.Alba
     /// <summary>
     ///     Represents a cohesive set of colors that will be used when rendering text to the console
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public abstract class Theme
     {
         /// <summary>
