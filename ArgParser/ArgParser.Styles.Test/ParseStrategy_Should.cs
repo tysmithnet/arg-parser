@@ -11,28 +11,6 @@ namespace ArgParser.Styles.Test
     public class ParseStrategy_Should
     {
         [Fact]
-        public void Set_Sub_Component_Contexts_When_The_Context_Changes()
-        {
-            // arrange
-            var builder = DefaultBuilder.CreateDefaultBuilder();
-            var strat = new ParseStrategy(builder.Context);
-            var newGuy = new Context();
-
-            // act
-            strat.Context = newGuy;
-
-            // assert
-            strat.Context.Should().BeSameAs(newGuy);
-            strat.ArgsMutator.Context.Should().BeSameAs(newGuy);
-            strat.ChainIdentificationStrategy.Context.Should().BeSameAs(newGuy);
-            strat.ConsumerSelectionStrategy.Context.Should().BeSameAs(newGuy);
-            strat.ConsumptionRequestFactory.Context.Should().BeSameAs(newGuy);
-            strat.IterationInfoFactory.Context.Should().BeSameAs(newGuy);
-            strat.ParseResultFactory.Context.Should().BeSameAs(newGuy);
-            strat.PotentialConsumerStrategy.Context.Should().BeSameAs(newGuy);
-        }
-
-        [Fact]
         public void Not_Throw_If_An_Unexpected_Argument_Is_Found()
         {
             // arrange
@@ -50,7 +28,7 @@ namespace ArgParser.Styles.Test
             // act
             // assert
             mightThrow.Should().NotThrow();
-            bool isParsed = false;
+            var isParsed = false;
             res.WhenError(exceptions =>
             {
                 exceptions.Single().Should().BeOfType<UnexpectedArgException>();
@@ -73,13 +51,35 @@ namespace ArgParser.Styles.Test
             // act
             // assert
             mightThrow.Should().NotThrow();
-            bool isParsed = false;
+            var isParsed = false;
             res.WhenError(exceptions =>
             {
                 isParsed = true;
                 exceptions.Single().Should().BeOfType<NoFactoryFunctionException>();
             });
             isParsed.Should().BeTrue();
+        }
+
+        [Fact]
+        public void Set_Sub_Component_Contexts_When_The_Context_Changes()
+        {
+            // arrange
+            var builder = DefaultBuilder.CreateDefaultBuilder();
+            var strat = new ParseStrategy(builder.Context);
+            var newGuy = new Context();
+
+            // act
+            strat.Context = newGuy;
+
+            // assert
+            strat.Context.Should().BeSameAs(newGuy);
+            strat.ArgsMutator.Context.Should().BeSameAs(newGuy);
+            strat.ChainIdentificationStrategy.Context.Should().BeSameAs(newGuy);
+            strat.ConsumerSelectionStrategy.Context.Should().BeSameAs(newGuy);
+            strat.ConsumptionRequestFactory.Context.Should().BeSameAs(newGuy);
+            strat.IterationInfoFactory.Context.Should().BeSameAs(newGuy);
+            strat.ParseResultFactory.Context.Should().BeSameAs(newGuy);
+            strat.PotentialConsumerStrategy.Context.Should().BeSameAs(newGuy);
         }
     }
 }

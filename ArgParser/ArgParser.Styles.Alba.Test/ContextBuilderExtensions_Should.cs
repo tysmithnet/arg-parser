@@ -90,6 +90,18 @@ namespace ArgParser.Styles.Alba.Test
         }
 
         [Fact]
+        public void Not_Throw_If_Asking_For_An_Unregistered_Context()
+        {
+            // arrange
+            var builder = DefaultBuilder.CreateDefaultBuilder();
+            Action mightThrow0 = () => builder.Context.ToAlbaContext();
+
+            // act
+            // assert
+            mightThrow0.Should().NotThrow();
+        }
+
+        [Fact]
         public void Return_The_Same_Alba_Context_When_Asked_Multiple_Times()
         {
             // arrange
@@ -102,18 +114,6 @@ namespace ArgParser.Styles.Alba.Test
             for (var i = 0; i < 10; i++) set.Add(builder.Context.ToAlbaContext());
 
             set.Should().HaveCount(1);
-        }
-
-        [Fact]
-        public void Not_Throw_If_Asking_For_An_Unregistered_Context()
-        {
-            // arrange
-            var builder = DefaultBuilder.CreateDefaultBuilder();
-            Action mightThrow0 = () => builder.Context.ToAlbaContext();
-
-            // act
-            // assert
-            mightThrow0.Should().NotThrow();
         }
     }
 }

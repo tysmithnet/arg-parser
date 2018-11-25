@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Alba.CsConsoleFormat;
+﻿using Alba.CsConsoleFormat;
 using ArgParser.Testing.Common;
 using FluentAssertions;
 using Xunit;
@@ -18,7 +13,7 @@ namespace ArgParser.Styles.Alba.Test
             // arrange
             var builder = DefaultBuilder.CreateDefaultBuilder();
             var sut = new ParserHelpTemplate(builder.Context, "util");
-            
+
             // act
             var doc = sut.Create();
             var text = ConsoleRenderer.RenderDocumentToText(doc, new TextRenderTarget(),

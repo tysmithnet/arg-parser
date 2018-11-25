@@ -25,18 +25,6 @@ namespace ArgParser.Styles.Alba
     public class ParameterUsage : InlineElement
     {
         /// <summary>
-        ///     Generates the sequence.
-        /// </summary>
-        /// <param name="sequence">The sequence.</param>
-        public override void GenerateSequence(IInlineSequence sequence)
-        {
-            if (ViewModel.Parameter is Switch @switch)
-                GenerateSwitchSequence(@switch, sequence);
-            else if (ViewModel.Parameter is Positional positional)
-                GeneratePositionalSequence(positional, sequence);
-        }
-
-        /// <summary>
         ///     Generates the positional sequence.
         /// </summary>
         /// <param name="positional">The positional.</param>
@@ -46,6 +34,18 @@ namespace ArgParser.Styles.Alba
             WritePrimary(seq, "[");
             WriteSecondary(seq, GenerateValueAlias(positional));
             WritePrimary(seq, "]");
+        }
+
+        /// <summary>
+        ///     Generates the sequence.
+        /// </summary>
+        /// <param name="sequence">The sequence.</param>
+        public override void GenerateSequence(IInlineSequence sequence)
+        {
+            if (ViewModel.Parameter is Switch @switch)
+                GenerateSwitchSequence(@switch, sequence);
+            else if (ViewModel.Parameter is Positional positional)
+                GeneratePositionalSequence(positional, sequence);
         }
 
         /// <summary>
@@ -132,15 +132,15 @@ namespace ArgParser.Styles.Alba
         public override string GeneratedText => StringBuilder.ToString();
 
         /// <summary>
-        ///     Gets or sets the view model.
-        /// </summary>
-        /// <value>The view model.</value>
-        public ParameterViewModel ViewModel { get; set; }
-
-        /// <summary>
         ///     Gets or sets the string builder.
         /// </summary>
         /// <value>The string builder.</value>
         public StringBuilder StringBuilder { get; set; } = new StringBuilder();
+
+        /// <summary>
+        ///     Gets or sets the view model.
+        /// </summary>
+        /// <value>The view model.</value>
+        public ParameterViewModel ViewModel { get; set; }
     }
 }

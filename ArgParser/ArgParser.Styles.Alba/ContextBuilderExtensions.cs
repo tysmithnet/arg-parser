@@ -97,7 +97,7 @@ namespace ArgParser.Styles.Alba
         /// <returns>AlbaContext.</returns>
         public static AlbaContext ToAlbaContext(this IContext context)
         {
-            if(!AlbaContexts.ContainsKey(context))
+            if (!AlbaContexts.ContainsKey(context))
                 AlbaContexts[context] = new AlbaContext(context);
             return AlbaContexts[context];
         }

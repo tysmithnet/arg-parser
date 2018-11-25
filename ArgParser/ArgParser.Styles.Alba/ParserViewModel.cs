@@ -51,6 +51,8 @@ namespace ArgParser.Styles.Alba
         /// <value>The display string.</value>
         public string DisplayString => Alias.IsNullOrWhiteSpace() ? Parser.Id : Alias;
 
+        public LineThickness LineThickness { get; set; } = new LineThickness(LineWidth.Single, LineWidth.Single);
+
         /// <summary>
         ///     Gets or sets the parser.
         /// </summary>
@@ -62,7 +64,5 @@ namespace ArgParser.Styles.Alba
         /// </summary>
         /// <value>The theme.</value>
         public Theme Theme { get; protected internal set; }
-
-        public LineThickness LineThickness { get; set; } = new LineThickness(LineWidth.Single, LineWidth.Single);
     }
 }

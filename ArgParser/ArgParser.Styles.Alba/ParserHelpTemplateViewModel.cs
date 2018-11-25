@@ -46,18 +46,18 @@ namespace ArgParser.Styles.Alba
             ParameterVms = parameterVms ?? throw new ArgumentNullException(nameof(parameterVms));
             SubCommands = subCommands ?? throw new ArgumentNullException(nameof(subCommands));
         }
-        
-        /// <summary>
-        ///     Gets the line thickness.
-        /// </summary>
-        /// <value>The line thickness.</value>
-        public LineThickness LineThickness => new LineThickness(LineWidth.Single, LineWidth.Single);
 
         /// <summary>
         ///     Gets or sets the chain.
         /// </summary>
         /// <value>The chain.</value>
         public IList<ParserViewModel> Chain { get; protected internal set; }
+
+        /// <summary>
+        ///     Gets the line thickness.
+        /// </summary>
+        /// <value>The line thickness.</value>
+        public LineThickness LineThickness => new LineThickness(LineWidth.Single, LineWidth.Single);
 
         /// <summary>
         ///     Gets or sets the parameter VMS.

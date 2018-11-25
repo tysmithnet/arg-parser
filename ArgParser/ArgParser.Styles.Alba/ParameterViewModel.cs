@@ -34,6 +34,12 @@ namespace ArgParser.Styles.Alba
         }
 
         /// <summary>
+        ///     Gets or sets the line thickness.
+        /// </summary>
+        /// <value>The line thickness.</value>
+        public LineThickness LineThickness { get; set; } = new LineThickness(LineWidth.Single, LineWidth.Single);
+
+        /// <summary>
         ///     Gets or sets the parameter.
         /// </summary>
         /// <value>The parameter.</value>
@@ -58,11 +64,5 @@ namespace ArgParser.Styles.Alba
         /// </summary>
         /// <value>The theme.</value>
         public Theme Theme { get; protected internal set; }
-
-        /// <summary>
-        ///     Gets or sets the line thickness.
-        /// </summary>
-        /// <value>The line thickness.</value>
-        public LineThickness LineThickness { get; set; } = new LineThickness(LineWidth.Single, LineWidth.Single);
     }
 }

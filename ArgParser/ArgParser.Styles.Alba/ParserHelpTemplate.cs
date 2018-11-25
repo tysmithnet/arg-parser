@@ -72,7 +72,6 @@ namespace ArgParser.Styles.Alba
                     Alias = context.AliasRepository.HasAlias(x.Id) ? context.AliasRepository.GetAlias(x.Id) : null
                 }).ToList();
 
-
             var parameterViewModels = parserViewModels
                 .SelectMany(x => x.Parser.Parameters.Select(y => new ParameterViewModel(y, x.Theme))).ToList();
 
@@ -82,7 +81,9 @@ namespace ArgParser.Styles.Alba
                 var theme = albaContext.ThemeRepository.Get(x);
                 return new ParserViewModel(parser, theme)
                 {
-                    Alias = albaContext.AliasRepository.HasAlias(parser.Id) ? albaContext.AliasRepository.GetAlias(parser.Id) : parser.Id
+                    Alias = albaContext.AliasRepository.HasAlias(parser.Id)
+                        ? albaContext.AliasRepository.GetAlias(parser.Id)
+                        : parser.Id
                 };
             }).ToList();
 

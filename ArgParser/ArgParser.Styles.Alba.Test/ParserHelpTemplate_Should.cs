@@ -19,7 +19,8 @@ namespace ArgParser.Styles.Alba.Test
             var parserVm = new ParserViewModel(parser, Theme.Default);
             var template = new ParserHelpTemplate(builder.Context, "util")
             {
-                ViewModel = new ParserHelpTemplateViewModel(parserVm.ToEnumerableOfOne().ToList(), new List<ParameterViewModel>(), new List<ParserViewModel>()) // todo: move to overloaded constructor
+                ViewModel = new ParserHelpTemplateViewModel(parserVm.ToEnumerableOfOne().ToList(),
+                    new List<ParameterViewModel>(), new List<ParserViewModel>()) // todo: move to overloaded constructor
             };
 
             // act

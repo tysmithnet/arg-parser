@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Alba.CsConsoleFormat;
 using Figgle;
 using FluentAssertions;
@@ -16,7 +12,7 @@ namespace ArgParser.Styles.Alba.Test
         public void Render_Figlet_Font()
         {
             // arrange
-            var div = new BannerArtDiv()
+            var div = new BannerArtDiv
             {
                 Font = FiggleFonts.Poison,
                 Text = "hi"

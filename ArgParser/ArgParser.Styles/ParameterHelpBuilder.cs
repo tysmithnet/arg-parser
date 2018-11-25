@@ -25,7 +25,7 @@ namespace ArgParser.Styles
         ///     Initializes a new instance of the <see cref="ParameterHelpBuilder" /> class.
         /// </summary>
         /// <param name="parameter">The parameter.</param>
-        public  ParameterHelpBuilder(Parameter parameter)
+        public ParameterHelpBuilder(Parameter parameter)
         {
             Parameter = parameter.ThrowIfArgumentNull(nameof(parameter));
         }

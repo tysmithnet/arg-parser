@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ArgParser.Core;
+﻿using ArgParser.Core;
 using ArgParser.Testing.Common;
-using FluentAssertions;
 using Xunit;
 
 namespace ArgParser.Styles.Test

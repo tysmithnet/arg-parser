@@ -27,18 +27,6 @@ namespace ArgParser.Styles.Alba
     public class BannerArtDiv : BlockElement
     {
         /// <summary>
-        ///     Gets or sets the text.
-        /// </summary>
-        /// <value>The text.</value>
-        public string Text { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the font.
-        /// </summary>
-        /// <value>The font.</value>
-        public FiggleFont Font { get; set; } = FiggleFonts.Basic;
-
-        /// <summary>
         ///     Generates the visual elements.
         /// </summary>
         /// <returns>IEnumerable&lt;Element&gt;.</returns>
@@ -50,5 +38,17 @@ namespace ArgParser.Styles.Alba
                 Color = Color
             }.ToEnumerableOfOne();
         }
+
+        /// <summary>
+        ///     Gets or sets the font.
+        /// </summary>
+        /// <value>The font.</value>
+        public FiggleFont Font { get; set; } = FiggleFonts.Basic;
+
+        /// <summary>
+        ///     Gets or sets the text.
+        /// </summary>
+        /// <value>The text.</value>
+        public string Text { get; set; }
     }
 }
