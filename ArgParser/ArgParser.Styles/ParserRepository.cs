@@ -50,7 +50,7 @@ namespace ArgParser.Styles
         /// <exception cref="ArgumentException"></exception>
         public virtual Parser<T> Create<T>(string id)
         {
-            if (Parsers.ContainsKey(id)) // todo: duplicate code
+            if (Parsers.ContainsKey(id))
                 throw new ArgumentException($"Parser already exists with id={id}");
             var parser = new Parser<T>(id);
             if (FirstAdded == null)
@@ -58,7 +58,7 @@ namespace ArgParser.Styles
             Parsers.Add(id, parser);
             return parser;
         }
-
+        
         /// <summary>
         ///     Gets the parser with the specified id
         /// </summary>

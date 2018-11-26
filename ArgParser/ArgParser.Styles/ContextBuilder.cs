@@ -25,7 +25,6 @@ namespace ArgParser.Styles
         /// <summary>
         ///     Initializes a new instance of the <see cref="ContextBuilder" /> class.
         /// </summary>
-        /// <param name="rootParserId">The root parser identifier.</param>
         public ContextBuilder()
         {
             Context = new Context
@@ -52,12 +51,10 @@ namespace ArgParser.Styles
         {
             var parser = ParserRepository.Create(id);
             HierarchyRepository.AddParser(id);
-            if (helpSetupCallback != null)
-            {
-                var builder = new ParserHelpBuilder(parser);
-                helpSetupCallback(builder);
-                parser.Help = builder.Build();
-            }
+            if (helpSetupCallback == null) return new ParserBuilder(this, parser);
+            var builder = new ParserHelpBuilder(parser);
+            helpSetupCallback(builder);
+            parser.Help = builder.Build();
 
             return new ParserBuilder(this, parser);
         }
@@ -74,12 +71,10 @@ namespace ArgParser.Styles
             var parser = ParserRepository.Create<T>(id);
             HierarchyRepository.AddParser(id);
 
-            if (helpSetupCallback != null)
-            {
-                var builder = new ParserHelpBuilder(parser);
-                helpSetupCallback(builder);
-                parser.Help = builder.Build();
-            }
+            if (helpSetupCallback == null) return new ParserBuilder<T>(this, parser);
+            var builder = new ParserHelpBuilder(parser);
+            helpSetupCallback(builder);
+            parser.Help = builder.Build();
 
             return new ParserBuilder<T>(this, parser);
         }

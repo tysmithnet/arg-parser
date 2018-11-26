@@ -4,7 +4,7 @@
 // Created          : 11-17-2018
 //
 // Last Modified By : @tysmithnet
-// Last Modified On : 11-19-2018
+// Last Modified On : 11-25-2018
 // ***********************************************************************
 // <copyright file="ParserViewModel.cs" company="ArgParser.Styles.Alba">
 //     Copyright (c) . All rights reserved.
@@ -51,6 +51,10 @@ namespace ArgParser.Styles.Alba
         /// <value>The display string.</value>
         public string DisplayString => Alias.IsNullOrWhiteSpace() ? Parser.Id : Alias;
 
+        /// <summary>
+        ///     Gets or sets the line thickness used in grid rendering
+        /// </summary>
+        /// <value>The line thickness.</value>
         public LineThickness LineThickness { get; set; } = new LineThickness(LineWidth.Single, LineWidth.Single);
 
         /// <summary>

@@ -31,7 +31,7 @@ namespace ArgParser.Core
         public static IEnumerable<Parser> PathToRoot(this IContext context, string parserId)
         {
             var ids = parserId.ToEnumerableOfOne().Concat(context.HierarchyRepository.GetAncestors(parserId));
-            return ids.Select(i => context.ParserRepository.Get(i)); // todo: error checking
+            return ids.Select(i => context.ParserRepository.Get(i));
         }
 
         /// <summary>

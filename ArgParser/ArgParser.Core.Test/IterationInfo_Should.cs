@@ -78,5 +78,20 @@ namespace ArgParser.Core.Test
             // assert
             info.Current.Should().Be("a");
         }
+
+        [Fact]
+        public void Throw_If_Given_Bad_Values()
+        {
+            // arrange
+            Action mightThrow0 = () => new IterationInfo(null);
+            Action mightThrow1 = () => new IterationInfo("-h -b".Split(' '), -1);
+            Action mightThrow2 = () => new IterationInfo("-h -b".Split(' '), 3);
+
+            // act
+            // assert
+            mightThrow0.Should().Throw<ArgumentNullException>();
+            mightThrow1.Should().Throw<ArgumentOutOfRangeException>();
+            mightThrow2.Should().Throw<ArgumentOutOfRangeException>();
+        }
     }
 }

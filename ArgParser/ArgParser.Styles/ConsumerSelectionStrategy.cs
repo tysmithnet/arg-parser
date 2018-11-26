@@ -49,7 +49,7 @@ namespace ArgParser.Styles
                 foundResult =
                     result.ConsumptionResults.FirstOrDefault(r =>
                         result.Chain.Contains(r.ConsumingParameter
-                            .Parser)); // todo: why first? why not by most args or least args consumed
+                            .Parser)); 
 
             if (foundResult == null)
                 throw new ForwardProgressException(result.Info);

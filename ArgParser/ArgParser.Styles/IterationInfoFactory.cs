@@ -12,6 +12,8 @@
 // <summary></summary>
 // ***********************************************************************
 
+using System;
+using System.Linq;
 using ArgParser.Core;
 
 namespace ArgParser.Styles
@@ -40,7 +42,7 @@ namespace ArgParser.Styles
         {
             var consumed = request.ChainIdentificationResult.ConsumedArgs;
             return new IterationInfo(request.MutatedArgs,
-                consumed.Length); // todo: only consume those that still remain in mutated
+                consumed.Length);
         }
 
         /// <summary>

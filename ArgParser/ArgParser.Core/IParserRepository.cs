@@ -54,7 +54,7 @@ namespace ArgParser.Core
         /// <summary>
         ///     Gets all parser
         /// </summary>
-        /// <returns>All parser/returns>
+        /// <returns>All parser</returns>
         IEnumerable<Parser> GetAll();
     }
 }

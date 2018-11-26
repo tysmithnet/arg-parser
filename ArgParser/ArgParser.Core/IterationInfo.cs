@@ -34,7 +34,11 @@ namespace ArgParser.Core
         public IterationInfo(string[] args, int index = 0)
         {
             Args = args.ThrowIfArgumentNull(nameof(args));
-            Index = index; // todo: bounds check
+            if(index < 0)
+                throw new ArgumentOutOfRangeException($"Cannot use an index value of {index}, it must be non-negative");
+            if(index > args.Length)
+                throw new ArgumentOutOfRangeException($"Cannot use an index value of {index}, it must be <= the number of args which has a length of {args.Length}");
+            Index = index; 
         }
 
         /// <summary>
