@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using ArgParser.Core;
 using ArgParser.Styles.Alba;
 using ArgParser.Testing.Common;
+using Figgle;
 using Newtonsoft.Json;
 
 namespace ArgParser.TestApp
@@ -56,28 +57,28 @@ namespace ArgParser.TestApp
                         return first?.Parser.Id;
                     })
                     .SetTheme("util",
-                        Theme.Create(ConsoleColor.Green, ConsoleColor.DarkGreen, ConsoleColor.Yellow, ConsoleColor.Red,
+                        Theme.Create(FiggleFonts.Banner3D,ConsoleColor.Green, ConsoleColor.DarkGreen, ConsoleColor.Yellow, ConsoleColor.Red,
                             ConsoleColor.Yellow))
                     .SetTheme("clipboard",
-                        Theme.Create(ConsoleColor.Yellow, ConsoleColor.DarkYellow, ConsoleColor.Gray, ConsoleColor.Red,
+                        Theme.Create(FiggleFonts.Banner3D, ConsoleColor.Yellow, ConsoleColor.DarkYellow, ConsoleColor.Gray, ConsoleColor.Red,
                             ConsoleColor.Gray))
                     .SetTheme("sort",
-                        Theme.Create(ConsoleColor.Cyan, ConsoleColor.DarkCyan, ConsoleColor.Green, ConsoleColor.Red,
+                        Theme.Create(FiggleFonts.Banner3D, ConsoleColor.Cyan, ConsoleColor.DarkCyan, ConsoleColor.Green, ConsoleColor.Red,
                             ConsoleColor.Green))
                     .SetTheme("zip",
-                        Theme.Create(ConsoleColor.Blue, ConsoleColor.DarkBlue, ConsoleColor.Cyan, ConsoleColor.Red,
+                        Theme.Create(FiggleFonts.Banner3D, ConsoleColor.Blue, ConsoleColor.DarkBlue, ConsoleColor.Cyan, ConsoleColor.Red,
                             ConsoleColor.Cyan))
                     .SetTheme("convert",
-                        Theme.Create(ConsoleColor.Red, ConsoleColor.DarkRed, ConsoleColor.Magenta, ConsoleColor.Red,
+                        Theme.Create(FiggleFonts.Banner3D, ConsoleColor.Red, ConsoleColor.DarkRed, ConsoleColor.Magenta, ConsoleColor.Red,
                             ConsoleColor.Magenta))
                     .SetTheme("firewall",
-                        Theme.Create(ConsoleColor.Blue, ConsoleColor.Yellow, ConsoleColor.DarkYellow, ConsoleColor.Red,
+                        Theme.Create(FiggleFonts.FireFontK, ConsoleColor.Blue, ConsoleColor.Yellow, ConsoleColor.DarkYellow, ConsoleColor.Red,
                             ConsoleColor.DarkYellow))
                     .SetTheme("block",
-                        Theme.Create(ConsoleColor.Green, ConsoleColor.DarkBlue, ConsoleColor.Yellow, ConsoleColor.Red,
+                        Theme.Create(FiggleFonts.Banner3D, ConsoleColor.Green, ConsoleColor.DarkBlue, ConsoleColor.Yellow, ConsoleColor.Red,
                             ConsoleColor.Yellow))
                     .SetTheme("unblock",
-                        Theme.Create(ConsoleColor.White, ConsoleColor.Cyan, ConsoleColor.DarkCyan, ConsoleColor.Red,
+                        Theme.Create(FiggleFonts.Banner3D, ConsoleColor.White, ConsoleColor.Cyan, ConsoleColor.DarkCyan, ConsoleColor.Red,
                             ConsoleColor.DarkCyan));
 
                 Console.Write($"$ util ");

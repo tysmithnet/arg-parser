@@ -4,7 +4,7 @@
 // Created          : 11-04-2018
 //
 // Last Modified By : @tysmithnet
-// Last Modified On : 11-10-2018
+// Last Modified On : 11-25-2018
 // ***********************************************************************
 // <copyright file="IParserRepository.cs" company="ArgParser.Core">
 //     Copyright (c) . All rights reserved.
@@ -21,6 +21,13 @@ namespace ArgParser.Core
     /// </summary>
     public interface IParserRepository
     {
+        /// <summary>
+        ///     Determines whether there is a parser registered with a specific id
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns><c>true</c> if there is a parser registered with a specific id otherwise, <c>false</c>.</returns>
+        bool Contains(string id);
+
         /// <summary>
         ///     Creates a parser with the specified id
         /// </summary>

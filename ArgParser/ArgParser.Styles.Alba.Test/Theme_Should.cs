@@ -1,4 +1,5 @@
 ﻿using System;
+using Figgle;
 using FluentAssertions;
 using Xunit;
 
@@ -10,7 +11,7 @@ namespace ArgParser.Styles.Alba.Test
         public void Allow_New_Themes_To_Be_Created()
         {
             // arrange
-            var theme = Theme.Create(ConsoleColor.Red, ConsoleColor.Yellow, ConsoleColor.Green, ConsoleColor.Blue,
+            var theme = Theme.Create(FiggleFonts.Reverse, ConsoleColor.Red, ConsoleColor.Yellow, ConsoleColor.Green, ConsoleColor.Blue,
                 ConsoleColor.Magenta);
 
             // act
@@ -26,7 +27,7 @@ namespace ArgParser.Styles.Alba.Test
         public void Allow_Values_To_Be_Updated()
         {
             // arrange
-            var theme = Theme.Create(ConsoleColor.Red, ConsoleColor.Yellow, ConsoleColor.Green, ConsoleColor.Blue,
+            var theme = Theme.Create(FiggleFonts.Reverse, ConsoleColor.Red, ConsoleColor.Yellow, ConsoleColor.Green, ConsoleColor.Blue,
                 ConsoleColor.Magenta);
             theme.DefaultTextColor = ConsoleColor.White;
             theme.SecondaryTextColor = ConsoleColor.White;

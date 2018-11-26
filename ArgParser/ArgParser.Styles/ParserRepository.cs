@@ -4,7 +4,7 @@
 // Created          : 11-12-2018
 //
 // Last Modified By : @tysmithnet
-// Last Modified On : 11-12-2018
+// Last Modified On : 11-25-2018
 // ***********************************************************************
 // <copyright file="ParserRepository.cs" company="ArgParser.Styles">
 //     Copyright (c) . All rights reserved.
@@ -25,11 +25,18 @@ namespace ArgParser.Styles
     public class ParserRepository : IParserRepository
     {
         /// <summary>
+        ///     Determines whether there is a parser registered with a specific id
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns><c>true</c> if there is a parser registered with a specific id otherwise, <c>false</c>.</returns>
+        public bool Contains(string id) => Parsers.ContainsKey(id);
+
+        /// <summary>
         ///     Creates a parser with the specified id
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>The created parser</returns>
-        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentException">Parser already exists with id={id}</exception>
         public virtual Parser Create(string id)
         {
             if (Parsers.ContainsKey(id))
@@ -47,7 +54,7 @@ namespace ArgParser.Styles
         /// <typeparam name="T">The type of the instance the parser can create</typeparam>
         /// <param name="id">The identifier.</param>
         /// <returns>The created parser</returns>
-        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentException">Parser already exists with id={id}</exception>
         public virtual Parser<T> Create<T>(string id)
         {
             if (Parsers.ContainsKey(id))
@@ -58,13 +65,13 @@ namespace ArgParser.Styles
             Parsers.Add(id, parser);
             return parser;
         }
-        
+
         /// <summary>
         ///     Gets the parser with the specified id
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>Existing Parser.</returns>
-        /// <exception cref="KeyNotFoundException"></exception>
+        /// <exception cref="KeyNotFoundException">Unable to find parser with id={id}</exception>
         public virtual Parser Get(string id)
         {
             if (!Parsers.ContainsKey(id))

@@ -4,7 +4,7 @@
 // Created          : 11-17-2018
 //
 // Last Modified By : @tysmithnet
-// Last Modified On : 11-18-2018
+// Last Modified On : 11-25-2018
 // ***********************************************************************
 // <copyright file="ThemeRepository.cs" company="ArgParser.Styles.Alba">
 //     Copyright (c) . All rights reserved.
@@ -22,6 +22,16 @@ namespace ArgParser.Styles.Alba
     /// <seealso cref="ArgParser.Styles.Alba.IThemeRepository" />
     public class ThemeRepository : IThemeRepository
     {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="ThemeRepository" /> class.
+        /// </summary>
+        /// <param name="themes">The themes.</param>
+        public ThemeRepository(Dictionary<string, Theme> themes = null)
+        {
+            if (themes == null) return;
+            Themes = themes;
+        }
+
         /// <summary>
         ///     Gets the specified parser identifier.
         /// </summary>

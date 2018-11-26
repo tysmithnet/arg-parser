@@ -86,7 +86,8 @@ namespace ArgParser.Styles.Alba
             var parser = builder.Context.ParserRepository.Get(parserId);
             if (!ParserThemes.ContainsKey(parser))
                 ParserThemes.Add(parser, theme);
-            ParserThemes[parser] = theme;
+            else
+                ParserThemes[parser] = theme;
             return builder;
         }
 
@@ -97,8 +98,16 @@ namespace ArgParser.Styles.Alba
         /// <returns>AlbaContext.</returns>
         public static AlbaContext ToAlbaContext(this IContext context)
         {
+            var allParsers = context.ParserRepository.GetAll().ToList();
+            var allParserThemes = ParserThemes.Where(t => allParsers.Contains(t.Key));
             if (!AlbaContexts.ContainsKey(context))
-                AlbaContexts[context] = new AlbaContext(context);
+                AlbaContexts[context] = new AlbaContext(context)
+                {
+                    ThemeRepository = new ThemeRepository()
+                    {
+                        Themes = allParserThemes.ToDictionary(x => x.Key.Id, x => x.Value)
+                    }
+                };
             return AlbaContexts[context];
         }
 
@@ -112,7 +121,8 @@ namespace ArgParser.Styles.Alba
         {
             if (!ParserThemes.ContainsKey(builder.Parser))
                 ParserThemes.Add(builder.Parser, theme);
-            ParserThemes[builder.Parser] = theme;
+            else
+                ParserThemes[builder.Parser] = theme;
             return builder;
         }
 

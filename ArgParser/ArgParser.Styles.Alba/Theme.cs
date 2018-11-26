@@ -47,29 +47,31 @@ namespace ArgParser.Styles.Alba
         /// <summary>
         ///     Creates the specified default text.
         /// </summary>
+        /// <param name="bannerFont"></param>
         /// <param name="defaultText">The default text.</param>
         /// <param name="secondaryText">The secondary text.</param>
         /// <param name="codeText">The code text.</param>
         /// <param name="requiredColor">Color of the required.</param>
         /// <param name="borderColor">Color of the border.</param>
         /// <returns>Theme.</returns>
-        public static Theme Create(ConsoleColor defaultText = ConsoleColor.White,
+        public static Theme Create(FiggleFont bannerFont, ConsoleColor defaultText = ConsoleColor.White,
             ConsoleColor secondaryText = ConsoleColor.White, ConsoleColor codeText = ConsoleColor.White,
             ConsoleColor requiredColor = ConsoleColor.White, ConsoleColor borderColor = ConsoleColor.White) =>
             new DefaultTheme
             {
+                BannerFont = bannerFont,
                 DefaultTextColor = defaultText,
                 SecondaryTextColor = secondaryText,
                 CodeColor = codeText,
                 RequiredColor = requiredColor,
-                BorderColor = borderColor
+                BorderColor = borderColor,
             };
 
         /// <summary>
         ///     Gets or sets the banner font.
         /// </summary>
         /// <value>The banner font.</value>
-        public virtual FiggleFont BannerFont { get; protected internal set; } = FiggleFonts.Poison;
+        public virtual FiggleFont BannerFont { get; protected internal set; }
 
         /// <summary>
         ///     Gets or sets the color of the border.
