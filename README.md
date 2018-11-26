@@ -1,6 +1,6 @@
 # ArgParser
 Flexible argument parsing library and help screen generator
-![alt text](assets/demo.gif "Mock program example")
+![demo](https://i.imgur.com/NgWFpfS.gif "Mock program example")
 
 ### Why?
 Most existing libraries in this space do so using attributes and reflection. I find this approach to be restrictive and not conducive to extension. Extension is important because there a seemingly infinite amount of styles for how args should be interpretted.
