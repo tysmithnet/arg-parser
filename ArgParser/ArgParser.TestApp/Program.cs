@@ -57,10 +57,10 @@ namespace ArgParser.TestApp
                         return first?.Parser.Id;
                     })
                     .SetTheme("util",
-                        Theme.Create(FiggleFonts.Banner3D,ConsoleColor.Green, ConsoleColor.DarkGreen, ConsoleColor.Yellow, ConsoleColor.Red,
+                        Theme.Create(FiggleFonts.Doom, ConsoleColor.Green, ConsoleColor.DarkGreen, ConsoleColor.Yellow, ConsoleColor.Red,
                             ConsoleColor.Yellow))
                     .SetTheme("clipboard",
-                        Theme.Create(FiggleFonts.Banner3D, ConsoleColor.Yellow, ConsoleColor.DarkYellow, ConsoleColor.Gray, ConsoleColor.Red,
+                        Theme.Create(FiggleFonts.Alpha, ConsoleColor.Yellow, ConsoleColor.DarkYellow, ConsoleColor.Gray, ConsoleColor.Red,
                             ConsoleColor.Gray))
                     .SetTheme("sort",
                         Theme.Create(FiggleFonts.Banner3D, ConsoleColor.Cyan, ConsoleColor.DarkCyan, ConsoleColor.Green, ConsoleColor.Red,
@@ -72,13 +72,13 @@ namespace ArgParser.TestApp
                         Theme.Create(FiggleFonts.Banner3D, ConsoleColor.Red, ConsoleColor.DarkRed, ConsoleColor.Magenta, ConsoleColor.Red,
                             ConsoleColor.Magenta))
                     .SetTheme("firewall",
-                        Theme.Create(FiggleFonts.FireFontK, ConsoleColor.Blue, ConsoleColor.Yellow, ConsoleColor.DarkYellow, ConsoleColor.Red,
+                        Theme.Create(FiggleFonts.FireFontK, ConsoleColor.Red, ConsoleColor.White, ConsoleColor.Yellow, ConsoleColor.DarkRed,
                             ConsoleColor.DarkYellow))
                     .SetTheme("block",
                         Theme.Create(FiggleFonts.Banner3D, ConsoleColor.Green, ConsoleColor.DarkBlue, ConsoleColor.Yellow, ConsoleColor.Red,
                             ConsoleColor.Yellow))
                     .SetTheme("unblock",
-                        Theme.Create(FiggleFonts.Banner3D, ConsoleColor.White, ConsoleColor.Cyan, ConsoleColor.DarkCyan, ConsoleColor.Red,
+                        Theme.Create(FiggleFonts.Ghost, ConsoleColor.White, ConsoleColor.Cyan, ConsoleColor.DarkCyan, ConsoleColor.Red,
                             ConsoleColor.DarkCyan));
 
                 Console.Write($"$ util ");
