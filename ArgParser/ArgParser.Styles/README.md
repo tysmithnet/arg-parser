@@ -13,9 +13,3 @@ The default style is my biased opinion as to what is the most middle-of-the-road
 - Parsers are joined together in parent-child relationships and can cooperate to parse args into instances in an inheritance hierarchy
 - Boolean switches can be combined and one optional single or values switch can be appended
 
-
-
-# Glossary
-|Term|Definition|
-|-|-|
-|Style|A collection of constructs and patterns that gives a certain kind of user experience for argument parsing|

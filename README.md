@@ -18,6 +18,30 @@ Most existing libraries in this space do so using attributes and reflection. I f
 
 It needs to be fairly trivial to create parsers for some of the most commonly used commands: git, find, dotnet along with similar help generation.
 
+### Trivial Example
+``` C#
+    new ContextBuilder()
+    .AddParser<UtilOptions>("util", help =>
+    {
+        help
+            .SetName("utility")
+            .SetShortDescription("General utility tool")
+    })
+    .WithFactoryFunction(() => new UtilOptions())
+    .WithSingleValueSwitch('v', "value", (o, s) => o.SomeValue = Convert.ToInt32(s), help =>
+    {
+        help
+            .SetName("Some Value")
+            .SetDefaultValue("1")
+            .SetShortDescription("Some value for something");
+    })
+    .Finish
+    .Parse(new[] {"-v", "10"})
+    .When<UtilOptions>(o => {
+        // do something
+    })
+```
+
 ### Badges
 |develop|master|
 |-|-|
