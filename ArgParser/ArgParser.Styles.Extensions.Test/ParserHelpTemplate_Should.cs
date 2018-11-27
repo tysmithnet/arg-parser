@@ -14,7 +14,7 @@ namespace ArgParser.Styles.Extensions.Test
         {
             // arrange
             var builder = DefaultBuilder.CreateDefaultBuilder()
-                .RegisterAlba();
+                .RegisterExtensions();
             var parser = builder.Context.ParserRepository.Get("util");
             var parserVm = new ParserViewModel(parser, Theme.Default);
             var template = new ParserHelpTemplate(builder.Context, "util")

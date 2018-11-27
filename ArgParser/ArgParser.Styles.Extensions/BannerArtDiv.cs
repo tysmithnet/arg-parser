@@ -26,6 +26,8 @@ namespace ArgParser.Styles.Extensions
     /// <seealso cref="Alba.CsConsoleFormat.BlockElement" />
     public class BannerArtDiv : BlockElement
     {
+        private FiggleFont _font;
+
         /// <summary>
         ///     Generates the visual elements.
         /// </summary>
@@ -43,7 +45,11 @@ namespace ArgParser.Styles.Extensions
         ///     Gets or sets the font.
         /// </summary>
         /// <value>The font.</value>
-        public FiggleFont Font { get; set; } = FiggleFonts.Basic;
+        public FiggleFont Font
+        {
+            get => _font;
+            set => _font = value ?? FiggleFonts.SlantSmall;
+        }
 
         /// <summary>
         ///     Gets or sets the text.

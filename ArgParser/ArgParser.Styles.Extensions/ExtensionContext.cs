@@ -1,32 +1,19 @@
-﻿// ***********************************************************************
-// Assembly         : ArgParser.Styles.Extensions
-// Author           : @tysmithnet
-// Created          : 11-17-2018
-//
-// Last Modified By : @tysmithnet
-// Last Modified On : 11-18-2018
-// ***********************************************************************
-// <copyright file="AlbaContext.cs" company="ArgParser.Styles.Extensions">
-//     Copyright (c) . All rights reserved.
-// </copyright>
-// <summary></summary>
-// ***********************************************************************
-
+﻿
 using ArgParser.Core;
 
 namespace ArgParser.Styles.Extensions
 {
     /// <summary>
-    ///     IContext decorator for Alba integrations
+    ///     IContext decorator for Extension integrations
     /// </summary>
     /// <seealso cref="ArgParser.Core.IContext" />
-    public class AlbaContext : IContext
+    public class ExtensionContext : IContext
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="AlbaContext" /> class.
+        ///     Initializes a new instance of the <see cref="ExtensionContext" /> class.
         /// </summary>
         /// <param name="context">The context.</param>
-        public AlbaContext(IContext context)
+        public ExtensionContext(IContext context)
         {
             Context = context.ThrowIfArgumentNull(nameof(context));
         }

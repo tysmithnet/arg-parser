@@ -3,7 +3,7 @@ using Xunit;
 
 namespace ArgParser.Styles.Extensions.Test
 {
-    public class AlbaContext_Should
+    public class ExtensionContext_Should
     {
         [Fact]
         public void Proxy_For_The_Inner_Context()
@@ -13,7 +13,7 @@ namespace ArgParser.Styles.Extensions.Test
                 .AddParser("a")
                 .WithAlias("1")
                 .Finish;
-            var context = new AlbaContext(builder.Context);
+            var context = new ExtensionContext(builder.Context);
 
             // act
             // assert

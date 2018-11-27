@@ -28,10 +28,10 @@ namespace ArgParser.Styles.Extensions
     public static class ContextBuilderExtensions
     {
         /// <summary>
-        ///     The alba contexts
+        ///     The extension contexts
         /// </summary>
-        internal static readonly Dictionary<IContext, AlbaContext> AlbaContexts =
-            new Dictionary<IContext, AlbaContext>();
+        internal static readonly Dictionary<IContext, ExtensionContext> ExtensionContexts =
+            new Dictionary<IContext, ExtensionContext>();
 
         /// <summary>
         ///     The parser themes
@@ -50,9 +50,9 @@ namespace ArgParser.Styles.Extensions
         {
             builder.ParseStrategyCreated += (sender, args) =>
             {
-                var albaContext = builder.Context.ToAlbaContext();
-                ParserThemes.ToList().ForEach(kvp => albaContext.ThemeRepository.SetTheme(kvp.Key.Id, kvp.Value));
-                args.ParseStrategy.Context = albaContext;
+                var extensionContext = builder.Context.ToExtensionContext();
+                ParserThemes.ToList().ForEach(kvp => extensionContext.ThemeRepository.SetTheme(kvp.Key.Id, kvp.Value));
+                args.ParseStrategy.Context = extensionContext;
                 var factory = new HelpRequestedParseResultFactory(args.ParseStrategy.ParseResultFactory, callback,
                     builder.Context);
                 if (setupCallback != null)
@@ -64,13 +64,13 @@ namespace ArgParser.Styles.Extensions
         }
 
         /// <summary>
-        ///     Registers alba.
+        ///     Registers extension modules.
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <returns>ContextBuilder.</returns>
-        public static ContextBuilder RegisterAlba(this ContextBuilder builder)
+        public static ContextBuilder RegisterExtensions(this ContextBuilder builder)
         {
-            AlbaContexts.Add(builder.Context, new AlbaContext(builder.Context));
+            ExtensionContexts.Add(builder.Context, new ExtensionContext(builder.Context));
             return builder;
         }
 
@@ -92,23 +92,23 @@ namespace ArgParser.Styles.Extensions
         }
 
         /// <summary>
-        ///     Create or get the AlbaContext associated with the provided context
+        ///     Create or get the extension context associated with the provided context
         /// </summary>
         /// <param name="context">The context.</param>
-        /// <returns>AlbaContext.</returns>
-        public static AlbaContext ToAlbaContext(this IContext context)
+        /// <returns>The extension context associated with the provided context.</returns>
+        public static ExtensionContext ToExtensionContext(this IContext context)
         {
             var allParsers = context.ParserRepository.GetAll().ToList();
             var allParserThemes = ParserThemes.Where(t => allParsers.Contains(t.Key));
-            if (!AlbaContexts.ContainsKey(context))
-                AlbaContexts[context] = new AlbaContext(context)
+            if (!ExtensionContexts.ContainsKey(context))
+                ExtensionContexts[context] = new ExtensionContext(context)
                 {
                     ThemeRepository = new ThemeRepository()
                     {
                         Themes = allParserThemes.ToDictionary(x => x.Key.Id, x => x.Value)
                     }
                 };
-            return AlbaContexts[context];
+            return ExtensionContexts[context];
         }
 
         /// <summary>

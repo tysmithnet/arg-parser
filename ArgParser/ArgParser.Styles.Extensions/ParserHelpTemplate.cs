@@ -33,7 +33,7 @@ namespace ArgParser.Styles.Extensions
         /// <param name="parserId">The parser identifier.</param>
         public ParserHelpTemplate(IContext context, string parserId)
         {
-            Context = context.ToAlbaContext();
+            Context = context.ToExtensionContext();
             Parser = context.ParserRepository.Get(parserId);
         }
 
@@ -65,9 +65,9 @@ namespace ArgParser.Styles.Extensions
         /// <returns>ParserHelpTemplateViewModel.</returns>
         public virtual ParserHelpTemplateViewModel CreateViewModel(IContext context)
         {
-            var albaContext = context.ToAlbaContext();
-            var parserViewModels = albaContext.PathToRoot(Parser.Id).Reverse().Select(x =>
-                new ParserViewModel(x, albaContext.ThemeRepository.Get(x.Id))
+            var extensionContext = context.ToExtensionContext();
+            var parserViewModels = extensionContext.PathToRoot(Parser.Id).Reverse().Select(x =>
+                new ParserViewModel(x, extensionContext.ThemeRepository.Get(x.Id))
                 {
                     Alias = context.AliasRepository.HasAlias(x.Id) ? context.AliasRepository.GetAlias(x.Id) : null
                 }).ToList();
@@ -75,14 +75,14 @@ namespace ArgParser.Styles.Extensions
             var parameterViewModels = parserViewModels
                 .SelectMany(x => x.Parser.Parameters.Select(y => new ParameterViewModel(y, x.Theme))).ToList();
 
-            var subCommandViewModels = albaContext.Context.HierarchyRepository.GetChildren(Parser.Id).Select(x =>
+            var subCommandViewModels = extensionContext.Context.HierarchyRepository.GetChildren(Parser.Id).Select(x =>
             {
-                var parser = albaContext.ParserRepository.Get(x);
-                var theme = albaContext.ThemeRepository.Get(x);
+                var parser = extensionContext.ParserRepository.Get(x);
+                var theme = extensionContext.ThemeRepository.Get(x);
                 return new ParserViewModel(parser, theme)
                 {
-                    Alias = albaContext.AliasRepository.HasAlias(parser.Id)
-                        ? albaContext.AliasRepository.GetAlias(parser.Id)
+                    Alias = extensionContext.AliasRepository.HasAlias(parser.Id)
+                        ? extensionContext.AliasRepository.GetAlias(parser.Id)
                         : parser.Id
                 };
             }).ToList();
@@ -94,7 +94,7 @@ namespace ArgParser.Styles.Extensions
         ///     Gets or sets the context.
         /// </summary>
         /// <value>The context.</value>
-        public AlbaContext Context { get; set; }
+        public ExtensionContext Context { get; set; }
 
         /// <summary>
         ///     Gets or sets the parser.

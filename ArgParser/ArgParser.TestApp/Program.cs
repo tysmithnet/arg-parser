@@ -45,7 +45,7 @@ namespace ArgParser.TestApp
             while (true)
             {
                 var builder = DefaultBuilder.CreateDefaultBuilder()
-                    .RegisterAlba()
+                    .RegisterExtensions()
                     .AddAutoHelp((parseResults, exceptions) =>
                     {
                         foreach (var kvp in parseResults)

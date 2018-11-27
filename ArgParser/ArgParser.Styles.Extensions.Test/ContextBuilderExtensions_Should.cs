@@ -18,7 +18,7 @@ namespace ArgParser.Styles.Extensions.Test
             mockRenderer.SetupAllProperties();
             var isHelpRequested = false;
             var builder = DefaultBuilder.CreateDefaultBuilder()
-                .RegisterAlba()
+                .RegisterExtensions()
                 .AddAutoHelp((results, exceptions) =>
                 {
                     isHelpRequested = true;
@@ -44,11 +44,11 @@ namespace ArgParser.Styles.Extensions.Test
         {
             // arrange
             var contextBuilder = new ContextBuilder()
-                .RegisterAlba();
+                .RegisterExtensions();
 
             // act
             // assert
-            ContextBuilderExtensions.AlbaContexts[contextBuilder.Context].Should().BeOfType<AlbaContext>();
+            ContextBuilderExtensions.ExtensionContexts[contextBuilder.Context].Should().BeOfType<ExtensionContext>();
         }
 
         [Fact]
@@ -94,7 +94,7 @@ namespace ArgParser.Styles.Extensions.Test
         {
             // arrange
             var builder = DefaultBuilder.CreateDefaultBuilder();
-            Action mightThrow0 = () => builder.Context.ToAlbaContext();
+            Action mightThrow0 = () => builder.Context.ToExtensionContext();
 
             // act
             // assert
@@ -102,16 +102,16 @@ namespace ArgParser.Styles.Extensions.Test
         }
 
         [Fact]
-        public void Return_The_Same_Alba_Context_When_Asked_Multiple_Times()
+        public void Return_The_Same_Extension_Context_When_Asked_Multiple_Times()
         {
             // arrange
             var builder = DefaultBuilder.CreateDefaultBuilder()
-                .RegisterAlba();
+                .RegisterExtensions();
 
             // act
             // assert
-            var set = new HashSet<AlbaContext>();
-            for (var i = 0; i < 10; i++) set.Add(builder.Context.ToAlbaContext());
+            var set = new HashSet<ExtensionContext>();
+            for (var i = 0; i < 10; i++) set.Add(builder.Context.ToExtensionContext());
 
             set.Should().HaveCount(1);
         }
