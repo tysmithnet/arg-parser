@@ -26,6 +26,8 @@ namespace ArgParser.Styles
     /// <seealso cref="ArgParser.Styles.IRequirable" />
     public abstract class Switch : Parameter, IRequirable
     {
+        public ISwitchStrategy SwitchStrategy { get; set; }
+
         /// <summary>
         ///     Initializes a new instance of the <see cref="Switch" /> class.
         /// </summary>
@@ -41,6 +43,7 @@ namespace ArgParser.Styles
                 throw new ArgumentException($"You must either provide a letter or a word to identify this switch");
             Letter = letter;
             Word = word;
+            SwitchStrategy = new SwitchStrategy(this);
         }
 
         /// <summary>
