@@ -56,9 +56,9 @@
       <Project>{3388c6b5-010d-427e-b0b2-17bed051ae9c}</Project>
       <Name>ArgParser.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ArgParser.Styles.Alba\ArgParser.Styles.Alba.csproj">
-      <Project>{639a31a0-d932-48f6-a062-509e1663f551}</Project>
-      <Name>ArgParser.Styles.Alba</Name>
+    <ProjectReference Include="..\ArgParser.Styles.Extensions\ArgParser.Styles.Extensions.csproj">
+      <Project>{eb8b517c-54a1-40c1-b100-0fe3d86983d3}</Project>
+      <Name>ArgParser.Styles.Extensions</Name>
     </ProjectReference>
     <ProjectReference Include="..\ArgParser.Styles\ArgParser.Styles.csproj">
       <Project>{5151703f-7881-485e-abf5-a52076bd4b5e}</Project>
@@ -70,6 +70,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Figgle">
+      <Version>0.3.0</Version>
+    </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>11.0.2</Version>
     </PackageReference>
