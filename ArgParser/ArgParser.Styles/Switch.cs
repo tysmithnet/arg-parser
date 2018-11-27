@@ -4,7 +4,7 @@
 // Created          : 11-12-2018
 //
 // Last Modified By : @tysmithnet
-// Last Modified On : 11-18-2018
+// Last Modified On : 11-26-2018
 // ***********************************************************************
 // <copyright file="Switch.cs" company="ArgParser.Styles">
 //     Copyright (c) . All rights reserved.
@@ -26,8 +26,6 @@ namespace ArgParser.Styles
     /// <seealso cref="ArgParser.Styles.IRequirable" />
     public abstract class Switch : Parameter, IRequirable
     {
-        public ISwitchStrategy SwitchStrategy { get; set; }
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="Switch" /> class.
         /// </summary>
@@ -43,7 +41,6 @@ namespace ArgParser.Styles
                 throw new ArgumentException($"You must either provide a letter or a word to identify this switch");
             Letter = letter;
             Word = word;
-            SwitchStrategy = new SwitchStrategy(this);
         }
 
         /// <summary>
@@ -67,14 +64,15 @@ namespace ArgParser.Styles
         /// </summary>
         /// <param name="info">The information.</param>
         /// <returns><c>true</c> if [is letter match] [the specified information]; otherwise, <c>false</c>.</returns>
-        public virtual bool IsLetterMatch(IterationInfo info) => Letter.HasValue && info.Current == $"-{Letter}";
+        public virtual bool IsLetterMatch(IterationInfo info) =>
+            Letter.HasValue && info.Current == $"{LetterToken}{Letter}";
 
         /// <summary>
         ///     Determines whether the word matches the info
         /// </summary>
         /// <param name="info">The information.</param>
         /// <returns><c>true</c> if [is word match] [the specified information]; otherwise, <c>false</c>.</returns>
-        public virtual bool IsWordMatch(IterationInfo info) => Word != null && info.Current == $"--{Word}";
+        public virtual bool IsWordMatch(IterationInfo info) => Word != null && info.Current == $"{WordToken}{Word}";
 
         /// <summary>
         ///     Returns a <see cref="System.String" /> that represents this instance.
@@ -83,8 +81,8 @@ namespace ArgParser.Styles
         public override string ToString()
         {
             if (Letter != null && Word != null)
-                return $"-{Letter}, --{Word}";
-            return Letter.HasValue ? $"-{Letter}" : $"--{Word}";
+                return $"{LetterToken}{Letter}, {WordToken}{Word}";
+            return Letter.HasValue ? $"{LetterToken}{Letter}" : $"{WordToken}{Word}";
         }
 
         /// <summary>
@@ -97,12 +95,24 @@ namespace ArgParser.Styles
         ///     Gets or sets the letter.
         /// </summary>
         /// <value>The letter.</value>
-        public char? Letter { get; protected internal set; }
+        public char? Letter { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the letter token.
+        /// </summary>
+        /// <value>The letter token.</value>
+        public string LetterToken { get; set; } = "-";
 
         /// <summary>
         ///     Gets or sets the word.
         /// </summary>
         /// <value>The word.</value>
-        public string Word { get; protected internal set; }
+        public string Word { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the word token.
+        /// </summary>
+        /// <value>The word token.</value>
+        public string WordToken { get; set; } = "--";
     }
 }

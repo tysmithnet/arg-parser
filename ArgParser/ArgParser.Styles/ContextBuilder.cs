@@ -4,7 +4,7 @@
 // Created          : 11-12-2018
 //
 // Last Modified By : @tysmithnet
-// Last Modified On : 11-18-2018
+// Last Modified On : 11-27-2018
 // ***********************************************************************
 // <copyright file="ContextBuilder.cs" company="ArgParser.Styles">
 //     Copyright (c) . All rights reserved.
@@ -36,6 +36,11 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
+        ///     Occurs when [parser created].
+        /// </summary>
+        public event EventHandler<ParserCreatedEventArgs> ParserCreated;
+
+        /// <summary>
         ///     Occurs when a new parse strategy has been created. Use this if you are interested in controlling
         ///     the finer points of parsing
         /// </summary>
@@ -51,6 +56,7 @@ namespace ArgParser.Styles
         {
             var parser = ParserRepository.Create(id);
             HierarchyRepository.AddParser(id);
+            parser = OnParserCreated(parser);
             if (helpSetupCallback == null) return new ParserBuilder(this, parser);
             var builder = new ParserHelpBuilder(parser);
             helpSetupCallback(builder);
@@ -100,18 +106,33 @@ namespace ArgParser.Styles
         {
             var context = Context;
             var strat = new ParseStrategy(context);
-            OnParseStrategyCreated(strat);
+            strat = OnParseStrategyCreated(strat);
             return strat.Parse(args);
+        }
+
+        /// <summary>
+        ///     Called when [parser created].
+        /// </summary>
+        /// <param name="parser">The parser.</param>
+        /// <returns>Parser.</returns>
+        protected virtual Parser OnParserCreated(Parser parser)
+        {
+            var args = new ParserCreatedEventArgs(parser);
+            ParserCreated?.Invoke(this, args);
+            return args.Parser;
         }
 
         /// <summary>
         ///     Called when a new parse strategy has been created for use
         /// </summary>
         /// <param name="parseStrategy">The parse strategy.</param>
-        protected virtual void OnParseStrategyCreated(ParseStrategy parseStrategy)
+        /// <returns>ParseStrategy.</returns>
+        protected virtual ParseStrategy OnParseStrategyCreated(ParseStrategy parseStrategy)
         {
-            ParseStrategyCreated?.Invoke(this,
-                new ParseStrategyCreatedEventArgs(parseStrategy.ThrowIfArgumentNull(nameof(parseStrategy))));
+            var parseStrategyCreatedEventArgs =
+                new ParseStrategyCreatedEventArgs(parseStrategy.ThrowIfArgumentNull(nameof(parseStrategy)));
+            ParseStrategyCreated?.Invoke(this, parseStrategyCreatedEventArgs);
+            return parseStrategyCreatedEventArgs.ParseStrategy;
         }
 
         /// <summary>

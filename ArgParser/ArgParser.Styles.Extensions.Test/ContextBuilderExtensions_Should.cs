@@ -115,5 +115,27 @@ namespace ArgParser.Styles.Extensions.Test
 
             set.Should().HaveCount(1);
         }
+
+        [Fact]
+        public void Allow_The_Letter_And_Word_Token_To_Be_Changed()
+        {
+            // arrange
+            var builder = DefaultBuilder.CreateDefaultBuilder()
+                .SetSwitchTokens("#", "#~#");
+
+            // act
+            bool isParsed = false;
+            builder
+                .Parse("#h #~#version".Split(' '))
+                .When<UtilOptions>((options, parser) =>
+                {
+                    isParsed = true;
+                    options.IsHelpRequested.Should().BeTrue();
+                    options.IsVersionRequested.Should().BeTrue();
+                });
+
+            // assert
+            isParsed.Should().BeTrue();
+        }
     }
 }

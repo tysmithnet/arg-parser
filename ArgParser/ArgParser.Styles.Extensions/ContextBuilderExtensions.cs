@@ -39,7 +39,7 @@ namespace ArgParser.Styles.Extensions
         internal static readonly Dictionary<Parser, Theme> ParserThemes = new Dictionary<Parser, Theme>();
 
         /// <summary>
-        ///     Adds automatic help.
+        ///     Adds automatic help generation based on the result of the provided callback.
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <param name="callback">The callback.</param>
@@ -60,6 +60,32 @@ namespace ArgParser.Styles.Extensions
                 args.ParseStrategy.ParseResultFactory =
                     factory;
             };
+            return builder;
+        }
+
+        public static ContextBuilder SetSwitchTokens(this ContextBuilder builder, string letterToken, string wordToken)
+        {
+            if(letterToken.IsNullOrWhiteSpace())
+                throw new ArgumentException($"Expected a valid letter token, but received: {letterToken}");
+            if (wordToken.IsNullOrWhiteSpace())
+                throw new ArgumentException($"Expected a valid word token, but received: {wordToken}");
+            foreach (var parser in builder.Context.ParserRepository.GetAll())
+            {
+                foreach (var param in parser.Parameters.OfType<Switch>())
+                {
+                    param.LetterToken = letterToken;
+                    param.WordToken = wordToken;
+                }
+            }
+            builder.ParserCreated += (sender, args) =>
+            {
+                foreach (var param in args.Parser.Parameters.OfType<Switch>())
+                {
+                    param.LetterToken = letterToken;
+                    param.WordToken = wordToken;
+                }
+            };
+
             return builder;
         }
 

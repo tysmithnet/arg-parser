@@ -18,11 +18,14 @@ using ArgParser.Core;
 
 namespace ArgParser.Styles
 {
+    
+
     /// <summary>
     ///     Builder pattern for Parser
     /// </summary>
     public class ParserBuilder
     {
+        
         /// <summary>
         ///     Initializes a new instance of the <see cref="ParserBuilder" /> class.
         /// </summary>
