@@ -113,6 +113,20 @@ namespace ArgParser.Core
             };
         }
 
+        public static Action<object, string> ToNonGenericAction<T>(this Action<T, string> action,
+            bool strict = false)
+        {
+            action.ThrowIfArgumentNull(nameof(action));
+            return (instance, s) =>
+            {
+                if (instance is T casted)
+                    action(casted, s);
+                else if (strict)
+                    throw new ArgumentException(
+                        $"Expected to find object of type={typeof(T).FullName}, but found type={instance.GetType().FullName}");
+            };
+        }
+
         /// <summary>
         ///     Transforms a common action pattern to a non-generic version
         /// </summary>

@@ -17,6 +17,8 @@ using ArgParser.Core;
 
 namespace ArgParser.Styles
 {
+    
+
     /// <summary>
     ///     Represents a switch that takes 0 additional values
     /// </summary>

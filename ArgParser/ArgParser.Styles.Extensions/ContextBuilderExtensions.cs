@@ -88,7 +88,7 @@ namespace ArgParser.Styles.Extensions
 
             return builder;
         }
-
+        
         /// <summary>
         ///     Registers extension modules.
         /// </summary>
