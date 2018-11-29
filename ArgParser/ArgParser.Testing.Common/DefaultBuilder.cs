@@ -140,7 +140,7 @@ namespace ArgParser.Testing.Common
                         .AddExample("Image files", "Convert some images to png", "util convert -f png file0.jpg file1.gif", "Converted (2) files to .png");
                 })
                 .WithFactoryFunction(() => new ConvertOptions())
-                .WithSingleValueSwitch('f', "format", (o, s) => o.Format = s, help =>
+                .WithSeparatedSwitch('f', "format", (o, s) => o.Format = s, help =>
                 {
                     help
                         .SetName("Format")

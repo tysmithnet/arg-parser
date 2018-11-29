@@ -291,6 +291,18 @@ namespace ArgParser.Styles
             return this;
         }
 
+        public ParserBuilder<T> WithSeparatedSwitch(char? letter, string word, Action<T, string> consumeCallback,
+            Action<ParameterHelpBuilder> helpSetupCallback, bool required = false, string separator = "=")
+        {
+            var sw = new SeparatedSwitch<T>(Parser, letter, word, consumeCallback)
+            {
+                IsRequired = required,
+                Separator = separator
+            };
+            AddParameterInternal(sw, helpSetupCallback);
+            return this;
+        }
+
         /// <summary>
         ///     Adds a SingleValueSwitch
         /// </summary>

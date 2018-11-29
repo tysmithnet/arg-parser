@@ -110,6 +110,10 @@ namespace ArgParser.Styles.Extensions
             if (parameter is Positional)
                 prefix = "p";
             if (parameter.Help?.ValueAlias.IsNotNullOrWhiteSpace() ?? false) prefix = parameter.Help.ValueAlias;
+            if (parameter is SeparatedSwitch separated)
+            {
+                return prefix;
+            }
 
             var sub = 1;
             if (parameter is Positional)

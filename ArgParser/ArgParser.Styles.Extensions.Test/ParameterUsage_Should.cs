@@ -9,6 +9,74 @@ namespace ArgParser.Styles.Extensions.Test
     public class ParameterUsage_Should
     {
         [Fact]
+        public void Generate_The_Correct_Output_For_A_Separated_Switch()
+        {
+            // arrange
+            var mock = new Mock<IInlineSequence>();
+            mock.SetupAllProperties();
+            var builder = DefaultBuilder.CreateDefaultBuilder();
+            var parameter = new SeparatedSwitch(builder.Context.ParserRepository.Get("util"), 'v', "value",
+                (o, s) => { });
+            var vm = new ParameterViewModel(parameter, Theme.Default);
+            var usage = new ParameterUsage
+            {
+                ViewModel = vm
+            };
+
+            // act
+            usage.GenerateSequence(mock.Object);
+
+            // assert
+            usage.StringBuilder.ToString().Should().Be("[-v, --value:v]");
+        }
+
+        [Fact]
+        public void Generate_The_Correct_Output_For_A_Separated_Switch_With_No_Letter()
+        {
+            // arrange
+            var mock = new Mock<IInlineSequence>();
+            mock.SetupAllProperties();
+            var builder = DefaultBuilder.CreateDefaultBuilder();
+            var parameter = new SeparatedSwitch(builder.Context.ParserRepository.Get("util"), null, "value",
+                (o, s) => { });
+            parameter.Help.ValueAlias = "val";
+            var vm = new ParameterViewModel(parameter, Theme.Default);
+            var usage = new ParameterUsage
+            {
+                ViewModel = vm
+            };
+
+            // act
+            usage.GenerateSequence(mock.Object);
+
+            // assert
+            usage.StringBuilder.ToString().Should().Be("[--value:val]");
+        }
+
+        [Fact]
+        public void Generate_The_Correct_Output_For_A_Separated_Switch_With_No_Word()
+        {
+            // arrange
+            var mock = new Mock<IInlineSequence>();
+            mock.SetupAllProperties();
+            var builder = DefaultBuilder.CreateDefaultBuilder();
+            var parameter = new SeparatedSwitch(builder.Context.ParserRepository.Get("util"), 'v', null,
+                (o, s) => { });
+            parameter.Help.ValueAlias = "val";
+            var vm = new ParameterViewModel(parameter, Theme.Default);
+            var usage = new ParameterUsage
+            {
+                ViewModel = vm
+            };
+
+            // act
+            usage.GenerateSequence(mock.Object);
+
+            // assert
+            usage.StringBuilder.ToString().Should().Be("[-v:val]");
+        }
+
+        [Fact]
         public void Generate_The_Correct_Output_For_A_Single_Value_Switch()
         {
             // arrange
