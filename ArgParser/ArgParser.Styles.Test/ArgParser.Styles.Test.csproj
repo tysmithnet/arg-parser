@@ -88,6 +88,7 @@
     <Compile Include="ParserRepository_Should.cs" />
     <Compile Include="ParseStrategy_Should.cs" />
     <Compile Include="Positional_Should.cs" />
+    <Compile Include="SeparatedSwitch_Should.cs" />
     <Compile Include="SingleValueSwitch_Should.cs" />
     <Compile Include="Switch_Should.cs" />
     <Compile Include="ValuesSwitch_Should.cs" />

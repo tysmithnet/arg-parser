@@ -56,26 +56,8 @@ namespace ArgParser.Styles
         /// <param name="word">The word.</param>
         /// <param name="consumeCallback">The consume callback.</param>
         public SingleValueSwitch(Parser parent, char? letter, string word, Action<T, string> consumeCallback) : base(
-            parent, letter, word,
-            Convert(consumeCallback))
+            parent, letter, word, consumeCallback.ToNonGenericAction())
         {
-        }
-
-        /// <summary>
-        ///     Converts the specified action.
-        /// </summary>
-        /// <param name="action">The action.</param>
-        /// <returns>Action&lt;System.Object, System.String&gt;.</returns>
-        private static Action<object, string> Convert(Action<T, string> action)
-        {
-            return (instance, s) =>
-            {
-                if (instance is T casted)
-                    action(casted, s);
-                else
-                    throw new ArgumentException(
-                        $"Expected to find object of type={typeof(T).FullName}, but found type={instance.GetType().FullName}");
-            };
         }
     }
 }

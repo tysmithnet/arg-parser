@@ -42,7 +42,7 @@ namespace ArgParser.Styles.Test
         }
 
         [Fact]
-        public void Throw_If_Bad_Object_Given_To_Generic_Type()
+        public void Not_Throw_If_Bad_Object_Given_To_Generic_Type()
         {
             // arrange
             var values = new List<string>();
@@ -52,7 +52,7 @@ namespace ArgParser.Styles.Test
 
             // act
             // assert
-            mightThrow.Should().Throw<ArgumentException>();
+            mightThrow.Should().NotThrow();
         }
     }
 }

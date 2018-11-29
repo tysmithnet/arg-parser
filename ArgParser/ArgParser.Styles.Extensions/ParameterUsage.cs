@@ -42,10 +42,34 @@ namespace ArgParser.Styles.Extensions
         /// <param name="sequence">The sequence.</param>
         public override void GenerateSequence(IInlineSequence sequence)
         {
-            if (ViewModel.Parameter is Switch @switch)
+            if (ViewModel.Parameter is SeparatedSwitch separated)
+                GenerateSeparatedSwitchSequence(separated, sequence);
+            else if (ViewModel.Parameter is Switch @switch)
                 GenerateSwitchSequence(@switch, sequence);
             else if (ViewModel.Parameter is Positional positional)
                 GeneratePositionalSequence(positional, sequence);
+        }
+
+        public virtual void GenerateSeparatedSwitchSequence(SeparatedSwitch separated, IInlineSequence seq)
+        {
+            WritePrimary(seq, "[");
+            if (separated.Letter.HasValue && separated.Word.IsNotNullOrWhiteSpace())
+            {
+                WriteSecondary(seq, $"-{separated.Letter}");
+                WritePrimary(seq, ", ");
+                WriteSecondary(seq, $"--{separated.Word}");
+            }
+            else if (separated.Letter.HasValue)
+            {
+                WriteSecondary(seq, $"-{separated.Letter}");
+            }
+            else if (separated.Word.IsNotNullOrWhiteSpace())
+            {
+                WriteSecondary(seq, $"--{separated.Word}");
+            }
+
+            WriteSecondary(seq, $":{GenerateValueAlias(separated)}");
+            WritePrimary(seq, "]");
         }
 
         /// <summary>

@@ -1,10 +1,16 @@
 ﻿using System;
+using System.Linq;
 using ArgParser.Core;
 
 namespace ArgParser.Styles
 {
-    public class SeparatedSwitch : SingleValueSwitch
+    public class SeparatedSwitch : Switch
     {
+        static Action<object, string[]> Convert(Action<object, string> callback)
+        {
+            return (o, s) => { callback(o, s.First()); };
+        }
+
         public string Separator { get; set; } = "=";
 
         public override ConsumptionResult CanConsume(object instance, IterationInfo info)
@@ -16,7 +22,7 @@ namespace ArgParser.Styles
             return new ConsumptionResult(info, 0, this);
         }
 
-        public SeparatedSwitch(Parser parent, char? letter, string word, Action<object, string> consumeCallback) : base(parent, letter, word, consumeCallback)
+        public SeparatedSwitch(Parser parent, char? letter, string word, Action<object, string> consumeCallback) : base(parent, letter, word, Convert(consumeCallback))
         {
             MinRequired = 1;
             MaxAllowed = 1;
@@ -30,7 +36,6 @@ namespace ArgParser.Styles
             return new ConsumptionResult(request.Info, 1, this);
         }
     }
-
     public class SeparatedSwitch<T> : SeparatedSwitch
     {
         public SeparatedSwitch(Parser parent, char? letter, string word, Action<T, string> consumeCallback) : base(parent, letter, word, consumeCallback.ToNonGenericAction())
