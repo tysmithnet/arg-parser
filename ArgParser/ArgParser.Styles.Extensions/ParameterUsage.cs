@@ -55,17 +55,17 @@ namespace ArgParser.Styles.Extensions
             WritePrimary(seq, "[");
             if (separated.Letter.HasValue && separated.Word.IsNotNullOrWhiteSpace())
             {
-                WriteSecondary(seq, $"-{separated.Letter}");
+                WriteSecondary(seq, $"{separated.LetterToken}{separated.Letter}");
                 WritePrimary(seq, ", ");
-                WriteSecondary(seq, $"--{separated.Word}");
+                WriteSecondary(seq, $"{separated.WordToken}{separated.Word}");
             }
             else if (separated.Letter.HasValue)
             {
-                WriteSecondary(seq, $"-{separated.Letter}");
+                WriteSecondary(seq, $"{separated.LetterToken}{separated.Letter}");
             }
             else if (separated.Word.IsNotNullOrWhiteSpace())
             {
-                WriteSecondary(seq, $"--{separated.Word}");
+                WriteSecondary(seq, $"{separated.WordToken}{separated.Word}");
             }
 
             WriteSecondary(seq, $":{GenerateValueAlias(separated)}");
@@ -94,12 +94,8 @@ namespace ArgParser.Styles.Extensions
             {
                 WriteSecondary(seq, $"{@switch.WordToken}{@switch.Word}");
             }
-
-            if (@switch is SeparatedSwitch separated)
-            {
-                WriteSecondary(seq, $"{separated.Separator}{GenerateValueAlias(@switch)}");
-            }
-            else if (ViewModel.Parameter.MaxAllowed > 1)
+            
+            if (ViewModel.Parameter.MaxAllowed > 1)
             {
                 WriteSecondary(seq, $" {GenerateValueAlias(@switch)}");
             }

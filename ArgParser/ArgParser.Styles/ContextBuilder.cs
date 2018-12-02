@@ -4,7 +4,7 @@
 // Created          : 11-12-2018
 //
 // Last Modified By : @tysmithnet
-// Last Modified On : 11-27-2018
+// Last Modified On : 12-02-2018
 // ***********************************************************************
 // <copyright file="ContextBuilder.cs" company="ArgParser.Styles">
 //     Copyright (c) . All rights reserved.
@@ -36,7 +36,12 @@ namespace ArgParser.Styles
         }
 
         /// <summary>
-        ///     Occurs when [parser created].
+        ///     Occurs when a parameter is created
+        /// </summary>
+        public event EventHandler<ParameterCreatedEventArgs> ParameterCreated;
+
+        /// <summary>
+        ///     Occurs when a parser is created.
         /// </summary>
         public event EventHandler<ParserCreatedEventArgs> ParserCreated;
 
@@ -57,12 +62,25 @@ namespace ArgParser.Styles
             var parser = ParserRepository.Create(id);
             HierarchyRepository.AddParser(id);
             parser = OnParserCreated(parser);
-            if (helpSetupCallback == null) return new ParserBuilder(this, parser);
+            if (helpSetupCallback == null)
+            {
+                var newBuilder = new ParserBuilder(this, parser);
+                newBuilder.ParameterCreated += (sender, args) =>
+                {
+                    OnParameterCreated(args); 
+                };
+                return newBuilder;
+            }
+
             var builder = new ParserHelpBuilder(parser);
             helpSetupCallback(builder);
             parser.Help = builder.Build();
-
-            return new ParserBuilder(this, parser);
+            var parserBuilder = new ParserBuilder(this, parser);
+            parserBuilder.ParameterCreated += (sender, args) =>
+            {
+                OnParameterCreated(args); 
+            };
+            return parserBuilder;
         }
 
         /// <summary>
@@ -76,13 +94,13 @@ namespace ArgParser.Styles
         {
             var parser = ParserRepository.Create<T>(id);
             HierarchyRepository.AddParser(id);
-
             if (helpSetupCallback == null) return new ParserBuilder<T>(this, parser);
             var builder = new ParserHelpBuilder(parser);
             helpSetupCallback(builder);
             parser.Help = builder.Build();
-
-            return new ParserBuilder<T>(this, parser);
+            var parserBuilder = new ParserBuilder<T>(this, parser);
+            parserBuilder.ParameterCreated += (sender, args) => { OnParameterCreated(args); };
+            return parserBuilder;
         }
 
         /// <summary>
@@ -108,6 +126,15 @@ namespace ArgParser.Styles
             var strat = new ParseStrategy(context);
             strat = OnParseStrategyCreated(strat);
             return strat.Parse(args);
+        }
+
+        /// <summary>
+        ///     Handles the <see cref="E:ParameterCreated" /> event.
+        /// </summary>
+        /// <param name="eventArgs">The <see cref="ParameterCreatedEventArgs" /> instance containing the event data.</param>
+        protected virtual void OnParameterCreated(ParameterCreatedEventArgs eventArgs)
+        {
+            ParameterCreated?.Invoke(this, eventArgs);
         }
 
         /// <summary>

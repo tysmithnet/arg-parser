@@ -18,14 +18,13 @@ using ArgParser.Core;
 
 namespace ArgParser.Styles
 {
-    
-
     /// <summary>
     ///     Builder pattern for Parser
     /// </summary>
     public class ParserBuilder
     {
-        
+        public event EventHandler<ParameterCreatedEventArgs> ParameterCreated; 
+
         /// <summary>
         ///     Initializes a new instance of the <see cref="ParserBuilder" /> class.
         /// </summary>
@@ -178,6 +177,7 @@ namespace ArgParser.Styles
                 helpSetupCallback(builder);
                 parameter.Help = builder.Build();
             }
+            OnParameterCreated(parameter);
         }
 
         /// <summary>
@@ -191,6 +191,11 @@ namespace ArgParser.Styles
         /// </summary>
         /// <value>The parser.</value>
         public Parser Parser { get; protected internal set; }
+
+        protected virtual void OnParameterCreated(Parameter parameter)
+        {
+            ParameterCreated?.Invoke(this, new ParameterCreatedEventArgs(parameter));
+        }
     }
 
     /// <summary>

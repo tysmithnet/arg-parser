@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.Collections.Generic;
+using FluentAssertions;
 using Xunit;
 
 namespace ArgParser.Styles.Extensions.Test
@@ -9,7 +10,13 @@ namespace ArgParser.Styles.Extensions.Test
         public void Allow_A_Theme_To_Be_Added_For_A_Parser()
         {
             // arrange
-            var repo = new ThemeRepository();
+            var repo = new ThemeRepository()
+            {
+                Themes = new Dictionary<string, Theme>()
+                {
+                    ["a"] = Theme.Cool
+                }
+            };
 
             // act
             repo.SetTheme("a", Theme.Warm);

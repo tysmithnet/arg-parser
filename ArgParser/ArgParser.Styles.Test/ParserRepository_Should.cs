@@ -78,5 +78,18 @@ namespace ArgParser.Styles.Test
             mightThrow0.Should().Throw<KeyNotFoundException>();
             mightThrow1.Should().Throw<KeyNotFoundException>();
         }
+
+        [Fact]
+        public void Return_True_If_Repo_Contains_Id()
+        {
+            // arrange
+            var repo = new ParserRepository();
+            repo.Create("a");
+
+            // act
+            // assert
+            repo.Contains("a").Should().BeTrue();
+            repo.Contains("b").Should().BeFalse();
+        }
     }
 }

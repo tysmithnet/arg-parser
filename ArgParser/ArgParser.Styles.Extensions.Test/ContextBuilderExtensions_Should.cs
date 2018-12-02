@@ -40,6 +40,34 @@ namespace ArgParser.Styles.Extensions.Test
         }
 
         [Fact]
+        public void Create_A_Theme_Repository_With_All_Added_Themes()
+        {
+            // arrange
+            var builder = DefaultBuilder.CreateDefaultBuilder();
+            builder.SetTheme("util", Theme.Cool);
+
+            // act
+            var res = builder.Context.ToExtensionContext();
+
+            // assert
+            res.ThemeRepository.Get("util").Should().BeSameAs(Theme.Cool);
+        }
+
+        [Fact]
+        public void Not_Do_Anything_For_Positionals()
+        {
+            // arrange
+            var builder = DefaultBuilder.CreateDefaultBuilder();
+            builder.SetSwitchTokens("#", "##");
+
+            // act
+            builder.AddParser("whatever").WithPositional((o, s) => { });
+
+            // assert
+            builder.Context.ParserRepository.Get("whatever").Should().NotBeNull();
+        }
+
+        [Fact]
         public void Allow_Context_Builders_To_Register()
         {
             // arrange
@@ -70,6 +98,7 @@ namespace ArgParser.Styles.Extensions.Test
             // arrange
             var builder = new ContextBuilder()
                 .AddParser("root")
+                .WithTheme(Theme.Cool)
                 .WithTheme(Theme.Warm);
 
             // act
@@ -82,11 +111,12 @@ namespace ArgParser.Styles.Extensions.Test
         {
             // arrange
             var builder = DefaultBuilder.CreateDefaultBuilder()
-                .SetTheme("util", Theme.Cool);
+                .SetTheme("util", Theme.Cool)
+                .SetTheme("util", Theme.Warm);
 
             // act
             // assert
-            ContextBuilderExtensions.ParserThemes[builder.Context.ParserRepository.Get("util")].Should().Be(Theme.Cool);
+            ContextBuilderExtensions.ParserThemes[builder.Context.ParserRepository.Get("util")].Should().Be(Theme.Warm);
         }
 
         [Fact]
@@ -136,6 +166,62 @@ namespace ArgParser.Styles.Extensions.Test
 
             // assert
             isParsed.Should().BeTrue();
+        }
+
+        [Fact]
+        public void Throw_If_Given_Bad_Values_For_SetSwitchTokens()
+        {
+            // arrange
+            var builder = new ContextBuilder();
+            Action mightThrow0 = () => builder.SetSwitchTokens(null, "x");
+            Action mightThrow1 = () => builder.SetSwitchTokens("x", null);
+            Action mightThrow2 = () => builder.SetSwitchTokens(null, "");
+            Action mightThrow3 = () => builder.SetSwitchTokens("", null);
+
+            // act
+            // assert
+            mightThrow0.Should().Throw<ArgumentException>();
+            mightThrow1.Should().Throw<ArgumentException>();
+            mightThrow2.Should().Throw<ArgumentException>();
+            mightThrow3.Should().Throw<ArgumentException>();
+        }
+
+        [Fact]
+        public void Set_Switch_Tokens_For_Newly_Created_Parsers0()
+        {
+            // arrange
+            var builder = new ContextBuilder();
+            builder.SetSwitchTokens("#", "##");
+            builder
+                .AddParser("a")
+                .WithBooleanSwitch('h', "help", o => {});
+            
+
+            // act
+            // assert
+            var parser = builder.Context.ParserRepository.Get("a");
+            var param = parser.Parameters.OfType<Switch>().Single();
+            param.LetterToken.Should().Be("#");
+            param.WordToken.Should().Be("##");
+        }
+
+        [Fact]
+        public void Set_Switch_Tokens_For_Newly_Created_Parsers1()
+        {
+            // arrange
+            var builder = new ContextBuilder();
+            builder.SetSwitchTokens("#", "##");
+            builder
+                .AddParser("a", help => { help.SetName("hi"); })
+                .WithBooleanSwitch('h', "help", o => { });
+
+
+            // act
+            // assert
+            var parser = builder.Context.ParserRepository.Get("a");
+            var param = parser.Parameters.OfType<Switch>().Single();
+            param.LetterToken.Should().Be("#");
+            param.WordToken.Should().Be("##");
         }
     }
 }

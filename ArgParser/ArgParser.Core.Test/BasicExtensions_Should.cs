@@ -109,18 +109,24 @@ namespace ArgParser.Core.Test
             // arrange
             var isExecuted0 = false;
             var isExecuted1 = false;
-            Action<string, string[]> action0 = (s1, strings) => { isExecuted0 = true; };
-            Action<string> action1 = s => { isExecuted1 = true; };
+            var isExecuted2 = false;
+            Action<string, string[]> action0 = (inst, strings) => { isExecuted0 = true; };
+            Action<string, string> action1 = (inst, s) => { isExecuted1 = true; }; 
+            Action<string> action2 = s => { isExecuted2 = true; };
 
             // act
             var converted0 = action0.ToNonGenericAction(true);
             var converted1 = action1.ToNonGenericAction(true);
+            var converted2 = action2.ToNonGenericAction(true);
             Action mightThrow0 = () => converted0(new object(), new string[0]);
-            Action mightThrow1 = () => converted1(new object());
+            Action mightThrow1 = () => converted1(new object(), "");
+            Action mightThrow2 = () => converted2(new object());
 
             // assert
             mightThrow0.Should().Throw<ArgumentException>();
             mightThrow1.Should().Throw<ArgumentException>();
+            mightThrow2.Should().Throw<ArgumentException>();
         }
+        
     }
 }

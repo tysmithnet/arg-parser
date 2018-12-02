@@ -77,13 +77,11 @@ namespace ArgParser.Styles.Extensions
                     param.WordToken = wordToken;
                 }
             }
-            builder.ParserCreated += (sender, args) =>
+            builder.ParameterCreated += (sender, args) =>
             {
-                foreach (var param in args.Parser.Parameters.OfType<Switch>())
-                {
-                    param.LetterToken = letterToken;
-                    param.WordToken = wordToken;
-                }
+                if (!(args.Parameter is Switch casted)) return;
+                casted.LetterToken = letterToken;
+                casted.WordToken = wordToken;
             };
 
             return builder;

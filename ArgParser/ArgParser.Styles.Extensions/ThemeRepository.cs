@@ -28,8 +28,7 @@ namespace ArgParser.Styles.Extensions
         /// <param name="themes">The themes.</param>
         public ThemeRepository(Dictionary<string, Theme> themes = null)
         {
-            if (themes == null) return;
-            Themes = themes;
+            Themes = themes ?? new Dictionary<string, Theme>();
         }
 
         /// <summary>
@@ -61,6 +60,6 @@ namespace ArgParser.Styles.Extensions
         ///     Gets or sets the themes.
         /// </summary>
         /// <value>The themes.</value>
-        protected internal Dictionary<string, Theme> Themes { get; set; } = new Dictionary<string, Theme>();
+        protected internal Dictionary<string, Theme> Themes { get; set; }
     }
 }
