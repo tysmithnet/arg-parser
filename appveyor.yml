@@ -74,7 +74,8 @@ for:
 artifacts:
   - path: '**\*.nupkg'
     name: Nuget
-  - path: '**\ArgParser*.dll'
+  - path: '**\ArgParser*\bin\ArgParser*.dll'
+    name: DLL
 
 environment:
   COVERALLS_REPO_TOKEN:
