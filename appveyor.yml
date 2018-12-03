@@ -47,7 +47,6 @@ for:
         assemblies:
         - '**\*.Test.dll'
         - '**\*.Tests.dll'
-
     test_script:
         - ps: >-
             Write-Host -ForegroundColor Green "TESTING...";
@@ -57,13 +56,20 @@ for:
             $filter = "+[ArgParser*]*";
             iex "C:\projects\arg-parser\ArgParser\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:$xunitexe ""$targetargs"" -output:$coveragefile -filter:""$filter"" -coverbytest:*Test.dll";
             iex "C:\projects\arg-parser\ArgParser\packages\coveralls.io.1.4.2\tools\coveralls.net.exe --opencover c:\temp\coverage.xml -r $env:COVERALLS_REPO_TOKEN";
-
     after_test:
         - ps: Write-Host -ForegroundColor Green "ANALYZING...";
         - cmd: C:\temp\sonar\SonarScanner.MSBuild.exe begin /k:"tysmithnet_arg-parser" /d:sonar.organization="tysmithnet-github" /d:sonar.branch.name="%APPVEYOR_REPO_BRANCH%" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="%SONARQUBE_TOKEN%" /d:sonar.cs.opencover.reportsPaths="c:\temp\coverage.xml"
         - cmd: >-
             "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\amd64\MSBuild.exe" /v:quiet /t:Rebuild C:\projects\arg-parser\ArgPArser\ArgParser.sln 
         - cmd: C:\temp\sonar\SonarScanner.MSBuild.exe end /d:sonar.login="%SONARQUBE_TOKEN%"      
+
+  -
+    matrix:
+      only:
+        - configuration: Release
+    test_script:
+        - ps: >-
+            Write-Host -ForegroundColor Green "SKIP RELEASE TESTING...";
 
 environment:
   COVERALLS_REPO_TOKEN:
