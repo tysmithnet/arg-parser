@@ -2,7 +2,7 @@
           xmlns="urn:alba:cs-console-format"
           xmlns:colorful="urn:alba:cs-console-format:colorful"
           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-          xmlns:ap="clr-namespace:ArgParser.Styles.Extensions;assembly=ArgParser.Styles.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+          xmlns:ap="clr-namespace:ArgParser.Styles.Extensions;assembly=ArgParser.Styles.Extensions, Version=0.5.0.0, Culture=neutral, PublicKeyToken=null"
           xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <ap:BannerArtDiv Color="{Get ParserVm.Theme.DefaultTextColor}" Text="{Get ParserVm.DisplayString}" Font="{Get ParserVm.Theme.BannerFont}"/>
     <Div>
