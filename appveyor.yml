@@ -20,7 +20,6 @@ assembly_info:
   patch: true
   file: '**\AssemblyInfo.*'
   assembly_file_version: '$(appveyor_build_version)'
-  assembly_informational_version: '$(appveyor_build_version)'
 
 before_build:
   - mkdir c:\temp -erroraction silentlycontinue;
@@ -39,37 +38,35 @@ build:
   project: ArgParser/ArgParser.sln
   verbosity: minimal
 
-test:
-  assemblies:
-    - '**\*.Test.dll'
-    - '**\*.Tests.dll'
+for:
+  -
+    matrix:
+      only:
+        - configuration: Debug
+    test:
+        assemblies:
+        - '**\*.Test.dll'
+        - '**\*.Tests.dll'
 
-test_script:
-  - ps: >-
-      Write-Host -ForegroundColor Green "TESTING...";
-      $xunitexe = "C:\projects\arg-parser\ArgParser\packages\xunit.runner.console.2.4.1\tools\net472\xunit.console.exe";
-      $targetargs = "-targetargs:C:\projects\arg-parser\ArgParser\ArgParser.Core.Test\bin\Debug\ArgParser.Core.Test.dll C:\projects\arg-parser\ArgParser\ArgParser.Styles.Test\bin\Debug\ArgParser.Styles.Test.dll C:\projects\arg-parser\ArgParser\ArgParser.Styles.Extensions.Test\bin\Debug\ArgParser.Styles.Extensions.Test.dll -noshadow";
-      $coveragefile = "c:\temp\coverage.xml";
-      $filter = "+[ArgParser*]*";
-      iex "C:\projects\arg-parser\ArgParser\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:$xunitexe ""$targetargs"" -output:$coveragefile -filter:""$filter"" -coverbytest:*Test.dll";
-      iex "C:\projects\arg-parser\ArgParser\packages\coveralls.io.1.4.2\tools\coveralls.net.exe --opencover c:\temp\coverage.xml -r $env:COVERALLS_REPO_TOKEN";
+    test_script:
+        - ps: >-
+            Write-Host -ForegroundColor Green "TESTING...";
+            $xunitexe = "C:\projects\arg-parser\ArgParser\packages\xunit.runner.console.2.4.1\tools\net472\xunit.console.exe";
+            $targetargs = "-targetargs:C:\projects\arg-parser\ArgParser\ArgParser.Core.Test\bin\Debug\ArgParser.Core.Test.dll C:\projects\arg-parser\ArgParser\ArgParser.Styles.Test\bin\Debug\ArgParser.Styles.Test.dll C:\projects\arg-parser\ArgParser\ArgParser.Styles.Extensions.Test\bin\Debug\ArgParser.Styles.Extensions.Test.dll -noshadow";
+            $coveragefile = "c:\temp\coverage.xml";
+            $filter = "+[ArgParser*]*";
+            iex "C:\projects\arg-parser\ArgParser\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:$xunitexe ""$targetargs"" -output:$coveragefile -filter:""$filter"" -coverbytest:*Test.dll";
+            iex "C:\projects\arg-parser\ArgParser\packages\coveralls.io.1.4.2\tools\coveralls.net.exe --opencover c:\temp\coverage.xml -r $env:COVERALLS_REPO_TOKEN";
 
-after_test:
-  - ps: Write-Host -ForegroundColor Green "ANALYZING...";
-  - cmd: C:\temp\sonar\SonarScanner.MSBuild.exe begin /k:"tysmithnet_arg-parser" /d:sonar.organization="tysmithnet-github" /d:sonar.branch.name="%APPVEYOR_REPO_BRANCH%" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="%SONARQUBE_TOKEN%" /d:sonar.cs.opencover.reportsPaths="c:\temp\coverage.xml"
-  - cmd: >-
-      "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\amd64\MSBuild.exe" /v:quiet /t:Rebuild C:\projects\arg-parser\ArgPArser\ArgParser.sln 
-  - cmd: C:\temp\sonar\SonarScanner.MSBuild.exe end /d:sonar.login="%SONARQUBE_TOKEN%"      
+    after_test:
+        - ps: Write-Host -ForegroundColor Green "ANALYZING...";
+        - cmd: C:\temp\sonar\SonarScanner.MSBuild.exe begin /k:"tysmithnet_arg-parser" /d:sonar.organization="tysmithnet-github" /d:sonar.branch.name="%APPVEYOR_REPO_BRANCH%" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="%SONARQUBE_TOKEN%" /d:sonar.cs.opencover.reportsPaths="c:\temp\coverage.xml"
+        - cmd: >-
+            "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\amd64\MSBuild.exe" /v:quiet /t:Rebuild C:\projects\arg-parser\ArgPArser\ArgParser.sln 
+        - cmd: C:\temp\sonar\SonarScanner.MSBuild.exe end /d:sonar.login="%SONARQUBE_TOKEN%"      
 
 environment:
   COVERALLS_REPO_TOKEN:
     secure: dxNQXnuBxcyVeQhaepf3P5NWWpP3tz+9j+gvlduwmBaeoIeyuvfMRRA5JFE/omEs
   SONARQUBE_TOKEN:
     secure: uhi+e/iunOSzRs+nYbGcTmGQmaHJJl2S+tiC1mXcCt0/qma3XFoaZKriOetXwxhw
-
-for:
-  -
-    branches:
-      only:
-        - master
-    configuration: Release
