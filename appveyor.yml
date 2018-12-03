@@ -76,3 +76,5 @@ environment:
     secure: dxNQXnuBxcyVeQhaepf3P5NWWpP3tz+9j+gvlduwmBaeoIeyuvfMRRA5JFE/omEs
   SONARQUBE_TOKEN:
     secure: uhi+e/iunOSzRs+nYbGcTmGQmaHJJl2S+tiC1mXcCt0/qma3XFoaZKriOetXwxhw
+  NUGET_API_TOKEN:
+    secure: lxScRpxFYtPb4Uq9OuSiu41WM3FpLew5iNZeqIBrPIHbrwVr0GvpFFpDaKH9ydbs
