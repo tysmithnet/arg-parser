@@ -1,10 +1,21 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageId>ArgParser.Core</PackageId>
+        <Title>ArgParser.Core</Title>
+        <Version>1.0.0-rc0</Version>
+        <TargetFramework>netstandard1.0</TargetFramework>
         <Authors>Ty Smith</Authors>
         <Company>tysmith.net</Company>
+        <Description>Core components and interfaces for the ArgParser project</Description>
+        <Summary>Core components and interfaces for the ArgParser project</Summary>
+        <PackageTags>arg parse command line help text</PackageTags>
+        <PackageLicenseUrl>https://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
+        <PackageProjectUrl>https://github.com/tysmithnet/arg-parser</PackageProjectUrl>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/tysmithnet/arg-parser.git</RepositoryUrl>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Copyright>2018 Ty Smith</Copyright>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
