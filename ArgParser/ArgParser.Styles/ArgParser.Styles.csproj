@@ -3,7 +3,7 @@
         <TargetFramework>netstandard1.3</TargetFramework>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageId>ArgParser.Styles</PackageId>
-        <Version>1.0.0-rc0</Version>
+        <Version>1.0.0-rc1</Version>
         <Authors>Ty Smith</Authors>
         <Company>tysmith.net</Company>
         <Description>Common styles for arg parsing in the ArgParser project</Description>
