@@ -33,10 +33,10 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="ParserHelp.xaml">
+        <EmbeddedResource Include="ParserHelp.xaml">
             <Generator>MSBuild:Compile</Generator>
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </EmbeddedResource>
     </ItemGroup>
 
     <ItemGroup>
@@ -61,6 +61,7 @@
     <ItemGroup>
         <EmbeddedResource Update="Properties\Resources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>Resources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
     </ItemGroup>
 

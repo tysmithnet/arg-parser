@@ -14,6 +14,7 @@
 
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using Alba.CsConsoleFormat;
 using Alba.CsConsoleFormat.ColorfulConsole;
 using ArgParser.Core;
@@ -44,9 +45,11 @@ namespace ArgParser.Styles.Extensions
         public virtual Document Create()
         {
             var vm = CreateViewModel(Context);
-            using (var fs = File.OpenRead("ParserHelp.xaml"))
+
+            using (var resourceStream = Assembly.GetExecutingAssembly()
+                .GetManifestResourceStream("ArgParser.Styles.Extensions.ParserHelp.xaml"))
             {
-                return ConsoleRenderer.ReadDocumentFromStream(fs, vm, new XamlElementReaderSettings
+                return ConsoleRenderer.ReadDocumentFromStream(resourceStream, vm, new XamlElementReaderSettings
                 {
                     ReferenceAssemblies =
                     {
