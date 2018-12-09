@@ -9,7 +9,7 @@ Flexible argument parsing library and help screen generator
 
 [Setup your context](https://github.com/tysmithnet/arg-parser/blob/master/ArgParser/ArgParser.Testing.Common/DefaultBuilder.cs)
 
-[Parser some args](https://github.com/tysmithnet/arg-parser/blob/master/ArgParser/ArgParser.TestApp/Program.cs)
+[Parse some args](https://github.com/tysmithnet/arg-parser/blob/master/ArgParser/ArgParser.TestApp/Program.cs)
 
 The `ArgParser.TestApp` program is what is used to create the gif on the root README. You can use it to test your own applications or see how the gif was made.
 
