@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>ArgParser</PackageId>
+    <Title>ArgParser</Title>
+    <Version>1.0.0-rc1</Version>
+    <Authors>Ty Smith</Authors>
+    <Company>tysmith.net</Company>
+    <Description>Aggregate package for the ArgParser project</Description>
+    <Summary>Aggregate package for the ArgParser project</Summary>
+    <PackageTags>arg parse command line help text</PackageTags>
+    <PackageLicenseUrl>https://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/tysmithnet/arg-parser</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/tysmithnet/arg-parser.git</RepositoryUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Copyright>2018 Ty Smith</Copyright>
+    <AssemblyVersion>0.5.0.0</AssemblyVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ArgParser.Core\ArgParser.Core.csproj" />
+    <ProjectReference Include="..\ArgParser.Styles.Extensions\ArgParser.Styles.Extensions.csproj" />
+    <ProjectReference Include="..\ArgParser.Styles\ArgParser.Styles.csproj" />
+  </ItemGroup>
+
+</Project>
