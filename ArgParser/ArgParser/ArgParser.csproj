@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>ArgParser</PackageId>
     <Title>ArgParser</Title>
-    <Version>1.0.0-rc1</Version>
+    <Version>1.0.0-rc2</Version>
     <Authors>Ty Smith</Authors>
     <Company>tysmith.net</Company>
     <Description>Aggregate package for the ArgParser project</Description>
@@ -16,7 +16,7 @@
     <RepositoryUrl>https://github.com/tysmithnet/arg-parser.git</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Copyright>2018 Ty Smith</Copyright>
-    <AssemblyVersion>0.5.0.0</AssemblyVersion>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>

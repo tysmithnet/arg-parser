@@ -3,7 +3,7 @@
     <PropertyGroup>
         <PackageId>ArgParser.Styles.Extensions</PackageId>
         <Title>ArgParser.Styles.Extensions</Title>
-        <Version>1.0.0-rc1</Version>
+        <Version>1.0.0-rc2</Version>
         <TargetFramework>netstandard2.0</TargetFramework>
         <Authors>Ty Smith</Authors>
         <Company>tysmith.net</Company>
