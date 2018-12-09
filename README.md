@@ -31,26 +31,65 @@ It needs to be fairly trivial to create parsers for some of the most commonly us
 
 ### Trivial Example
 ``` C#
-    new ContextBuilder()
-    .AddParser<UtilOptions>("util", help =>
+using System;
+using System.Linq;
+using ArgParser.Core;
+using ArgParser.Styles;
+using ArgParser.Styles.Extensions;
+using Figgle;
+
+namespace testnuget
+{
+    class UtilOptions
     {
-        help
-            .SetName("utility")
-            .SetShortDescription("General utility tool")
-    })
-    .WithFactoryFunction(() => new UtilOptions())
-    .WithSingleValueSwitch('v', "value", (o, s) => o.SomeValue = Convert.ToInt32(s), help =>
+        public bool IsHelpRequested { get; set; }
+        public int SomeValue { get; set; }
+    }
+
+    class Program
     {
-        help
-            .SetName("Some Value")
-            .SetDefaultValue("1")
-            .SetShortDescription("Some value for something");
-    })
-    .Finish
-    .Parse(new[] {"-v", "10"})
-    .When<UtilOptions>(o => {
-        // do something
-    })
+        static void Main(string[] args)
+        {
+            new ContextBuilder()
+            .AddParser<UtilOptions>("util", help =>
+            {
+                help
+                    .SetName("utility")
+                    .SetShortDescription("General utility tool");
+            })
+            .WithFactoryFunction(() => new UtilOptions())
+            .WithBooleanSwitch('h', "help", o => o.IsHelpRequested = true)
+            .WithSingleValueSwitch('v', "value", (o, s) => o.SomeValue = Convert.ToInt32(s), help =>
+            {
+                help
+                    .SetName("Some Value")
+                    .SetDefaultValue("1")
+                    .SetShortDescription("Some value for something");
+            })
+            .Finish
+            .RegisterExtensions()
+            .AddAutoHelp((parseResults, exceptions) =>
+            {
+                foreach (var kvp in parseResults)
+                    if (kvp.Key is UtilOptions casted && casted.IsHelpRequested)
+                        return kvp.Value.Id;
+
+                var missingValues = exceptions.OfType<MissingValueException>();
+                var first = missingValues.FirstOrDefault();
+                return first?.Parser.Id;
+            })
+            .SetTheme("util",
+                    Theme.Create(FiggleFonts.Doom, ConsoleColor.Green, ConsoleColor.DarkGreen, ConsoleColor.Yellow, ConsoleColor.Red,
+                        ConsoleColor.Yellow))
+            .Parse(args)
+            .When<UtilOptions>((o, p) => {
+                Console.WriteLine(o.SomeValue);
+            });
+            Console.ReadKey();
+        }
+    }
+}
+
 ```
 
 ### Badges
