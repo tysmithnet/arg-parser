@@ -151,6 +151,7 @@ namespace ArgParser.Styles.Extensions.Test
         {
             // arrange
             var builder = DefaultBuilder.CreateDefaultBuilder()
+                .RegisterExtensions()
                 .SetSwitchTokens("#", "#~#");
 
             // act

@@ -44,6 +44,9 @@ namespace ArgParser.Styles
         {
             var allSwitchesForChain = request.Chain.SelectMany(x => x.Parameters).OfType<Switch>().ToList();
             var booleanSwitches = allSwitchesForChain.OfType<BooleanSwitch>().ToList();
+            if (!booleanSwitches.Any())
+                return request.Args;
+            var letterToken = booleanSwitches.First().LetterToken;
             var others = allSwitchesForChain.Except(booleanSwitches).ToList();
             var booleanLetters = booleanSwitches.Where(s => s.Letter.HasValue).Select(x => x.Letter.Value.ToString())
                 .Join("");
@@ -52,9 +55,9 @@ namespace ArgParser.Styles
                 return request.Args;
             List<string> groups;
             if (others.Any())
-                groups = request.Args.Where(a => Regex.IsMatch(a, $"-[{booleanLetters}]+[{otherLetters}]?")).ToList();
+                groups = request.Args.Where(a => Regex.IsMatch(a, $"^{letterToken}[{booleanLetters}]+[{otherLetters}]?$")).ToList();
             else
-                groups = request.Args.Where(a => Regex.IsMatch(a, $"-[{booleanLetters}]+")).ToList();
+                groups = request.Args.Where(a => Regex.IsMatch(a, $"^{letterToken}[{booleanLetters}]+$")).ToList();
             var copy = request.Args.ToList();
             foreach (var g in groups)
                 for (var i = 0; i < copy.Count; i++)
@@ -64,7 +67,7 @@ namespace ArgParser.Styles
                     {
                         copy.RemoveAt(i);
                         var letters = c.Substring(1).ToCharArray().Reverse();
-                        foreach (var letter in letters) copy.Insert(i, $"-{letter}");
+                        foreach (var letter in letters) copy.Insert(i, $"{letterToken}{letter}");
                     }
                 }
 
