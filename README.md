@@ -11,6 +11,8 @@ Flexible argument parsing library and help screen generator
 
 [Parser some args](https://github.com/tysmithnet/arg-parser/blob/master/ArgParser/ArgParser.TestApp/Program.cs)
 
+The `ArgParser.TestApp` program is what is used to create the gif on the root README. You can use it to test your own applications or see how the gif was made.
+
 ### Why?
 Most existing libraries in this space do so using attributes and reflection. I find this approach to be restrictive and not conducive to extension. Extension is important because there a seemingly infinite amount of styles for how args should be interpretted.
  - switch style
