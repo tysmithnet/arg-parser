@@ -2,6 +2,15 @@
 Flexible argument parsing library and help screen generator
 ![demo](https://i.imgur.com/NgWFpfS.gif "Mock program example")
 
+### Install + Start Hacking
+    Install-Package ArgParser -Version 1.0.0-rc1
+    dotnet add package ArgParser --version 1.0.0-rc1
+    paket add ArgParser --version 1.0.0-rc1
+
+[Setup your context](https://github.com/tysmithnet/arg-parser/blob/master/ArgParser/ArgParser.Testing.Common/DefaultBuilder.cs)
+
+[Parser some args](https://github.com/tysmithnet/arg-parser/blob/master/ArgParser/ArgParser.TestApp/Program.cs)
+
 ### Why?
 Most existing libraries in this space do so using attributes and reflection. I find this approach to be restrictive and not conducive to extension. Extension is important because there a seemingly infinite amount of styles for how args should be interpretted.
  - switch style
