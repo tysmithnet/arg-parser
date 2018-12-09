@@ -3,9 +3,9 @@ Flexible argument parsing library and help screen generator
 ![demo](https://i.imgur.com/NgWFpfS.gif "Mock program example")
 
 ### Install + Start Hacking
-    Install-Package ArgParser -Version 1.0.0-rc1
-    dotnet add package ArgParser --version 1.0.0-rc1
-    paket add ArgParser --version 1.0.0-rc1
+    Install-Package ArgParser -Version 1.0.0-rc3
+    dotnet add package ArgParser --version 1.0.0-rc3
+    paket add ArgParser --version 1.0.0-rc3
 
 [Setup your context](https://github.com/tysmithnet/arg-parser/blob/master/ArgParser/ArgParser.Testing.Common/DefaultBuilder.cs)
 
