@@ -7,6 +7,7 @@ The default style is my biased opinion as to what is the most middle-of-the-road
   - Switches can be identified by letters `-h`, words `--help`, or both
   - `BooleanSwitch`, like `--help` do not require any additional args
   - `SingleValueSwitch` like `--message` take a single string argument
+  - `SeparatedSwitch` like `format:png` where a single string contains the switch and value
   - `ValuesSwitch` take any number of arguments
 - Positionals are parameters whose significance is derived from their relative order, e.g. `cp src dst`
 - SubCommands are args that indicate that a more specific type of parser is to be used
